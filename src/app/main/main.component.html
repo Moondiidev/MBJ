@@ -1,0 +1,43 @@
+<section class="hero-container">
+  <div class="hero">
+    <div class="hero__img">
+      <img src="../../assets/img/city.svg" alt="" class="hero__city">
+      <img src="../../assets/img/working-late.svg" alt="" class="hero__late">
+    </div>
+    <div class="hero__content">
+      <h1 class="hero__title">Бизнэсдээ таарсан хамгийн шилдэг <br> чөлөөт ажиллагсадыг эндээс ол</h1>
+      <form action="" class="search" #f="ngForm">
+        <div class="searchBar">
+          <img src="../../assets/img/loupe.svg" alt="" class="searchIcon">
+          <input type="text" class="search-input" ngModel name="searchQuery" #search="ngModel" required>
+          <button type="button" class="search-button" (click)="onClick()" [disabled]="!f.valid">Хайх</button>
+        </div>
+      </form>
+      <div class="hero__popular">
+        <p class="hero__text">Ирэлдтэй:</p>
+        <a href="#" class="hero__popular__link">Лого Дизайн</a>
+        <a href="#" class="hero__popular__link">Орчуулаг</a>
+        <a href="#" class="hero__popular__link">Вэб Сайт</a>
+        <a href="#" class="hero__popular__link">Нийтлэл Болон Өгүүлэг</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="popular max-width-container">
+  <h2 class="heading-secondary margin-bot-medium"> Алдартай Мэргэжлийн Үйлчилгээнүүд </h2>
+
+  <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+    <div ngxSlickItem *ngFor="let popularCard of slides" class="card" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('+ popularCard.background + ')'}">
+      <div class="card__content">
+        <p class="card__description">{{popularCard.description}}</p>
+        <p class="card__title">{{popularCard.title}}</p>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+
+</section>
+
+<section class="selfPromo">
+  
+</section>

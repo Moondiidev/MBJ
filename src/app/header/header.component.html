@@ -1,0 +1,32 @@
+<div *ngIf = "!isLoggedIn; else loggedNav">
+    <nav class="header-container"> 
+        <div class="header header__left">
+            <img src="../../assets/img/MBJ.svg" class="header__logo">
+        </div>
+        <div class="header header__right">
+            <a class="nav-text blueText">Нэвтрэх</a>
+            <div class="verticalLine"></div>
+            <a class="nav-text">Бүртгүүлэх</a>
+        </div>
+
+    </nav>
+</div>
+<ng-template #loggedNav>
+    <nav class="header-container"> 
+        <div class="header header__left">
+            <img src="../../assets/img/MBJ.svg" class="header__logo">
+            <form action="" class="search" #f = "ngForm">
+                <div class="searchBar">
+                    <img src="../../assets/img/loupe.svg" alt="" class="searchIcon">
+                    <input type="text" class="search-input" ngModel name = "searchQuery" #search = "ngModel" required>
+                    <button type="button" class="search-button" (click) = "onClick()" [disabled] = "!f.valid">Хайх</button>
+                </div>
+            </form>
+        </div>
+        <div class="header header__right">
+            <a class="nav-text">Ажил тавих</a>
+            <a class="nav-text">Хадгалсан</a>
+            <a class="nav-text">Захиалгууд</a>
+        </div>
+    </nav>
+</ng-template>
