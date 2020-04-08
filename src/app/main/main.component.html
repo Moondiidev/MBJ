@@ -22,10 +22,13 @@
       </div>
     </div>
   </div>
+  <div class="companies">
+    
+  </div>
 </section>
 
-<section class="popular max-width-container">
-  <h2 class="heading-secondary margin-bot-medium"> Алдартай Мэргэжлийн Үйлчилгээнүүд </h2>
+<section class="max-width-container">
+  <h2 class="heading-secondary text-center margin-bot-medium"> Алдартай Мэргэжлийн Үйлчилгээнүүд </h2>
 
   <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
     <div ngxSlickItem *ngFor="let popularCard of slides" class="card" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('+ popularCard.background + ')'}">
@@ -38,6 +41,20 @@
 
 </section>
 
-<section class="selfPromo">
-  
+<section class="selfPromo max-width-container">
+  <h2 class="heading-secondary text-center">Ажилаа бүтээмээр байн уу?</h2>
+  <div class="selfPromo__features">
+    <div class="selfPromo__feature">
+      <img src="../../assets/img/clock.svg" class="selfPromo__img" alt="">
+      <h4 class="heading-fourth">Асуух асуулт байна гэж үү? Бидэнтэй ямарч цагт холбогдож бодит хүмүүсээс шуурхай тусламж авнуу.</h4>
+    </div>
+    <div class="selfPromo__feature">
+      <img src="../../assets/img/authentication.svg" class="selfPromo__img" alt="">
+      <h4 class="heading-fourth">Чөлөөт ажиллагсадад төлбөр зөвхөн өөрийг чинь авсан үйлчилгээндээ сэтгэл хангалуун гэсэн үед л олгогддог.</h4>
+    </div>
+    <div class="selfPromo__feature">
+      <img src="../../assets/img/pay.svg" class="selfPromo__img" alt="">
+      <h4 class="heading-fourth">Хэр их мөнгө төлөхөө урдчилан мэд. Цагийн цалин гэж байхгуй, ганц удаа төлж сонгосон үйлчилгээгээ хүрт.</h4>
+    </div>
+  </div>
 </section>
