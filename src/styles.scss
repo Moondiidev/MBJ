@@ -16,7 +16,7 @@
 html {
     color: #424242;
     font-family: 'Montserrat', sans-serif; 
-    background-color: #f3f3f3;
+    background-color: #ecebeb;
     font-size: 62.5%; // 16px default --> 10px = 1em//
     @include media(big-desktop) {
         font-size: 75%; // 12px
