@@ -4,9 +4,9 @@
             <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
         </div>
         <div class="header header__right">
-            <a class="nav-text" routerLink='/auth/logIn'>Нэвтрэх</a>
+            <a class="nav-text" routerLink='/auth/logIn' (click) = "resetForm()">Нэвтрэх</a>
             <div class="verticalLine"></div>
-            <a class="nav-text" routerLink='/auth/signUp'>Бүртгүүлэх</a>
+            <a class="nav-text" routerLink='/auth/signUp' (click) = "resetForm()">Бүртгүүлэх</a>
         </div>
 
     </nav>

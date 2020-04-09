@@ -35,6 +35,10 @@
         margin: 3rem 0;
         font-weight: 600;
         color: white;
+        transition: 0.2s;
+        &:disabled{
+            background-color: rgb(110, 127, 141);
+        }
     }
     &__emailInput{
         margin: 3rem 0;
@@ -46,6 +50,16 @@
     &__redirectText{
         font-size: 1.25rem;
     }
+    &__errors{
+        text-align: left;
+        margin-right: auto;
+        margin-left: 2rem;
+        list-style-type: circle;
+    }
+    &__error{
+        color: red;
+        margin-top: 1rem;
+    }
 }
 .userLogo{
     position: absolute;
@@ -54,4 +68,7 @@
     transform: translate(-50%,-50%);
     width: 8rem;
     height: 8rem;
+}
+input.ng-touched.ng-invalid{
+    border: 1.3px solid rgb(255, 0, 0);
 }
