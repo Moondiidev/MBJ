@@ -6,22 +6,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule } from '@angular/forms';
-import { MainComponent } from './main/main.component';
-
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    MainComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    RouterModule,
-    SlickCarouselModule
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

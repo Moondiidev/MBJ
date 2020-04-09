@@ -1,12 +1,12 @@
 <div *ngIf = "!isLoggedIn; else loggedNav">
     <nav class="header-container"> 
         <div class="header header__left">
-            <img src="../../assets/img/MBJ.svg" class="header__logo">
+            <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
         </div>
         <div class="header header__right">
-            <a class="nav-text blueText">Нэвтрэх</a>
+            <a class="nav-text" routerLink='/auth/logIn'>Нэвтрэх</a>
             <div class="verticalLine"></div>
-            <a class="nav-text">Бүртгүүлэх</a>
+            <a class="nav-text" routerLink='/auth/signUp'>Бүртгүүлэх</a>
         </div>
 
     </nav>

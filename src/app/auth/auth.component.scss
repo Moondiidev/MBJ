@@ -1,0 +1,57 @@
+@import '../scss/mixins.scss';
+@import '../scss/input.scss';
+
+.auth-container{
+    width: 35rem;
+    @include absCenter; 
+    background-color: rgb(255, 255, 255);
+}
+.auth-form{
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+    &__input,
+    &__submit{
+        width: 100%;
+        font-size: 1.8rem;
+        border-radius: 100px;
+        padding: 1rem 1.5rem;
+        outline: none;
+    }
+    &__input{
+        border: 1.3px solid rgba(65, 62, 62, 0.5);
+        transition: 0.2s;
+        &:focus{
+            border: 1.3px solid rgb(0, 120, 218);
+        }
+    }
+    &__submit{
+        cursor: pointer;
+        background-color: #017FED;
+        margin: 3rem 0;
+        font-weight: 600;
+        color: white;
+    }
+    &__emailInput{
+        margin: 3rem 0;
+    }
+    &__line{
+        width:100%;
+        margin: 1.5rem 0;
+    }
+    &__redirectText{
+        font-size: 1.25rem;
+    }
+}
+.userLogo{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 8rem;
+    height: 8rem;
+}

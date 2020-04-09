@@ -1,0 +1,35 @@
+<div *ngIf = "isLogIn; else signUp" class="auth-container">
+    <form #authForm = "ngForm" class="auth-form">
+        <img src="../../assets/img/user.svg" alt="" class="userLogo">
+        <h2 class="heading-secondary marginVertical-medium">Тавтай морилнуу</h2>
+        <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email">
+        <input type="text" class="auth-form__input auth-form__passwordInput" placeholder="Password">
+        <button type="submit" class="auth-form__submit" >Нэвтрэх</button>
+        <div class="auth-form-textArea">
+            <label class="paragraph container">
+                <input type="checkbox" class="checkbox"> 
+                <span class="checkmark"></span>
+                Намайг сана
+            </label>
+        <hr class="auth-form__line">
+        <p class="auth-form__redirectText">Хаяг байхгуй гэж үү? <a class="emphasis-link" routerLink = "/auth/signUp">Бүртгүүлэх</a></p>
+        </div>
+    </form>
+</div>
+
+<ng-template #signUp>
+    <div class="auth-container">
+        <form #authForm = "ngForm" class="auth-form">
+            <img src="../../assets/img/user.svg" alt="" class="userLogo">
+            <h2 class="heading-secondary marginVertical-medium">Бүртгүүлэх</h2>
+            <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email">
+            <input type="text" class="auth-form__input auth-form__passwordInput" placeholder="Password">
+            <button type="submit" class="auth-form__submit" >МБЖ-д нэгд</button>
+            <div class="auth-form-textArea">
+                <p class="paragraph">Бүртгүүлсэнээр МБЖ-ээс имайл хүлээн авхыг би хүлээн зөвшөөрч байна.</p>
+            <hr class="auth-form__line">
+            <p class="auth-form__redirectText">Аль хэдийн хаяг байгаа гэж үү? <a class="emphasis-link" routerLink = "/auth/logIn">Нэвтрэх</a></p>
+            </div>
+        </form>
+    </div>
+</ng-template>
