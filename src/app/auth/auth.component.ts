@@ -13,6 +13,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   resetFormObs = new Subscription();
   @ViewChild ('authForm') authForm : NgForm;
   isLogIn: boolean = false;
+  passwordShow: boolean = false;
+
   constructor(private route: ActivatedRoute, private authService : AuthService) { }
 
   ngOnInit(): void {
@@ -23,6 +25,9 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.authForm.reset();
     })
   }
+  togglePasswordVisibility(){
+    this.passwordShow = !this.passwordShow;
+  }
   resetForm(){
     this.authService.resetForm.next();
   }
@@ -31,7 +36,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
   onSubmit(){
     console.log(this.authForm);
-    console.log(this.authForm.valid);
   }
 
 }

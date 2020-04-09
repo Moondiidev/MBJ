@@ -60,6 +60,22 @@
         color: red;
         margin-top: 1rem;
     }
+    &__hidden{
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(120%,-50%);
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+    }
+    &__inputs{
+        width: 100%;
+    }
+    &__passwordContainer{
+        position: relative;
+        width: 100%;
+    }
 }
 .userLogo{
     position: absolute;
