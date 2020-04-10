@@ -1,32 +1,39 @@
 <div class="auth-container">
-  <form #authForm="ngForm" class="auth-form" (ngSubmit) = "onSubmit()">
+  <form #authForm="ngForm" class="auth-form" (ngSubmit)="onSubmit()">
     <img src="../../assets/img/user.svg" alt="" class="userLogo">
     <h2 class="heading-secondary marginVertical-medium">{{isLogIn === true ? "Тавтай морилнуу" : "Бүртгүүлэх"}}</h2>
-    
-    <!--- LOGIN INPUTS --> 
-    <div *ngIf = "isLogIn">
-        <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email" required email ngModel
-      name="email">
-        <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput" placeholder="Password" required ngModel
-      name="password">
-      <a (click)="togglePasswordVisibility()"><img [src]="passwordShow === true ? '../../assets/img/eye.svg' : '../../assets/img/hidden.svg'" alt="" class="auth-form__hidden"></a>
-    </div>
 
-    <!--- SINGUP INPUTS --> 
-    <div *ngIf = "!isLogIn" class="auth-form__inputs">
-        <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email" required email ngModel
+    <!--- LOGIN INPUTS -->
+    <div *ngIf="isLogIn" class="auth-form__inputs">
+      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email" required email ngModel
         name="email">
-        <div class="auth-form__passwordContainer">
-            <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput" placeholder="Password" required ngModel
-            name="password" minlength="8" #passwordInput = "ngModel">
-          <a (click)="togglePasswordVisibility()"><img [src]="passwordShow === true ? '../../assets/img/eye.svg' : '../../assets/img/hidden.svg'" alt="" class="auth-form__hidden"></a>
-        </div>
-        <ul class="auth-form__errors" *ngIf="!passwordInput.valid">
-            <li class="auth-form__error" *ngIf="passwordInput.errors?.minlength">8-аас дээш үсэгтэй нууц үг хийнүү</li>
-        </ul>
+      <div class="auth-form__passwordContainer">
+        <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput"
+          placeholder="Password" required ngModel name="password">
+        <a (click)="togglePasswordVisibility()"><img
+            [src]="passwordShow === true ? '../../assets/img/eye.svg' : '../../assets/img/hidden.svg'" alt=""
+            class="auth-form__hidden"></a>
+      </div>
     </div>
 
-    <button type="submit" class="auth-form__submit" [disabled]="!authForm.valid">{{isLogIn === true ? "Нэвтрэх" : "МБЖ-д нэгд"}}</button>
+    <!--- SINGUP INPUTS -->
+    <div *ngIf="!isLogIn" class="auth-form__inputs">
+      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email" required email ngModel
+        name="email">
+      <div class="auth-form__passwordContainer">
+        <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput"
+          placeholder="Password" required ngModel name="password" minlength="8" #passwordInput="ngModel">
+        <a (click)="togglePasswordVisibility()"><img
+            [src]="passwordShow === true ? '../../assets/img/eye.svg' : '../../assets/img/hidden.svg'" alt=""
+            class="auth-form__hidden"></a>
+      </div>
+      <ul class="auth-form__errors" *ngIf="!passwordInput.valid">
+        <li class="auth-form__error" *ngIf="passwordInput.errors?.minlength">8-аас дээш үсэгтэй нууц үг хийнүү</li>
+      </ul>
+    </div>
+
+    <button type="submit" class="auth-form__submit"
+      [disabled]="!authForm.valid">{{isLogIn === true ? "Нэвтрэх" : "МБЖ-д нэгд"}}</button>
     <div class="auth-form-textArea">
       <label *ngIf="isLogIn" class="paragraph container">
         <input type="checkbox" class="checkbox">
@@ -45,7 +52,7 @@
 ng forms do not allow ng-template inputs to act as validator for the entire form. 
 E.g if ng-template text input is invalid, the whole form will still be valid. 
 To fix, use *ngIf twice and not ng templates. 
---> 
+-->
 
 <ng-template #signUpRedirect>
   <p class="auth-form__redirectText">Аль хэдийн хаяг байгаа гэж үү? <a class="emphasis-link" routerLink="/auth/logIn"
