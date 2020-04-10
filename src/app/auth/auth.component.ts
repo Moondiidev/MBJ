@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { AuthService } from './auth.service';
-import {Subscription } from 'rxjs';
+import { AuthService, AuthResponseData } from './auth.service';
+import {Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -12,10 +12,12 @@ import {Subscription } from 'rxjs';
 export class AuthComponent implements OnInit, OnDestroy {
   resetFormObs = new Subscription();
   @ViewChild ('authForm') authForm : NgForm;
+  error: string = null;
+  isLoading: boolean = false;
   isLogIn: boolean = false;
   passwordShow: boolean = false;
 
-  constructor(private route: ActivatedRoute, private authService : AuthService) { }
+  constructor(private route: ActivatedRoute, private authService : AuthService, private router : Router) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) =>{
@@ -35,7 +37,31 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.resetFormObs.unsubscribe();
   }
   onSubmit(){
-    console.log(this.authForm);
-  }
+    if (!this.authForm.valid) {
+      return;
+    }
+    const email = this.authForm.value.email;
+    const password = this.authForm.value.password;
+    let authObs: Observable<AuthResponseData>;
+    
+    this.isLoading = true;
+    if (this.isLogIn) {
+      authObs = this.authService.login(email,password);
+    } else {
+      authObs = this.authService.signup(email, password);
+    }
+    authObs.subscribe(
+      resData => {
+        console.log(resData);
+        this.isLoading = false;
+        this.router.navigate(['']);
+      },
+      errorMessage => {
+        console.log(errorMessage);
+        this.error = errorMessage;
+        this.isLoading = false;
+      }
+    );
+    this.authForm.reset();  }
 
 }

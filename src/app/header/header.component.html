@@ -1,4 +1,4 @@
-<div *ngIf = "!isLoggedIn; else loggedNav">
+<div *ngIf = "!isAuthenticated; else loggedNav">
     <nav class="header-container"> 
         <div class="header header__left">
             <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
@@ -27,6 +27,7 @@
             <a class="nav-text">Ажил тавих</a>
             <a class="nav-text">Хадгалсан</a>
             <a class="nav-text">Захиалгууд</a>
+            <a class="nav-text" (click) = "logOut()">Гарах</a>
         </div>
     </nav>
 </ng-template>
