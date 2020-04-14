@@ -1,5 +1,11 @@
 @import "../../scss/mixins.scss";
-
+#spinner{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+}
 .lds-ellipsis {
     @include absCenter; 
     display: inline-block;

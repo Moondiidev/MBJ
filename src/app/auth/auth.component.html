@@ -1,4 +1,4 @@
-<div id="spinner" *ngIf = "isLoading">
+<div *ngIf = "isLoading">
   <app-loading-spinner></app-loading-spinner>
 </div>
 <div class="auth-container">
@@ -39,7 +39,7 @@
       [disabled]="!authForm.valid">{{isLogIn === true ? "Нэвтрэх" : "МБЖ-д нэгд"}}</button>
     <div class="auth-form-textArea">
       <label *ngIf="isLogIn" class="paragraph container">
-        <input type="checkbox" class="checkbox">
+        <input (click) = "rememberMeToggle()" type="checkbox" class="checkbox">
         <span class="checkmark"></span>
         Намайг сана
       </label>

@@ -30,6 +30,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   togglePasswordVisibility(){
     this.passwordShow = !this.passwordShow;
   }
+  rememberMeToggle(){
+    this.authService.rememberToggle = !this.authService.rememberToggle;
+  }
   resetForm(){
     this.authService.resetForm.next();
   }
@@ -45,6 +48,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     let authObs: Observable<AuthResponseData>;
     
     this.isLoading = true;
+    
     if (this.isLogIn) {
       authObs = this.authService.login(email,password);
     } else {
