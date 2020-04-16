@@ -29,10 +29,13 @@ export class AuthService {
         }
         switch (errorRes.error.error.message) {
             case 'EMAIL_EXISTS':
-                errorMessage = 'This email already exists!';
+                errorMessage = 'Эмэйл хаяг аль хэдийн бүртгэгдсэн байна. Энэ хаягаараа нэртэрнүү.';
                 break;
             case 'INVALID_PASSWORD':
-                errorMessage = 'Please enter a valid password!';
+                errorMessage = 'Уучлаарай, таны нууц үг буруу байна. Нууц үгээ дахин шалга нуу.';
+                break;
+            case 'EMAIL_NOT_FOUND':
+                errorMessage = 'Эмэйл хаяг бүртгэлд байхгүй байна. Шинэ хаяг бүртгүүлэн үү.';
                 break;
         }
         return throwError(errorMessage);
