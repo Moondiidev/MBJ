@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SellerSetUpComponent } from './seller-set-up/seller-set-up.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    SellerSetUpComponent
   ],
   imports: [
     BrowserModule,

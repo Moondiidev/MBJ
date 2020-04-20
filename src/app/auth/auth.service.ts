@@ -1,3 +1,4 @@
+import { AppManagerService } from './../shared/app-manager.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { catchError } from 'rxjs/operators';
@@ -21,7 +22,7 @@ export class AuthService {
     rememberToggle : boolean = false;
     rememberUser : boolean = false;
     private tokenExpirationTimer: any;
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router, private appManagerService : AppManagerService) { }
     private handleError(errorRes: HttpErrorResponse) {
         let errorMessage = 'An unknown  error occured!';
         if (!errorRes.error.error) {
@@ -44,6 +45,7 @@ export class AuthService {
         const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
         const user = new User(email, userId, token, expirationDate);
         this.user.next(user);
+        this.appManagerService.appState.next('authenticated');
         this.autoLogout(expiresIn * 1000);
         localStorage.setItem('userData', JSON.stringify(user));
     }

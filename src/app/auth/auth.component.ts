@@ -22,6 +22,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) =>{
       this.isLogIn = 'logIn' === params['isLogIn'] ? true : false;
+      this.error = null;
     })
     this.resetFormObs = this.authService.resetForm.subscribe(()=>{
       this.authForm.reset();
