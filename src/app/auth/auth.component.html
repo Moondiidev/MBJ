@@ -47,7 +47,7 @@
         Намайг сана
       </label>
       <p *ngIf="!isLogIn" class="paragraph">Бүртгүүлсэнээр МБЖ-ээс имэйл хүлээн авахыг би хүлээн зөвшөөрч байна.</p>
-      <hr class="auth-form__line">
+      <hr class="horizontalLine">
       <p *ngIf="isLogIn; else signUpRedirect" class="auth-form__redirectText"> Хаяг байхгуй гэж үү? <a
           class="emphasis-link" routerLink="/auth/signUp" (click)="resetForm()">Бүртгүүлэх</a></p>
     </div>

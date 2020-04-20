@@ -1,0 +1,60 @@
+@import '../scss/utilities.scss';
+@import '../scss/variables.scss';
+@import '../scss/mixins.scss';
+// ARROW attribution: Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+.setUpContainer{
+    margin-top: $nav-height;
+}
+.setUpHeader{
+    display: flex;
+}
+.step{
+    outline: none;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    margin-right: 4rem;
+    cursor: pointer;
+    &__order{
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background-color: rgb(110, 110, 110);
+        position: relative;
+        margin-right: 2rem;
+        &__number{
+            @include absCenter;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        &__previous{
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%) rotate(45deg);
+            height: 20px;
+            width: 10px;
+            border-bottom: 5px solid white;
+            border-right: 5px solid white;
+        }
+    }
+    &__navText{
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: black;
+    }
+    &__arrow{
+        margin-left: 4rem;
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+.buttonActive{
+    background-color: green;
+}
+.textActive{
+    color: rgb(0, 85, 0);
+}

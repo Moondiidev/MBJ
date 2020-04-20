@@ -1,5 +1,6 @@
 @import '../scss/mixins.scss';
 @import '../scss/input.scss';
+@import '../scss/utilities.scss';
 
 .auth-container{
     width: 35rem;
@@ -43,10 +44,6 @@
     }
     &__emailInput{
         margin: 3rem 0;
-    }
-    &__line{
-        width:100%;
-        margin: 1.5rem 0;
     }
     &__redirectText{
         font-size: 1.25rem;

@@ -1,5 +1,7 @@
+@import '../scss/variables.scss';
+
 .header-container{
-    height: 8rem;
+    height: $nav-height;
     padding: 2rem 4rem 1rem 4rem;
     display: flex;
     justify-content: space-between;

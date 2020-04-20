@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./seller-set-up.component.scss']
 })
 export class SellerSetUpComponent implements OnInit {
-
+  navNum : number = 0;
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  professionalNav(){
+    this.navNum = 1;
+  }
+  personalNav(){
+    this.navNum = 0;
+  }
 }

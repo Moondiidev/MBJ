@@ -1,9 +1,30 @@
-
-<p>seller-set-up works!</p>
 <!--
 // Мэргэжлийн мэдээлэл
 // Хувийн мэдээлэл
-// Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.
---> 
+-->
+<div class="setUpContainer max-width-container">
+  <nav class="setUpHeader">
+    <button (click)="personalNav()" class="step" routerLink="personal">
+      <div class="step__order" routerLinkActive="active">
+        <div *ngIf="0 < navNum; else order1" class='step__order__previous'></div>
+      </div>
+      <p class="step__navText">Хувийн мэдээлэл</p>
+      <img src="../../assets/img/nextArrow.svg" alt="" class="step__arrow">
+    </button>
+    <button (click)="professionalNav()" class="step" routerLink="professional">
+      <div class="step__order">
+        <div *ngIf="1 < navNum; else order2" class='step__order__previous'></div>
+      </div>
+      <p class="step__navText">Мэргэжлийн мэдээлэл</p>
+    </button>
+  </nav>
+  <hr class="horizontalLine2">
+  <router-outlet></router-outlet>
+</div>
+<ng-template #order1>
+    <div class='step__order__number'>1</div>
+</ng-template>
+<ng-template #order2>
+    <div class='step__order__number'>2</div>
+</ng-template>
 
- 

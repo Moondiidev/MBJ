@@ -4,7 +4,7 @@
 @import "./app/scss/mixins.scss";
 @import "./app/scss/slider.scss";
 @import "./app/scss/utilities.scss";
-
+@import "./app/scss/variables.scss";
 *,
 *::after,
 *::before {
@@ -16,7 +16,7 @@
 html {
     color: #424242;
     font-family: 'Montserrat', sans-serif; 
-    background-color: #ecebeb;
+    background-color: #f8f8f8;
     font-size: 62.5%; // 16px default --> 10px = 1em//
     @include media(big-desktop) {
         font-size: 75%; // 12px

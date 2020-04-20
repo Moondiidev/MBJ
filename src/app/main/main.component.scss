@@ -1,8 +1,9 @@
 $font-color-primary: #f7f7f7;
+@import '../scss/variables';
 // ************ HERO SECTION ************** //
 .hero-container{
     // To compensate for the header
-    margin-top: 7rem;
+    margin-top: $nav-height;
     height: 55rem;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../../assets/img/background.jpg) no-repeat center;
     background-size: cover;

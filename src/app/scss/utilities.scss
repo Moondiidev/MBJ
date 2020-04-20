@@ -1,14 +1,27 @@
-.max-width-container{
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 32px 32px 64px;
+.max-width-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 32px 64px;
 }
-.margin-bot-large{
-    margin-bottom: 5rem;
+
+.margin-bot-large {
+  margin-bottom: 5rem;
 }
-.text-center{
-    text-align: center;
+
+.text-center {
+  text-align: center;
 }
-.marginVertical-medium{
-    margin: 2rem 0;
+
+.marginVertical-medium {
+  margin: 2rem 0;
+}
+
+.horizontalLine {
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.horizontalLine2 {
+  width: 100%;
+  margin: 2rem 0;
 }
