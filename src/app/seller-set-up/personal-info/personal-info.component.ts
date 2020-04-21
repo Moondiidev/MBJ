@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { SellerSetUpService } from '../seller-set-up.service';
 
 @Component({
   selector: 'app-personal-info',
@@ -9,8 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class PersonalInfoComponent implements OnInit {
   selectedImage = null;
   url = null;
-  bruh = false;
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient, private sellerService : SellerSetUpService) { }
 
   ngOnInit(): void {}
 
@@ -20,7 +20,9 @@ export class PersonalInfoComponent implements OnInit {
     reader.readAsDataURL(this.selectedImage);
     reader.onload = (event => {
       this.url = event.target.result;
-      this.bruh = true;
     })
+  }
+  professionalNav(){
+    this.sellerService.professionalNav();
   }
 }

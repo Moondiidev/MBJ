@@ -1,21 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SellerSetUpService } from './seller-set-up.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-seller-set-up',
   templateUrl: './seller-set-up.component.html',
   styleUrls: ['./seller-set-up.component.scss']
 })
-export class SellerSetUpComponent implements OnInit {
+export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum : number = 0;
-  constructor() { }
-
+  navSub : Subscription;
+  constructor(private sellerService : SellerSetUpService) { }
+  
   ngOnInit(): void {
+    this.navSub = this.sellerService.navNum.subscribe(data =>{
+      this.navNum = data;
+    });
   }
-  // MAKE navNum SUBJECT INSIDE SERVICE TO USE THESE FOR CONTINUE BUTTON 
+  ngOnDestroy(){
+    this.navSub.unsubscribe();
+  }
+  
   personalNav(){
-    this.navNum = 0;
+    this.sellerService.personalNav();
   }
   professionalNav(){
-    this.navNum = 1;
+    this.sellerService.professionalNav();
   }
 }
