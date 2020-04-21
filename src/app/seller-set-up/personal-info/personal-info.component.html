@@ -1,26 +1,43 @@
 <div class="setUpContainer">
-    <div class="personal-heading">
-        <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
-        <p class="personal-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
+  <div class="personal-heading">
+    <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
+    <p class="personal-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
+      мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
+  </div>
+  <form class="personalForm">
+    <div class="inputs">
+      <div class="inputs__left">
+        <h2 class="setUpText">Профиль зураг</h2>
+      </div>
+      <div class="inputs__right">
+        <div class="imgDropbox">
+          <img *ngIf="url !== null; else imagePlaceholder" [src]="url" alt="" class="imgDropbox__img">
+          <input type="file" class="imgDropbox__dropbox" (change)="onFileSelected($event)">
+        </div>
+      </div>
     </div>
-    <form class="personalForm">
-        <div class="inputs">
-            <h2 class="setUpText">Профиль зураг</h2>
-            <div class="imgDropbox">
-                <img *ngIf="url !== null; else imagePlaceholder" [src]="url" alt="" class="imgDropbox__img">
-                <input type="file" class = "imgDropbox__dropbox"(change) = "onFileSelected($event)">
-            </div>
-        </div>
-        <div class="inputs">
-            <label class="setUpText" for="fullName">Бүтэн нэр</label>
-            <input type="text" name = "fullName" class="textInput">
-            <input type="text" name = "fullName" class="textInput">
-        </div>
-    </form>
+    <div class="inputs">
+      <div class="inputs__left">
+        <label class="setUpText" for="fullName">Бүтэн нэр</label>
+      </div>
+      <div class="inputs__right">
+        <input type="text" name="fullName" class="textInput" placeholder="Өөрийн нэр">
+        <input type="text" name="fullName" class="textInput" placeholder="Эцгийн нэр">
+      </div>
+    </div>
+    <div class="inputs">
+      <div class="inputs__left">
+        <label class="setUpText" for="description">Хувийн тайлбар</label>
+      </div>
+      <div class="inputs__right">
+        <textarea name="description" class="textboxInput" rows="8" cols="70" minlength="100" maxlength="600" placeholder="Ажлын туршлага, хийсэн төсөл болон чадварын тухай хуваалц нуу."></textarea>
+      </div>
+    </div>
+    <button class="btn btn-green btn-next">Үргэлжлүүлэх</button>
+  </form>
 </div>
 <ng-template #imagePlaceholder>
-    <div class="imgDropbox__placeholder">
-        <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
-    </div>
+  <div class="imgDropbox__placeholder">
+    <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+  </div>
 </ng-template>
-

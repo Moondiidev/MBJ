@@ -7,10 +7,16 @@ $tick-color : #d7fbe8;
 // ARROW attribution: Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 .setUpContainer{
     margin-top: $nav-height;
+    &__notice{
+        text-align: right;
+    }
 }
 .setUpHeader{
-    display: flex;
-    justify-content: center;
+    margin-bottom: 6rem;
+    &__nav{
+        display: flex;
+        justify-content: center;
+    }
 }
 .step{
     outline: none;

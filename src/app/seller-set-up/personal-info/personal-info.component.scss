@@ -1,73 +1,103 @@
 @import '../../scss/mixins.scss';
 $text-color: #555555;
-.setUpContainer{
-    text-align: center;
+
+.setUpContainer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.personal-heading {
+  margin-bottom: 4rem;
+}
+
+.heading-primary {
+  margin-bottom: 1.5rem;
+}
+
+.personal-text {
+  font-size: 1.2rem;
+  line-height: 2rem;
+  color: $text-color;
+}
+
+.personalForm {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
-.personal-heading{
-    width: 50%;
-    margin-bottom: 4rem;
+
+.inputs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4rem;
+  
+  &__left{
+      flex-grow: 1;
+      text-align: left;
+  }
+  &__right{
+    justify-items: right;
+    width: 70%;
+  }
 }
-.heading-primary{
-    margin-bottom: 1.5rem;
+
+.setUpText {
+  font-size: 1.8rem;
+  font-weight: 600;
+  &::after {
+    content: "*";
+    padding-left: 2px;
+    color: #d88200;
+  }
 }
-.personal-text{
-    font-size: 1.2rem;
-    line-height: 2rem;
-    color: $text-color;
-}
-.personalForm{
-    display: flex;
-    flex-direction: column;
-}
-.inputs{
-    display: flex;
-    align-items: center;
-    &:not(:last-of-type){
-        margin-bottom: 4rem;
-    }
-}
-.setUpText{
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-right: 10rem;
-}
-.textInput{
-    height: 3rem;
-    width: 20rem;
+input,
+textarea{
     font-size: 1.4rem;
-    font-weight: 500;
-    color: $text-color;
-    outline: none;
-    &:not(:last-of-type){
-        margin-right: 4rem;
-    }
+    font-weight: 400;
 }
-.imgDropbox{
-    position: relative;
-    &__img,
-    &__placeholder{
-        display: block;
-        height: 15rem;
-        width: 15rem;
-        border-radius: 50%;
-        border: 1px solid rgba(102, 102, 102, 0.4);
-        background-color: rgb(238, 238, 238);
-    }
-    &__imgPlaceholder{
-        width: 50%;
-        height: 50%;
-        @include absCenter;
-    }
-    &__dropbox{
-        position: absolute;
-        @include absCenter;
-        width: 100%;
-        height: 100%;
-        outline: none;
-        cursor: pointer;
-        opacity: 0;
-    }
+.textInput {
+  height: 3rem;
+  width: 20rem;
+  color: $text-color;
+  outline: none;
+
+  &:not(:last-of-type) {
+    margin-right: 4rem;
+  }
+}
+
+.imgDropbox {
+  position: relative;
+
+  &__img,
+  &__placeholder {
+    margin: 0 auto;
+    display: block;
+    height: 15rem;
+    width: 15rem;
+    border-radius: 50%;
+    border: 1px solid rgba(102, 102, 102, 0.4);
+    background-color: rgb(238, 238, 238);
+  }
+
+  &__imgPlaceholder {
+    width: 50%;
+    height: 50%;
+    @include absCenter;
+  }
+
+  &__dropbox {
+    position: absolute;
+    @include absCenter;
+    height: 15rem;
+    width: 15rem;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    opacity: 0;
+  }
 }

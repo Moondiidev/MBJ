@@ -21,7 +21,6 @@ export class PersonalInfoComponent implements OnInit {
     reader.onload = (event => {
       this.url = event.target.result;
       this.bruh = true;
-
     })
   }
 }

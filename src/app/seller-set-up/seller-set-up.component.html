@@ -3,22 +3,25 @@
 // Хувийн мэдээлэл
 -->
 <div class="setUpContainer max-width-container">
-  <nav class="setUpHeader">
-    <button (click)="personalNav()" class="step" routerLink="personal">
-      <div class="step__order" [ngClass] = "{step__order__backgroundActive : 0 <= navNum}">
-        <div *ngIf="0 < navNum; else order1" class='step__order__previous'></div>
-      </div>
-      <p class="step__navText" [ngClass] = "{step__order__textActive : 0 <= navNum}">Хувийн мэдээлэл</p>
-      <img src="../../assets/img/nextArrow.svg" alt="" class="step__arrow">
-    </button>
-    <button (click)="professionalNav()" class="step" routerLink="professional">
-      <div class="step__order" [ngClass] = "{step__order__backgroundActive : 1 <= navNum}">
-        <div *ngIf="1 < navNum; else order2" class='step__order__previous'></div>
-      </div>
-      <p class="step__navText" [ngClass] = "{step__order__textActive : 1 <= navNum}">Мэргэжлийн мэдээлэл</p>
-    </button>
-  </nav>
-  <hr class="horizontalLine2">
+  <div class="setUpHeader">
+    <nav class="setUpHeader__nav">
+      <button (click)="personalNav()" class="step" routerLink="personal">
+        <div class="step__order" [ngClass] = "{step__order__backgroundActive : 0 <= navNum}">
+          <div *ngIf="0 < navNum; else order1" class='step__order__previous'></div>
+        </div>
+        <p class="step__navText" [ngClass] = "{step__order__textActive : 0 <= navNum}">Хувийн мэдээлэл</p>
+        <img src="../../assets/img/nextArrow.svg" alt="" class="step__arrow">
+      </button>
+      <button (click)="professionalNav()" class="step" routerLink="professional">
+        <div class="step__order" [ngClass] = "{step__order__backgroundActive : 1 <= navNum}">
+          <div *ngIf="1 < navNum; else order2" class='step__order__previous'></div>
+        </div>
+        <p class="step__navText" [ngClass] = "{step__order__textActive : 1 <= navNum}">Мэргэжлийн мэдээлэл</p>
+      </button>
+    </nav>
+    <p class="paragraph setUpContainer__notice">* Шаардлагатай хүснэгтүүд</p>
+    <hr class="horizontalLine2">
+  </div>
   <router-outlet></router-outlet>
 </div>
 <ng-template #order1>
