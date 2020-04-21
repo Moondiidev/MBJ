@@ -1,12 +1,16 @@
 @import '../scss/utilities.scss';
 @import '../scss/variables.scss';
 @import '../scss/mixins.scss';
+
+$active-color : #1fab89;
+$tick-color : #d7fbe8;
 // ARROW attribution: Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 .setUpContainer{
     margin-top: $nav-height;
 }
 .setUpHeader{
     display: flex;
+    justify-content: center;
 }
 .step{
     outline: none;
@@ -30,10 +34,10 @@
             color: white;
         }
         &__backgroundActive{
-            background-color: #086644;
+            background-color: $active-color;
         }
         &__textActive{
-            color: #086644;
+            color: $active-color;
         }
         &__previous{
             display: inline-block;
@@ -43,8 +47,8 @@
             transform: translate(-50%,-50%) rotate(45deg);
             height: 20px;
             width: 10px;
-            border-bottom: 5px solid #17EBA2;
-            border-right: 5px solid #17EBA2;
+            border-bottom: 5px solid $tick-color;
+            border-right: 5px solid $tick-color;
         }
     }
     &__navText{
@@ -56,10 +60,4 @@
         width: 1.5rem;
         height: 1.5rem;
     }
-}
-.buttonActive{
-    background-color: green;
-}
-.textActive{
-    color: rgb(0, 85, 0);
 }

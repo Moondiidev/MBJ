@@ -8,7 +8,9 @@ import { ProfessionalInfoComponent } from './professional-info/professional-info
 
 @NgModule({
     declarations: [
-        SellerSetUpComponent
+        SellerSetUpComponent,
+        PersonalInfoComponent,
+        ProfessionalInfoComponent
     ],
     imports: [
         CommonModule,

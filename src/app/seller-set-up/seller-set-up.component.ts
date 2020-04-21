@@ -11,10 +11,11 @@ export class SellerSetUpComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  professionalNav(){
-    this.navNum = 1;
-  }
+  // MAKE navNum SUBJECT INSIDE SERVICE TO USE THESE FOR CONTINUE BUTTON 
   personalNav(){
     this.navNum = 0;
+  }
+  professionalNav(){
+    this.navNum = 1;
   }
 }

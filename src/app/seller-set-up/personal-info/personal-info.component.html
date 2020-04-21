@@ -1,2 +1,26 @@
-<h1 class="heading-primary"> Хувийн мэдээлэл </h1>
-<p class="paragraph">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
+<div class="setUpContainer">
+    <div class="personal-heading">
+        <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
+        <p class="personal-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
+    </div>
+    <form class="personalForm">
+        <div class="inputs">
+            <h2 class="setUpText">Профиль зураг</h2>
+            <div class="imgDropbox">
+                <img *ngIf="url !== null; else imagePlaceholder" [src]="url" alt="" class="imgDropbox__img">
+                <input type="file" class = "imgDropbox__dropbox"(change) = "onFileSelected($event)">
+            </div>
+        </div>
+        <div class="inputs">
+            <label class="setUpText" for="fullName">Бүтэн нэр</label>
+            <input type="text" name = "fullName" class="textInput">
+            <input type="text" name = "fullName" class="textInput">
+        </div>
+    </form>
+</div>
+<ng-template #imagePlaceholder>
+    <div class="imgDropbox__placeholder">
+        <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+    </div>
+</ng-template>
+
