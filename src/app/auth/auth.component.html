@@ -31,14 +31,14 @@
             class="auth-form__hidden"></a>
       </div>
       <ul class="auth-form__inputErrors" *ngIf="!passwordInput.valid">
-        <li class="auth-form__inputError" *ngIf="passwordInput.errors?.minlength">8-аас дээш үсэгтэй нууц үг хийнүү</li>
+        <li class="auth-form__inputError error-text" *ngIf="passwordInput.errors?.minlength">8-аас дээш үсэгтэй нууц үг хийнүү</li>
       </ul>
     </div>
 
     <button type="submit" class="auth-form__submit"
       [disabled]="!authForm.valid">{{isLogIn === true ? "Нэвтрэх" : "МБЖ-д нэгд"}}</button>
 
-    <p class="auth-form__submitErrorMessage" *ngIf = "error">{{error}}</p>
+    <p class="auth-form__submitErrorMessage error-text" *ngIf = "error">{{error}}</p>
 
     <div class="auth-form-textArea">
       <label *ngIf="isLogIn" class="paragraph container">

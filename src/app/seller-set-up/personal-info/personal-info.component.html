@@ -23,6 +23,7 @@
       <div class="inputs__right">
         <input type="text" name="fullName" class="textInput" placeholder="Өөрийн нэр">
         <input type="text" name="fullName" class="textInput" placeholder="Эцгийн нэр">
+        <p class="error-text">Бүтэн нэрээ оруулна уу.</p>
       </div>
     </div>
     <div class="inputs">
@@ -30,8 +31,9 @@
         <label class="setUpText" for="description">Хувийн тайлбар</label>
       </div>
       <div class="inputs__right">
-        <textarea name="description" class="textboxInput" rows="8" cols="70" minlength="100" maxlength="600" placeholder="Ажлын туршлага, хийсэн төсөл болон чадварын тухай хуваалц нуу."></textarea>
-      </div>
+        <textarea [(ngModel)]="noOfChar" ng-trim="false" name="description" class="textboxInput" minlength="100" maxlength="600" placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу."></textarea>
+        <span class = "paragraph noOfChar">{{noOfChar.length}} / 600</span>
+    </div>
     </div>
     <button routerLink = "../professional" (click) = "professionalNav()" class="btn btn-green btn-next">Үргэлжлүүлэх</button>
   </form>

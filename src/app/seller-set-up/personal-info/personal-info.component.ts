@@ -10,6 +10,7 @@ import { SellerSetUpService } from '../seller-set-up.service';
 export class PersonalInfoComponent implements OnInit {
   selectedImage = null;
   url = null;
+  noOfChar : string = "";
   constructor(private http : HttpClient, private sellerService : SellerSetUpService) { }
 
   ngOnInit(): void {}

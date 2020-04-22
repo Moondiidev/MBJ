@@ -1,5 +1,5 @@
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SellerSetUpComponent } from './seller-set-up.component';
@@ -15,6 +15,7 @@ import { ProfessionalInfoComponent } from './professional-info/professional-info
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         RouterModule.forChild([
             {
                 path: '', component: SellerSetUpComponent,
