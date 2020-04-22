@@ -23,4 +23,7 @@
     &-next{
         align-self: flex-end;
     }
+    &:disabled{
+        background-color:$disabled-color;
+    }
 }

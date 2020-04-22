@@ -30,7 +30,7 @@ $tick-color : #d7fbe8;
         width: 4rem;
         height: 4rem;
         border-radius: 50%;
-        background-color: rgb(110, 110, 110);
+        background-color: $disabled-color;
         position: relative;
         margin-right: 2rem;
         &__number{

@@ -7,12 +7,20 @@
 .margin-bot-large {
   margin-bottom: 5rem;
 }
-
+.margin-top-tiny{
+  margin-top: 1rem;
+}
+.margin-left-tiny{
+  margin-left: 1rem;
+}
 .text-center {
   text-align: center;
 }
-.error-text{
-  color: red;
+.text-left {
+  text-align: left;
+}
+.block{
+  display: block;
 }
 .marginVertical-medium {
   margin: 2rem 0;

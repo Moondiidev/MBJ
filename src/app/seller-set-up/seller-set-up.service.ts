@@ -1,13 +1,15 @@
 import { Subject } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SellerSetUpService {
+export class SellerSetUpService implements OnInit {
   navNum = new Subject<number>();
+  personalFormValid = new Subject<boolean>();
   constructor() { }
-
+  ngOnInit(){}
+  
   personalNav(){
     this.navNum.next(0);
   }

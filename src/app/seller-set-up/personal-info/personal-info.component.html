@@ -4,7 +4,7 @@
     <p class="personal-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
       мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
   </div>
-  <form class="personalForm">
+  <form class="personalForm" [formGroup] = "personalForm" (ngSubmit) = "onSubmit()">
     <div class="inputs">
       <div class="inputs__left">
         <h2 class="setUpText">Профиль зураг</h2>
@@ -12,18 +12,19 @@
       <div class="inputs__right">
         <div class="imgDropbox">
           <img *ngIf="url !== null; else imagePlaceholder" [src]="url" alt="" class="imgDropbox__img">
-          <input type="file" class="imgDropbox__dropbox" (change)="onFileSelected($event)">
+          <input formControlName = "profileImage" accept="image/x-png,image/jpeg,image/jpg" type="file" class="imgDropbox__dropbox" (change)="onFileSelected($event)">
         </div>
       </div>
     </div>
     <div class="inputs">
       <div class="inputs__left">
         <label class="setUpText" for="fullName">Бүтэн нэр</label>
+        <span class="paragraph margin-left-tiny">Нууцлагдмал</span>
       </div>
-      <div class="inputs__right">
-        <input type="text" name="fullName" class="textInput" placeholder="Өөрийн нэр">
-        <input type="text" name="fullName" class="textInput" placeholder="Эцгийн нэр">
-        <p class="error-text">Бүтэн нэрээ оруулна уу.</p>
+      <div formGroupName = "name" class="inputs__right">
+        <input formControlName = "firstName" type="text" name="fullName" class="textInput" placeholder="Өөрийн нэр">
+        <input formControlName = "lastName" type="text" name="fullName" class="textInput" placeholder="Эцгийн нэр">
+        <span *ngIf = "!personalForm.get('name').valid && personalForm.get('name.firstName').touched && personalForm.get('name.lastName').touched" class="error-text margin-top-tiny block">Бүтэн нэрээ оруулна уу.</span>
       </div>
     </div>
     <div class="inputs">
@@ -31,11 +32,13 @@
         <label class="setUpText" for="description">Хувийн тайлбар</label>
       </div>
       <div class="inputs__right">
-        <textarea [(ngModel)]="noOfChar" ng-trim="false" name="description" class="textboxInput" minlength="100" maxlength="600" placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу."></textarea>
-        <span class = "paragraph noOfChar">{{noOfChar.length}} / 600</span>
+        <textarea formControlName = "description" [(ngModel)]="noOfChar" ng-trim="false" name="description" class="textboxInput" minlength="100"
+          maxlength="600" placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу."></textarea>
+        <span class="paragraph noOfChar">{{noOfChar.length}} / 600</span>
+        <span *ngIf = "!personalForm.get('description').valid && personalForm.get('description').touched" class="error-text text-left">Хамгийн багадаа 100 үсэг бичнэ үү.</span>
+      </div>
     </div>
-    </div>
-    <button routerLink = "../professional" (click) = "professionalNav()" class="btn btn-green btn-next">Үргэлжлүүлэх</button>
+    <button type = "submit" class="btn btn-green btn-next" [disabled] = "!personalForm.valid">Үргэлжлүүлэх</button>
   </form>
 </div>
 <ng-template #imagePlaceholder>
@@ -43,3 +46,8 @@
     <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
   </div>
 </ng-template>
+
+<!--         
+    profileImage error message
+    <span *ngIf = "!personalForm.get('profileImage').valid" class="error-text margin-top-tiny">Зураг оруулна уу.</span>
+-->
