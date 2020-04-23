@@ -1,1 +1,30 @@
-<p>professional-info works!</p>
+<div>
+    <div class="setUp-heading">
+      <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
+      <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
+        мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
+    </div>
+    <form class="setUpForm" [formGroup] = "professionalForm" (ngSubmit) = "onSubmit()">
+        <div class="inputs">
+            <div class="inputs__left">
+              <label class="setUpText" for="fullName">Бүтэн нэр</label>
+              <span class="paragraph margin-left-tiny">Нууцлагдмал</span>
+            </div>
+            <div formGroupName = "name" class="inputs__right">
+              <input formControlName = "firstName" type="text" name="fullName" class="textInput" placeholder="Өөрийн нэр">
+              <input formControlName = "lastName" type="text" name="fullName" class="textInput" placeholder="Эцгийн нэр">
+            </div>
+          </div>
+      <button type = "submit" class="btn btn-green btn-next" [disabled] = "!professionalForm.valid">Үргэлжлүүлэх</button>
+    </form>
+  </div>
+  <ng-template #imagePlaceholder>
+    <div class="imgDropbox__placeholder">
+      <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+    </div>
+  </ng-template>
+  
+  <!--         
+      profileImage error message
+      <span *ngIf = "!personalForm.get('profileImage').valid" class="error-text margin-top-tiny">Зураг оруулна уу.</span>
+  -->
