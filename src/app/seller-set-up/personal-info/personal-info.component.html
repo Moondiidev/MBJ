@@ -12,7 +12,10 @@
       <div class="inputs__right">
         <div class="imgDropbox">
           <img *ngIf="url !== null; else imagePlaceholder" [src]="url" alt="" class="imgDropbox__img">
-          <input formControlName = "profileImage" accept="image/x-png,image/jpeg,image/jpg" type="file" class="imgDropbox__dropbox" (change)="onFileSelected($event)">
+          <div class="imgDropbox__dropbox" (click) = "dropbox.click();">
+            <input #dropbox formControlName = "profileImage" accept="image/x-png,image/jpeg,image/jpg" type="file" class="imgDropbox__dropbox__input" (change)="onFileSelected($event)">
+          </div>
+          <progress [ngStyle]="{'display': hideProgress ? 'none' : 'block'}" class="imgDropbox__progress" max="100" [value]="(uploadProgress | async)"></progress>
         </div>
       </div>
     </div>
