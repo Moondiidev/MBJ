@@ -7,12 +7,10 @@
     <form class="setUpForm" [formGroup] = "professionalForm" (ngSubmit) = "onSubmit()">
         <div class="inputs">
             <div class="inputs__left">
-              <label class="setUpText" for="fullName">Бүтэн нэр</label>
-              <span class="paragraph margin-left-tiny">Нууцлагдмал</span>
+              <label class="setUpText" for="profession">Мэргэжил </label>
             </div>
-            <div formGroupName = "name" class="inputs__right">
-              <input formControlName = "firstName" type="text" name="fullName" class="textInput" placeholder="Өөрийн нэр">
-              <input formControlName = "lastName" type="text" name="fullName" class="textInput" placeholder="Эцгийн нэр">
+            <div formGroupName = "profession" class="inputs__right">
+              <input type="checkBox" class="professionCheckList">
             </div>
           </div>
       <button type = "submit" class="btn btn-green btn-next" [disabled] = "!professionalForm.valid">Үргэлжлүүлэх</button>
