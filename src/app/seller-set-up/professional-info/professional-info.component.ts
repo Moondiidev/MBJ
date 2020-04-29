@@ -10,6 +10,8 @@ export class ProfessionalInfoComponent implements OnInit {
   professionalForm : FormGroup;
   closeDropdown = false;
   professions = ['График Дизайн', 'Онлайн маркетинг', 'Дуу & Ая', 'Бичиг & Орчуулаг', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
+  fromYears = [2020,2019];
+  toYears = [];
   constructor() { }
 
   ngOnInit(): void {

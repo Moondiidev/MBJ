@@ -10,23 +10,27 @@
         <label class="setUpText" for="profession">Таны Мэргэжил</label>
       </div>
       <div class="inputs__right">
-        <div class="category">
-          <div formGroupName="profession">
-            <button class = "dropdown" appDropDown>
-              <div class="dropdown__btn dropdown__btn--lg">График Дизайн</div>
-              <ul class="dropdown__options animated zoomIn evenFaster">
-                <li class="dropdown__options__el" *ngFor="let profession of professions">{{profession}}</li>
-              </ul>
-            </button>
-          </div>
-          <div class="dropdown from_year">
-            <button class="dropdown__btn"><a>Жил</a></button>
-            <label class="labelText margin-left-tiny">Оноос</label>
-          </div>
-          <div class="dropdown to_year">
-            <button class="dropdown__btn"><a>Жил</a></button>
-            <label class="labelText margin-left-tiny">Он</label>
-          </div>
+        <div class="input-lane" formGroupName="profession">
+          <button class="dropdown" appDropDown>
+            <div class="dropdown__btn dropdown__btn--lg">График Дизайн</div>
+            <ul class="dropdown__options animated zoomIn evenFaster">
+              <li class="dropdown__options__el" *ngFor="let profession of professions">{{profession}}</li>
+            </ul>
+          </button>
+          <button class="dropdown" appDropDown>
+            <div class="dropdown__btn">Жил</div>
+            <ul class="dropdown__options animated zoomIn evenFaster">
+              <li class="dropdown__options__el" *ngFor="let years of fromYears">{{years}}</li>
+            </ul>
+          </button>
+          <label class="labelText">Оноос</label>
+          <button class="dropdown" appDropDown>
+            <div class="dropdown__btn">Жил</div>
+            <ul class="dropdown__options animated zoomIn evenFaster">
+              <li class="dropdown__options__el" *ngFor="let years of toYears">{{years}}</li>
+            </ul>
+          </button>
+          <label class="labelText">Он</label>
         </div>
         <div class="skills-checkbox" formGroupName="subProfession">
           <input type="checkBox" class="skill-checkbox">

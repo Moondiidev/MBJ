@@ -1,8 +1,9 @@
 @import '../../scss/sellerSetUpForms.scss';
 $border-color: #8a8a8aa8;
-.category{
+.input-lane{
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
 }
 .dropdown{
     font-size: 1.2rem;
