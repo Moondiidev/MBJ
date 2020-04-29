@@ -11,22 +11,23 @@
       </div>
       <div class="inputs__right">
         <div class="category">
-          <div class="category-select category_name" formGroupName="profession">
-            <button class="category-select__btn category-select__btn--lg"><a>График Дизайн</a></button>
+          <div formGroupName="profession">
+            <button class = "dropdown" appDropDown>
+              <div class="dropdown__btn dropdown__btn--lg">График Дизайн</div>
+              <ul class="dropdown__options">
+                <li class="dropdown__options__el" *ngFor="let profession of professions">{{profession}}</li>
+              </ul>
+            </button>
           </div>
-          <div class="category-select from_year">
-            <button class="category-select__btn"><a>Жил</a></button>
+          <div class="dropdown from_year">
+            <button class="dropdown__btn"><a>Жил</a></button>
             <label class="labelText margin-left-tiny">Оноос</label>
           </div>
-          <div class="category-select to_year">
-            <button class="category-select__btn"><a>Жил</a></button>
+          <div class="dropdown to_year">
+            <button class="dropdown__btn"><a>Жил</a></button>
             <label class="labelText margin-left-tiny">Он</label>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="inputs">
-      <div class="inputs__right">
         <div class="skills-checkbox" formGroupName="subProfession">
           <input type="checkBox" class="skill-checkbox">
         </div>

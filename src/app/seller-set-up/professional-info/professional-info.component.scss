@@ -1,12 +1,14 @@
 @import '../../scss/sellerSetUpForms.scss';
+$border-color: #8a8a8aa8;
 .category{
     display: flex;
     justify-content: space-evenly;
 }
-.category-select{
+.dropdown{
+    position: relative;
     &__btn{
         padding: 1.5rem 3rem;
-        border: 1px solid #8a8a8aa8;
+        border: 1px solid $border-color;
         cursor: pointer;
         &::after{
             content: "";
@@ -23,5 +25,28 @@
                 margin-left: 4rem;
             }
         }
+    }
+    &__options{
+        margin-top: 1rem;
+        background-color: white;
+        text-align: left;
+        border: 1px solid $border-color;
+        display: none;
+        position: absolute;
+        width: 100%;
+        &__el{
+            padding: 1rem 0;
+            padding-left: 3rem;
+            transition: 0.2s;
+            cursor: pointer;
+            &:hover{
+                background-color: #30e3ca;
+            }
+        }
+    }
+}
+.ddOpen{
+    > .dropdown__options{
+        display: block;
     }
 }

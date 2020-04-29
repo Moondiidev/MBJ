@@ -8,11 +8,13 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class ProfessionalInfoComponent implements OnInit {
   professionalForm : FormGroup;
+  professions = ['График Дизайн', 'Онлайн маркетинг', 'Дуу & Ая', 'Бичиг & Орчуулаг', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
   constructor() { }
 
   ngOnInit(): void {
     this.professionalForm = new FormGroup({
-      'ok' : new FormControl(null)
+      'profession' : new FormControl(null),
+      'subProfession' : new FormControl(null),
     })
   }
   onSubmit(){

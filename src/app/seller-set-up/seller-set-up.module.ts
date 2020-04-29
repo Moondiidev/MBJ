@@ -7,11 +7,13 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfessionalInfoComponent } from './professional-info/professional-info.component';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireStorageModule} from "angularfire2/storage";
+import { DropdownDirective } from '../shared/dropdown.directive';
 @NgModule({
     declarations: [
         SellerSetUpComponent,
         PersonalInfoComponent,
-        ProfessionalInfoComponent
+        ProfessionalInfoComponent,
+        DropdownDirective
     ],
     imports: [
         AngularFireModule.initializeApp({
