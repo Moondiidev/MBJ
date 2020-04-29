@@ -1,1 +1,27 @@
 @import '../../scss/sellerSetUpForms.scss';
+.category{
+    display: flex;
+    justify-content: space-evenly;
+}
+.category-select{
+    &__btn{
+        padding: 1.5rem 3rem;
+        border: 1px solid #8a8a8aa8;
+        cursor: pointer;
+        &::after{
+            content: "";
+            margin-left: 1rem;
+            margin-bottom: 2px;
+            border: solid #444444;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
+        }
+        &--lg{
+            &::after{
+                margin-left: 4rem;
+            }
+        }
+    }
+}

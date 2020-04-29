@@ -1,28 +1,47 @@
 <div>
-    <div class="setUp-heading">
-      <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
-      <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
-        мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
-    </div>
-    <form class="setUpForm" [formGroup] = "professionalForm" (ngSubmit) = "onSubmit()">
-        <div class="inputs">
-            <div class="inputs__left">
-              <label class="setUpText" for="profession">Мэргэжил </label>
-            </div>
-            <div formGroupName = "profession" class="inputs__right">
-              <input type="checkBox" class="professionCheckList">
-            </div>
-          </div>
-      <button type = "submit" class="btn btn-green btn-next" [disabled] = "!professionalForm.valid">Үргэлжлүүлэх</button>
-    </form>
+  <div class="setUp-heading">
+    <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
+    <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
+      мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
   </div>
-  <ng-template #imagePlaceholder>
-    <div class="imgDropbox__placeholder">
-      <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+  <form class="setUpForm" [formGroup]="professionalForm" (ngSubmit)="onSubmit()">
+    <div class="inputs">
+      <div class="inputs__left">
+        <label class="setUpText" for="profession">Таны Мэргэжил</label>
+      </div>
+      <div class="inputs__right">
+        <div class="category">
+          <div class="category-select category_name" formGroupName="profession">
+            <button class="category-select__btn category-select__btn--lg"><a>График Дизайн</a></button>
+          </div>
+          <div class="category-select from_year">
+            <button class="category-select__btn"><a>Жил</a></button>
+            <label class="labelText margin-left-tiny">Оноос</label>
+          </div>
+          <div class="category-select to_year">
+            <button class="category-select__btn"><a>Жил</a></button>
+            <label class="labelText margin-left-tiny">Он</label>
+          </div>
+        </div>
+      </div>
     </div>
-  </ng-template>
-  
-  <!--         
+    <div class="inputs">
+      <div class="inputs__right">
+        <div class="skills-checkbox" formGroupName="subProfession">
+          <input type="checkBox" class="skill-checkbox">
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-green btn-next" [disabled]="!professionalForm.valid">Үргэлжлүүлэх</button>
+  </form>
+</div>
+<ng-template #imagePlaceholder>
+  <div class="imgDropbox__placeholder">
+    <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+  </div>
+</ng-template>
+
+<!--         
       profileImage error message
       <span *ngIf = "!personalForm.get('profileImage').valid" class="error-text margin-top-tiny">Зураг оруулна уу.</span>
   -->
