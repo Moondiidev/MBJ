@@ -8,6 +8,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class ProfessionalInfoComponent implements OnInit {
   professionalForm : FormGroup;
+  closeDropdown = false;
   professions = ['График Дизайн', 'Онлайн маркетинг', 'Дуу & Ая', 'Бичиг & Орчуулаг', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
   constructor() { }
 

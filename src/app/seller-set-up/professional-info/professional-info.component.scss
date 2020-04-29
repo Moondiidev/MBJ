@@ -5,8 +5,11 @@ $border-color: #8a8a8aa8;
     justify-content: space-evenly;
 }
 .dropdown{
+    font-size: 1.2rem;
     position: relative;
     &__btn{
+        font-size: 1.4rem;
+        font-weight: 400;
         padding: 1.5rem 3rem;
         border: 1px solid $border-color;
         cursor: pointer;
@@ -18,6 +21,7 @@ $border-color: #8a8a8aa8;
             border-width: 0 2px 2px 0;
             display: inline-block;
             padding: 3px;
+            transition: 0.1s;
             transform: rotate(45deg);
         }
         &--lg{
@@ -34,8 +38,9 @@ $border-color: #8a8a8aa8;
         display: none;
         position: absolute;
         width: 100%;
+        transform-origin: top;
         &__el{
-            padding: 1rem 0;
+            padding: 1.5rem 0;
             padding-left: 3rem;
             transition: 0.2s;
             cursor: pointer;
@@ -48,5 +53,10 @@ $border-color: #8a8a8aa8;
 .ddOpen{
     > .dropdown__options{
         display: block;
+    }
+    > .dropdown__btn{
+        &::after{
+            transform: rotate(585deg);
+        }
     }
 }
