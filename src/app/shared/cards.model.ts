@@ -1,4 +1,3 @@
-
 export class CardsModel{
     constructor(
         public background : string,

@@ -8,16 +8,24 @@ $border-color: #8a8a8aa8;
 .dropdown{
     font-size: 1.2rem;
     position: relative;
+    flex: 1 0 0;
+    max-width: 120px;
+    &--lg{
+        max-width: 220px;
+    }
     &__btn{
+        text-align: left;
         font-size: 1.4rem;
         font-weight: 400;
-        padding: 1.5rem 3rem;
+        padding: 1.2rem;
         border: 1px solid $border-color;
+        border-radius: 2px;
         cursor: pointer;
         &::after{
             content: "";
-            margin-left: 1rem;
-            margin-bottom: 2px;
+            position: absolute;
+            right: 2rem;
+            top: 45%;
             border: solid #444444;
             border-width: 0 2px 2px 0;
             display: inline-block;
@@ -25,11 +33,7 @@ $border-color: #8a8a8aa8;
             transition: 0.1s;
             transform: rotate(45deg);
         }
-        &--lg{
-            &::after{
-                margin-left: 4rem;
-            }
-        }
+
     }
     &__options{
         padding: 1rem 0;
@@ -60,7 +64,7 @@ $border-color: #8a8a8aa8;
     }
     > .dropdown__btn{
         &::after{
-            transform: rotate(585deg);
+            transform: rotate(135deg) scaleX(-1); 
         }
     }
 }

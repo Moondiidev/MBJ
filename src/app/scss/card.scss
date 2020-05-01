@@ -2,7 +2,6 @@
     width: 100%;
     height: 300px;
     border-radius: 10px;
-    color: white;
     cursor: pointer;
     background-position : center;
     background-size: cover;
@@ -13,11 +12,13 @@
     &__description{
         font-size: 1.2rem;
         font-weight: 300;
+        color: rgb(235, 235, 235);
     }
     &__title{
         font-size: 2rem;
         font-weight: 600;
         margin-top: 0.5rem;
+        color: white;
     }
     &:hover{
         box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);

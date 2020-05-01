@@ -11,23 +11,23 @@
       </div>
       <div class="inputs__right">
         <div class="input-lane" formGroupName="profession">
-          <button class="dropdown" appDropDown>
-            <div class="dropdown__btn dropdown__btn--lg">График Дизайн</div>
+          <button class="dropdown dropdown--lg" appDropDown>
+            <div class="dropdown__btn">{{professionText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
-              <li class="dropdown__options__el" *ngFor="let profession of professions">{{profession}}</li>
+              <li class="dropdown__options__el" *ngFor="let profession of professions" (click) = "onSelectProfession(profession)">{{profession}}</li>
             </ul>
           </button>
           <button class="dropdown" appDropDown>
-            <div class="dropdown__btn">Жил</div>
+            <div class="dropdown__btn">{{fromYearText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
-              <li class="dropdown__options__el" *ngFor="let years of fromYears">{{years}}</li>
+              <li class="dropdown__options__el" *ngFor="let fromYear of fromYears; let i = index " (click) = "onSelectFromYear(fromYear, i)">{{fromYear}}</li>
             </ul>
           </button>
           <label class="labelText">Оноос</label>
           <button class="dropdown" appDropDown>
-            <div class="dropdown__btn">Жил</div>
+            <div class="dropdown__btn">{{toYearText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
-              <li class="dropdown__options__el" *ngFor="let years of toYears">{{years}}</li>
+              <li class="dropdown__options__el" *ngFor="let toYear of toYears" (click) = "onSelectToYear(toYear)">{{toYear}}</li>
             </ul>
           </button>
           <label class="labelText">Он</label>
