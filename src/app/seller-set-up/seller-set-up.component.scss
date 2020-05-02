@@ -59,10 +59,10 @@ $tick-color : #d7fbe8;
             top: 50%;
             left: 50%;
             transform: translate(-50%,-50%) rotate(45deg);
-            height: 20px;
-            width: 10px;
-            border-bottom: 5px solid $tick-color;
-            border-right: 5px solid $tick-color;
+            height: 2rem;
+            width: 1rem;
+            border-bottom: 0.5rem solid $tick-color;
+            border-right: 0.5rem solid $tick-color;
         }
     }
     &__navText{

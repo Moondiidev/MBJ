@@ -1,8 +1,10 @@
 @import '../../scss/sellerSetUpForms.scss';
+@import '../../scss/checkbox.scss';
+
 $border-color: #8a8a8aa8;
 .input-lane{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 .dropdown{
@@ -10,6 +12,7 @@ $border-color: #8a8a8aa8;
     position: relative;
     flex: 1 0 0;
     max-width: 120px;
+    z-index: 1000;
     &--lg{
         max-width: 220px;
     }
@@ -67,4 +70,38 @@ $border-color: #8a8a8aa8;
             transform: rotate(135deg) scaleX(-1); 
         }
     }
+}
+
+.skill-checkboxes{
+    text-align: left;
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    &__label{
+        white-space: nowrap;
+        font-size: 1.3rem;
+    }
+}
+.skill-checkbox{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+    input[type=checkbox]{
+        display: none;
+    }
+    &::before{
+        content: "";
+        background-color: #fff;
+        display: inline-block;
+        height: 1.8rem;
+        width: 1.8rem;
+        border: 1px solid #bcbcbf;
+        border-radius: 2px;
+        margin-right: 1rem;
+    }
+}
+.profession-add{
+    margin-top: 2rem;
+    text-align: left;
 }

@@ -27,3 +27,10 @@
         background-color:$disabled-color;
     }
 }
+.text-btn{
+    &--green{
+        color: #1fab89;
+    }
+    cursor: pointer;
+    
+}

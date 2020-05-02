@@ -9,7 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class ProfessionalInfoComponent implements OnInit {
   professionalForm : FormGroup;
   closeDropdown = false;
-  professions = ['График Дизайн', 'Онлайн маркетинг', 'Дуу & Ая', 'Бичиг & Орчуулаг', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
+  professions = ['График Дизайн', 'Онлайн Mаркетинг', 'Дуу & Ая', 'Бичиг & Орчуулагa', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
   fromYears = [];
   toYears = [];
   currentYear = new Date().getFullYear();
@@ -19,7 +19,9 @@ export class ProfessionalInfoComponent implements OnInit {
   toYearText = "Жил";
   selectedToYear : number;
   selectedFromYear : number;
-  selectedProfession : string;
+  //Default is graphic design
+  selectedProfession : string = "График Дизайн";
+
   constructor() { }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class ProfessionalInfoComponent implements OnInit {
   }
   onSelectProfession(profession : string){
     this.professionText = profession;
+    this.selectedProfession = profession;
   }
   onSelectFromYear(fromYear: number, index : number){
     this.fromYearText = fromYear.toString();

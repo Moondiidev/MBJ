@@ -1,31 +1,53 @@
-.heading-primary{
-    font-size: 3rem;
+.heading-primary {
+  font-size: 3rem;
 }
-.heading-secondary{
-    font-size: 2.5rem;
+
+.heading-secondary {
+  font-size: 2.5rem;
 }
-.heading-fourth{
-    font-size: 1.8rem;
+
+.heading-fourth {
+  font-size: 1.8rem;
 }
-.emphasis-link{
-    color: rgb(30, 135, 255);
-    cursor: pointer;
+
+.emphasis-link {
+  color: rgb(30, 135, 255);
+  cursor: pointer;
 }
-.paragraph{
-    font-size: 1.1rem;
-    color: #62646a;
+
+.paragraph {
+  font-size: 1.1rem;
+  color: #62646a;
 }
-.labelText{
-    font-size: 1.2rem;
-    color: rgb(150, 150, 150);
+
+.labelText {
+  font-size: 1.2rem;
+  color: rgb(150, 150, 150);
 }
-.error-text{
-    color: red;
-    font-size: 1.2rem;
+
+.boldText{
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: left;
 }
-a{
-    text-decoration: none;
+
+.error-text {
+  color: red;
+  font-size: 1.2rem;
 }
-ul{
-    list-style-type: none;
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
 }

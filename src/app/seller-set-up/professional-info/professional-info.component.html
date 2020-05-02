@@ -1,6 +1,6 @@
 <div>
   <div class="setUp-heading">
-    <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
+    <h1 class="heading-primary"> Мэргэжлийн мэдээлэл </h1>
     <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
       мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
   </div>
@@ -14,26 +14,318 @@
           <button class="dropdown dropdown--lg" appDropDown>
             <div class="dropdown__btn">{{professionText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
-              <li class="dropdown__options__el" *ngFor="let profession of professions" (click) = "onSelectProfession(profession)">{{profession}}</li>
+              <li class="dropdown__options__el" *ngFor="let profession of professions"
+                (click)="onSelectProfession(profession)">{{profession}}</li>
             </ul>
           </button>
           <button class="dropdown" appDropDown>
             <div class="dropdown__btn">{{fromYearText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
-              <li class="dropdown__options__el" *ngFor="let fromYear of fromYears; let i = index " (click) = "onSelectFromYear(fromYear, i)">{{fromYear}}</li>
+              <li class="dropdown__options__el" *ngFor="let fromYear of fromYears; let i = index "
+                (click)="onSelectFromYear(fromYear, i)">{{fromYear}}</li>
             </ul>
           </button>
           <label class="labelText">Оноос</label>
           <button class="dropdown" appDropDown>
             <div class="dropdown__btn">{{toYearText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
-              <li class="dropdown__options__el" *ngFor="let toYear of toYears" (click) = "onSelectToYear(toYear)">{{toYear}}</li>
+              <li class="dropdown__options__el" *ngFor="let toYear of toYears" (click)="onSelectToYear(toYear)">
+                {{toYear}}</li>
             </ul>
           </button>
           <label class="labelText">Он</label>
         </div>
-        <div class="skills-checkbox" formGroupName="subProfession">
-          <input type="checkBox" class="skill-checkbox">
+        <p class="boldText margin-top-md">Хамгийн сайн 1-ээс 5 хүртэлх {{selectedProfession}} чадвараа сонгоно уу.</p>
+        <div [ngSwitch]="selectedProfession">
+          <div class="skill-checkboxes" *ngSwitchCase="'График Дизайн'">
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Хүүхэлэйн Кино & Комик Сэтгүүл</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">3Д Модель Дүр & Бүдээгтхүүн Дизайн</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Вэб Дизайн</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Урилга & Бизнес Карт</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Тоглоом Дизайн</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Хүрээлэн Буй Орчин</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Зар Суртчилгаа</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Photoshop Эвлүүлэг</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Лого Дизайн</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Ном & Цомог Хавтас</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Инфограпик</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Архитектур</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бусад</span>
+            </label>
+          </div>
+          <div class="skill-checkboxes" *ngSwitchCase="'Онлайн Mаркетинг'">
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Эмэйл Маркетинг</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Вэб Сайт Хөдөлгөөн Ихэсгэх</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Инфлүнсэр Маркетинг</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Видео Маркетинг</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">SEO</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Сошиал Мэдиа Маркетинг</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бусад</span>
+            </label>
+          </div>
+
+          <div class="skill-checkboxes" *ngSwitchCase="'Дуу & Ая'">
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Хөгжим Найруулагч & Зохиолч</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">SFX</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Дуу Оруулаг</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Дуучин</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бусад</span>
+            </label>
+          </div>
+          <div class="skill-checkboxes" *ngSwitchCase="'Бичиг & Орчуулагa'">
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Сэтгүүл & Блог</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Хяналтын Уншилт & Засах</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Гадааг Хэл Орчуулагa</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Хууль Бичвэр</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Техникийн Бичвэр</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бүтээгдэхүүн Тайлбар</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Уран Бичвэр</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Товч Намтар (CV)</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бусад</span>
+            </label>
+          </div>
+          <div class="skill-checkboxes" *ngSwitchCase="'Видео & Аниматион'">
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Киноны Трейлер</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Видео Тоглоомны Трейлер</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Видео Эвлүүлэг</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Богино Хэмжээний Зар Сурталчилгаа</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">3Д Хүүхэлдэйн Кино</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">VFX</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">2Д Хүүхэлдэйн Кино</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бусад</span>
+            </label>
+          </div>
+          <div class="skill-checkboxes" *ngSwitchCase="'Программ & Технологи'">
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Вэб Сайт Програмчлал</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Хөөрөлдөгч Бот</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Видео Тоглоом Хөгжүүлэх</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Гар Утасны АПП Програмчлал</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">WordPress</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Мэдээлэл Судлал & Тайлан</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Цахим Аюулгуй Байдал</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бусад</span>
+            </label>
+          </div>
+          <div class="skill-checkboxes" *ngSwitchCase="'Бусад'">
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Дасгал & Хоол Тэжээл Зөвлөгөө</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Санхүүгийн Зөвлөгөө</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Сэтгэл Зүйн Эмчилгээ</span>
+            </label>
+            <label class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" name="options" class="checkbox">
+              <span class="checkmark"></span>
+              <span class="skill-checkboxes__label">Бусад</span>
+            </label>
+          </div>
+        </div>
+        <hr>
+        <div class="profession-add">
+          <button class="text-btn text-btn--green ">+Нэмэх</button>
         </div>
       </div>
     </div>

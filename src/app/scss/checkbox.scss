@@ -1,10 +1,11 @@
   /* ****** CHECKBOX ************/
+  /* MUST DEFINE IF CHECKBOX WILL BE ALIGNED CENTER AND WHAT COLOR IT IS 
+  checkbox-container checkbox-container__green checkbox-container__center etc..*/
 $size: 1.6rem;
   /* Customize the label (the container) */
-.container {
+.checkbox-container {
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
   cursor: pointer;
   font-size: $size;
@@ -13,10 +14,16 @@ $size: 1.6rem;
   -ms-user-select: none;
   user-select: none;
   margin-bottom: 2rem;
+  &__center{
+    justify-content: center;
+  }
+  &__left{
+    justify-content: start;
+  }
 }
 
 /* Hide the browser's default checkbox */
-.container input {
+.checkbox-container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -34,13 +41,17 @@ $size: 1.6rem;
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.checkbox-container:hover input ~ .checkmark {
   background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.checkbox-container__blue input:checked ~ .checkmark {
   background-color: #2196F3;
+}
+/* When the checkbox is checked, add a blue background */
+.checkbox-container__green input:checked ~ .checkmark {
+  background-color: #00b8a9;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -51,12 +62,12 @@ $size: 1.6rem;
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
+.checkbox-container input:checked ~ .checkmark:after {
   display: block;
 }
 
 /* Style the checkmark/indicator */
-.container .checkmark:after {
+.checkbox-container .checkmark:after {
   left: 50%;
   top: 50%;
   width: 5px;
@@ -66,5 +77,4 @@ $size: 1.6rem;
   -webkit-transform: translate(-50%,-50%) rotate(45deg);
   -ms-transform: translate(-50%,-50%) rotate(45deg);
   transform: translate(-50%,-50%) rotate(45deg);
-
 }
