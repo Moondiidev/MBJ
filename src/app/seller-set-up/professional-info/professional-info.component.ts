@@ -21,7 +21,7 @@ export class ProfessionalInfoComponent implements OnInit {
   selectedFromYear : number;
   //Default is graphic design
   selectedProfession : string = "График Дизайн";
-
+  counter : number = 0;
   constructor() { }
 
   ngOnInit(): void {
@@ -64,4 +64,15 @@ export class ProfessionalInfoComponent implements OnInit {
     const newYears = this.fromYears.slice(0,index);
     this.toYears.push(...newYears);
   }
+  checkedState(event) {
+    if(event.target.checked === true){
+      if(this.counter < 5){
+      this.counter++
+    }else{
+       event.target.checked = false;
+    }
+    }else if(this.counter>0){
+      this.counter--;
+    }
+}
 }
