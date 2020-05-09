@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ProfessionalModel } from 'src/app/shared/professional.model';
 import { SellerSetUpService } from '../seller-set-up.service';
 
 @Component({
@@ -14,15 +14,15 @@ export class ProfessionalInfoComponent implements OnInit {
   professions = ['График Дизайн', 'Онлайн Mаркетинг', 'Дуу & Ая', 'Бичиг & Орчуулагa', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
   fromYears = [];
   toYears = [];
-  graphicDesignNames : Array<string> = ['Хүүхэлдэйн Кино & Комик Сэтгүүл','3Д Модель Дүр & Бүдээгтхүүн Дизайн','Вэб Дизайн','Урилга & Бизнес Карт','Тоглоом Дизайн','Хүрээлэн Буй Орчин','Зар Суртчилгаа','Photoshop Эвлүүлэг','Лого Дизайн','Ном & Цомог Хавтас','Инфограпик','Архитектур','Бусад'];
-  marketingNames : Array<string> = ['Эмэйл Маркетинг','Вэб Сайт Хөдөлгөөн Ихэсгэх','Инфлүнсэр Маркетинг','Видео Маркетинг','SEO','Сошиал Мэдиа Маркетинг','Бусад'];
-  soundNames : Array<string> = ['Хөгжим Найруулагч & Зохиолч','SFX','Дуу Оруулаг','Дуучин','Бусад'];
-  writingNames : Array<string> = ['Сэтгүүл & Блог','Хяналтын Уншилт & Засах','Гадааг Хэл Орчуулагa','Хууль Бичвэр','Техникийн Бичвэр','Бүтээгдэхүүн Тайлбар','Уран Бичвэр','Товч Намтар (CV)','Бусад'];
-  videoNames : Array<string> = ['Киноны Трейлер','Видео Тоглоомны Трейлер','Видео Эвлүүлэг','Богино Хэмжээний Зар Сурталчилгаа','3Д Хүүхэлдэйн Кино','VFX','2Д Хүүхэлдэйн Кино','Бусад'];
-  programmingNames : Array<string> = ['Вэб Сайт Програмчлал','Хөөрөлдөгч Бот','Видео Тоглоом Хөгжүүлэх','Гар Утасны АПП Програмчлал','WordPress','Мэдээлэл Судлал & Тайлан','Цахим Аюулгуй Байдал','Бусад'];
-  otherNames : Array<string> = ['Дасгал & Хоол Тэжээл Зөвлөгөө','Санхүүгийн Зөвлөгөө','Сэтгэл Зүйн Эмчилгээ','Бусад'];
+  graphicDesignNames: Array<string> = ['Хүүхэлдэйн Кино & Комик Сэтгүүл', '3Д Модель Дүр & Бүдээгтхүүн Дизайн', 'Вэб Дизайн', 'Урилга & Бизнес Карт', 'Тоглоом Дизайн', 'Хүрээлэн Буй Орчин', 'Зар Суртчилгаа', 'Photoshop Эвлүүлэг', 'Лого Дизайн', 'Ном & Цомог Хавтас', 'Инфограпик', 'Архитектур', 'Бусад'];
+  marketingNames: Array<string> = ['Эмэйл Маркетинг', 'Вэб Сайт Хөдөлгөөн Ихэсгэх', 'Инфлүнсэр Маркетинг', 'Видео Маркетинг', 'SEO', 'Сошиал Мэдиа Маркетинг', 'Бусад'];
+  soundNames: Array<string> = ['Хөгжим Найруулагч & Зохиолч', 'SFX', 'Дуу Оруулаг', 'Дуучин', 'Бусад'];
+  writingNames: Array<string> = ['Сэтгүүл & Блог', 'Хяналтын Уншилт & Засах', 'Гадааг Хэл Орчуулагa', 'Хууль Бичвэр', 'Техникийн Бичвэр', 'Бүтээгдэхүүн Тайлбар', 'Уран Бичвэр', 'Товч Намтар (CV)', 'Бусад'];
+  videoNames: Array<string> = ['Киноны Трейлер', 'Видео Тоглоомны Трейлер', 'Видео Эвлүүлэг', 'Богино Хэмжээний Зар Сурталчилгаа', '3Д Хүүхэлдэйн Кино', 'VFX', '2Д Хүүхэлдэйн Кино', 'Бусад'];
+  programmingNames: Array<string> = ['Вэб Сайт Програмчлал', 'Хөөрөлдөгч Бот', 'Видео Тоглоом Хөгжүүлэх', 'Гар Утасны АПП Програмчлал', 'WordPress', 'Мэдээлэл Судлал & Тайлан', 'Цахим Аюулгуй Байдал', 'Бусад'];
+  otherNames: Array<string> = ['Дасгал & Хоол Тэжээл Зөвлөгөө', 'Санхүүгийн Зөвлөгөө', 'Сэтгэл Зүйн Эмчилгээ', 'Бусад'];
 
-  checkedProfessions : Array<string> = [];
+  checkedProfessions: Array<string> = [];
   currentYear = new Date().getFullYear();
   howManyYears = 50;
   professionText = "График Дизайн";
@@ -33,7 +33,9 @@ export class ProfessionalInfoComponent implements OnInit {
   //Default is graphic design
   selectedProfession: string = "График Дизайн";
   counter: number = 0;
-  constructor(private sellerService : SellerSetUpService) { }
+
+  @ViewChild('scrollEl') scrollEl: ElementRef;
+  constructor(private sellerService: SellerSetUpService) { }
 
   ngOnInit(): void {
     this.professionalForm = new FormGroup({
@@ -83,12 +85,16 @@ export class ProfessionalInfoComponent implements OnInit {
       }
     } else if (this.counter > 0) {
       this.counter--;
-    } else if (this.counter === 0) {
-      // ERROR NO OCCUPATION SELECTED
     }
   }
   onSubmit() {
-    this.sellerService.getProfessionalInfo(this.selectedProfession,this.checkedProfessions,this.selectedFromYear,this.selectedToYear);
-    this.sellerService.getSellerFormInfo();
+    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions == null) {
+      window.scrollTo(0, 0);
+    } else if (true) {
+      this.scrollEl.nativeElement.scrollIntoView(true);
+    } else {
+      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear);
+      this.sellerService.getSellerFormInfo();
+    }
   }
 }
