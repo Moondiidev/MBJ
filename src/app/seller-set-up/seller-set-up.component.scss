@@ -23,7 +23,8 @@ $tick-color : #d7fbe8;
     margin-bottom: 6rem;
     &__nav{
         display: flex;
-        justify-content: center;
+        margin: 0 auto;
+        width: max-content;
     }
 }
 .step{
@@ -32,8 +33,10 @@ $tick-color : #d7fbe8;
     background: none;
     display: flex;
     align-items: center;
-    margin-right: 4rem;
     cursor: pointer;
+    &:not(:last-of-type){
+        margin-right: 4rem;
+    }
     &__order{
         width: 4rem;
         height: 4rem;

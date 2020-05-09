@@ -7,6 +7,7 @@ import { Injectable, OnInit } from '@angular/core';
 export class SellerSetUpService implements OnInit {
   navNum = new Subject<number>();
   personalFormValid = new Subject<boolean>();
+  professionalModel;
   constructor() { }
   ngOnInit(){}
   

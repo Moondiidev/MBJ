@@ -4,7 +4,7 @@ export class SellerModel{
         public firstname: string,
         public lastname: string,
         public personalDescription: string,
-        public profession: string,
+        public profession: Array<string>,
         public professionFromYear: string,
         public professionToYear: string,
         ){}
