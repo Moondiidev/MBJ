@@ -43,9 +43,6 @@ export class ProfessionalInfoComponent implements OnInit {
     this.fillFromYears();
   }
 
-  onSubmit() {
-
-  }
   onSelectProfession(profession: string) {
     this.professionText = profession;
     this.selectedProfession = profession;
@@ -81,7 +78,6 @@ export class ProfessionalInfoComponent implements OnInit {
       if (this.counter < 5) {
         this.checkedProfessions[this.counter] = event.target.value;
         this.counter++;
-        this.createProfession();
       } else {
         event.target.checked = false;
       }
@@ -91,9 +87,8 @@ export class ProfessionalInfoComponent implements OnInit {
       // ERROR NO OCCUPATION SELECTED
     }
   }
-  createProfession(){
-    const newProfession = new ProfessionalModel(this.selectedProfession,this.checkedProfessions,this.selectedFromYear,this.selectedToYear);
-    this.sellerService.professionalModel = newProfession;
-    console.log(this.sellerService.professionalModel);
+  onSubmit() {
+    this.sellerService.getProfessionalInfo(this.selectedProfession,this.checkedProfessions,this.selectedFromYear,this.selectedToYear);
+    this.sellerService.getSellerFormInfo();
   }
 }

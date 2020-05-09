@@ -11,14 +11,14 @@
       </div>
       <div class="inputs__right">
         <div class="input-lane" formGroupName="profession">
-          <button class="dropdown dropdown--lg" appDropDown>
+          <button type = "button" class="dropdown dropdown--lg" appDropDown>
             <div class="dropdown__btn">{{professionText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
               <li class="dropdown__options__el" *ngFor="let profession of professions"
                 (click)="onSelectProfession(profession)">{{profession}}</li>
             </ul>
           </button>
-          <button class="dropdown" appDropDown>
+          <button type = "button"class="dropdown" appDropDown>
             <div class="dropdown__btn">{{fromYearText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
               <li class="dropdown__options__el" *ngFor="let fromYear of fromYears; let i = index "
@@ -26,7 +26,7 @@
             </ul>
           </button>
           <label class="labelText">Оноос</label>
-          <button class="dropdown" appDropDown>
+          <button type = "button" class="dropdown" appDropDown>
             <div class="dropdown__btn">{{toYearText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
               <li class="dropdown__options__el" *ngFor="let toYear of toYears" (click)="onSelectToYear(toYear)">
@@ -330,7 +330,7 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-green btn-next" [disabled]="!professionalForm.valid">Үргэлжлүүлэх</button>
+    <button type="submit" class="btn btn-green btn-next" [disabled]="!professionalForm.valid">Дуусгах</button>
   </form>
 </div>
 <ng-template #imagePlaceholder>
