@@ -34,6 +34,8 @@ export class ProfessionalInfoComponent implements OnInit {
   selectedProfession: string = "График Дизайн";
   counter: number = 0;
   skills: Array<{ name: string, experienceLevel: string }> = [];
+  certifications: Array<{ name: string, giver: string, year: number }> = [];
+
   @ViewChild('scrollEl') scrollEl: ElementRef;
   constructor(private sellerService: SellerSetUpService) { }
 
@@ -42,6 +44,11 @@ export class ProfessionalInfoComponent implements OnInit {
       'skills': new FormGroup({
         'skillName': new FormControl(null, Validators.required),
         'skillLevel': new FormControl(0, Validators.required)
+      }),
+      'certifications': new FormGroup({
+        'certificateName': new FormControl(null),
+        'certificateGiver': new FormControl(null),
+        'certificateYear': new FormControl(0)
       })
     })
     this.fillFromYears();
@@ -95,13 +102,19 @@ export class ProfessionalInfoComponent implements OnInit {
       console.log(this.skills);
     }
   }
+  addCertification() {
+    if (this.professionalForm.get('certifications').valid) {
+      this.certifications.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
+      console.log(this.certifications);
+    }
+  }
   onSubmit() {
     if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
       window.scrollTo(0, 0);
     } else if (true) {
       this.scrollEl.nativeElement.scrollIntoView(true);
     } else {
-      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills);
+      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.certifications);
       this.sellerService.getSellerFormInfo();
     }
   }

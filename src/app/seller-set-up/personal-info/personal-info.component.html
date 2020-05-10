@@ -7,7 +7,7 @@
   <form class="setUpForm" [formGroup] = "personalForm" (ngSubmit) = "onSubmit()">
     <div class="inputs">
       <div class="inputs__left">
-        <h2 class="setUpText">Профиль зураг</h2>
+        <h2 class="setUpText setUpText--required">Профиль зураг</h2>
       </div>
       <div class="inputs__right">
         <div class="imgDropbox">
@@ -21,7 +21,7 @@
     </div>
     <div class="inputs">
       <div class="inputs__left">
-        <label class="setUpText" for="fullName">Бүтэн нэр</label>
+        <label class="setUpText setUpText--required" for="fullName">Бүтэн нэр</label>
         <span class="paragraph margin-left-tiny">Нууцлагдмал</span>
       </div>
       <div formGroupName = "name" class="inputs__right">
@@ -32,7 +32,7 @@
     </div>
     <div class="inputs">
       <div class="inputs__left">
-        <label class="setUpText" for="description">Хувийн тайлбар</label>
+        <label class="setUpText setUpText--required" for="description">Хувийн тайлбар</label>
       </div>
       <div class="inputs__right">
         <textarea formControlName = "description" [(ngModel)]="noOfChar" ng-trim="false" name="description" class="textboxInput" minlength="100"

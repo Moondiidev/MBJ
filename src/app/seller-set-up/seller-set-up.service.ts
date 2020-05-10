@@ -25,8 +25,8 @@ export class SellerSetUpService implements OnInit {
   getPersonalInfo(profileImage, firstName, lastName, description){
     this.personalModel = new PersonalModel(profileImage, firstName, lastName, description);
   }
-  getProfessionalInfo(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills){
-    this.professionalModel = new ProfessionalModel(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills);
+  getProfessionalInfo(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,certifications){
+    this.professionalModel = new ProfessionalModel(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,certifications);
   }
   getSellerFormInfo(){
     this.sellerModel = {...this.personalModel, ...this.professionalModel};
