@@ -88,7 +88,7 @@ export class ProfessionalInfoComponent implements OnInit {
     }
   }
   onSubmit() {
-    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions == null) {
+    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
       window.scrollTo(0, 0);
     } else if (true) {
       this.scrollEl.nativeElement.scrollIntoView(true);
