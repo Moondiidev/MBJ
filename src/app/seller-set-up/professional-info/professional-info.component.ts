@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SellerSetUpService } from '../seller-set-up.service';
 
 @Component({
@@ -33,14 +33,16 @@ export class ProfessionalInfoComponent implements OnInit {
   //Default is graphic design
   selectedProfession: string = "График Дизайн";
   counter: number = 0;
-
+  skills: Array<{ name: string, experienceLevel: string }> = [];
   @ViewChild('scrollEl') scrollEl: ElementRef;
   constructor(private sellerService: SellerSetUpService) { }
 
   ngOnInit(): void {
     this.professionalForm = new FormGroup({
-      'profession': new FormControl(null),
-      'subProfession': new FormControl(null),
+      'skills': new FormGroup({
+        'skillName': new FormControl(null, Validators.required),
+        'skillLevel': new FormControl(0, Validators.required)
+      })
     })
     this.fillFromYears();
   }
@@ -87,13 +89,19 @@ export class ProfessionalInfoComponent implements OnInit {
       this.counter--;
     }
   }
+  addSkill() {
+    if (this.professionalForm.get('skills').valid) {
+      this.skills.push({ name: this.professionalForm.get('skills.skillName').value, experienceLevel: this.professionalForm.get('skills.skillLevel').value });
+      console.log(this.skills);
+    }
+  }
   onSubmit() {
     if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
       window.scrollTo(0, 0);
     } else if (true) {
       this.scrollEl.nativeElement.scrollIntoView(true);
     } else {
-      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear);
+      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills);
       this.sellerService.getSellerFormInfo();
     }
   }

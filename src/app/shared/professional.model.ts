@@ -4,5 +4,6 @@ export class ProfessionalModel{
         public professionSkills: Array<string>,
         public fromYear: number,
         public toYear: number,
+        public skills: Array<{name: string, experienceLevel: string}>,
         ){}
 }

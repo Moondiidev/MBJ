@@ -11,7 +11,7 @@
         <label class="setUpText" for="profession">Таны Мэргэжил</label>
       </div>
       <div class="inputs__right">
-        <div class="input-lane" formGroupName="profession">
+        <div class="input-lane">
           <button type="button" class="dropdown dropdown--lg" appDropDown>
             <div class="dropdown__btn">{{professionText}}</div>
             <ul class="dropdown__options animated zoomIn evenFaster">
@@ -389,6 +389,26 @@
         <label class="setUpText" for="skills">Чадварууд</label>
       </div>
       <div class="inputs__right">
+        <div class="form-ashen">
+          <div class="skills" formGroupName = "skills">
+            <div class="form-ashen-wrapper">
+              <div class="form-ashen-row">
+                <div class="textInput-wrapper">
+                  <input type="text" formControlName = "skillName" class="textInput"  placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
+                </div>
+                <select class="form-ashen__select" formControlName = "skillLevel">
+                  <option value="0" disabled selected hidden>Мэдлэгийн Шат</option>
+                  <option value="beginner">Анхан</option>
+                  <option value="intermediate">Дунд</option>
+                  <option value="advanced">Гүнзгий</option>
+                </select>
+              </div>
+              <div class="form-ashen-row">
+                <button type="button" class="form-ashen form-ashen__addBtn" (click) = "addSkill()">Нэмэх</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
