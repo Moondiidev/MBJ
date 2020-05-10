@@ -5,6 +5,7 @@ export class ProfessionalModel{
         public fromYear: number,
         public toYear: number,
         public skills: Array<{name: string, experienceLevel: string}>,
-        public certifications: Array<{name: string, giver: string, year: number}>,
+        public educations: Array<{universityName: string, major: string, country: string, title: string, graduationYear: number}>,
+        public certifications: Array<{country: string, giver: string, year: number}>
         ){}
 }

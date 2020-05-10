@@ -23,6 +23,10 @@ input::placeholder,
 select{
     color: rgb(121, 121, 121);
 }
+select{
+    font-size: 1.2rem;
+    border-radius: 2px;
+}
 html {
     scroll-behavior: smooth;
     color: #424242;

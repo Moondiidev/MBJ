@@ -34,7 +34,7 @@ export class ProfessionalInfoComponent implements OnInit {
   selectedProfession: string = "График Дизайн";
   counter: number = 0;
   skills: Array<{ name: string, experienceLevel: string }> = [];
-  certifications: Array<{ name: string, giver: string, year: number }> = [];
+  educations: Array<{universityName: string, major: string, country: string, title: string, graduationYear: number}> = [];  certifications: Array<{ name: string, giver: string, year: number }> = [];
 
   @ViewChild('scrollEl') scrollEl: ElementRef;
   constructor(private sellerService: SellerSetUpService) { }
@@ -44,6 +44,13 @@ export class ProfessionalInfoComponent implements OnInit {
       'skills': new FormGroup({
         'skillName': new FormControl(null, Validators.required),
         'skillLevel': new FormControl(0, Validators.required)
+      }),
+      'educations': new FormGroup({
+        'universityName': new FormControl(null),
+        'major': new FormControl(null),
+        'country': new FormControl(0),
+        'title': new FormControl(0),
+        'graduationYear': new FormControl(0)
       }),
       'certifications': new FormGroup({
         'certificateName': new FormControl(null),
@@ -102,11 +109,26 @@ export class ProfessionalInfoComponent implements OnInit {
       console.log(this.skills);
     }
   }
+  addEducation() {
+    if (this.validateEducation()) {
+      this.educations.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value,graduationYear: this.professionalForm.get('educations.graduationYear').value });
+      console.log(this.educations);
+    }
+  }
+  validateEducation() {
+    const valid = this.professionalForm.get('educations.universityName').value != null && this.professionalForm.get('educations.major').value != null && this.professionalForm.get('educations.country').value != 0 && this.professionalForm.get('educations.title').value != 0 && this.professionalForm.get('educations.graduationYear').value != 0;
+    return valid;
+  }
   addCertification() {
-    if (this.professionalForm.get('certifications').valid) {
+    // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
+    if (this.validateCertification()) {
       this.certifications.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
       console.log(this.certifications);
     }
+  }
+  validateCertification() {
+    const valid = this.professionalForm.get('certifications.certificateName').value != null && this.professionalForm.get('certifications.certificateGiver').value != null && this.professionalForm.get('certifications.certificateYear').value != 0;
+    return valid;
   }
   onSubmit() {
     if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
@@ -114,7 +136,7 @@ export class ProfessionalInfoComponent implements OnInit {
     } else if (true) {
       this.scrollEl.nativeElement.scrollIntoView(true);
     } else {
-      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.certifications);
+      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
       this.sellerService.getSellerFormInfo();
     }
   }
