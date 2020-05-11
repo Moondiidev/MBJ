@@ -417,11 +417,11 @@
         <label class="setUpText">Боловсрол</label>
       </div>
       <div class="inputs__right">
-        <div class="form-ashen" >
-          <div class="educations" formGroupName = "educations">
+        <div class="form-ashen">
+          <div class="educations" formGroupName="educations">
             <div class="form-ashen-wrapper">
               <div class="form-ashen-row">
-                <select class="form-ashen__select" formControlName = "country">
+                <select class="form-ashen__select" formControlName="country">
                   <option value="0" disabled selected hidden>Их Сургуулийн Орших Улс</option>
                   <option value="af">Afghanistan</option>
                   <option value="ax">Åland Islands</option>
@@ -684,8 +684,7 @@
                   <option value="zw">Zimbabwe</option>
                 </select>
                 <div class="textInput-wrapper">
-                  <input type="text" formControlName="universityName" class="textInput"
-                    placeholder="Их Сургуулийн Нэр">
+                  <input type="text" formControlName="universityName" class="textInput" placeholder="Их Сургуулийн Нэр">
                 </div>
               </div>
               <div class="form-ashen-row">
@@ -710,8 +709,7 @@
                   <option value="other">Other</option>
                 </select>
                 <div class="textInput-wrapper">
-                  <input type="text" formControlName="major" class="textInput"
-                    placeholder="Үндсэн Мэргэжил">
+                  <input type="text" formControlName="major" class="textInput" placeholder="Үндсэн Мэргэжил">
                 </div>
                 <select class="form-ashen__select form-ashen__select--gradYear" formControlName="graduationYear">
                   <option value="0" disabled selected hidden>Төгссөн Жил</option>
@@ -772,6 +770,26 @@
                 <button type="button" class="form-ashen form-ashen__addBtn" (click)="addEducation()">Нэмэх</button>
               </div>
             </div>
+            <table class="form-ashen__table">
+              <thead class="form-ashen__table__head">
+                <tr>
+                  <th class="form-ashen__table__mdRow">Bryh</th>
+                  <th class="form-ashen__table__mdRow">Bryh</th>
+                  <th class="form-ashen__table__smRow">
+                    <button type="button" class="form-ashen__table__btn">Шинэ</button> </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>yep</td>
+                  <td>cock</td>
+                  <td>
+                    <div class="animated">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -786,8 +804,7 @@
             <div class="form-ashen-wrapper">
               <div class="form-ashen-row">
                 <div class="textInput-wrapper">
-                  <input type="text" formControlName="certificateName" class="textInput"
-                    placeholder="Сертификатны Нэр">
+                  <input type="text" formControlName="certificateName" class="textInput" placeholder="Сертификатны Нэр">
                 </div>
                 <div class="textInput-wrapper">
                   <input type="text" formControlName="certificateGiver" class="textInput"

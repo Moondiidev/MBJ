@@ -142,12 +142,13 @@ $font-colorSecondary: #778DA9;
     margin-top: 32px;
 }
 .footer{
-    color: $font-colorPrimary;
     display: flex;
     width: 100%;
     justify-content: space-between;
     font-size: 1.6rem;
-
+    p{
+        color: $font-colorPrimary;
+    }
     &__left,
     &__right{
         display: flex;
