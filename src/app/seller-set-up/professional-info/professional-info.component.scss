@@ -130,7 +130,9 @@ $border-color: #8a8a8aa6;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-
+    &--center{
+        justify-content: center;
+    }
     &:not(:last-of-type) {
       margin-bottom: 1rem;
     }
@@ -140,8 +142,7 @@ $border-color: #8a8a8aa6;
   .textInput-wrapper {
     padding: 0.5rem 1rem;
   }
-
-  &__addBtn {
+  &__btn{
     font-weight: 500;
     display: inline-block;
     padding: 0.5rem 1.5rem;
@@ -149,16 +150,24 @@ $border-color: #8a8a8aa6;
     border: 1px solid $border-color;
     border-radius: 2px;
     cursor: pointer;
-    background-color: #3ba549;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);
     transition: 0.2s;
+  }
+  &__addBtn {
+    margin-left: 2rem;
+    background-color: #3ba549;
     color: white;
-
     &:hover {
       background-color: #2cb14d;
     }
   }
-
+  &__removeBtn{
+    background-color: #a5423b;
+    color: white;
+    &:hover {
+      background-color: #c03530;
+    }
+  }
   &__select {
     width: 40%;
     -webkit-appearance: none;

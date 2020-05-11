@@ -391,7 +391,7 @@
       <div class="inputs__right">
         <div class="form-ashen">
           <div class="skills" formGroupName="skills">
-            <div class="form-ashen-wrapper">
+            <div class="form-ashen-wrapper" *ngIf = "showSkills">
               <div class="form-ashen-row">
                 <div class="textInput-wrapper">
                   <input type="text" formControlName="skillName" class="textInput"
@@ -404,10 +404,23 @@
                   <option value="advanced">Гүнзгий</option>
                 </select>
               </div>
-              <div class="form-ashen-row">
-                <button type="button" class="form-ashen form-ashen__addBtn" (click)="addSkill()">Нэмэх</button>
+              <div class="form-ashen-row form-ashen-row--center">
+                <button type="button" class="form-ashen__btn form-ashen__removeBtn" (click)="removeSkillsForm()">Болих</button>
+                <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()">Нэмэх</button>
               </div>
             </div>
+            <table class="form-ashen__table">
+              <thead class="form-ashen__table__head" *ngIf = "!skillsEmpty">
+                <tr>
+                  <th class="form-ashen__table__mdRow">Чадвар</th>
+                  <th class="form-ashen__table__mdRow">Зэрэглэл</th>
+                  <th class="form-ashen__table__smRow">
+                    <button type="button" class="form-ashen__table__btn" (click)="showSkillsForm()">Шинэ</button> </th>
+                </tr>
+              </thead>
+              <tbody #skillsTable>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -419,7 +432,7 @@
       <div class="inputs__right">
         <div class="form-ashen">
           <div class="educations" formGroupName="educations">
-            <div class="form-ashen-wrapper">
+            <div class="form-ashen-wrapper" *ngIf = "showEducations">
               <div class="form-ashen-row">
                 <select class="form-ashen__select" formControlName="country">
                   <option value="0" disabled selected hidden>Их Сургуулийн Орших Улс</option>
@@ -766,20 +779,21 @@
                   <option value="1970">1970</option>
                 </select>
               </div>
-              <div class="form-ashen-row">
-                <button type="button" class="form-ashen form-ashen__addBtn" (click)="addEducation()">Нэмэх</button>
+              <div class="form-ashen-row form-ashen-row--center">
+                <button type="button" class="form-ashen__btn form-ashen__removeBtn" (click)="removeEducationsForm()">Болих</button>
+                <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()">Нэмэх</button>
               </div>
             </div>
             <table class="form-ashen__table">
-              <thead class="form-ashen__table__head" *ngIf = "!educationEmpty">
+              <thead class="form-ashen__table__head" *ngIf = "!educationsEmpty">
                 <tr>
                   <th class="form-ashen__table__mdRow">Эрдмийн Зэрэг</th>
                   <th class="form-ashen__table__mdRow">Төгссөн Жил</th>
                   <th class="form-ashen__table__smRow">
-                    <button type="button" class="form-ashen__table__btn">Шинэ</button> </th>
+                    <button type="button" class="form-ashen__table__btn" (click)="showEducationsForm()">Шинэ</button> </th>
                 </tr>
               </thead>
-              <tbody #educationTable>
+              <tbody #educationsTable>
               </tbody>
             </table>
           </div>
@@ -793,7 +807,7 @@
       <div class="inputs__right">
         <div class="form-ashen">
           <div class="certifications" formGroupName="certifications">
-            <div class="form-ashen-wrapper">
+            <div class="form-ashen-wrapper" *ngIf = "showCertifications">
               <div class="form-ashen-row">
                 <div class="textInput-wrapper">
                   <input type="text" formControlName="certificateName" class="textInput" placeholder="Сертификатны Нэр">
@@ -857,10 +871,23 @@
                   <option value="1970">1970</option>
                 </select>
               </div>
-              <div class="form-ashen-row">
-                <button type="button" class="form-ashen form-ashen__addBtn" (click)="addCertification()">Нэмэх</button>
+              <div class="form-ashen-row form-ashen-row--center">
+                <button type="button" class="form-ashen__btn form-ashen__removeBtn" (click)="removeCertificationsForm()">Болих</button>
+                <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()">Нэмэх</button>
               </div>
             </div>
+            <table class="form-ashen__table">
+              <thead class="form-ashen__table__head" *ngIf = "!certificationsEmpty">
+                <tr>
+                  <th class="form-ashen__table__mdRow">Сертификат</th>
+                  <th class="form-ashen__table__mdRow">Жил</th>
+                  <th class="form-ashen__table__smRow">
+                    <button type="button" class="form-ashen__table__btn" (click)="showCertificationsForm()">Шинэ</button> </th>
+                </tr>
+              </thead>
+              <tbody #certificationsTable>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
