@@ -771,23 +771,15 @@
               </div>
             </div>
             <table class="form-ashen__table">
-              <thead class="form-ashen__table__head">
+              <thead class="form-ashen__table__head" *ngIf = "!educationEmpty">
                 <tr>
-                  <th class="form-ashen__table__mdRow">Bryh</th>
-                  <th class="form-ashen__table__mdRow">Bryh</th>
+                  <th class="form-ashen__table__mdRow">Эрдмийн Зэрэг</th>
+                  <th class="form-ashen__table__mdRow">Төгссөн Жил</th>
                   <th class="form-ashen__table__smRow">
                     <button type="button" class="form-ashen__table__btn">Шинэ</button> </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>yep</td>
-                  <td>cock</td>
-                  <td>
-                    <div class="animated">
-                    </div>
-                  </td>
-                </tr>
+              <tbody #educationTable>
               </tbody>
             </table>
           </div>

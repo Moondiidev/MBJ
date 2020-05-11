@@ -34,9 +34,10 @@ export class ProfessionalInfoComponent implements OnInit {
   selectedProfession: string = "График Дизайн";
   counter: number = 0;
   skills: Array<{ name: string, experienceLevel: string }> = [];
-  educations: Array<{universityName: string, major: string, country: string, title: string, graduationYear: number}> = [];  certifications: Array<{ name: string, giver: string, year: number }> = [];
-
+  educations: Array<{ universityName: string, major: string, country: string, title: string, graduationYear: number }> = []; certifications: Array<{ name: string, giver: string, year: number }> = [];
+  educationEmpty: boolean = true;
   @ViewChild('scrollEl') scrollEl: ElementRef;
+  @ViewChild('educationTable') educationTableHtml: ElementRef;
   constructor(private sellerService: SellerSetUpService) { }
 
   ngOnInit(): void {
@@ -111,7 +112,21 @@ export class ProfessionalInfoComponent implements OnInit {
   }
   addEducation() {
     if (this.validateEducation()) {
-      this.educations.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value,graduationYear: this.professionalForm.get('educations.graduationYear').value });
+      this.educations.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value, graduationYear: this.professionalForm.get('educations.graduationYear').value });
+      this.educationEmpty = false;
+      this.educationTableHtml.nativeElement.insertAdjacentHTML('beforeend', 
+      `                 
+    <tr>
+      <td>${this.professionalForm.get('educations.major').value}</td>
+      <td>${this.professionalForm.get('educations.graduationYear').value}</td>
+      <td>
+        <div class="editBtns">
+          <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+          <button type="button" class="edit"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
+        </div>
+      </td>
+    </tr>
+      `);
       console.log(this.educations);
     }
   }

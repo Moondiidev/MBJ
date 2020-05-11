@@ -2,7 +2,6 @@ import { PersonalModel } from './../shared/personal.model';
 import { ProfessionalModel } from 'src/app/shared/professional.model';
 import { Subject } from 'rxjs';
 import { Injectable, OnInit } from '@angular/core';
-import { SellerModel } from '../shared/seller.model';
 
 @Injectable({
   providedIn: 'root'

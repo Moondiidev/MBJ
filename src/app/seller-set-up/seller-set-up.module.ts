@@ -8,6 +8,7 @@ import { ProfessionalInfoComponent } from './professional-info/professional-info
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireStorageModule} from "angularfire2/storage";
 import { DropdownDirective } from '../shared/dropdown.directive';
+
 @NgModule({
     declarations: [
         SellerSetUpComponent,
