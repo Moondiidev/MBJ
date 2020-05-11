@@ -19,11 +19,10 @@ $border-color: #8a8a8aa6;
   &--lg {
     max-width: 220px;
   }
-
   &__btn {
-    text-align: left;
     font-size: 1.4rem;
-    font-weight: 400;
+    font-weight: 500;
+    text-align: left;
     padding: 1.2rem;
     border: 1px solid $border-color;
     border-radius: 2px;
@@ -69,7 +68,10 @@ $border-color: #8a8a8aa6;
     }
   }
 }
-
+select{
+    font-size: 1.4rem;
+    font-weight: lighter;
+  }
 .ddOpen {
   >.dropdown__options {
     display: block;
@@ -191,9 +193,11 @@ $border-color: #8a8a8aa6;
       width: 20%;
     }
 
-    &--gradYear,
     &--certificate {
       width: 30%;
+    }
+    &--gradYear{
+        width: 35%;
     }
   }
 

@@ -36,7 +36,7 @@ export class ProfessionalInfoComponent implements OnInit {
   counter: number = 0;
   skills: Array<{ name: string, experienceLevel: string }> = [];
   educations: Array<{ universityName: string, major: string, country: string, title: string, graduationYear: number }> = []; certifications: Array<{ name: string, giver: string, year: number }> = [];
-  
+
   educationsEmpty: boolean = true;
   skillsEmpty: boolean = true;
   certificationsEmpty: boolean = true;
@@ -124,9 +124,9 @@ export class ProfessionalInfoComponent implements OnInit {
   addSkill() {
     if (this.professionalForm.get('skills').valid) {
       this.skills.push({ name: this.professionalForm.get('skills.skillName').value, experienceLevel: this.professionalForm.get('skills.skillLevel').value });
-      
-      this.skillsTableHtml.nativeElement.insertAdjacentHTML('beforeend', 
-      `                 
+
+      this.skillsTableHtml.nativeElement.insertAdjacentHTML('beforeend',
+        `                 
     <tr>
       <td>${this.professionalForm.get('skills.skillName').value}</td>
       <td>${this.professionalForm.get('skills.skillLevel').value}</td>
@@ -139,28 +139,30 @@ export class ProfessionalInfoComponent implements OnInit {
     </tr>
       `);
 
-      if(this.skillsEmpty){
+      if (this.skillsEmpty) {
         this.skillsEmpty = false;
       }
       console.log(this.skills);
     }
   }
-  removeSkillsForm(){
-    this.showSkills = false;
-    this.resetSkillsForm();
+  removeSkillsForm() {
+    if (!this.skillsEmpty) {
+      this.showSkills = false;
+      this.resetSkillsForm();
+    }
   }
-  showSkillsForm(){
+  showSkillsForm() {
     this.showSkills = true;
   }
-  resetSkillsForm(){
+  resetSkillsForm() {
     this.professionalForm.get('skills.skillName').setValue(null);
     this.professionalForm.get('skills.skillLevel').setValue(0);
   }
   addEducation() {
     if (this.validateEducation()) {
       this.educations.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value, graduationYear: this.professionalForm.get('educations.graduationYear').value });
-      this.educationsTableHtml.nativeElement.insertAdjacentHTML('beforeend', 
-      `                 
+      this.educationsTableHtml.nativeElement.insertAdjacentHTML('beforeend',
+        `                 
     <tr>
       <td>${this.professionalForm.get('educations.major').value}</td>
       <td>${this.professionalForm.get('educations.graduationYear').value}</td>
@@ -172,20 +174,22 @@ export class ProfessionalInfoComponent implements OnInit {
       </td>
     </tr>
       `);
-      if(this.educationsEmpty){
+      if (this.educationsEmpty) {
         this.educationsEmpty = false;
       }
       console.log(this.educations);
     }
   }
-  removeEducationsForm(){
-    this.showEducations = false;
-    this.resetEducationsForm();
+  removeEducationsForm() {
+    if (!this.educationsEmpty) {
+      this.showEducations = false;
+      this.resetEducationsForm();
+    }
   }
-  showEducationsForm(){
+  showEducationsForm() {
     this.showEducations = true;
   }
-  resetEducationsForm(){
+  resetEducationsForm() {
     this.professionalForm.get('educations.universityName').setValue(null);
     this.professionalForm.get('educations.major').setValue(null);
     this.professionalForm.get('educations.country').setValue(0);
@@ -200,8 +204,8 @@ export class ProfessionalInfoComponent implements OnInit {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
     if (this.validateCertification()) {
       this.certifications.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
-      this.certificationsTableHtml.nativeElement.insertAdjacentHTML('beforeend', 
-      `                 
+      this.certificationsTableHtml.nativeElement.insertAdjacentHTML('beforeend',
+        `                 
     <tr>
       <td>${this.professionalForm.get('certifications.certificateName').value}</td>
       <td>${this.professionalForm.get('certifications.certificateYear').value}</td>
@@ -213,20 +217,22 @@ export class ProfessionalInfoComponent implements OnInit {
       </td>
     </tr>
       `);
-      if(this.certificationsEmpty){
+      if (this.certificationsEmpty) {
         this.certificationsEmpty = false;
       }
       console.log(this.certifications);
     }
   }
-  removeCertificationsForm(){
-    this.showCertifications = false;
-    this.resetCertificationsForm();
+  removeCertificationsForm() {
+    if (!this.certificationsEmpty) {
+      this.showCertifications = false;
+      this.resetCertificationsForm();
+    }
   }
-  showCertificationsForm(){
+  showCertificationsForm() {
     this.showCertifications = true;
   }
-  resetCertificationsForm(){
+  resetCertificationsForm() {
     this.professionalForm.get('certifications.certificateName').setValue(null);
     this.professionalForm.get('certifications.certificateGiver').setValue(null);
     this.professionalForm.get('certifications.certificateYear').setValue(0);
