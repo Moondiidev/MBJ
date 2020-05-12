@@ -46,15 +46,26 @@ export class ProfessionalInfoComponent implements OnInit {
   @ViewChild('educationsTable') educationsTableHtml: ElementRef;
   @ViewChild('certificationsTable') certificationsTableHtml: ElementRef;
 
-  skillsContent;
-  educationsContent;
-  certificationsContent = [];
-  certificationDelete = [];
+  skillCounter: number = 0;
+  skillSecondCounter: number = 0;
+  skillTracker: number = 0;
+  skillSorter: Array<number> = [];
+  skillContent = [];
+  skillDelete = [];
+
+  educationCounter: number = 0;
+  educationSecondCounter: number = 0;
+  educationTracker: number = 0;
+  educationSorter: Array<number> = [];
+  educationContent = [];
+  educationDelete = [];
 
   certificationCounter: number = 0;
   certificationSecondCounter: number = 0;
   certificationTracker: number = 0;
   certificationSorter: Array<number> = [];
+  certificationContent = [];
+  certificationDelete = [];
 
   showSkills: boolean = false;
   showEducations: boolean = false;
@@ -137,10 +148,10 @@ export class ProfessionalInfoComponent implements OnInit {
 
       //The first skill el doesnt have option to remove cuz skills input is required.
       let trashCanHTML = '';
-      this.skills.length === 1 ? trashCanHTML = "" : trashCanHTML = '<button type="button" class="edit" id="deleteSkill"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>';
+      this.skills.length === 1 ? trashCanHTML = "" : trashCanHTML = `<button type="button" class="edit" id = "deleteSkill${this.skillSecondCounter}" > <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt = "" > </button>`;
 
-      this.skillsContent = document.createElement('tr');
-      this.skillsContent.innerHTML =
+      this.skillContent.push(document.createElement('tr'));
+      this.skillContent[this.skillCounter].innerHTML =
         `                 
       <tr>
         <td>${this.professionalForm.get('skills.skillName').value}</td>
@@ -153,16 +164,32 @@ export class ProfessionalInfoComponent implements OnInit {
         </td>
       </tr>
       `
-      this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillsContent);
+      //skillId will always increment on new skill addition and 
+      // will fill skillSorter with unique numbers which gets sorted allowing you to know the positions of each element
+      let skillId = this.skillCounter + this.skillTracker;
+      this.skillSorter.push(skillId);
+      //Added html element needs to be stored in order to allow deletion
+      this.skillContent[this.skillCounter].setAttribute("data-elCounter", skillId);
+      this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
+      //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
+      //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
       if (this.skills.length > 1) {
-        let trashCan = document.getElementById('deleteSkill');
-        trashCan.addEventListener("click", this.removeSkillRow.bind(this));
+        this.skillDelete.push(document.getElementById(`deleteSkill${this.skillSecondCounter}`));
+        //this.skillCounter-1 cuz first el doesnt have delete btn but skillCounter is still incremented when first row is added
+        this.skillDelete[this.skillCounter-1].addEventListener("click", (event) => {
+          this.skillSorter.sort();
+          let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+          let id: number = this.skillSorter.indexOf(elId);
+          alert(id);
+          this.removeSkillRow.call(this, id);
+        });
+        this.skillSecondCounter++;
       }
 
       if (this.skillsEmpty) {
         this.skillsEmpty = false;
       }
-      console.log(this.skills);
+      this.skillCounter++;
       this.removeSkillsForm();
     }
   }
@@ -172,9 +199,22 @@ export class ProfessionalInfoComponent implements OnInit {
       this.resetSkillsForm();
     }
   }
-  removeSkillRow() {
-    this.renderer.removeChild(this.skillsTableHtml.nativeElement, this.skillsContent);
-    this.skills.pop();
+  removeSkillRow(id: number) {
+    this.skillCounter--;
+    //If item is removed before the end, add to the tracker
+    let temp = this.skills.length - 1;
+    if (id < temp) {
+      this.skillTracker++;
+    }
+    this.renderer.removeChild(this.skillsTableHtml.nativeElement, this.skillContent[id]);
+    this.skillSorter.splice(id, 1);
+    this.skills.splice(id, 1);
+    this.skillDelete.splice(id-1, 1);
+    this.skillContent.splice(id, 1);
+    if (this.skills.length <= 0) {
+      this.skillsEmpty = true;
+      this.showSkillsForm();
+    }
   }
   showSkillsForm() {
     this.showSkills = true;
@@ -186,8 +226,8 @@ export class ProfessionalInfoComponent implements OnInit {
   addEducation() {
     if (this.validateEducation()) {
       this.educations.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value, graduationYear: this.professionalForm.get('educations.graduationYear').value });
-      this.educationsContent = document.createElement('tr');
-      this.educationsContent.innerHTML =
+      this.educationContent.push(document.createElement('tr'));
+      this.educationContent[this.educationCounter].innerHTML =
         `                 
       <tr>
         <td>${this.professionalForm.get('educations.major').value}</td>
@@ -195,20 +235,32 @@ export class ProfessionalInfoComponent implements OnInit {
         <td>
           <div class="editBtns">
             <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-            <button type="button" class="edit" id="deleteEducation"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt="" "></button>
+            <button type="button" class="edit" id="deleteEducation${this.educationSecondCounter}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
           </div>
         </td>
-      </tr>
-      `
-      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationsContent);
-      let trashCan = document.getElementById('deleteEducation');
-      trashCan.addEventListener("click", this.removeEducationRow.bind(this));
-
+      `;
+      //educationId will always increment on new education addition and 
+      // will fill educationSorter with unique numbers which gets sorted allowing you to know the positions of each element
+      let educationId = this.educationCounter + this.educationTracker;
+      this.educationSorter.push(educationId);
+      //Added html element needs to be stored in order to allow deletion
+      this.educationContent[this.educationCounter].setAttribute("data-elCounter", educationId);
+      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
+      //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
+      //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
+      this.educationDelete.push(document.getElementById(`deleteEducation${this.educationSecondCounter}`));
+      this.educationDelete[this.educationCounter].addEventListener("click", (event) => {
+        this.educationSorter.sort();
+        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+        let id: number = this.educationSorter.indexOf(elId);
+        this.removeEducationRow.call(this, id);
+      });
       if (this.educationsEmpty) {
         this.educationsEmpty = false;
       }
+      this.educationCounter++;
+      this.educationSecondCounter++;
       this.removeEducationsForm();
-      console.log(this.educations);
     }
   }
   removeEducationsForm() {
@@ -217,11 +269,21 @@ export class ProfessionalInfoComponent implements OnInit {
       this.resetEducationsForm();
     }
   }
-  removeEducationRow() {
-    this.renderer.removeChild(this.educationsTableHtml.nativeElement, this.educationsContent);
-    this.educations.pop();
+  removeEducationRow(id: number) {
+    this.educationCounter--;
+    //If item is removed before the end, add to the tracker
+    let temp = this.educations.length - 1;
+    if (id < temp) {
+      this.educationTracker++;
+    }
+    this.renderer.removeChild(this.educationsTableHtml.nativeElement, this.educationContent[id]);
+    this.educationSorter.splice(id, 1);
+    this.educations.splice(id, 1);
+    this.educationDelete.splice(id, 1);
+    this.educationContent.splice(id, 1);
     if (this.educations.length <= 0) {
       this.educationsEmpty = true;
+      this.showEducationsForm();
     }
   }
   showEducationsForm() {
@@ -242,8 +304,8 @@ export class ProfessionalInfoComponent implements OnInit {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
     if (this.validateCertification()) {
       this.certifications.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
-      this.certificationsContent.push(document.createElement('tr'));
-      this.certificationsContent[this.certificationCounter].innerHTML = `                 
+      this.certificationContent.push(document.createElement('tr'));
+      this.certificationContent[this.certificationCounter].innerHTML = `                 
         <td>${this.professionalForm.get('certifications.certificateName').value}</td>
         <td>${this.professionalForm.get('certifications.certificateYear').value}</td>
         <td>
@@ -258,15 +320,15 @@ export class ProfessionalInfoComponent implements OnInit {
       let certificationId = this.certificationCounter + this.certificationTracker;
       this.certificationSorter.push(certificationId);
       //Added html element needs to be stored in order to allow deletion
-      this.certificationsContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
-      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationsContent[this.certificationCounter]);
+      this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
+      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
       //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
       //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
       this.certificationDelete.push(document.getElementById(`deleteCertification${this.certificationSecondCounter}`));
       this.certificationDelete[this.certificationCounter].addEventListener("click", (event) => {
         this.certificationSorter.sort();
-        let elId : number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-        let id : number = this.certificationSorter.indexOf(elId);
+        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+        let id: number = this.certificationSorter.indexOf(elId);
         this.removeCertificationsRow.call(this, id);
       }
       );
@@ -292,11 +354,11 @@ export class ProfessionalInfoComponent implements OnInit {
     if (id < temp) {
       this.certificationTracker++;
     }
-    this.renderer.removeChild(this.certificationsTableHtml.nativeElement, this.certificationsContent[id]);
-    this.certificationSorter.splice(id,1);
+    this.renderer.removeChild(this.certificationsTableHtml.nativeElement, this.certificationContent[id]);
+    this.certificationSorter.splice(id, 1);
     this.certifications.splice(id, 1);
     this.certificationDelete.splice(id, 1);
-    this.certificationsContent.splice(id, 1);
+    this.certificationContent.splice(id, 1);
     if (this.certifications.length <= 0) {
       this.certificationsEmpty = true;
       this.showCertificationsForm();
