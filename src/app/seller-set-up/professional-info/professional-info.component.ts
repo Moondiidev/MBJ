@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, Renderer2 } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SellerSetUpService } from '../seller-set-up.service';
@@ -46,16 +46,26 @@ export class ProfessionalInfoComponent implements OnInit {
   @ViewChild('educationsTable') educationsTableHtml: ElementRef;
   @ViewChild('certificationsTable') certificationsTableHtml: ElementRef;
 
+  skillsContent;
+  educationsContent;
+  certificationsContent = [];
+  certificationDelete = [];
+
+  certificationCounter: number = 0;
+  certificationSecondCounter: number = 0;
+  certificationTracker: number = 0;
+  certificationSorter: Array<number> = [];
+
   showSkills: boolean = false;
   showEducations: boolean = false;
   showCertifications: boolean = false;
-  constructor(private sellerService: SellerSetUpService) { }
+  constructor(private sellerService: SellerSetUpService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.professionalForm = new FormGroup({
       'skills': new FormGroup({
-        'skillName': new FormControl(null, Validators.required),
-        'skillLevel': new FormControl(0, Validators.required)
+        'skillName': new FormControl(null),
+        'skillLevel': new FormControl(0)
       }),
       'educations': new FormGroup({
         'universityName': new FormControl(null),
@@ -125,24 +135,35 @@ export class ProfessionalInfoComponent implements OnInit {
     if (this.professionalForm.get('skills').valid) {
       this.skills.push({ name: this.professionalForm.get('skills.skillName').value, experienceLevel: this.professionalForm.get('skills.skillLevel').value });
 
-      this.skillsTableHtml.nativeElement.insertAdjacentHTML('beforeend',
+      //The first skill el doesnt have option to remove cuz skills input is required.
+      let trashCanHTML = '';
+      this.skills.length === 1 ? trashCanHTML = "" : trashCanHTML = '<button type="button" class="edit" id="deleteSkill"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>';
+
+      this.skillsContent = document.createElement('tr');
+      this.skillsContent.innerHTML =
         `                 
-    <tr>
-      <td>${this.professionalForm.get('skills.skillName').value}</td>
-      <td>${this.professionalForm.get('skills.skillLevel').value}</td>
-      <td>
-        <div class="editBtns">
-          <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-          <button type="button" class="edit"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
-        </div>
-      </td>
-    </tr>
-      `);
+      <tr>
+        <td>${this.professionalForm.get('skills.skillName').value}</td>
+        <td>${this.professionalForm.get('skills.skillLevel').value}</td>
+        <td>
+          <div class="editBtns">
+            <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+            ${trashCanHTML}
+          </div>
+        </td>
+      </tr>
+      `
+      this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillsContent);
+      if (this.skills.length > 1) {
+        let trashCan = document.getElementById('deleteSkill');
+        trashCan.addEventListener("click", this.removeSkillRow.bind(this));
+      }
 
       if (this.skillsEmpty) {
         this.skillsEmpty = false;
       }
       console.log(this.skills);
+      this.removeSkillsForm();
     }
   }
   removeSkillsForm() {
@@ -150,6 +171,10 @@ export class ProfessionalInfoComponent implements OnInit {
       this.showSkills = false;
       this.resetSkillsForm();
     }
+  }
+  removeSkillRow() {
+    this.renderer.removeChild(this.skillsTableHtml.nativeElement, this.skillsContent);
+    this.skills.pop();
   }
   showSkillsForm() {
     this.showSkills = true;
@@ -161,22 +186,28 @@ export class ProfessionalInfoComponent implements OnInit {
   addEducation() {
     if (this.validateEducation()) {
       this.educations.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value, graduationYear: this.professionalForm.get('educations.graduationYear').value });
-      this.educationsTableHtml.nativeElement.insertAdjacentHTML('beforeend',
+      this.educationsContent = document.createElement('tr');
+      this.educationsContent.innerHTML =
         `                 
-    <tr>
-      <td>${this.professionalForm.get('educations.major').value}</td>
-      <td>${this.professionalForm.get('educations.graduationYear').value}</td>
-      <td>
-        <div class="editBtns">
-          <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-          <button type="button" class="edit"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
-        </div>
-      </td>
-    </tr>
-      `);
+      <tr>
+        <td>${this.professionalForm.get('educations.major').value}</td>
+        <td>${this.professionalForm.get('educations.graduationYear').value}</td>
+        <td>
+          <div class="editBtns">
+            <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+            <button type="button" class="edit" id="deleteEducation"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt="" "></button>
+          </div>
+        </td>
+      </tr>
+      `
+      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationsContent);
+      let trashCan = document.getElementById('deleteEducation');
+      trashCan.addEventListener("click", this.removeEducationRow.bind(this));
+
       if (this.educationsEmpty) {
         this.educationsEmpty = false;
       }
+      this.removeEducationsForm();
       console.log(this.educations);
     }
   }
@@ -184,6 +215,13 @@ export class ProfessionalInfoComponent implements OnInit {
     if (!this.educationsEmpty) {
       this.showEducations = false;
       this.resetEducationsForm();
+    }
+  }
+  removeEducationRow() {
+    this.renderer.removeChild(this.educationsTableHtml.nativeElement, this.educationsContent);
+    this.educations.pop();
+    if (this.educations.length <= 0) {
+      this.educationsEmpty = true;
     }
   }
   showEducationsForm() {
@@ -204,29 +242,64 @@ export class ProfessionalInfoComponent implements OnInit {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
     if (this.validateCertification()) {
       this.certifications.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
-      this.certificationsTableHtml.nativeElement.insertAdjacentHTML('beforeend',
-        `                 
-    <tr>
-      <td>${this.professionalForm.get('certifications.certificateName').value}</td>
-      <td>${this.professionalForm.get('certifications.certificateYear').value}</td>
-      <td>
-        <div class="editBtns">
-          <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-          <button type="button" class="edit"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
-        </div>
-      </td>
-    </tr>
-      `);
+      this.certificationsContent.push(document.createElement('tr'));
+      this.certificationsContent[this.certificationCounter].innerHTML = `                 
+        <td>${this.professionalForm.get('certifications.certificateName').value}</td>
+        <td>${this.professionalForm.get('certifications.certificateYear').value}</td>
+        <td>
+          <div class="editBtns">
+            <button type="button" class="edit"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+            <button type="button" class="edit" id="deleteCertification${this.certificationSecondCounter}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
+          </div>
+        </td>
+      `;
+      //certificationId will always increment on new certification addition and 
+      // will fill certificationSorter with unique numbers which gets sorted allowing you to know the positions of each element
+      let certificationId = this.certificationCounter + this.certificationTracker;
+      this.certificationSorter.push(certificationId);
+      //Added html element needs to be stored in order to allow deletion
+      this.certificationsContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
+      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationsContent[this.certificationCounter]);
+      //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
+      //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
+      this.certificationDelete.push(document.getElementById(`deleteCertification${this.certificationSecondCounter}`));
+      this.certificationDelete[this.certificationCounter].addEventListener("click", (event) => {
+        this.certificationSorter.sort();
+        let elId : number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+        let id : number = this.certificationSorter.indexOf(elId);
+        this.removeCertificationsRow.call(this, id);
+      }
+      );
+
       if (this.certificationsEmpty) {
         this.certificationsEmpty = false;
       }
-      console.log(this.certifications);
+      this.certificationCounter++;
+      this.certificationSecondCounter++;
+      this.removeCertificationsForm();
     }
   }
   removeCertificationsForm() {
     if (!this.certificationsEmpty) {
       this.showCertifications = false;
       this.resetCertificationsForm();
+    }
+  }
+  removeCertificationsRow(id: number) {
+    this.certificationCounter--;
+    //If item is removed before the end, add to the tracker
+    let temp = this.certifications.length - 1;
+    if (id < temp) {
+      this.certificationTracker++;
+    }
+    this.renderer.removeChild(this.certificationsTableHtml.nativeElement, this.certificationsContent[id]);
+    this.certificationSorter.splice(id,1);
+    this.certifications.splice(id, 1);
+    this.certificationDelete.splice(id, 1);
+    this.certificationsContent.splice(id, 1);
+    if (this.certifications.length <= 0) {
+      this.certificationsEmpty = true;
+      this.showCertificationsForm();
     }
   }
   showCertificationsForm() {
@@ -244,7 +317,7 @@ export class ProfessionalInfoComponent implements OnInit {
   onSubmit() {
     if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
       window.scrollTo(0, 0);
-    } else if (true) {
+    } else if (this.skillsEmpty) {
       this.scrollEl.nativeElement.scrollIntoView(true);
     } else {
       this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);

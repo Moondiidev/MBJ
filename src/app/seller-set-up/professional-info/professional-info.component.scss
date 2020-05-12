@@ -126,6 +126,7 @@ select{
     padding: 1.2rem;
     border: 1px solid $border-color;
     border-radius: 2px;
+    margin-bottom: 2rem;
   }
 
   &-row {
@@ -202,7 +203,6 @@ select{
   }
 
   &__table {
-    margin-top: 2rem;
     width: 100%;
     border-collapse: collapse;
     text-align: left;
