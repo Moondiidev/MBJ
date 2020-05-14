@@ -37,45 +37,47 @@ export class ProfessionalInfoComponent implements OnInit {
   skills: Array<{ name: string, experienceLevel: string }> = [];
   educations: Array<{ universityName: string, major: string, country: string, title: string, graduationYear: number }> = []; certifications: Array<{ name: string, giver: string, year: number }> = [];
 
-  educationsEmpty: boolean = true;
-  skillsEmpty: boolean = true;
-  certificationsEmpty: boolean = true;
-
   @ViewChild('scrollEl') scrollEl: ElementRef;
   @ViewChild('skillsTable') skillsTableHtml: ElementRef;
   @ViewChild('educationsTable') educationsTableHtml: ElementRef;
   @ViewChild('certificationsTable') certificationsTableHtml: ElementRef;
 
-  skillCounter: number = 0;
+  // **************** MINIFORMS *************** //
+  educationsEmpty: boolean = true;
+  skillsEmpty: boolean = true;
+  certificationsEmpty: boolean = true;
+
+  skillIndex: number = 0;
   skillTracker: number = 0;
+  //Each added el will have unique increasing number whenever new el is added
+  skillCounter: number = 0;
+  //Used to provide correct index even when elements are removed from the middle and array looks off like [0,3,5], 1st,2nd,4th elements were deleted --> [0,1,2] 
   skillSorter: Array<number> = [];
+  //Stores added <tr> element references to later use them to remove correct child from DOM. 
   skillContent = [];
   skillEditing = false;
-  skillIndex: number = 0;
 
-  educationCounter: number = 0;
-  educationSecondCounter: number = 0;
+
+  educationIndex: number = 0;
   educationTracker: number = 0;
+  educationCounter: number = 0;
   educationSorter: Array<number> = [];
   educationContent = [];
-  educationDelete = [];
-  educationEdit = [];
   educationEditing = false;
-  educationIndex: number = 0;
 
-  certificationCounter: number = 0;
-  certificationSecondCounter: number = 0;
+
+  certificationIndex: number = 0;
   certificationTracker: number = 0;
+  certificationCounter: number = 0;
   certificationSorter: Array<number> = [];
   certificationContent = [];
-  certificationDelete = [];
-  certificationEdit = [];
   certificationEditing = false;
-  certificationIndex: number = 0;
 
   showSkills: boolean = false;
   showEducations: boolean = false;
   showCertifications: boolean = false;
+  // **************** MINIFORMS *************** //
+  
   constructor(private sellerService: SellerSetUpService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
@@ -148,6 +150,19 @@ export class ProfessionalInfoComponent implements OnInit {
       this.counter--;
     }
   }
+  onSubmit() {
+    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
+      window.scrollTo(0, 0);
+    } else if (this.skillsEmpty) {
+      this.scrollEl.nativeElement.scrollIntoView(true);
+    } else {
+      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
+      this.sellerService.getSellerFormInfo();
+    }
+  }
+
+
+  // ************************ SKILL MINIFORM *************************
   addSkill() {
     if (this.professionalForm.get('skills').valid) {
       this.skills.push({ name: this.professionalForm.get('skills.skillName').value, experienceLevel: this.professionalForm.get('skills.skillLevel').value });
@@ -156,7 +171,7 @@ export class ProfessionalInfoComponent implements OnInit {
       this.updateSkillDOM(this.skillCounter);
 
       //skillId will always increment on new skill addition and 
-      // will fill skillSorter with unique numbers which gets sorted allowing you to know the positions of each element
+      //will fill skillSorter with unique numbers which gets sorted allowing you to know the positions of each element
       let skillId = this.skillCounter + this.skillTracker;
       this.skillSorter.push(skillId);
       //Added html element needs to be stored in order to allow deletion
@@ -171,8 +186,7 @@ export class ProfessionalInfoComponent implements OnInit {
         this.showSkillEditorForm.call(this, this.skillIndex);
       });
 
-      //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-      //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
+      //Starting from the second el, user will have option to delete (cuz first one is required)
       if (this.skills.length > 1) {
         document.getElementById(`deleteSkill${this.skillCounter}`).addEventListener("click", (event) => {
           let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
@@ -215,18 +229,19 @@ export class ProfessionalInfoComponent implements OnInit {
   editSkill(id: number) {
     this.skills[id].name = this.professionalForm.get('skills.skillName').value;
     this.skills[id].experienceLevel = this.professionalForm.get('skills.skillLevel').value;
+
+    //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
     this.skillCounter--
     this.updateSkillDOM(id);
     this.skillCounter++;
 
     //Adding Eventlitsteners
+    //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
     document.getElementById(`editSkill${id}`).addEventListener("click", (event) => {
       let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
       this.skillIndex = this.skillSorter.indexOf(elId);
       this.showSkillEditorForm.call(this, this.skillIndex);
     });
-    //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-    //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
     if (id > 0) {
       document.getElementById(`deleteSkill${id}`).addEventListener("click", (event) => {
         let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
@@ -250,9 +265,6 @@ export class ProfessionalInfoComponent implements OnInit {
     if (id < temp) {
       this.skillTracker++;
     }
-    console.log(this.skillsTableHtml.nativeElement);
-    console.log(this.skillContent);
-    alert(id);
     this.renderer.removeChild(this.skillsTableHtml.nativeElement, this.skillContent[id]);
     this.skillSorter.splice(id, 1);
     this.skills.splice(id, 1);
@@ -279,29 +291,25 @@ export class ProfessionalInfoComponent implements OnInit {
     this.professionalForm.get('skills.skillName').setValue(null);
     this.professionalForm.get('skills.skillLevel').setValue(0);
   }
+
+  // ************************ EDUCATION MINIFORM *************************
   addEducation() {
     if (this.validateEducation()) {
       this.educations.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value, graduationYear: this.professionalForm.get('educations.graduationYear').value });
       this.educationContent.push(document.createElement('tr'));
       this.updateEducationDOM(this.educationCounter);
-      //educationId will always increment on new education addition and 
-      // will fill educationSorter with unique numbers which gets sorted allowing you to know the positions of each element
       let educationId = this.educationCounter + this.educationTracker;
       this.educationSorter.push(educationId);
-      //Added html element needs to be stored in order to allow deletion
       this.educationContent[this.educationCounter].setAttribute("data-elCounter", educationId);
       this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
-      //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-      //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
-      this.educationDelete.push(document.getElementById(`deleteEducation${this.educationSecondCounter}`));
-      this.educationEdit.push(document.getElementById(`editEducation${this.educationSecondCounter}`));
+
       this.educationSorter.sort();
-      this.educationEdit[this.educationCounter].addEventListener("click", (event) => {
+      document.getElementById(`editEducation${this.educationCounter}`).addEventListener("click", (event) => {
         let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
         this.educationIndex = this.educationSorter.indexOf(elId);
         this.showEducationEditorForm.call(this, this.educationIndex);
       });
-      this.educationDelete[this.educationCounter].addEventListener("click", (event) => {
+      document.getElementById(`deleteEducation${this.educationCounter}`).addEventListener("click", (event) => {
         let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
         this.educationIndex = this.educationSorter.indexOf(elId);
         this.removeEducationRow.call(this, this.educationIndex);
@@ -310,7 +318,6 @@ export class ProfessionalInfoComponent implements OnInit {
         this.educationsEmpty = false;
       }
       this.educationCounter++;
-      this.educationSecondCounter++;
       this.removeEducationsForm();
     }
   }
@@ -322,8 +329,8 @@ export class ProfessionalInfoComponent implements OnInit {
     <td>${this.professionalForm.get('educations.graduationYear').value}</td>
     <td>
       <div class="editBtns">
-        <button type="button" class="edit" id="editEducation${this.educationSecondCounter}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-        <button type="button" class="edit" id="deleteEducation${this.educationSecondCounter}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="editEducation${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="deleteEducation${i}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
       </div>
     </td>
   `;
@@ -334,9 +341,27 @@ export class ProfessionalInfoComponent implements OnInit {
     this.educations[id].country = this.professionalForm.get('educations.country').value;
     this.educations[id].title = this.professionalForm.get('educations.title').value;
     this.educations[id].graduationYear = this.professionalForm.get('educations.graduationYear').value;
+
+    //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
+    this.educationCounter--
     this.updateEducationDOM(id);
+    this.educationCounter++;
+
+    //Adding Eventlitsteners
+    //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
+    document.getElementById(`editEducation${id}`).addEventListener("click", (event) => {
+      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+      this.educationIndex = this.educationSorter.indexOf(elId);
+      this.showEducationEditorForm.call(this, this.educationIndex);
+    });
+    document.getElementById(`deleteEducation${id}`).addEventListener("click", (event) => {
+      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+      this.educationIndex = this.educationSorter.indexOf(elId);
+      this.removeEducationRow.call(this, this.educationIndex);
+    });
     this.removeEducationsForm();
   }
+
   showEducationEditorForm(id: number) {
     this.professionalForm.get('educations.universityName').setValue(this.educations[id].universityName);
     this.professionalForm.get('educations.major').setValue(this.educations[id].major);
@@ -356,8 +381,6 @@ export class ProfessionalInfoComponent implements OnInit {
     this.renderer.removeChild(this.educationsTableHtml.nativeElement, this.educationContent[id]);
     this.educationSorter.splice(id, 1);
     this.educations.splice(id, 1);
-    this.educationDelete.splice(id, 1);
-    this.educationEdit.splice(id, 1);
     this.educationContent.splice(id, 1);
     if (this.educations.length <= 0) {
       this.educationsEmpty = true;
@@ -387,31 +410,28 @@ export class ProfessionalInfoComponent implements OnInit {
     const valid = this.professionalForm.get('educations.universityName').value != null && this.professionalForm.get('educations.major').value != null && this.professionalForm.get('educations.country').value != 0 && this.professionalForm.get('educations.title').value != 0 && this.professionalForm.get('educations.graduationYear').value != 0;
     return valid;
   }
+
+  // ************************ CERTIFICATION MINIFORM *************************
   addCertification() {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
     if (this.validateCertification()) {
       this.certifications.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
       this.certificationContent.push(document.createElement('tr'));
       this.updateCertificationDOM(this.certificationCounter);
-      //certificationId will always increment on new certification addition and 
-      // will fill certificationSorter with unique numbers which gets sorted allowing you to know the positions of each element
+
       let certificationId = this.certificationCounter + this.certificationTracker;
       this.certificationSorter.push(certificationId);
-      //Added html element needs to be stored in order to allow deletion
       this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
       this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
-      //Since delete btn is being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-      //Each delete btn needs to have unique id or eventlistener will be applied to same btn many times
-      this.certificationDelete.push(document.getElementById(`deleteCertification${this.certificationSecondCounter}`));
-      this.certificationEdit.push(document.getElementById(`editCertification${this.certificationSecondCounter}`));
+
       this.certificationSorter.sort();
 
-      this.certificationEdit[this.certificationCounter].addEventListener("click", (event) => {
+      document.getElementById(`editCertification${this.certificationCounter}`).addEventListener("click", (event) => {
         let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
         this.certificationIndex = this.certificationSorter.indexOf(elId);
         this.showCertificationsEditorForm.call(this, this.certificationIndex);
       })
-      this.certificationDelete[this.certificationCounter].addEventListener("click", (event) => {
+      document.getElementById(`deleteCertification${this.certificationCounter}`).addEventListener("click", (event) => {
         let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
         this.certificationIndex = this.certificationSorter.indexOf(elId);
         this.removeCertificationsRow.call(this, this.certificationIndex);
@@ -422,7 +442,6 @@ export class ProfessionalInfoComponent implements OnInit {
         this.certificationsEmpty = false;
       }
       this.certificationCounter++;
-      this.certificationSecondCounter++;
       this.removeCertificationsForm();
     }
   }
@@ -432,8 +451,8 @@ export class ProfessionalInfoComponent implements OnInit {
     <td>${this.professionalForm.get('certifications.certificateYear').value}</td>
     <td>
       <div class="editBtns">
-        <button type="button" class="edit" id="editCertification${this.certificationSecondCounter}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-        <button type="button" class="edit" id="deleteCertification${this.certificationSecondCounter}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="editCertification${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="deleteCertification${i}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
       </div>
     </td>
   `;
@@ -442,7 +461,24 @@ export class ProfessionalInfoComponent implements OnInit {
     this.certifications[id].name = this.professionalForm.get('certifications.certificateName').value;
     this.certifications[id].giver = this.professionalForm.get('certifications.certificateGiver').value;
     this.certifications[id].year = this.professionalForm.get('certifications.certificateYear').value;
+
+    //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
+    this.certificationCounter--
     this.updateCertificationDOM(id);
+    this.certificationCounter++;
+
+    //Adding Eventlitsteners
+    //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
+    document.getElementById(`editCertification${id}`).addEventListener("click", (event) => {
+      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+      this.certificationIndex = this.certificationSorter.indexOf(elId);
+      this.showCertificationsEditorForm.call(this, this.certificationIndex);
+    });
+    document.getElementById(`deleteCertification${id}`).addEventListener("click", (event) => {
+      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+      this.certificationIndex = this.certificationSorter.indexOf(elId);
+      this.removeCertificationsRow.call(this, this.certificationIndex);
+    });
     this.removeCertificationsForm();
   }
 
@@ -463,7 +499,6 @@ export class ProfessionalInfoComponent implements OnInit {
     this.renderer.removeChild(this.certificationsTableHtml.nativeElement, this.certificationContent[id]);
     this.certificationSorter.splice(id, 1);
     this.certifications.splice(id, 1);
-    this.certificationDelete.splice(id, 1);
     this.certificationContent.splice(id, 1);
     if (this.certifications.length <= 0) {
       this.certificationsEmpty = true;
@@ -490,15 +525,5 @@ export class ProfessionalInfoComponent implements OnInit {
   validateCertification() {
     const valid = this.professionalForm.get('certifications.certificateName').value != null && this.professionalForm.get('certifications.certificateGiver').value != null && this.professionalForm.get('certifications.certificateYear').value != 0;
     return valid;
-  }
-  onSubmit() {
-    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
-      window.scrollTo(0, 0);
-    } else if (this.skillsEmpty) {
-      this.scrollEl.nativeElement.scrollIntoView(true);
-    } else {
-      this.sellerService.getProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
-      this.sellerService.getSellerFormInfo();
-    }
   }
 }
