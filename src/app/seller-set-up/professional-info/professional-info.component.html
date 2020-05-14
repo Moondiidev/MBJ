@@ -406,7 +406,7 @@
               </div>
               <div class="form-ashen-row form-ashen-row--center">
                 <button type="button" class="form-ashen__btn form-ashen__removeBtn" (click)="removeSkillsForm()">Болих</button>
-                <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()">Нэмэх</button>
+                <button type="button" *ngIf = "!skillEditing; else skillEditingHTML" class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()">Нэмэх</button>
               </div>
             </div>
             <table class="form-ashen__table">
@@ -781,7 +781,7 @@
               </div>
               <div class="form-ashen-row form-ashen-row--center">
                 <button type="button" class="form-ashen__btn form-ashen__removeBtn" (click)="removeEducationsForm()">Болих</button>
-                <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()">Нэмэх</button>
+                <button *ngIf = "!educationEditing; else educationEditingHTML" type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()">Нэмэх</button>
               </div>
             </div>
             <table class="form-ashen__table">
@@ -873,7 +873,7 @@
               </div>
               <div class="form-ashen-row form-ashen-row--center">
                 <button type="button" class="form-ashen__btn form-ashen__removeBtn" (click)="removeCertificationsForm()">Болих</button>
-                <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()">Нэмэх</button>
+                <button *ngIf = "!certificationEditing; else certificationEditingHTML" type="button" class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()">Нэмэх</button>
               </div>
             </div>
             <table class="form-ashen__table">
@@ -902,6 +902,16 @@
     <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
   </div>
 </ng-template>
+<ng-template #skillEditingHTML>
+  <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="editSkill(skillIndex)">Шинэчлэх</button>
+</ng-template>
+<ng-template #educationEditingHTML>
+  <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="editEducation(educationIndex)">Шинэчлэх</button>
+</ng-template>
+<ng-template #certificationEditingHTML>
+  <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="editCertification(certificationIndex)">Шинэчлэх</button>
+</ng-template>
+
 
 <!--         
       profileImage error message
