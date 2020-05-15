@@ -180,19 +180,10 @@ export class ProfessionalInfoComponent implements OnInit {
 
       this.skillSorter.sort();
 
-      document.getElementById(`editSkill${this.skillCounter}`).addEventListener("click", (event) => {
-        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-        this.skillIndex = this.skillSorter.indexOf(elId);
-        this.showSkillEditorForm.call(this, this.skillIndex);
-      });
-
+      this.addSkillEditListener(this.skillCounter);
       //Starting from the second el, user will have option to delete (cuz first one is required)
       if (this.skills.length > 1) {
-        document.getElementById(`deleteSkill${this.skillCounter}`).addEventListener("click", (event) => {
-          let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-          this.skillIndex = this.skillSorter.indexOf(elId);
-          this.removeSkillRow.call(this, this.skillIndex);
-        });
+        this.addSkillDeleteListener(this.skillCounter);
       }
 
       if (this.skillsEmpty) {
@@ -237,19 +228,25 @@ export class ProfessionalInfoComponent implements OnInit {
 
     //Adding Eventlitsteners
     //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-    document.getElementById(`editSkill${id}`).addEventListener("click", (event) => {
-      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+    this.addSkillEditListener(id);
+    if (id > 0) {
+      this.addSkillDeleteListener(id);
+    }
+    this.removeSkillsForm();
+  }
+  addSkillEditListener(i : number){
+    document.getElementById(`editSkill${i}`).addEventListener("click", (event) => {
+      let elId: number =  parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
       this.skillIndex = this.skillSorter.indexOf(elId);
       this.showSkillEditorForm.call(this, this.skillIndex);
     });
-    if (id > 0) {
-      document.getElementById(`deleteSkill${id}`).addEventListener("click", (event) => {
-        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-        this.skillIndex = this.skillSorter.indexOf(elId);
-        this.removeSkillRow.call(this, this.skillIndex);
-      });
-    }
-    this.removeSkillsForm();
+  }
+  addSkillDeleteListener(i : number){
+    document.getElementById(`deleteSkill${i}`).addEventListener("click", (event) => {
+      let elId: number =  parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
+      this.skillIndex = this.skillSorter.indexOf(elId);
+      this.removeSkillRow.call(this, this.skillIndex);
+    });
   }
   showSkillEditorForm(id: number) {
     this.professionalForm.get('skills.skillName').setValue(this.skills[id].name);
@@ -304,16 +301,8 @@ export class ProfessionalInfoComponent implements OnInit {
       this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
 
       this.educationSorter.sort();
-      document.getElementById(`editEducation${this.educationCounter}`).addEventListener("click", (event) => {
-        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-        this.educationIndex = this.educationSorter.indexOf(elId);
-        this.showEducationEditorForm.call(this, this.educationIndex);
-      });
-      document.getElementById(`deleteEducation${this.educationCounter}`).addEventListener("click", (event) => {
-        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-        this.educationIndex = this.educationSorter.indexOf(elId);
-        this.removeEducationRow.call(this, this.educationIndex);
-      });
+      this.addEducationEditListener(this.educationCounter);
+      this.addEducationDeleteListener(this.educationCounter);
       if (this.educationsEmpty) {
         this.educationsEmpty = false;
       }
@@ -349,17 +338,23 @@ export class ProfessionalInfoComponent implements OnInit {
 
     //Adding Eventlitsteners
     //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-    document.getElementById(`editEducation${id}`).addEventListener("click", (event) => {
-      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+    this.addEducationEditListener(id);
+    this.addEducationDeleteListener(id);
+    this.removeEducationsForm();
+  }
+  addEducationEditListener(i : number){
+    document.getElementById(`editEducation${i}`).addEventListener("click", (event) => {
+      let elId: number =  parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
       this.educationIndex = this.educationSorter.indexOf(elId);
       this.showEducationEditorForm.call(this, this.educationIndex);
     });
-    document.getElementById(`deleteEducation${id}`).addEventListener("click", (event) => {
-      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
+  }
+  addEducationDeleteListener(i : number){
+    document.getElementById(`deleteEducation${i}`).addEventListener("click", (event) => {
+      let elId: number =  parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
       this.educationIndex = this.educationSorter.indexOf(elId);
       this.removeEducationRow.call(this, this.educationIndex);
     });
-    this.removeEducationsForm();
   }
 
   showEducationEditorForm(id: number) {
@@ -426,17 +421,8 @@ export class ProfessionalInfoComponent implements OnInit {
 
       this.certificationSorter.sort();
 
-      document.getElementById(`editCertification${this.certificationCounter}`).addEventListener("click", (event) => {
-        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-        this.certificationIndex = this.certificationSorter.indexOf(elId);
-        this.showCertificationsEditorForm.call(this, this.certificationIndex);
-      })
-      document.getElementById(`deleteCertification${this.certificationCounter}`).addEventListener("click", (event) => {
-        let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-        this.certificationIndex = this.certificationSorter.indexOf(elId);
-        this.removeCertificationsRow.call(this, this.certificationIndex);
-      }
-      );
+      this.addCertificationEditListener(this.certificationCounter)
+      this.addCertificationDeleteListener(this.certificationCounter);
 
       if (this.certificationsEmpty) {
         this.certificationsEmpty = false;
@@ -469,27 +455,32 @@ export class ProfessionalInfoComponent implements OnInit {
 
     //Adding Eventlitsteners
     //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-    document.getElementById(`editCertification${id}`).addEventListener("click", (event) => {
-      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-      this.certificationIndex = this.certificationSorter.indexOf(elId);
-      this.showCertificationsEditorForm.call(this, this.certificationIndex);
-    });
-    document.getElementById(`deleteCertification${id}`).addEventListener("click", (event) => {
-      let elId: number = parseInt(event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-elCounter'));
-      this.certificationIndex = this.certificationSorter.indexOf(elId);
-      this.removeCertificationsRow.call(this, this.certificationIndex);
-    });
+    this.addCertificationEditListener(id)
+    this.addCertificationDeleteListener(id);
     this.removeCertificationsForm();
   }
-
-  showCertificationsEditorForm(id: number) {
+  addCertificationEditListener(i : number){
+    document.getElementById(`editCertification${i}`).addEventListener("click", (event) => {
+      let elId: number =  parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
+      this.certificationIndex = this.certificationSorter.indexOf(elId);
+      this.showCertificationEditorForm.call(this, this.certificationIndex);
+    });
+  }
+  addCertificationDeleteListener(i : number){
+    document.getElementById(`deleteCertification${i}`).addEventListener("click", (event) => {
+      let elId: number =  parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
+      this.certificationIndex = this.certificationSorter.indexOf(elId);
+      this.removeCertificationRow.call(this, this.certificationIndex);
+    });
+  }
+  showCertificationEditorForm(id: number) {
     this.professionalForm.get('certifications.certificateName').setValue(this.certifications[id].name);
     this.professionalForm.get('certifications.certificateGiver').setValue(this.certifications[id].giver);
     this.professionalForm.get('certifications.certificateYear').setValue(this.certifications[id].year);
     this.certificationEditing = true;
     this.showCertificationsForm();
   }
-  removeCertificationsRow(id: number) {
+  removeCertificationRow(id: number) {
     this.certificationCounter--;
     //If item is removed before the end, add to the tracker
     let temp = this.certifications.length - 1;
