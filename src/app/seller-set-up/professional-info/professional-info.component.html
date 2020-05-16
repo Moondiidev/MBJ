@@ -39,346 +39,64 @@
         <p class="boldText margin-top-md">Хамгийн сайн 1-ээс 5 хүртэлх {{selectedProfession}} чадвараа сонгоно уу.</p>
         <div [ngSwitch]="selectedProfession">
           <div class="skill-checkboxes" *ngSwitchCase="'График Дизайн'">
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[0]'>
+            <label *ngFor = "let unused of graphicDesignNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" (change)="checkedState($event)" [name] = 'graphicDesignNames[i]' class="checkbox"
+                [value]='graphicDesignNames[i]'>
               <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[0]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[1]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[1]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[2]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[2]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[3]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[3]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[4]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[4]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[5]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[5]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[6]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[6]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[7]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[7]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[8]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[8]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[9]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[9]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[10]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[10]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[11]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[11]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='graphicDesignNames[12]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{graphicDesignNames[12]}}</span>
+              <span class="skill-checkboxes__label">{{graphicDesignNames[i]}}</span>
             </label>
           </div>
           <div class="skill-checkboxes" *ngSwitchCase="'Онлайн Mаркетинг'">
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='marketingNames[0]'>
+            <label *ngFor = "let unused of marketingNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" (change)="checkedState($event)" [name] = 'marketingNames[i]' class="checkbox"
+                [value]='marketingNames[i]'>
               <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{marketingNames[0]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='marketingNames[1]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{marketingNames[1]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='marketingNames[2]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{marketingNames[2]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='marketingNames[3]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{marketingNames[3]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='marketingNames[4]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{marketingNames[4]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='marketingNames[5]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{marketingNames[5]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='marketingNames[6]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{marketingNames[6]}}</span>
+              <span class="skill-checkboxes__label">{{marketingNames[i]}}</span>
             </label>
           </div>
 
           <div class="skill-checkboxes" *ngSwitchCase="'Дуу & Ая'">
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='soundNames[0]'>
+            <label *ngFor = "let unused of soundNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" (change)="checkedState($event)" [name]="soundNames[i]" class="checkbox"
+                [value]='soundNames[i]'>
               <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{soundNames[0]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='soundNames[1]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{soundNames[1]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='soundNames[2]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{soundNames[2]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='soundNames[3]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{soundNames[3]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='soundNames[4]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{soundNames[4]}}</span>
+              <span class="skill-checkboxes__label">{{soundNames[i]}}</span>
             </label>
           </div>
 
           <div class="skill-checkboxes" *ngSwitchCase="'Бичиг & Орчуулагa'">
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[0]'>
+            <label *ngFor = "let unused of writingNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" (change)="checkedState($event)" [name]="writingNames[i]" class="checkbox"
+                [value]='writingNames[i]'>
               <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[0]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[1]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[1]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[2]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[2]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[3]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[3]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[4]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[4]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[5]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[5]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[6]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[6]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[7]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[7]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='writingNames[8]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{writingNames[8]}}</span>
+              <span class="skill-checkboxes__label">{{writingNames[i]}}</span>
             </label>
           </div>
 
           <div class="skill-checkboxes" *ngSwitchCase="'Видео & Аниматион'">
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[0]'>
+            <label *ngFor = "let unused of videoNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" (change)="checkedState($event)" [name]="videoNames[i]" class="checkbox"
+                [value]='videoNames[i]'>
               <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[0]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[1]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[1]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[2]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[2]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[3]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[3]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[4]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[4]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[5]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[5]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[6]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[6]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='videoNames[7]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{videoNames[7]}}</span>
+              <span class="skill-checkboxes__label">{{videoNames[i]}}</span>
             </label>
           </div>
 
           <div class="skill-checkboxes" *ngSwitchCase="'Программ & Технологи'">
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[0]'>
+            <label *ngFor = "let unused of programmingNames; let programmingName of programmingNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" (change)="checkedState($event)" [name]="programmingNames[i]" class="checkbox"
+                [value]='programmingNames[i]'>
               <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[0]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[1]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[1]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[2]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[2]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[3]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[3]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[4]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[4]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[5]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[5]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[6]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[6]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='programmingNames[7]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{programmingNames[7]}}</span>
+              <span class="skill-checkboxes__label">{{programmingNames[i]}}</span>
             </label>
           </div>
 
           <div class="skill-checkboxes" *ngSwitchCase="'Бусад'">
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='otherNames[0]'>
+            <label *ngFor = "let unused of otherNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
+              <input type="checkBox" (change)="checkedState($event)" [name]="otherNames[i]" class="checkbox"
+                [value]='otherNames[i]'>
               <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{otherNames[0]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='otherNames[1]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{otherNames[1]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='otherNames[2]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{otherNames[2]}}</span>
-            </label>
-            <label class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event)" name="options" class="checkbox"
-                [value]='otherNames[3]'>
-              <span class="checkmark"></span>
-              <span class="skill-checkboxes__label">{{otherNames[3]}}</span>
+              <span class="skill-checkboxes__label">{{otherNames[i]}}</span>
             </label>
           </div>
         </div>

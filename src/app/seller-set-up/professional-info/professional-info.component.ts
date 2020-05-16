@@ -60,6 +60,7 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
   skillCounter: number = 0;
   skillEditing = false;
 
+
   educations: {
     data: Array<{ universityName: string, major: string, country: string, title: string, graduationYear: number }>;
     sorter: Array<number>,
@@ -132,6 +133,13 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
     }
     if (this.allInfo.professionSkills !== undefined) {
       this.checkedProfessions = this.allInfo.professionSkills;
+      console.log(this.checkedProfessions);
+
+      for(let i = 0; i < this.checkedProfessions.length; i++){
+        let temp = document.getElementsByName(this.checkedProfessions[i]) as unknown as HTMLInputElement; 
+        console.log(temp);
+        temp.checked = true;
+      }
     }
     if (this.allInfo.fromYear !== undefined) {
       this.selectedFromYear = this.allInfo.fromYear;
