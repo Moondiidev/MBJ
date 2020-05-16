@@ -41,7 +41,7 @@ export class PersonalInfoComponent implements OnInit {
   }
   professionalNav() {
     this.sellerService.professionalNav();
-    this.sellerService.getPersonalInfo(this.personalForm.get('profileImage').value,this.personalForm.get('name.firstName').value,this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
+    this.sellerService.savePersonalInfo(this.personalForm.get('profileImage').value,this.personalForm.get('name.firstName').value,this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
   }
   onSubmit() {
     if (this.personalForm.valid) {

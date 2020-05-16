@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { PersonalModel } from './../shared/personal.model';
 import { ProfessionalModel } from 'src/app/shared/professional.model';
 import { Subject } from 'rxjs';
@@ -12,7 +13,7 @@ export class SellerSetUpService implements OnInit {
   professionalModel : ProfessionalModel;
   personalModel : PersonalModel;
   sellerModel;
-  constructor() { }
+  constructor(private http: HttpClient) { }
   ngOnInit(){}
   
   personalNav(){
@@ -21,13 +22,17 @@ export class SellerSetUpService implements OnInit {
   professionalNav(){
     this.navNum.next(1);
   }
-  getPersonalInfo(profileImage, firstName, lastName, description){
+  savePersonalInfo(profileImage, firstName, lastName, description){
     this.personalModel = new PersonalModel(profileImage, firstName, lastName, description);
   }
-  getProfessionalInfo(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,educations,certifications){
+  saveProfessionalInfo(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,educations,certifications){
     this.professionalModel = new ProfessionalModel(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,educations,certifications);
+    this.http.put('https://cors-anywhere.herokuapp.com/https://mbj-2f9fa.firebaseio.com/professionalInfo.json',this.professionalModel).subscribe(res=>{console.log(res);});
   }
-  getSellerFormInfo(){
+  fetchProfessionalInfo(){
+    return this.http.get<ProfessionalModel>('https://cors-anywhere.herokuapp.com/https://mbj-2f9fa.firebaseio.com/professionalInfo.json');
+  }
+  saveSellerFormInfo(){
     this.sellerModel = {...this.personalModel, ...this.professionalModel};
   }
 }

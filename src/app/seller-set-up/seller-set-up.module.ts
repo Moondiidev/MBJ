@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { SellerSetUpComponent } from './seller-set-up.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfessionalInfoComponent } from './professional-info/professional-info.component';
+import { ProfessionalResolverService } from './professional-info/professional-resolver.service';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireStorageModule} from "angularfire2/storage";
 import { DropdownDirective } from '../shared/dropdown.directive';
@@ -38,7 +39,7 @@ import { DropdownDirective } from '../shared/dropdown.directive';
                         path: 'personal', component: PersonalInfoComponent
                     },
                     {
-                        path: 'professional', component: ProfessionalInfoComponent
+                        path: 'professional', resolve:[ProfessionalResolverService], component: ProfessionalInfoComponent
                     }
                 ]
             },
