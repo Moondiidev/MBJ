@@ -117,10 +117,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       });
       this.fillFromYears();
 
-      this.checkedProfessions = {
-        name: [],
-        id: []
-      }
+      this.checkedProfessions = [];
+
       this.showSkillsForm();
       this.skills = {
         data: [],
@@ -143,7 +141,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         if (this.professionalData !== null) {
           this.useProfessionalData();
         }
-        
       });
       this.scrollEls.changes.subscribe((el: QueryList<ElementRef>)=>{
         this.scrollEl = el.first;
@@ -158,7 +155,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         this.certificationsTableHtml = el.first;
       })
     }
-    console.log(this.checkedProfessions);
 
     setTimeout(()=>{
       this.skillCounter = 0;
@@ -167,7 +163,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.educationContent = [];
       this.certificationCounter = 0;
       this.certificationContent = [];
-      this.counter = 0;
+      this.checkCheckBoxes();
       this.populateSkillsTable();
       this.populateEducationsTable();
       this.populateCertificationsTable();
@@ -223,19 +219,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   programmingNames: Array<string> = ['Вэб Сайт Програмчлал', 'Хөөрөлдөгч Бот', 'Видео Тоглоом Хөгжүүлэх', 'Гар Утасны АПП Програмчлал', 'WordPress', 'Мэдээлэл Судлал & Тайлан', 'Цахим Аюулгуй Байдал', 'Бусад'];
   otherNames: Array<string> = ['Дасгал & Хоол Тэжээл Зөвлөгөө', 'Санхүүгийн Зөвлөгөө', 'Сэтгэл Зүйн Эмчилгээ', 'Бусад'];
 
-  // graphicIds: Array<number> = [];
-  // marketingIds: Array<number> = [];
-  // soundIds: Array<number> = [];
-  // writingIds: Array<number> = [];
-  // videoIds: Array<number> = [];
-  // programmingIds: Array<number> = [];
-  // otherIds: Array<number> = [];
 
-  checkedProfessions: {
-    name: Array<string>,
-    //id is used to initiliaze checked elements with class is-checked in html
-    id: Array<number>
-  }
+  //checkedProfessions is used to initiliaze checked elements with class is-checked in html
+  checkedProfessions: Array<string>;    
+  
 
   currentYear = new Date().getFullYear();
   howManyYears = 50;
@@ -317,10 +304,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.professionText = this.professionalData.profession;
     }
     if (this.professionalData.professionSkills !== undefined) {
-      this.checkedProfessions = {
-        name: this.professionalData.professionSkills.name,
-        id: this.professionalData.professionSkills.id
-      }
+      this.checkedProfessions = this.professionalData.professionSkills;  
+      this.checkCheckBoxes();
     }
     if (this.professionalData.fromYear !== undefined) {
       this.selectedFromYear = this.professionalData.fromYear;
@@ -371,7 +356,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       }
     }
   }
+  checkCheckBoxes(){
+    for(let i = 0; i< this.checkedProfessions.length;i++){
+      document.getElementById(this.checkedProfessions[i]).classList.add('isChecked');
+    }
+    this.counter = this.checkedProfessions.length;
+    console.log(this.checkedProfessions);
 
+  }
   populateSkillsTable(){
     for (let i = 0; i < this.skills.data.length; i++) {
       this.skillContent.push(document.createElement('tr'));
@@ -424,7 +416,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.professionText = profession;
     this.selectedProfession = profession;
     //When new profession category is selected, remove all checks
-    this.checkedProfessions.id = [];
+    this.checkedProfessions = [];
     this.saveProfessionalData();
   }
   onSelectFromYear(fromYear: number, index: number) {
@@ -458,20 +450,23 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   checkedState(event) {
     let el: HTMLInputElement = event.target;
     if (el.className.includes('isChecked')) {
-      el.classList.remove('isChecked');
+      if(this.counter > 0){
+        this.counter--;
+        el.classList.remove('isChecked');
+        let a = this.checkedProfessions.indexOf(el.id);
+        this.checkedProfessions.splice(a,1);
+      }
     } else {
       if (this.counter < 5) {
         el.classList.add('isChecked');
-        this.checkedProfessions.name[this.counter] = el.value;
-        let tempElId = parseInt(el.id);
-        this.checkedProfessions.id[this.counter] = tempElId;
+        this.checkedProfessions[this.counter] = el.id;
         this.counter++;
-        this.saveProfessionalData();
       }
     }
+    this.saveProfessionalData();
   }
   onProfessionalFormSubmit() {
-    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.name.length == 0) {
+    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null) {
       window.scrollTo(0, 0);
     } else if (this.skillsEmpty) {
       this.scrollEl.nativeElement.scrollIntoView(true);

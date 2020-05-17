@@ -53,8 +53,10 @@
             <span class="paragraph margin-left-tiny">Нууцлагдмал</span>
           </div>
           <div formGroupName="name" class="inputs__right">
-            <input formControlName="firstName" type="text" name="fullName" class="personalTextInput" placeholder="Өөрийн нэр">
-            <input formControlName="lastName" type="text" name="fullName" class="personalTextInput" placeholder="Эцгийн нэр">
+            <input formControlName="firstName" type="text" name="fullName" class="personalTextInput"
+              placeholder="Өөрийн нэр">
+            <input formControlName="lastName" type="text" name="fullName" class="personalTextInput"
+              placeholder="Эцгийн нэр">
             <span
               *ngIf="!personalForm.get('name').valid && personalForm.get('name.firstName').touched && personalForm.get('name.lastName').touched"
               class="error-text margin-top-tiny block">Бүтэн нэрээ оруулна уу.</span>
@@ -74,7 +76,7 @@
           </div>
         </div>
         <div class="setUpForm__personalBtns">
-          <button type="button" class="btn btn-orange" (click) = "savePersonalData()">Хадгалах</button>
+          <button type="button" class="btn btn-orange" (click)="savePersonalData()">Хадгалах</button>
           <button type="submit" class="btn btn-green btn-next" [disabled]="!personalForm.valid">Үргэлжлүүлэх</button>
         </div>
       </form>
@@ -135,8 +137,7 @@
               <div class="skill-checkboxes" *ngSwitchCase="'График Дизайн'">
                 <label *ngFor="let unused of graphicDesignNames; let i = index"
                   class="checkbox-container checkbox-container__left checkbox-container__green">
-                  <input type="checkBox" (change)="checkedState($event)"
-                    [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' " [id]="i" class="checkbox"
+                  <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i" class="checkbox"
                     [value]='graphicDesignNames[i]'>
                   <span class="checkmark"></span>
                   <span class="skill-checkboxes__label">{{graphicDesignNames[i]}}</span>
@@ -145,8 +146,8 @@
               <div class="skill-checkboxes" *ngSwitchCase="'Онлайн Mаркетинг'">
                 <label *ngFor="let unused of marketingNames; let i = index"
                   class="checkbox-container checkbox-container__left checkbox-container__green">
-                  <input type="checkBox" (change)="checkedState($event)" [name]='marketingNames[i]' class="checkbox"
-                    [value]='marketingNames[i]'>
+                  <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i" class="checkbox"
+                     class="checkbox" [value]='marketingNames[i]'>
                   <span class="checkmark"></span>
                   <span class="skill-checkboxes__label">{{marketingNames[i]}}</span>
                 </label>
@@ -155,8 +156,7 @@
               <div class="skill-checkboxes" *ngSwitchCase="'Дуу & Ая'">
                 <label *ngFor="let unused of soundNames; let i = index"
                   class="checkbox-container checkbox-container__left checkbox-container__green">
-                  <input type="checkBox" (change)="checkedState($event)"
-                    [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' " [id]="i" class="checkbox"
+                  <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i" class="checkbox"
                     [value]='soundNames[i]'>
                   <span class="checkmark"></span>
                   <span class="skill-checkboxes__label">{{soundNames[i]}}</span>
@@ -166,8 +166,7 @@
               <div class="skill-checkboxes" *ngSwitchCase="'Бичиг & Орчуулагa'">
                 <label *ngFor="let unused of writingNames; let i = index"
                   class="checkbox-container checkbox-container__left checkbox-container__green">
-                  <input type="checkBox" (change)="checkedState($event)"
-                    [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' " [id]="i" class="checkbox"
+                  <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i" class="checkbox"
                     [value]='writingNames[i]'>
                   <span class="checkmark"></span>
                   <span class="skill-checkboxes__label">{{writingNames[i]}}</span>
@@ -177,8 +176,7 @@
               <div class="skill-checkboxes" *ngSwitchCase="'Видео & Аниматион'">
                 <label *ngFor="let unused of videoNames; let i = index"
                   class="checkbox-container checkbox-container__left checkbox-container__green">
-                  <input type="checkBox" (change)="checkedState($event)"
-                    [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' " [id]="i" class="checkbox"
+                  <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i" class="checkbox"
                     [value]='videoNames[i]'>
                   <span class="checkmark"></span>
                   <span class="skill-checkboxes__label">{{videoNames[i]}}</span>
@@ -188,8 +186,7 @@
               <div class="skill-checkboxes" *ngSwitchCase="'Программ & Технологи'">
                 <label *ngFor="let unused of programmingNames; let programmingName of programmingNames; let i = index"
                   class="checkbox-container checkbox-container__left checkbox-container__green">
-                  <input type="checkBox" (change)="checkedState($event)"
-                    [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' " [id]="i" class="checkbox"
+                  <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i" class="checkbox"
                     [value]='programmingNames[i]'>
                   <span class="checkmark"></span>
                   <span class="skill-checkboxes__label">{{programmingNames[i]}}</span>
@@ -198,9 +195,8 @@
 
               <div class="skill-checkboxes" *ngSwitchCase="'Бусад'">
                 <label *ngFor="let unused of otherNames; let i = index"
-                  [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' "
                   class="checkbox-container checkbox-container__left checkbox-container__green">
-                  <input type="checkBox" (change)="checkedState($event)" [id]="i" class="checkbox"
+                  <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i" class="checkbox"
                     [value]='otherNames[i]'>
                   <span class="checkmark"></span>
                   <span class="skill-checkboxes__label">{{otherNames[i]}}</span>
@@ -551,7 +547,8 @@
                       <option value="other">Other</option>
                     </select>
                     <div class="professionalTextInput-wrapper">
-                      <input type="text" formControlName="major" class="professionalTextInput" placeholder="Үндсэн Мэргэжил">
+                      <input type="text" formControlName="major" class="professionalTextInput"
+                        placeholder="Үндсэн Мэргэжил">
                     </div>
                     <select class="form-ashen__select form-ashen__select--gradYear" formControlName="graduationYear">
                       <option value="0" disabled selected hidden>Төгссөн Жил</option>

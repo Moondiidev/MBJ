@@ -1,10 +1,7 @@
 export class ProfessionalModel {
     constructor(
         public profession: string,
-        public professionSkills: {
-            name: Array<string>,
-            id: Array<number>
-        },
+        public professionSkills: Array<string>,
         public fromYear: number,
         public toYear: number,
         public skills: {
