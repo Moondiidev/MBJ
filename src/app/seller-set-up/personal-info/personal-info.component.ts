@@ -44,21 +44,24 @@ export class PersonalInfoComponent implements OnInit {
 
     this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
       this.allInfo = data;
-      if (this.allInfo !== null) {
-        if (this.allInfo.firstname !== undefined) {
-          this.personalForm.get('name.firstName').setValue(this.allInfo.firstname);
-        }
-        if (this.allInfo.lastname !== undefined) {
-          this.personalForm.get('name.lastName').setValue(this.allInfo.lastname);
-        }
-        if (this.allInfo.personalDescription !== undefined) {
-          this.personalForm.get('description').setValue(this.allInfo.personalDescription);
-        }
-      }
+      this.useData();
       setInterval(() => {
         this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
       }, 5000);
     });
+  }
+  useData(){
+    if (this.allInfo !== null) {
+      if (this.allInfo.firstname !== undefined) {
+        this.personalForm.get('name.firstName').setValue(this.allInfo.firstname);
+      }
+      if (this.allInfo.lastname !== undefined) {
+        this.personalForm.get('name.lastName').setValue(this.allInfo.lastname);
+      }
+      if (this.allInfo.personalDescription !== undefined) {
+        this.personalForm.get('description').setValue(this.allInfo.personalDescription);
+      }
+    }
   }
   getProfileImage() {
     //Get profile image and show it
