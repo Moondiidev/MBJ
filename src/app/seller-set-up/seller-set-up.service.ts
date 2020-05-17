@@ -8,7 +8,6 @@ import { Injectable, OnInit } from '@angular/core';
   providedIn: 'root'
 })
 export class SellerSetUpService implements OnInit {
-  navNum = new Subject<number>();
   personalFormValid = new Subject<boolean>();
   professionalModel : ProfessionalModel;
   personalModel : PersonalModel;
@@ -16,12 +15,7 @@ export class SellerSetUpService implements OnInit {
   constructor(private http: HttpClient) { }
   ngOnInit(){}
   
-  personalNav(){
-    this.navNum.next(0);
-  }
-  professionalNav(){
-    this.navNum.next(1);
-  }
+
   savePersonalInfo(firstName, lastName, description){
     this.personalModel = new PersonalModel(firstName, lastName, description);
     this.http.put('https://cors-anywhere.herokuapp.com/https://mbj-2f9fa.firebaseio.com/personalInfo.json',this.personalModel).subscribe(res=>{console.log(res);});

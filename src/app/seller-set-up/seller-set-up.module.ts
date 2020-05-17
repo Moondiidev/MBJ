@@ -3,18 +3,14 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { SellerSetUpComponent } from './seller-set-up.component';
-import { PersonalInfoComponent } from './personal-info/personal-info.component';
-import { ProfessionalInfoComponent } from './professional-info/professional-info.component';
-import { ProfessionalResolverService } from './professional-info/professional-resolver.service';
+
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireStorageModule} from "angularfire2/storage";
-import { PersonalResolverService } from './personal-info/personal-resolver.service';
+import { PersonalResolverService } from './personal-resolver.service';
 
 @NgModule({
     declarations: [
-        SellerSetUpComponent,
-        PersonalInfoComponent,
-        ProfessionalInfoComponent
+        SellerSetUpComponent
     ],
     imports: [
         AngularFireModule.initializeApp({
@@ -29,18 +25,8 @@ import { PersonalResolverService } from './personal-info/personal-resolver.servi
         SharedModule,
         RouterModule.forChild([
             {
-                path: '', component: SellerSetUpComponent,
-                children: [
-                    {
-                        path: '', redirectTo: 'personal'
-                    },
-                    {
-                        path: 'personal', resolve:[PersonalResolverService], component: PersonalInfoComponent
-                    },
-                    {
-                        path: 'professional', resolve:[ProfessionalResolverService], component: ProfessionalInfoComponent
-                    }
-                ]
+                //Load SellerSetUpComponent at least when personal form is ready
+                path: '', component: SellerSetUpComponent, resolve: [PersonalResolverService],
             },
         ])
     ],
