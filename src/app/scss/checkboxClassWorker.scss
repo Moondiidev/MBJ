@@ -1,9 +1,11 @@
-  /* ****** CHECKBOX ************/
-  /* MUST DEFINE IF CHECKBOX WILL BE ALIGNED CENTER AND WHAT COLOR IT IS 
+/* Show the checkmark when isChecked class is applied */
+/* ****** CHECKBOX ************/
+/* MUST DEFINE IF CHECKBOX WILL BE ALIGNED CENTER AND WHAT COLOR IT IS 
   checkbox-container checkbox-container__green checkbox-container__center etc..*/
 $size: 1.6rem;
 $checked-greenColor : #00b8a9;
-  /* Customize the label (the container) */
+
+/* Customize the label (the container) */
 .checkbox-container {
   position: relative;
   display: flex;
@@ -15,10 +17,12 @@ $checked-greenColor : #00b8a9;
   -ms-user-select: none;
   user-select: none;
   padding-bottom: 2rem;
-  &__center{
+
+  &__center {
     justify-content: center;
   }
-  &__left{
+
+  &__left {
     justify-content: start;
   }
 }
@@ -42,18 +46,10 @@ $checked-greenColor : #00b8a9;
 }
 
 /* On mouse-over, add a grey background color */
-.checkbox-container:hover input ~ .checkmark {
+.checkbox-container:hover input~.checkmark {
   background-color: #ccc;
 }
 
-/* When the checkbox is checked, add a blue background */
-.checkbox-container__blue input:checked ~ .checkmark {
-  background-color: #2196F3;
-}
-/* When the checkbox is checked, add a blue background */
-.checkbox-container__green input:checked ~ .checkmark {
-  background-color: $checked-greenColor;
-}
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
@@ -62,9 +58,13 @@ $checked-greenColor : #00b8a9;
   display: none;
 }
 
-/* Show the checkmark when checked */
-.checkbox-container input:checked ~ .checkmark:after {
+.isChecked~.checkmark:after {
   display: block;
+}
+
+/* When the checkbox is checked, add a blue background */
+.isChecked~.checkmark {
+  background-color: $checked-greenColor;
 }
 
 /* Style the checkmark/indicator */
@@ -75,7 +75,7 @@ $checked-greenColor : #00b8a9;
   height: 9px;
   border: solid white;
   border-width: 0 3px 3px 0;
-  -webkit-transform: translate(-50%,-50%) rotate(45deg);
-  -ms-transform: translate(-50%,-50%) rotate(45deg);
-  transform: translate(-50%,-50%) rotate(45deg);
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+  -ms-transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
 }

@@ -1,21 +1,19 @@
+import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SellerSetUpComponent } from './seller-set-up.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfessionalInfoComponent } from './professional-info/professional-info.component';
 import { ProfessionalResolverService } from './professional-info/professional-resolver.service';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireStorageModule} from "angularfire2/storage";
-import { DropdownDirective } from '../shared/dropdown.directive';
 
 @NgModule({
     declarations: [
         SellerSetUpComponent,
         PersonalInfoComponent,
-        ProfessionalInfoComponent,
-        DropdownDirective
+        ProfessionalInfoComponent
     ],
     imports: [
         AngularFireModule.initializeApp({
@@ -25,9 +23,9 @@ import { DropdownDirective } from '../shared/dropdown.directive';
             storageBucket: "mbj-2f9fa.appspot.com",
         }),
         AngularFireStorageModule,
-        CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        SharedModule,
         RouterModule.forChild([
             {
                 path: '', component: SellerSetUpComponent,

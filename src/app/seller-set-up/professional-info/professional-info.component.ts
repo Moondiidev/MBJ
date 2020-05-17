@@ -25,7 +25,20 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
   programmingNames: Array<string> = ['Вэб Сайт Програмчлал', 'Хөөрөлдөгч Бот', 'Видео Тоглоом Хөгжүүлэх', 'Гар Утасны АПП Програмчлал', 'WordPress', 'Мэдээлэл Судлал & Тайлан', 'Цахим Аюулгуй Байдал', 'Бусад'];
   otherNames: Array<string> = ['Дасгал & Хоол Тэжээл Зөвлөгөө', 'Санхүүгийн Зөвлөгөө', 'Сэтгэл Зүйн Эмчилгээ', 'Бусад'];
 
-  checkedProfessions: Array<string> = [];
+  // graphicIds: Array<number> = [];
+  // marketingIds: Array<number> = [];
+  // soundIds: Array<number> = [];
+  // writingIds: Array<number> = [];
+  // videoIds: Array<number> = [];
+  // programmingIds: Array<number> = [];
+  // otherIds: Array<number> = [];
+
+  checkedProfessions: {
+    name: Array<string>,
+    //id is used to initiliaze checked elements with class is-checked in html
+    id: Array<number>
+  }
+
   currentYear = new Date().getFullYear();
   howManyYears = 50;
   professionText = "График Дизайн";
@@ -112,11 +125,34 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
     });
     this.fillFromYears();
 
+    this.checkedProfessions = {
+      name : [],
+      id: []
+    }
+    this.showSkillsForm();
+    this.skills = {
+      data: [],
+      sorter: []
+    }
+    this.showEducationsForm();
+    this.educations = {
+      data: [],
+      sorter: []
+    }
+    this.showEducationsForm();
+    this.certifications = {
+      data: [],
+      sorter: []
+    }
+
     this.dataSub = this.sellerService.fetchProfessionalInfo().subscribe((data: ProfessionalModel) => {
       //Get data
       this.allInfo = data;
+
       //Use data
-      this.useData();
+      if(this.allInfo !== null){
+        this.useData();
+      }
       //Every few seconds, save the form
       setInterval(() => {
         this.sellerService.saveProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
@@ -132,13 +168,9 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
       this.professionText = this.allInfo.profession;
     }
     if (this.allInfo.professionSkills !== undefined) {
-      this.checkedProfessions = this.allInfo.professionSkills;
-      console.log(this.checkedProfessions);
-
-      for(let i = 0; i < this.checkedProfessions.length; i++){
-        let temp = document.getElementsByName(this.checkedProfessions[i]) as unknown as HTMLInputElement; 
-        console.log(temp);
-        temp.checked = true;
+      this.checkedProfessions = {
+        name : this.allInfo.professionSkills.name,
+        id: this.allInfo.professionSkills.id
       }
     }
     if (this.allInfo.fromYear !== undefined) {
@@ -156,6 +188,7 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
           sorter: this.allInfo.skills.sorter
         }
         if (this.skillsEmpty) {
+          this.showSkills = false;
           this.skillsEmpty = false;
         }
         for (let i = 0; i < this.skills.data.length; i++) {
@@ -175,14 +208,7 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
           this.skillCounter++;
         }
       }
-    } else {
-      // If no items were previously added, Have adder-forms ready  
-      this.showSkills = true;
-      this.skills = {
-        data: [],
-        sorter: []
-      }
-    }
+    } 
     if (this.allInfo.educations !== undefined) {
       if (this.allInfo.educations.data !== undefined && this.allInfo.educations.sorter !== undefined) {
         this.educations = {
@@ -190,6 +216,7 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
           sorter: this.allInfo.educations.sorter
         }
         if (this.educationsEmpty) {
+          this.showEducations = false;
           this.educationsEmpty = false;
         }
         for (let i = 0; i < this.educations.data.length; i++) {
@@ -207,13 +234,7 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
         }
       }
 
-    } else {
-      this.showEducations = true;
-      this.educations = {
-        data: [],
-        sorter: []
-      }
-    }
+    } 
     if (this.allInfo.certifications !== undefined) {
       if (this.allInfo.certifications.data !== undefined && this.allInfo.certifications.sorter !== undefined) {
         this.certifications = {
@@ -221,6 +242,7 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
           sorter: this.allInfo.certifications.sorter
         }
         if (this.certificationsEmpty) {
+          this.showCertifications = false;
           this.certificationsEmpty = false;
         }
         for (let i = 0; i < this.certifications.data.length; i++) {
@@ -238,17 +260,13 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
           this.certificationCounter++;
         }
       }
-    } else {
-      this.showCertifications = true;
-      this.certifications = {
-        data: [],
-        sorter: []
-      }
     }
   }
   onSelectProfession(profession: string) {
     this.professionText = profession;
     this.selectedProfession = profession;
+    //When new profession category is selected, remove all checks
+    this.checkedProfessions.id = [];
   }
   onSelectFromYear(fromYear: number, index: number) {
     this.fromYearText = fromYear.toString();
@@ -276,20 +294,24 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
     const newYears = this.fromYears.slice(0, index);
     this.toYears.push(...newYears);
   }
-  checkedState(event) {
-    if (event.target.checked === true) {
+  checkedState(event, i?) {
+    alert(i);
+    let el: HTMLElement = event.target;
+    if (el.className.includes('isChecked')) {
+      el.classList.remove('isChecked');
+      console.log(el.className.includes('isChecked'));
+    } else {
       if (this.counter < 5) {
+        el.classList.add('isChecked');
         this.checkedProfessions[this.counter] = event.target.value;
+        let tempElId = parseInt(event.target.id);
+        this.checkedProfessions.id[this.counter] = tempElId;
         this.counter++;
-      } else {
-        event.target.checked = false;
-      }
-    } else if (this.counter > 0) {
-      this.counter--;
+      } 
     }
   }
   onSubmit() {
-    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length == 0) {
+    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.name.length == 0) {
       window.scrollTo(0, 0);
     } else if (this.skillsEmpty) {
       this.scrollEl.nativeElement.scrollIntoView(true);
