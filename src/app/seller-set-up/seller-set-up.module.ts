@@ -8,6 +8,7 @@ import { ProfessionalInfoComponent } from './professional-info/professional-info
 import { ProfessionalResolverService } from './professional-info/professional-resolver.service';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireStorageModule} from "angularfire2/storage";
+import { PersonalResolverService } from './personal-info/personal-resolver.service';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,7 @@ import {AngularFireStorageModule} from "angularfire2/storage";
                         path: '', redirectTo: 'personal'
                     },
                     {
-                        path: 'personal', component: PersonalInfoComponent
+                        path: 'personal', resolve:[PersonalResolverService], component: PersonalInfoComponent
                     },
                     {
                         path: 'professional', resolve:[ProfessionalResolverService], component: ProfessionalInfoComponent

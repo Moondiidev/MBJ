@@ -22,8 +22,12 @@ export class SellerSetUpService implements OnInit {
   professionalNav(){
     this.navNum.next(1);
   }
-  savePersonalInfo(profileImage, firstName, lastName, description){
-    this.personalModel = new PersonalModel(profileImage, firstName, lastName, description);
+  savePersonalInfo(firstName, lastName, description){
+    this.personalModel = new PersonalModel(firstName, lastName, description);
+    this.http.put('https://cors-anywhere.herokuapp.com/https://mbj-2f9fa.firebaseio.com/personalInfo.json',this.personalModel).subscribe(res=>{console.log(res);});
+  }
+  fetchPersonalInfo(){
+    return this.http.get<PersonalModel>('https://cors-anywhere.herokuapp.com/https://mbj-2f9fa.firebaseio.com/personalInfo.json');
   }
   saveProfessionalInfo(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,educations,certifications){
     this.professionalModel = new ProfessionalModel(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,educations,certifications);
