@@ -40,7 +40,7 @@
         <div [ngSwitch]="selectedProfession">
           <div class="skill-checkboxes" *ngSwitchCase="'График Дизайн'">
             <label  *ngFor = "let unused of graphicDesignNames; let i = index" class="checkbox-container checkbox-container__left checkbox-container__green">
-              <input type="checkBox" (change)="checkedState($event,i)" [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' " [id] = "i" class="checkbox"
+              <input type="checkBox" (change)="checkedState($event)" [ngClass]=" checkedProfessions.id[i] === i ? 'isChecked' : '' " [id] = "i" class="checkbox"
                 [value]='graphicDesignNames[i]'>
               <span class="checkmark"></span>
               <span class="skill-checkboxes__label">{{graphicDesignNames[i]}}</span>

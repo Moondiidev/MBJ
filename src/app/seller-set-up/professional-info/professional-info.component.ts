@@ -294,8 +294,7 @@ export class ProfessionalInfoComponent implements OnInit, OnDestroy {
     const newYears = this.fromYears.slice(0, index);
     this.toYears.push(...newYears);
   }
-  checkedState(event, i?) {
-    alert(i);
+  checkedState(event) {
     let el: HTMLElement = event.target;
     if (el.className.includes('isChecked')) {
       el.classList.remove('isChecked');
