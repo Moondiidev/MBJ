@@ -10,7 +10,7 @@ $tick-color : #d7fbe8;
 $text-color: #555555;
 
 .setUp-heading {
-  margin-bottom: 4rem;
+  margin-bottom: 6rem;
 }
 
 .heading-primary {
@@ -18,7 +18,7 @@ $text-color: #555555;
 }
 
 .setUp-text {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 2rem;
   color: $text-color;
 }
@@ -38,7 +38,12 @@ $text-color: #555555;
 .inputs {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 6rem;
+  &:not(:last-of-type){
+    margin-bottom: 8rem;
+  }
+  &:last-of-type{
+    margin-bottom: 6rem;
+  }
 
   &__left {
     flex-grow: 1;

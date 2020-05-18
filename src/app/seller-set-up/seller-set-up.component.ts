@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { SellerSetUpService } from './seller-set-up.service';
 import { Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { PersonalModel } from 'src/app/shared/personal.model';
-import { HttpClient } from '@angular/common/http';
 import { ProfessionalModel } from '../shared/professional.model';
 import { Location } from '@angular/common';
 
@@ -22,7 +21,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   firstNavUrlName: string = 'personal';
   secondNavUrlName: string = 'professional';
 
-  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private afStorage: AngularFireStorage, private http: HttpClient, private renderer: Renderer2, private location: Location) { }
+  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
     this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
@@ -48,6 +47,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   personalNav() {
     this.location.go(this.mainUrlName + this.firstNavUrlName);
     this.setUpPersonalForm();
+    this.professionalFormOnDestroy();
   }
   setUpPersonalForm() {
     this.navNum = 0;
@@ -119,6 +119,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.location.go(this.mainUrlName + this.secondNavUrlName);
     this.savePersonalData();
     this.setUpProfessionalNav();
+    this.personalFormOnDestroy();
   }
   setUpProfessionalNav() {
     //PROFESSIONAL FORM
@@ -171,16 +172,16 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.useProfessionalData();
         }
       });
-      this.scrollEls.changes.subscribe((el: QueryList<ElementRef>) => {
+      this.scrollSub = this.scrollEls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.scrollEl = el.first;
       })
-      this.skillsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
+      this.skillsTableSub = this.skillsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.skillsTableHtml = el.first;
       })
-      this.educationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
+      this.educationsTableSub = this.educationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.educationsTableHtml = el.first;
       })
-      this.certificationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
+      this.certificationsTableSub = this.certificationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.certificationsTableHtml = el.first;
       })
     }
@@ -247,7 +248,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   videoNames: Array<string> = ['Киноны Трейлер', 'Видео Тоглоомны Трейлер', 'Видео Эвлүүлэг', 'Богино Хэмжээний Зар Сурталчилгаа', '3Д Хүүхэлдэйн Кино', 'VFX', '2Д Хүүхэлдэйн Кино', 'Бусад'];
   programmingNames: Array<string> = ['Вэб Сайт Програмчлал', 'Хөөрөлдөгч Бот', 'Видео Тоглоом Хөгжүүлэх', 'Гар Утасны АПП Програмчлал', 'WordPress', 'Мэдээлэл Судлал & Тайлан', 'Цахим Аюулгуй Байдал', 'Бусад'];
   otherNames: Array<string> = ['Дасгал & Хоол Тэжээл Зөвлөгөө', 'Санхүүгийн Зөвлөгөө', 'Сэтгэл Зүйн Эмчилгээ', 'Бусад'];
-
+  
+  scrollSub: Subscription;
+  skillsTableSub: Subscription;
+  educationsTableSub: Subscription;
+  certificationsTableSub: Subscription;
+  
 
   //checkedProfessions is used to initiliaze checked elements with class is-checked in html
   checkedProfessions: Array<string>;
@@ -390,8 +396,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       document.getElementById(this.checkedProfessions[i]).classList.add('isChecked');
     }
     this.counter = this.checkedProfessions.length;
-    console.log(this.checkedProfessions);
-
   }
   populateSkillsTable() {
     for (let i = 0; i < this.skills.data.length; i++) {
@@ -401,7 +405,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
       this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
       this.skills.sorter.sort();
-
       this.addSkillEditListener(this.skillCounter);
       //Starting from the second el, user will have option to delete (cuz first one is required)
       if (this.skillContent.length > 1) {
@@ -866,9 +869,20 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     return valid;
   }
   ngOnDestroy() {
-    this.personalDataSub.unsubscribe();
-    this.professionalDataSub.unsubscribe();
     this.personalFormValidSub.unsubscribe();
+    this.personalFormOnDestroy();
+    this.professionalFormOnDestroy();
+    //These need to be subscribed even when professional Nav is not being used.
+    this.scrollSub.unsubscribe();
+    this.skillsTableSub.unsubscribe();
+    this.educationsTableSub.unsubscribe();
+    this.certificationsTableSub.unsubscribe();
+  }
+  personalFormOnDestroy(){
+    this.personalDataSub.unsubscribe();
+  }
+  professionalFormOnDestroy(){
+    this.professionalDataSub.unsubscribe();
   }
 }
 
