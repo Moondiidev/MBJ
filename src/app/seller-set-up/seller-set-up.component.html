@@ -22,9 +22,9 @@
     <p class="paragraph setUpContainer__notice">* Шаардлагатай хүснэгтүүд</p>
     <hr class="horizontalLine2">
   </div>
-  <div class="childContainer" [ngSwitch]="whichForm">
+  <div class="childContainer" [ngSwitch]="navNum">
     <!-- ************************** PERSONAL FORM ***************************************-->
-    <div *ngSwitchCase="'personalForm'">
+    <div *ngSwitchCase="0">
       <div class="setUp-heading">
         <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
         <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
@@ -93,7 +93,7 @@
     -->
 
     <!-- ************************** PROFESSIONAL FORM ***************************************-->
-    <div *ngSwitchCase="'professionalForm'">
+    <div *ngSwitchCase="1">
       <div class="setUp-heading">
         <h1 class="heading-primary"> Мэргэжлийн мэдээлэл </h1>
         <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр

@@ -17,7 +17,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum: number = 0;
   personalFormValid: boolean = false;
   personalFormValidSub: Subscription;
-  whichForm: string = 'personalForm';
   constructor(private sellerService: SellerSetUpService, private router: Router, private route: ActivatedRoute, private afStorage: AngularFireStorage, private http: HttpClient, private renderer: Renderer2) { }
 
   ngOnInit(): void {
@@ -49,7 +48,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
 
   personalNav() {
-    this.whichForm = 'personalForm'
+    this.navNum = 0;
   }
   // ****************************************************************************************** //
   // ************************************ PERSONAL FORM *********************************** //
@@ -91,7 +90,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     });
   }
   professionalNav() {
-    this.whichForm = 'professionalForm';
+    this.navNum = 1;
     this.savePersonalData();
 
     //PROFESSIONAL FORM
