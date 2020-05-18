@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { SellerSetUpService } from './seller-set-up.service';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { PersonalModel } from 'src/app/shared/personal.model';
 import { HttpClient } from '@angular/common/http';
 import { ProfessionalModel } from '../shared/professional.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-seller-set-up',
@@ -14,18 +15,46 @@ import { ProfessionalModel } from '../shared/professional.model';
   styleUrls: ['./seller-set-up.component.scss']
 })
 export class SellerSetUpComponent implements OnInit, OnDestroy {
-  navNum: number = 0;
+  navNum: number = null;
   personalFormValid: boolean = false;
   personalFormValidSub: Subscription;
-  constructor(private sellerService: SellerSetUpService, private router: Router, private route: ActivatedRoute, private afStorage: AngularFireStorage, private http: HttpClient, private renderer: Renderer2) { }
+  mainUrlName: string = 'seller-set-up/';
+  firstNavUrlName: string = 'personal';
+  secondNavUrlName: string = 'professional';
+
+  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private afStorage: AngularFireStorage, private http: HttpClient, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
-
     this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
       this.personalFormValid = validity;
     })
-
+  }
+  ngAfterViewInit(): void {
+    //Depending on the url (which reflects the NAV name) that the user was last using, correct NAV is loaded and presented on webpage reload/load
+    setTimeout(() => {
+      switch (this.route.snapshot.params['nav']) {
+        case this.firstNavUrlName:
+          this.setUpPersonalForm();
+          break;
+        case this.secondNavUrlName:
+          this.setUpProfessionalNav();
+          break;
+        default:
+          this.setUpPersonalForm();
+          break;
+      }
+    }, 0)
+  }
+  personalNav() {
+    this.location.go(this.mainUrlName + this.firstNavUrlName);
+    this.setUpPersonalForm();
+  }
+  setUpPersonalForm() {
+    this.navNum = 0;
+    //Only need to run once like as if it was a seperate component with NgOnInit
+    if(this.personalNavOnce){
     //PERSONAL FORM
+    this.personalNavOnce = false;
     this.personalForm = new FormGroup({
       'name': new FormGroup({
         'firstName': new FormControl(null, Validators.required),
@@ -40,15 +69,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         this.sellerService.personalFormValid.next(true);
       }
     })
-
     this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
       this.personalData = data;
       this.usePersonalData();
     });
-  }
-
-  personalNav() {
-    this.navNum = 0;
+    }
   }
   // ****************************************************************************************** //
   // ************************************ PERSONAL FORM *********************************** //
@@ -66,6 +91,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   folderName: string = 'profileImages';
   imageName: string = 'user1profileImg';
   personalDataSub: Subscription;
+  personalNavOnce: boolean = true;
 
   savePersonalData() {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
@@ -90,10 +116,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     });
   }
   professionalNav() {
-    this.navNum = 1;
+    this.location.go(this.mainUrlName + this.secondNavUrlName);
     this.savePersonalData();
-
+    this.setUpProfessionalNav();
+  }
+  setUpProfessionalNav() {
     //PROFESSIONAL FORM
+    this.navNum = 1;
+
     if (this.professionalNavOnce) {
       this.professionalNavOnce = false;
       this.professionalForm = new FormGroup({
@@ -141,21 +171,21 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.useProfessionalData();
         }
       });
-      this.scrollEls.changes.subscribe((el: QueryList<ElementRef>)=>{
+      this.scrollEls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.scrollEl = el.first;
       })
-      this.skillsTableHtmls.changes.subscribe((el: QueryList<ElementRef>)=>{
+      this.skillsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.skillsTableHtml = el.first;
       })
-      this.educationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>)=>{
+      this.educationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.educationsTableHtml = el.first;
       })
-      this.certificationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>)=>{
+      this.certificationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.certificationsTableHtml = el.first;
       })
     }
-
-    setTimeout(()=>{
+    //NgIf messes with Miniform tables so I need to repopulate them whenever ngIf becomes true for professionalNav
+    setTimeout(() => {
       this.skillCounter = 0;
       this.skillContent = [];
       this.educationCounter = 0;
@@ -166,7 +196,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.populateSkillsTable();
       this.populateEducationsTable();
       this.populateCertificationsTable();
-    },100);
+    }, 100);
   }
   onPersonalFormSubmit() {
     if (this.personalForm.valid) {
@@ -220,8 +250,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
 
   //checkedProfessions is used to initiliaze checked elements with class is-checked in html
-  checkedProfessions: Array<string>;    
-  
+  checkedProfessions: Array<string>;
+
 
   currentYear = new Date().getFullYear();
   howManyYears = 50;
@@ -240,10 +270,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   @ViewChildren('educationsTable') educationsTableHtmls: QueryList<ElementRef>;
   @ViewChildren('certificationsTable') certificationsTableHtmls: QueryList<ElementRef>;
 
-  scrollEl : ElementRef;
-  skillsTableHtml : ElementRef;
-  educationsTableHtml : ElementRef;
-  certificationsTableHtml : ElementRef;
+  scrollEl: ElementRef;
+  skillsTableHtml: ElementRef;
+  educationsTableHtml: ElementRef;
+  certificationsTableHtml: ElementRef;
 
 
   // **************** MINIFORMS *************** //
@@ -303,7 +333,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.professionText = this.professionalData.profession;
     }
     if (this.professionalData.professionSkills !== undefined) {
-      this.checkedProfessions = this.professionalData.professionSkills;  
+      this.checkedProfessions = this.professionalData.professionSkills;
       this.checkCheckBoxes();
     }
     if (this.professionalData.fromYear !== undefined) {
@@ -355,15 +385,15 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       }
     }
   }
-  checkCheckBoxes(){
-    for(let i = 0; i< this.checkedProfessions.length;i++){
+  checkCheckBoxes() {
+    for (let i = 0; i < this.checkedProfessions.length; i++) {
       document.getElementById(this.checkedProfessions[i]).classList.add('isChecked');
     }
     this.counter = this.checkedProfessions.length;
     console.log(this.checkedProfessions);
 
   }
-  populateSkillsTable(){
+  populateSkillsTable() {
     for (let i = 0; i < this.skills.data.length; i++) {
       this.skillContent.push(document.createElement('tr'));
       this.updateSkillDOM(this.skillCounter);
@@ -380,7 +410,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.skillCounter++;
     }
   }
-  populateEducationsTable(){
+  populateEducationsTable() {
     for (let i = 0; i < this.educations.data.length; i++) {
       this.educationContent.push(document.createElement('tr'));
       this.updateEducationDOM(this.educationCounter);
@@ -395,7 +425,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.educationCounter++;
     }
   }
-  populateCertificationsTable(){
+  populateCertificationsTable() {
     for (let i = 0; i < this.certifications.data.length; i++) {
       this.certificationContent.push(document.createElement('tr'));
       this.updateCertificationDOM(this.certificationCounter);
@@ -449,11 +479,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   checkedState(event) {
     let el: HTMLInputElement = event.target;
     if (el.className.includes('isChecked')) {
-      if(this.counter > 0){
+      if (this.counter > 0) {
         this.counter--;
         el.classList.remove('isChecked');
         let a = this.checkedProfessions.indexOf(el.id);
-        this.checkedProfessions.splice(a,1);
+        this.checkedProfessions.splice(a, 1);
       }
     } else {
       if (this.counter < 5) {

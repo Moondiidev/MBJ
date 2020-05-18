@@ -4,8 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { SellerSetUpComponent } from './seller-set-up.component';
 
-import {AngularFireModule} from 'angularfire2';
-import {AngularFireStorageModule} from "angularfire2/storage";
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorageModule } from "angularfire2/storage";
 import { PersonalResolverService } from './personal-resolver.service';
 
 @NgModule({
@@ -26,8 +26,9 @@ import { PersonalResolverService } from './personal-resolver.service';
         RouterModule.forChild([
             {
                 //Load SellerSetUpComponent at least when personal form is ready
-                path: '', component: SellerSetUpComponent, resolve: [PersonalResolverService],
-            },
+            
+                path: ':nav', component: SellerSetUpComponent, resolve: [PersonalResolverService]
+            }
         ])
     ],
 })
