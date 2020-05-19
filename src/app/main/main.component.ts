@@ -12,10 +12,9 @@ export class MainComponent implements OnInit {
   }
     
   ngOnInit() {
-  
+    
   }
   onClick(){
-    alert("br");
   }
 
   slides = [

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  cors: 'https://cors-anywhere.herokuapp.com/',
+  databaseURL: 'https://mbj-2f9fa.firebaseio.com/',
 };
 
 /*

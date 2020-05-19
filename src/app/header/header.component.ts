@@ -9,26 +9,32 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  currentState : string = "main";
+  currentState: string = "main";
   private userSub: Subscription;
   private appState: Subscription;
-  constructor(private authService : AuthService, private appManagerService : AppManagerService) { }
+  constructor(private authService: AuthService, private appManagerService: AppManagerService) { }
 
   ngOnInit() {
-    this.appState = this.appManagerService.appState.subscribe(state => {
-      this.currentState = state;
+
+    this.userSub = this.authService.user.subscribe(user => {
+      if (user) {
+        this.currentState = 'authenticated';
+      }else{
+        this.currentState = 'main';
+      }
+      alert(this.currentState);
     })
   }
-  onClick(){
+  onClick() {
     alert("bruh");
   }
-  resetForm(){
-    this.authService.resetForm.next();
-  }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.userSub.unsubscribe();
   }
-  logOut(){
+  logOut() {
     this.authService.logout();
+  }
+  sellerNav() {
+    this.appManagerService.appState.next('onlyLogo');
   }
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService, AuthResponseData } from './auth.service';
-import {Subscription, Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-auth',
@@ -10,50 +11,84 @@ import {Subscription, Observable } from 'rxjs';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  resetFormObs = new Subscription();
-  @ViewChild ('authForm') authForm : NgForm;
+  authForm: FormGroup;
   error: string = null;
   isLoading: boolean = false;
   isLogIn: boolean = false;
   passwordShow: boolean = false;
-
-  constructor(private route: ActivatedRoute, private authService : AuthService, private router : Router) { }
+  userNameSub: Subscription;
+  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) =>{
+    this.route.params.subscribe((params: Params) => {
       this.isLogIn = 'logIn' === params['isLogIn'] ? true : false;
       this.error = null;
-    })
-    this.resetFormObs = this.authService.resetForm.subscribe(()=>{
-      this.authForm.reset();
+      if (this.isLogIn) {
+        this.authForm = new FormGroup({
+          'email': new FormControl(null, [Validators.required, Validators.email]),
+          'password': new FormControl(null, Validators.required),
+        });
+      } else {
+        this.authForm = new FormGroup({
+          'userName': new FormControl(null, [Validators.required, Validators.minLength(6)], this.uniqueUserName.bind(this)),
+          'email': new FormControl(null, [Validators.required, Validators.email]),
+          'password': new FormControl(null, [Validators.required, Validators.minLength(8)]),
+        });
+      }
     })
   }
-  togglePasswordVisibility(){
+  uniqueUserName(control: FormControl): Promise<any> | Observable<any> {
+    let allUsedUserNames: Array<string>;
+    const promise = new Promise<any>((resolve, reject) => {
+      //Get all used user names stored on database
+      this.userNameSub = this.authService.getUserNames().subscribe(names => {
+        console.log(names);
+        allUsedUserNames = JSON.parse(names);
+        console.log(allUsedUserNames);
+
+        if (allUsedUserNames !== null) {
+          if (allUsedUserNames === this.authForm.get('userName').value) {
+            alert('not coo');
+            resolve({ 'isUniqueUserName': false });
+          } else {
+            resolve(null);
+          }
+        } else {
+          resolve(null);
+        }
+      });
+    })
+    return promise;
+  }
+  togglePasswordVisibility() {
     this.passwordShow = !this.passwordShow;
   }
-  rememberMeToggle(){
+  rememberMeToggle() {
     this.authService.rememberToggle = !this.authService.rememberToggle;
   }
-  resetForm(){
-    this.authService.resetForm.next();
+  ngOnDestroy() {
+    if (this.userNameSub !== undefined) {
+      this.userNameSub.unsubscribe();
+    }
   }
-  ngOnDestroy(){
-    this.resetFormObs.unsubscribe();
-  }
-  onSubmit(){
+  onSubmit() {
     if (!this.authForm.valid) {
       return;
     }
-    const email = this.authForm.value.email;
-    const password = this.authForm.value.password;
+    if (!this.isLogIn) {
+      this.authService.saveUserName(this.authForm.get('userName').value);
+    }
+    const userName = this.authForm.get('userName').value;
+    const email = this.authForm.get('email').value;
+    const password = this.authForm.get('password').value;
     let authObs: Observable<AuthResponseData>;
-    
+
     this.isLoading = true;
-    
+
     if (this.isLogIn) {
-      authObs = this.authService.login(email,password);
+      authObs = this.authService.login(email, password);
     } else {
-      authObs = this.authService.signup(email, password);
+      authObs = this.authService.signup(userName, email, password);
     }
     authObs.subscribe(
       resData => {
@@ -67,6 +102,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
-    this.authForm.reset();  }
+    this.authForm.reset();
+  }
 
 }

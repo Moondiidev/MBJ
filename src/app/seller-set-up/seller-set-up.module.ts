@@ -26,7 +26,6 @@ import { PersonalResolverService } from './personal-resolver.service';
         RouterModule.forChild([
             {
                 //Load SellerSetUpComponent at least when personal form is ready
-            
                 path: ':nav', component: SellerSetUpComponent, resolve: [PersonalResolverService]
             }
         ])

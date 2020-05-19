@@ -1,18 +1,17 @@
-<div *ngIf = "isLoading">
+<div *ngIf="isLoading">
   <app-loading-spinner></app-loading-spinner>
 </div>
 <div class="auth-container">
-  <form #authForm="ngForm" class="auth-form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="authForm" class="auth-form" (ngSubmit)="onSubmit()">
     <img src="../../assets/img/user.svg" alt="" class="userLogo">
     <h2 class="heading-secondary marginVertical-medium">{{isLogIn === true ? "Тавтай морилнуу" : "Бүртгүүлэх"}}</h2>
 
     <!--- LOGIN INPUTS -->
     <div *ngIf="isLogIn" class="auth-form__inputs">
-      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email" required email ngModel
-        name="email">
+      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Эмэйл" formControlName="email">
       <div class="auth-form__passwordContainer">
         <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput"
-          placeholder="Password" required ngModel name="password">
+          placeholder="Нууц Үг" formControlName="password">
         <a (click)="togglePasswordVisibility()"><img
             [src]="passwordShow === true ? '../../assets/img/eye.svg' : '../../assets/img/hidden.svg'" alt=""
             class="auth-form__hidden"></a>
@@ -21,35 +20,47 @@
 
     <!--- SINGUP INPUTS -->
     <div *ngIf="!isLogIn" class="auth-form__inputs">
-      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Email" required email ngModel
-        name="email">
+      <input type="text" class="auth-form__input" placeholder="Бусдад Харагдах Нэр" formControlName="userName">
+      <ul class="auth-form__inputErrors"
+        *ngIf="!this.authForm.get('userName').valid && this.authForm.get('userName').touched">
+        <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.isUniqueUserName">Энэ
+          нэрийг аль хэдийнээ өөр хүн хэрэглэж байгаа тул өөр онцгой нэр
+          хайж ол нуу.
+        </li>
+        <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.minlength">6-аас дээш
+          үсэгтэй нэр
+          оруулна уу</li>
+      </ul>
+      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Эмэйл" formControlName="email">
       <div class="auth-form__passwordContainer">
         <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput"
-          placeholder="Password" required ngModel name="password" minlength="8" #passwordInput="ngModel">
+          placeholder="Нууц Үг" formControlName="password">
         <a (click)="togglePasswordVisibility()"><img
             [src]="passwordShow === true ? '../../assets/img/eye.svg' : '../../assets/img/hidden.svg'" alt=""
             class="auth-form__hidden"></a>
       </div>
-      <ul class="auth-form__inputErrors" *ngIf="!passwordInput.valid">
-        <li class="auth-form__inputError error-text" *ngIf="passwordInput.errors?.minlength">8-аас дээш үсэгтэй нууц үг хийнүү</li>
+      <ul class="auth-form__inputErrors" *ngIf="!this.authForm.get('password').valid">
+        <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('password').errors?.minlength">8-аас дээш
+          үсэгтэй нууц үг
+          оруулна уу</li>
       </ul>
     </div>
 
     <button type="submit" class="auth-form__submit"
       [disabled]="!authForm.valid">{{isLogIn === true ? "Нэвтрэх" : "МБЖ-д нэгд"}}</button>
 
-    <p class="auth-form__submitErrorMessage error-text" *ngIf = "error">{{error}}</p>
+    <p class="auth-form__submitErrorMessage error-text" *ngIf="error">{{error}}</p>
 
     <div class="auth-form-textArea">
       <label *ngIf="isLogIn" class="paragraph checkbox-container checkbox-container__center checkbox-container__blue">
-        <input (click) = "rememberMeToggle()" type="checkbox" class="checkbox">
+        <input (click)="rememberMeToggle()" type="checkbox" class="checkbox">
         <span class="checkmark"></span>
         Намайг сана
       </label>
       <p *ngIf="!isLogIn" class="paragraph">Бүртгүүлсэнээр МБЖ-ээс имэйл хүлээн авахыг би хүлээн зөвшөөрч байна.</p>
       <hr class="horizontalLine">
       <p *ngIf="isLogIn; else signUpRedirect" class="auth-form__redirectText"> Хаяг байхгуй гэж үү? <a
-          class="emphasis-link" routerLink="/auth/signUp" (click)="resetForm()">Бүртгүүлэх</a></p>
+          class="emphasis-link" routerLink="/auth/signUp">Бүртгүүлэх</a></p>
     </div>
   </form>
 </div>
@@ -61,6 +72,6 @@ To fix, use *ngIf twice and not ng templates.
 -->
 
 <ng-template #signUpRedirect>
-  <p class="auth-form__redirectText">Аль хэдийн хаяг байгаа гэж үү? <a class="emphasis-link" routerLink="/auth/logIn"
-      (click)="resetForm()">Нэвтрэх</a></p>
+  <p class="auth-form__redirectText">Аль хэдийн хаяг байгаа гэж үү? <a class="emphasis-link"
+      routerLink="/auth/logIn">Нэвтрэх</a></p>
 </ng-template>

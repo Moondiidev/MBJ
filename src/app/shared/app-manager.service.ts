@@ -6,5 +6,6 @@ import { Injectable } from '@angular/core';
 })
 export class AppManagerService {
   appState = new BehaviorSubject<string>(null);
+  userName : string;
   constructor() { }
 }

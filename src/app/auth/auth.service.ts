@@ -2,10 +2,12 @@ import { AppManagerService } from './../shared/app-manager.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { catchError } from 'rxjs/operators';
-import { throwError, BehaviorSubject, Subject } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from './user.model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+
 export interface AuthResponseData {
     kind: string;
     idToken: string;
@@ -17,12 +19,11 @@ export interface AuthResponseData {
 }
 @Injectable({ providedIn: "root" })
 export class AuthService {
-    resetForm = new Subject();
     user = new BehaviorSubject<User>(null);
-    rememberToggle : boolean = false;
-    rememberUser : boolean = false;
+    rememberToggle: boolean = false;
+    rememberUser: boolean = false;
     private tokenExpirationTimer: any;
-    constructor(private http: HttpClient, private router: Router, private appManagerService : AppManagerService) { }
+    constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService) { }
     private handleError(errorRes: HttpErrorResponse) {
         let errorMessage = 'An unknown  error occured!';
         if (!errorRes.error.error) {
@@ -30,7 +31,7 @@ export class AuthService {
         }
         switch (errorRes.error.error.message) {
             case 'EMAIL_EXISTS':
-                errorMessage = 'Эмэйл хаяг аль хэдийн бүртгэгдсэн байна. Энэ хаягаараа нэртэрнүү.';
+                errorMessage = 'Эмэйл хаяг аль хэдийн бүртгэгдсэн байна. Энэ хаягаараа нэвтэрнүү.';
                 break;
             case 'INVALID_PASSWORD':
                 errorMessage = 'Уучлаарай, таны нууц үг буруу байна. Нууц үгээ дахин шалга нуу.';
@@ -45,13 +46,13 @@ export class AuthService {
         const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
         const user = new User(email, userId, token, expirationDate);
         this.user.next(user);
-        this.appManagerService.appState.next('authenticated');
         this.autoLogout(expiresIn * 1000);
         localStorage.setItem('userData', JSON.stringify(user));
     }
-    signup(email: string, password: string) {
+    signup(email: string, userName: string, password: string) {
         return this.http.post<AuthResponseData>("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA5Y-a9JJesQov7UMNrlBHFDN5wfaA9ANw",
             {
+                userName: userName,
                 email: email,
                 password: password,
                 returnSecureToken: true
@@ -62,16 +63,16 @@ export class AuthService {
                     this.handleAuthentication(resData.email, resData.idToken, resData.localId, +resData.expiresIn);
                 }));
     }
-    logout(){
+    logout() {
         this.user.next(null);
         this.router.navigate(['']);
         localStorage.removeItem('userData');
-        if(this.tokenExpirationTimer){
+        if (this.tokenExpirationTimer) {
             clearTimeout(this.tokenExpirationTimer);
-            this.tokenExpirationTimer = null;   
+            this.tokenExpirationTimer = null;
         };
     }
-    autoLogout(expirationDuration: number){
+    autoLogout(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
             this.logout();
         }, expirationDuration);
@@ -83,7 +84,7 @@ export class AuthService {
         this.rememberUser = this.rememberToggle;
         this.rememberToggle = false;
         localStorage.setItem('userRemember', JSON.stringify(this.rememberUser));
-
+        console.log(localStorage);
         return this.http.post<AuthResponseData>("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA5Y-a9JJesQov7UMNrlBHFDN5wfaA9ANw",
             {
                 email: email,
@@ -96,24 +97,33 @@ export class AuthService {
                     this.handleAuthentication(resData.email, resData.idToken, resData.localId, +resData.expiresIn);
                 }));
     }
-    rememberer(){
+    rememberer() {
         this.rememberUser = JSON.parse(localStorage.getItem('userRemember'));
     }
-    autoLogin(){
+    autoLogin() {
         const userData = JSON.parse(localStorage.getItem('userData'));
-        if(!userData){
+        if (!userData) {
             return;
         }
         const loadedUser = new User(
-            userData.email, 
-            userData.id, 
-            userData._token, 
+            userData.email,
+            userData.id,
+            userData._token,
             new Date(userData._tokenExpirationDate)
-            );  
-        if(loadedUser.token){
+        );
+        if (loadedUser.token) {
             this.user.next(loadedUser);
             const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
             this.autoLogout(expirationDuration);
         }
+    }
+    saveUserName(name) {
+        //Creates a unique folder using the name
+        this.http.post(`${environment.cors}${environment.databaseURL}users.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
+        //Makes it available application-wide
+        this.appManagerService.userName = name;
+    }
+    getUserNames(){
+        return this.http.get<string>(`${environment.cors}${environment.databaseURL}users.json`);
     }
 }
