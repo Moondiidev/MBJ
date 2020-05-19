@@ -122,12 +122,12 @@ export class AuthService {
     }
     saveUserName(name) {
         //Creates a unique folder using the name
-        this.http.post(`${environment.cors}${environment.databaseURL}users.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
+        this.http.post(`${environment.cors}${environment.databaseURL}userNames.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
         //Makes it available application-wide
         this.appManagerService.userName = name;
     }
     getUserNames(){
-        return this.http.get<Array<string>>(`${environment.cors}${environment.databaseURL}users.json`)
+        return this.http.get<Array<string>>(`${environment.cors}${environment.databaseURL}userNames.json`)
         .pipe(map(res => {
             const namesArr = [];
             for(const key in res){
