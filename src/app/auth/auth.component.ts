@@ -74,9 +74,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (!this.authForm.valid) {
       return;
     }
-    if (!this.isLogIn) {
-      this.authService.saveUserName(this.authForm.get('userName').value);
-    }
     const email = this.authForm.get('email').value;
     const password = this.authForm.get('password').value;
     let authObs: Observable<AuthResponseData>;
@@ -93,6 +90,10 @@ export class AuthComponent implements OnInit, OnDestroy {
         console.log(resData);
         this.isLoading = false;
         this.router.navigate(['']);
+        //On Valid authentication, if it is signup form, save username to database 
+        if (!this.isLogIn) {
+          this.authService.saveUserName(this.authForm.get('userName').value);
+        }
       },
       errorMessage => {
         console.log(errorMessage);

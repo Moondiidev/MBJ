@@ -4,7 +4,7 @@
 <div class="auth-container">
   <form [formGroup]="authForm" class="auth-form" (ngSubmit)="onSubmit()">
     <img src="../../assets/img/user.svg" alt="" class="userLogo">
-    <h2 class="heading-secondary marginVertical-medium">{{isLogIn === true ? "Тавтай морилнуу" : "Бүртгүүлэх"}}</h2>
+    <h2 class="heading-secondary auth-form__header">{{isLogIn === true ? "Тавтай морилнуу" : "Бүртгүүлэх"}}</h2>
 
     <!--- LOGIN INPUTS -->
     <div *ngIf="isLogIn" class="auth-form__inputs">
