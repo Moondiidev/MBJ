@@ -44,16 +44,16 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.userNameSub = this.authService.getUserNames().subscribe(names => {
         allUsedUserNames = names;
         console.log(allUsedUserNames);
-        for (let i = 0; i < allUsedUserNames.length; i++) {
-          if (allUsedUserNames[i] !== null) {
+        if (allUsedUserNames !== null) {
+          for (let i = 0; i < allUsedUserNames.length; i++) {
             if (allUsedUserNames[i] === this.authForm.get('userName').value) {
               resolve({ 'isNotUniqueUserName': true });
-            } else {
-              resolve(null);
-            }
-          } else {
-            resolve(null);
+              break;
+            } 
           }
+          resolve(null);
+        } else {
+          resolve(null);
         }
       });
     })
@@ -77,7 +77,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (!this.isLogIn) {
       this.authService.saveUserName(this.authForm.get('userName').value);
     }
-    const userName = this.authForm.get('userName').value;
     const email = this.authForm.get('email').value;
     const password = this.authForm.get('password').value;
     let authObs: Observable<AuthResponseData>;
@@ -87,7 +86,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.isLogIn) {
       authObs = this.authService.login(email, password);
     } else {
-      authObs = this.authService.signup(userName, email, password);
+      authObs = this.authService.signup(email, password);
     }
     authObs.subscribe(
       resData => {

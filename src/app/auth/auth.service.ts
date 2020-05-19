@@ -25,6 +25,7 @@ export class AuthService {
     private tokenExpirationTimer: any;
     constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService) { }
     private handleError(errorRes: HttpErrorResponse) {
+        console.log(errorRes);
         let errorMessage = 'An unknown  error occured!';
         if (!errorRes.error.error) {
             return throwError(errorMessage);
@@ -34,7 +35,10 @@ export class AuthService {
                 errorMessage = 'Эмэйл хаяг аль хэдийн бүртгэгдсэн байна. Энэ хаягаараа нэвтэрнүү.';
                 break;
             case 'INVALID_PASSWORD':
-                errorMessage = 'Уучлаарай, таны нууц үг буруу байна. Нууц үгээ дахин шалга нуу.';
+                errorMessage = 'Уучлаарай, таны нууц үг буруу байна. Нууц үгээ дахин шалгана уу.';
+                break;
+            case 'INVALID_EMAIL':
+                errorMessage = 'Уучлаарай, таны эмэйл хаяг буруу байна. Эмэйл хаягаа дахин шалгана уу.';
                 break;
             case 'EMAIL_NOT_FOUND':
                 errorMessage = 'Эмэйл хаяг бүртгэлд байхгүй байна. Шинэ хаяг бүртгүүлэн үү.';
@@ -49,10 +53,9 @@ export class AuthService {
         this.autoLogout(expiresIn * 1000);
         localStorage.setItem('userData', JSON.stringify(user));
     }
-    signup(email: string, userName: string, password: string) {
+    signup(email: string, password: string) {
         return this.http.post<AuthResponseData>("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA5Y-a9JJesQov7UMNrlBHFDN5wfaA9ANw",
             {
-                userName: userName,
                 email: email,
                 password: password,
                 returnSecureToken: true
@@ -119,7 +122,7 @@ export class AuthService {
     }
     saveUserName(name) {
         //Creates a unique folder using the name
-        this.http.post(`${environment.cors}${environment.databaseURL}users.json`, name).subscribe(res => { console.log(res); });
+        this.http.post(`${environment.cors}${environment.databaseURL}users.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
         //Makes it available application-wide
         this.appManagerService.userName = name;
     }

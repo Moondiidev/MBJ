@@ -2,91 +2,107 @@
 @import '../scss/checkbox.scss';
 @import '../scss/utilities.scss';
 
-.auth-container{
-    width: 35rem;
-    margin-top: 5rem;
-    @include absCenter; 
-    background-color: rgb(255, 255, 255);
+.auth-container {
+  width: 35rem;
+  margin-top: 5rem;
+  @include absCenter;
+  background-color: rgb(255, 255, 255);
 }
-.auth-form{
+
+.auth-form {
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+
+  &__input,
+  &__submit {
+    width: 100%;
+    font-size: 1.6rem;
+    border-radius: 100px;
+    padding: 1rem 1.5rem;
+    outline: none;
+  }
+
+  &__input {
+    border: 1.3px solid rgba(65, 62, 62, 0.5);
+    transition: 0.2s;
+    margin-top: 2.5rem;
+    &:first-of-type{
+        margin-top: 2rem;
+    }
+    &:focus {
+      border: 1.3px solid rgb(0, 120, 218);
+    }
+
+  }
+
+  &__submit {
+    cursor: pointer;
+    background-color: rgb(0, 125, 235);
+    margin: 2.5rem 0;
+    font-weight: 600;
+    color: white;
+    transition: 0.2s;
+
+    &:disabled {
+      background-color: rgb(110, 127, 141);
+    }
+  }
+
+  &__redirectText {
+    font-size: 1.25rem;
+  }
+
+  &__inputErrors {
+    text-align: left;
+    margin-right: auto;
+    margin-left: 2rem;
+    list-style-type: circle;
+  }
+
+  &__inputError {
+    margin-top: 1rem;
+  }
+
+  &__submitErrorMessage {
     text-align: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4rem;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
-    &__input,
-    &__submit{
-        width: 100%;
-        font-size: 1.6rem;
-        border-radius: 100px;
-        padding: 1rem 1.5rem;
-        outline: none;
-    }
-    &__input{
-        border: 1.3px solid rgba(65, 62, 62, 0.5);
-        transition: 0.2s;
-        &:focus{
-            border: 1.3px solid rgb(0, 120, 218);
-        }
-    }
-    &__submit{
-        cursor: pointer;
-        background-color: rgb(0, 125, 235);
-        margin: 3rem 0;
-        font-weight: 600;
-        color: white;
-        transition: 0.2s;
-        &:disabled{
-            background-color: rgb(110, 127, 141);
-        }
-    }
-    &__emailInput{
-        margin: 3rem 0;
-    }
-    &__redirectText{
-        font-size: 1.25rem;
-    }
-    &__inputErrors{
-        text-align: left;
-        margin-right: auto;
-        margin-left: 2rem;
-        list-style-type: circle;
-    }
-    &__inputError{
-        margin-top: 1rem;
-    }
-    &__submitErrorMessage{
-        text-align: center;
-        margin-bottom: 2rem;
-        font-size: 1.2rem;
-    }
-    &__hidden{
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translate(120%,-50%);
-        width: 2rem;
-        height: 2rem;
-        cursor: pointer;
-    }
-    &__inputs{
-        width: 100%;
-    }
-    &__passwordContainer{
-        position: relative;
-        width: 100%;
-    }
-}
-.userLogo{
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  &__hidden {
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 8rem;
-    height: 8rem;
+    top: 50%;
+    right: 0;
+    transform: translate(120%, -50%);
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+  }
+
+  &__inputs {
+    width: 100%;
+  }
+
+  &__passwordContainer {
+    position: relative;
+    width: 100%;
+  }
 }
-input.ng-touched.ng-invalid{
-    border: 1.3px solid rgb(255, 0, 0);
+
+.userLogo {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8rem;
+  height: 8rem;
+}
+
+input.ng-touched.ng-invalid {
+  border: 1.3px solid rgb(255, 0, 0);
 }
