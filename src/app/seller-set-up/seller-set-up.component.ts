@@ -52,27 +52,27 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   setUpPersonalForm() {
     this.navNum = 0;
     //Only need to run once like as if it was a seperate component with NgOnInit
-    if(this.personalNavOnce){
-    //PERSONAL FORM
-    this.personalNavOnce = false;
-    this.personalForm = new FormGroup({
-      'name': new FormGroup({
-        'firstName': new FormControl(null, Validators.required),
-        'lastName': new FormControl(null, Validators.required)
-      }),
-      'description': new FormControl(null, Validators.required)
-    });
-    this.getProfileImage();
-    // Seller-set-up header navigation only allows navigation when form is valid
-    this.personalForm.statusChanges.subscribe(status => {
-      if (status === "VALID") {
-        this.sellerService.personalFormValid.next(true);
-      }
-    })
-    this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
-      this.personalData = data;
-      this.usePersonalData();
-    });
+    if (this.personalNavOnce) {
+      //PERSONAL FORM
+      this.personalNavOnce = false;
+      this.personalForm = new FormGroup({
+        'name': new FormGroup({
+          'firstName': new FormControl(null, Validators.required),
+          'lastName': new FormControl(null, Validators.required)
+        }),
+        'description': new FormControl(null, Validators.required)
+      });
+      this.getProfileImage();
+      // Seller-set-up header navigation only allows navigation when form is valid
+      this.personalForm.statusChanges.subscribe(status => {
+        if (status === "VALID") {
+          this.sellerService.personalFormValid.next(true);
+        }
+      })
+      this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
+        this.personalData = data;
+        this.usePersonalData();
+      });
     }
   }
   // ****************************************************************************************** //
@@ -248,12 +248,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   videoNames: Array<string> = ['Киноны Трейлер', 'Видео Тоглоомны Трейлер', 'Видео Эвлүүлэг', 'Богино Хэмжээний Зар Сурталчилгаа', '3Д Хүүхэлдэйн Кино', 'VFX', '2Д Хүүхэлдэйн Кино', 'Бусад'];
   programmingNames: Array<string> = ['Вэб Сайт Програмчлал', 'Хөөрөлдөгч Бот', 'Видео Тоглоом Хөгжүүлэх', 'Гар Утасны АПП Програмчлал', 'WordPress', 'Мэдээлэл Судлал & Тайлан', 'Цахим Аюулгуй Байдал', 'Бусад'];
   otherNames: Array<string> = ['Дасгал & Хоол Тэжээл Зөвлөгөө', 'Санхүүгийн Зөвлөгөө', 'Сэтгэл Зүйн Эмчилгээ', 'Бусад'];
-  
+
   scrollSub: Subscription;
   skillsTableSub: Subscription;
   educationsTableSub: Subscription;
   certificationsTableSub: Subscription;
-  
+
 
   //checkedProfessions is used to initiliaze checked elements with class is-checked in html
   checkedProfessions: Array<string>;
@@ -878,10 +878,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.educationsTableSub.unsubscribe();
     this.certificationsTableSub.unsubscribe();
   }
-  personalFormOnDestroy(){
+  personalFormOnDestroy() {
     this.personalDataSub.unsubscribe();
   }
-  professionalFormOnDestroy(){
+  professionalFormOnDestroy() {
     this.professionalDataSub.unsubscribe();
   }
 }

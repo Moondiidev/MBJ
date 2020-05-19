@@ -8,7 +8,14 @@
   @include absCenter;
   background-color: rgb(255, 255, 255);
 }
-
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
 .auth-form {
   text-align: center;
   position: relative;
@@ -17,7 +24,18 @@
   align-items: center;
   padding: 3.5rem;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
-
+  &__userNameContainer{
+      display: flex;
+      align-items: center;
+      position: relative;
+  }
+  &__spinner{
+      position: absolute;
+      right: 2rem;
+      width: 2rem;
+      height: 2rem;
+      animation: spin 1s linear infinite;
+  }
   &__header {
       margin-top: 2rem;
       margin-bottom: 3rem;

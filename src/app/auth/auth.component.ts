@@ -16,6 +16,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   isLogIn: boolean = false;
   passwordShow: boolean = false;
+  checkingUserName: boolean = false;
   userNameSub: Subscription;
   constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
@@ -40,6 +41,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   uniqueUserName(control: FormControl): Promise<any> | Observable<any> {
     let allUsedUserNames: Array<string>;
     const promise = new Promise<any>((resolve, reject) => {
+      this.checkingUserName = true;
       //Get all used user names stored on database
       this.userNameSub = this.authService.getUserNames().subscribe(names => {
         allUsedUserNames = names;
@@ -48,12 +50,15 @@ export class AuthComponent implements OnInit, OnDestroy {
           for (let i = 0; i < allUsedUserNames.length; i++) {
             if (allUsedUserNames[i] === this.authForm.get('userName').value) {
               resolve({ 'isNotUniqueUserName': true });
+              this.checkingUserName = false;
               break;
-            } 
+            }
           }
           resolve(null);
+          this.checkingUserName = false;
         } else {
           resolve(null);
+          this.checkingUserName = false;
         }
       });
     })
@@ -76,6 +81,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
     const email = this.authForm.get('email').value;
     const password = this.authForm.get('password').value;
+    const userName = this.authForm.get('userName').value;
     let authObs: Observable<AuthResponseData>;
 
     this.isLoading = true;
@@ -87,13 +93,13 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
     authObs.subscribe(
       resData => {
+        //On Valid authentication, if it is signup form, save username to database 
+        if (!this.isLogIn) {
+          this.authService.saveUserName(userName);
+        }
         console.log(resData);
         this.isLoading = false;
         this.router.navigate(['']);
-        //On Valid authentication, if it is signup form, save username to database 
-        if (!this.isLogIn) {
-          this.authService.saveUserName(this.authForm.get('userName').value);
-        }
       },
       errorMessage => {
         console.log(errorMessage);
