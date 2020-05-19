@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 export interface AuthResponseData {
+    displayName: string;
     kind: string;
     idToken: string;
     email: string;
@@ -53,11 +54,12 @@ export class AuthService {
         this.autoLogout(expiresIn * 1000);
         localStorage.setItem('userData', JSON.stringify(user));
     }
-    signup(email: string, password: string) {
+    signup(userName: string, email: string, password: string) {
         return this.http.post<AuthResponseData>("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA5Y-a9JJesQov7UMNrlBHFDN5wfaA9ANw",
             {
                 email: email,
                 password: password,
+                displayName: userName,
                 returnSecureToken: true
             })
             .pipe(
@@ -137,5 +139,8 @@ export class AuthService {
             }
             return namesArr;
         }));
+    }
+    setUserName(name){
+        this.appManagerService.userName = name;
     }
 }

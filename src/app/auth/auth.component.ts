@@ -17,7 +17,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLogIn: boolean = false;
   passwordShow: boolean = false;
   checkingUserName: boolean = false;
-  tempUserName : String;
+  currentUserName : string;
   userNameSub: Subscription;
   constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
@@ -83,7 +83,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     const email = this.authForm.get('email').value;
     const password = this.authForm.get('password').value;
     if (!this.isLogIn) {
-      this.tempUserName = this.authForm.get('userName').value;
+      this.currentUserName = this.authForm.get('userName').value;
     }
     let authObs: Observable<AuthResponseData>;
 
@@ -92,15 +92,17 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.isLogIn) {
       authObs = this.authService.login(email, password);
     } else {
-      authObs = this.authService.signup(email, password);
+      authObs = this.authService.signup(this.currentUserName,email, password);
     }
     authObs.subscribe(
       resData => {
         //On Valid authentication, if it is signup form, save username to database 
         if (!this.isLogIn) {
-          this.authService.saveUserName(this.tempUserName);
+          this.authService.saveUserName(this.currentUserName);
         }
         console.log(resData);
+        console.log(resData.displayName);
+        this.authService.setUserName(resData.displayName);
         this.isLoading = false;
         this.router.navigate(['']);
       },

@@ -869,14 +869,18 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     return valid;
   }
   ngOnDestroy() {
-    this.personalFormValidSub.unsubscribe();
-    this.personalFormOnDestroy();
-    this.professionalFormOnDestroy();
+    if(this.navNum === 0){
+      this.personalFormValidSub.unsubscribe();
+      this.personalFormOnDestroy();
+    }
     //These need to be subscribed even when professional Nav is not being used.
-    this.scrollSub.unsubscribe();
-    this.skillsTableSub.unsubscribe();
-    this.educationsTableSub.unsubscribe();
-    this.certificationsTableSub.unsubscribe();
+    else if(this.navNum === 1){
+      this.scrollSub.unsubscribe();
+      this.skillsTableSub.unsubscribe();
+      this.educationsTableSub.unsubscribe();
+      this.certificationsTableSub.unsubscribe();
+      this.professionalFormOnDestroy();
+    }
   }
   personalFormOnDestroy() {
     this.personalDataSub.unsubscribe();
