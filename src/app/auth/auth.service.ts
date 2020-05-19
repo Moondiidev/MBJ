@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { catchError } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -119,11 +119,20 @@ export class AuthService {
     }
     saveUserName(name) {
         //Creates a unique folder using the name
-        this.http.post(`${environment.cors}${environment.databaseURL}users.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
+        this.http.post(`${environment.cors}${environment.databaseURL}users.json`, name).subscribe(res => { console.log(res); });
         //Makes it available application-wide
         this.appManagerService.userName = name;
     }
     getUserNames(){
-        return this.http.get<string>(`${environment.cors}${environment.databaseURL}users.json`);
+        return this.http.get<Array<string>>(`${environment.cors}${environment.databaseURL}users.json`)
+        .pipe(map(res => {
+            const namesArr = [];
+            for(const key in res){
+                if(res.hasOwnProperty(key)){
+                    namesArr.push(res[key]);
+                }
+            }
+            return namesArr;
+        }));
     }
 }

@@ -42,19 +42,18 @@ export class AuthComponent implements OnInit, OnDestroy {
     const promise = new Promise<any>((resolve, reject) => {
       //Get all used user names stored on database
       this.userNameSub = this.authService.getUserNames().subscribe(names => {
-        console.log(names);
-        allUsedUserNames = JSON.parse(names);
+        allUsedUserNames = names;
         console.log(allUsedUserNames);
-
-        if (allUsedUserNames !== null) {
-          if (allUsedUserNames === this.authForm.get('userName').value) {
-            alert('not coo');
-            resolve({ 'isUniqueUserName': false });
+        for (let i = 0; i < allUsedUserNames.length; i++) {
+          if (allUsedUserNames[i] !== null) {
+            if (allUsedUserNames[i] === this.authForm.get('userName').value) {
+              resolve({ 'isNotUniqueUserName': true });
+            } else {
+              resolve(null);
+            }
           } else {
             resolve(null);
           }
-        } else {
-          resolve(null);
         }
       });
     })

@@ -23,9 +23,8 @@
       <input type="text" class="auth-form__input" placeholder="Бусдад Харагдах Нэр" formControlName="userName">
       <ul class="auth-form__inputErrors"
         *ngIf="!this.authForm.get('userName').valid && this.authForm.get('userName').touched">
-        <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.isUniqueUserName">Энэ
-          нэрийг аль хэдийнээ өөр хүн хэрэглэж байгаа тул өөр онцгой нэр
-          хайж ол нуу.
+        <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.isNotUniqueUserName">
+          Энэ нэр аль хэдийнээ ашиглалтад байна, өөр нэр хайж ол нуу.
         </li>
         <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.minlength">6-аас дээш
           үсэгтэй нэр
