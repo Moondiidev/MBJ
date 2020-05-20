@@ -17,7 +17,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLogIn: boolean = false;
   passwordShow: boolean = false;
   checkingUserName: boolean = false;
-  currentUserName : string;
+  currentUserName: string;
+  errorMode: string;
   userNameSub: Subscription;
   constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
@@ -32,7 +33,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         });
       } else {
         this.authForm = new FormGroup({
-          'userName': new FormControl(null, [Validators.required, Validators.minLength(6)], this.uniqueUserName.bind(this)),
+          'userName': new FormControl(null, [Validators.required, Validators.minLength(6), Validators.pattern('^[A-Za-z]+(?:[_A-Za-z0-9])*$')], this.uniqueUserName.bind(this)),
           'email': new FormControl(null, [Validators.required, Validators.email]),
           'password': new FormControl(null, [Validators.required, Validators.minLength(8)]),
         });
@@ -49,7 +50,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         console.log(allUsedUserNames);
         if (allUsedUserNames !== null) {
           for (let i = 0; i < allUsedUserNames.length; i++) {
-            if (allUsedUserNames[i] === this.authForm.get('userName').value) {
+            if (allUsedUserNames[i].toLowerCase() === this.authForm.get('userName').value.toLowerCase()) {
               resolve({ 'isNotUniqueUserName': true });
               this.checkingUserName = false;
               break;
@@ -65,6 +66,14 @@ export class AuthComponent implements OnInit, OnDestroy {
     })
     return promise;
   }
+  // validateUserName(control: FormControl): {[s:string] : boolean} {
+  //   let name: string = this.authForm.get('userName').value;
+  //   if(name[0].)
+  //   // if (/\s/.test(this.authForm.get('userName').value)) {
+  //   //   // It has any kind of whitespace
+  //   //   return {'unwantedCharacters':true};
+  //   // }
+  // }
   togglePasswordVisibility() {
     this.passwordShow = !this.passwordShow;
   }
@@ -92,7 +101,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.isLogIn) {
       authObs = this.authService.login(email, password);
     } else {
-      authObs = this.authService.signup(this.currentUserName,email, password);
+      authObs = this.authService.signup(this.currentUserName, email, password);
     }
     authObs.subscribe(
       resData => {
@@ -101,7 +110,6 @@ export class AuthComponent implements OnInit, OnDestroy {
           this.authService.saveUserName(this.currentUserName);
         }
         console.log(resData);
-        console.log(resData.displayName);
         this.authService.setUserName(resData.displayName);
         this.isLoading = false;
         this.router.navigate(['']);

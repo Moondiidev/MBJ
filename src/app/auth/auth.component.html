@@ -32,6 +32,7 @@
         <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.minlength">6-аас дээш
           үсэгтэй нэр
           оруулна уу</li>
+        <li class="auth-form__inputError error-text" *ngIf="!this.authForm.get('userName').errors?.minlength && !this.authForm.get('userName').errors?.isNotUniqueUserName && !checkingUserName">Нэр заавал үсгээр эхэлж, зөвхөн доогуур зураас болон тоо агуулж болно.</li>
       </ul>
       <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Эмэйл" formControlName="email">
       <div class="auth-form__passwordContainer">
