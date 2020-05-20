@@ -11,11 +11,10 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
   currentState: string = "main";
   private userSub: Subscription;
-  private appState: Subscription;
+  private appStateSub: Subscription;
   constructor(private authService: AuthService, private appManagerService: AppManagerService) { }
 
   ngOnInit() {
-
     this.userSub = this.authService.user.subscribe(user => {
       if (user) {
         this.currentState = 'authenticated';
@@ -24,17 +23,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
       alert(this.currentState);
     })
+    this.appStateSub = this.appManagerService.headerStateSub.subscribe(state => {
+      this.currentState = state;
+    })
   }
   onClick() {
     alert("bruh");
   }
   ngOnDestroy() {
     this.userSub.unsubscribe();
+    this.appStateSub.unsubscribe();
   }
   logOut() {
     this.authService.logout();
   }
   sellerNav() {
-    this.appManagerService.appState.next('onlyLogo');
+    this.appManagerService.headerStateSub.next('onlyLogo');
   }
 }

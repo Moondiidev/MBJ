@@ -82,7 +82,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   // }
   togglePasswordVisibility() {
     this.passwordShow = !this.passwordShow;
-    console.log(this.authForm);
   }
   rememberMeToggle() {
     this.authService.rememberToggle = !this.authService.rememberToggle;
@@ -129,5 +128,4 @@ export class AuthComponent implements OnInit, OnDestroy {
     );
     this.authForm.reset();
   }
-
 }

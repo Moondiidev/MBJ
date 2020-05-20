@@ -6,7 +6,6 @@ import { SellerSetUpComponent } from './seller-set-up.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from "angularfire2/storage";
-import { PersonalResolverService } from './personal-resolver.service';
 
 @NgModule({
     declarations: [
@@ -25,8 +24,7 @@ import { PersonalResolverService } from './personal-resolver.service';
         SharedModule,
         RouterModule.forChild([
             {
-                //Load SellerSetUpComponent at least when personal form is ready
-                path: ':nav', component: SellerSetUpComponent, resolve: [PersonalResolverService]
+                path: ':nav', component: SellerSetUpComponent
             }
         ])
     ],

@@ -1,3 +1,4 @@
+import { AppManagerService } from './../shared/app-manager.service';
 import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { SellerSetUpService } from './seller-set-up.service';
 import { Subscription } from 'rxjs';
@@ -21,7 +22,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   firstNavUrlName: string = 'personal';
   secondNavUrlName: string = 'professional';
 
-  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
+  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
     this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
@@ -111,7 +112,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   getProfileImage() {
     //Get profile image and show it
-    this.afStorage.ref(`${this.folderName}/${this.imageName}`).getDownloadURL().subscribe(url => {
+    this.afStorage.ref(`${this.folderName}/${this.appManagerService.userName}`).getDownloadURL().subscribe(url => {
       this.url = url;
     });
   }
@@ -213,7 +214,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.hideProgress = false;
 
       //FIREBASE UPLOAD
-      this.ref = this.afStorage.ref(`${this.folderName}/${this.imageName}`);
+      this.ref = this.afStorage.ref(`${this.folderName}/${this.appManagerService.userName}`);
       this.task = this.ref.put(this.selectedImage);
       this.uploadProgress = this.task.percentageChanges();
       this.uploadProgress.subscribe(progress => {

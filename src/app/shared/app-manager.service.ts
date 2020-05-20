@@ -5,7 +5,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AppManagerService {
-  appState = new BehaviorSubject<string>(null);
+  headerStateSub = new BehaviorSubject<string>(null);
+  headerStates = {
+    main: 'main',
+    sellerMain: 'sellerMain',
+    onlyLogo: 'onlyLogo',
+  }
   userName : string;
   constructor() { }
 }
