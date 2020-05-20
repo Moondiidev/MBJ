@@ -19,6 +19,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   checkingUserName: boolean = false;
   currentUserName: string;
   errorMode: string;
+  uniqueUserTimeout;
   userNameSub: Subscription;
   constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
 
@@ -41,28 +42,33 @@ export class AuthComponent implements OnInit, OnDestroy {
     })
   }
   uniqueUserName(control: FormControl): Promise<any> | Observable<any> {
+    clearTimeout(this.uniqueUserTimeout);
     let allUsedUserNames: Array<string>;
     const promise = new Promise<any>((resolve, reject) => {
-      this.checkingUserName = true;
-      //Get all used user names stored on database
-      this.userNameSub = this.authService.getUserNames().subscribe(names => {
-        allUsedUserNames = names;
-        console.log(allUsedUserNames);
-        if (allUsedUserNames !== null) {
-          for (let i = 0; i < allUsedUserNames.length; i++) {
-            if (allUsedUserNames[i].toLowerCase() === this.authForm.get('userName').value.toLowerCase()) {
-              resolve({ 'isNotUniqueUserName': true });
-              this.checkingUserName = false;
-              break;
+      //Time delay allows some time after user stops typing in order to check the validation. Otherwise,
+      // validation gets run many times whenever new char is typed or deleted
+      this.uniqueUserTimeout = setTimeout(() => {
+        this.checkingUserName = true;
+        //Get all used user names stored on database
+        this.userNameSub = this.authService.getUserNames().subscribe(names => {
+          allUsedUserNames = names;
+          console.log(allUsedUserNames);
+          if (allUsedUserNames !== null) {
+            for (let i = 0; i < allUsedUserNames.length; i++) {
+              if (allUsedUserNames[i].toLowerCase() === this.authForm.get('userName').value.toLowerCase()) {
+                resolve({ 'isNotUniqueUserName': true });
+                this.checkingUserName = false;
+                break;
+              }
             }
+            resolve(null);
+            this.checkingUserName = false;
+          } else {
+            resolve(null);
+            this.checkingUserName = false;
           }
-          resolve(null);
-          this.checkingUserName = false;
-        } else {
-          resolve(null);
-          this.checkingUserName = false;
-        }
-      });
+        });
+      },700)
     })
     return promise;
   }
@@ -76,6 +82,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   // }
   togglePasswordVisibility() {
     this.passwordShow = !this.passwordShow;
+    console.log(this.authForm);
   }
   rememberMeToggle() {
     this.authService.rememberToggle = !this.authService.rememberToggle;
