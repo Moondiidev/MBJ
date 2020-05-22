@@ -24,7 +24,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       alert(this.currentState);
     })
     this.appStateSub = this.appManagerService.headerStateSub.subscribe(state => {
-      this.currentState = state;
+      if(state != null){
+        this.currentState = state;
+      }
     })
   }
   onClick() {
@@ -38,6 +40,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
   sellerNav() {
-    this.appManagerService.headerStateSub.next('onlyLogo');
+    this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.onlyLogo);
   }
 }
