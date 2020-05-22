@@ -2,7 +2,7 @@
   <div *ngSwitchCase="'authenticated'">
     <nav class="header-container">
       <div class="header header__left">
-        <img src="../../assets/img/MBJ.svg" class="header__logo">
+        <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
         <form action="" class="search" #f="ngForm">
           <div class="searchBar">
             <img src="../../assets/img/loupe.svg" alt="" class="searchIcon">
@@ -23,14 +23,14 @@
   <div *ngSwitchCase="'onlyLogo'">
     <nav class="header-container">
       <div class="header header__left">
-        <img src="../../assets/img/MBJ.svg" class="header__logo">
+        <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
       </div>
     </nav>
   </div>
   <div *ngSwitchCase="'sellerAuthenticated'">
     <nav class="header-container">
       <div class="header header__left">
-        <img src="../../assets/img/MBJ.svg" class="header__logo">
+        <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
       </div>
       <div class="header header__right">
         <a class="nav-text">Ажил тавих</a>

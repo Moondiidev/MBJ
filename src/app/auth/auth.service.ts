@@ -125,8 +125,6 @@ export class AuthService {
     saveUserName(name) {
         //Creates a unique folder using the name
         this.http.post(`${environment.cors}${environment.databaseURL}userNames.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
-        //Makes it available application-wide
-        this.appManagerService.userName = name;
     }
     getUserNames(){
         return this.http.get<Array<string>>(`${environment.cors}${environment.databaseURL}userNames.json`)
@@ -140,7 +138,9 @@ export class AuthService {
             return namesArr;
         }));
     }
+
     setUserName(name){
         this.appManagerService.userName = name;
+        localStorage.setItem('userName',name);
     }
 }
