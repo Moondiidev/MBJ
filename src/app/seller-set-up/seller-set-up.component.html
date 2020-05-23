@@ -82,7 +82,7 @@
             <div class="setUpForm__personalBtns__save">
               <button [disabled]='!changeOccured' type="button" class="btn btn-orange"
                 (click)="onSavePersonalData()">Хадгалах</button>
-              <div *ngIf="savedPersonalData" class="animated savedFadeUpAnim setUpForm__personalBtns__savedNotification">
+              <div *ngIf="showSavedAnim" class="animated savedFadeUpAnim setUpForm__personalBtns__savedNotification">
                 <img src='../../assets/img/saved.svg' class="setUpForm__personalBtns__savedNotification__icon">
                 <span class="setUpForm__personalBtns__savedNotification__text">Хадгаллаа</span>
               </div>

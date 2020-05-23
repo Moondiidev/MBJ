@@ -17,7 +17,7 @@ import { Location } from '@angular/common';
 export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum: number = null;
   personalFormValid: boolean = false;
-  savedPersonalData: boolean = false;
+  showSavedAnim: boolean = false;
   savedPersonalSub: Subscription;
   notLoading: boolean = false;
   changeOccured: boolean = false;
@@ -50,6 +50,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }, 0)
   }
   personalNav() {
+    //Only trigger saved anim if hadgalah btn is clicked on personal form
+    this.showSavedAnim = false;
     this.location.go(this.mainUrlName + this.firstNavUrlName);
     this.setUpPersonalForm();
     this.professionalFormOnDestroy();
@@ -62,7 +64,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       //PERSONAL FORM
       this.startLoading();
       this.savedPersonalSub = this.sellerService.savedPersonalInfo.subscribe(res => {
-        this.savedPersonalData = res;
+        this.showSavedAnim = res;
+        console.log(this.showSavedAnim);
       })
       this.personalNavOnce = false;
       this.personalForm = new FormGroup({
@@ -132,7 +135,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
     this.changeOccured = false;
   }
-  onPersonalChange(){
+  onPersonalChange() {
     this.sellerService.savedPersonalInfo.next(false);
     this.changeOccured = true;
   }
