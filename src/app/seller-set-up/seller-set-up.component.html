@@ -56,9 +56,9 @@
             </div>
             <div formGroupName="name" class="inputs__right">
               <input formControlName="firstName" type="text" name="fullName" class="personalTextInput"
-                placeholder="Өөрийн нэр">
+                placeholder="Өөрийн нэр" (input) = "onPersonalChange()">
               <input formControlName="lastName" type="text" name="fullName" class="personalTextInput"
-                placeholder="Эцгийн нэр">
+                placeholder="Эцгийн нэр" (input) = "onPersonalChange()">
               <span
                 *ngIf="!personalForm.get('name').valid && personalForm.get('name.firstName').touched && personalForm.get('name.lastName').touched"
                 class="error-text margin-top-tiny block">Бүтэн нэрээ оруулна уу.</span>
@@ -70,7 +70,7 @@
             </div>
             <div class="inputs__right">
               <textarea formControlName="description" ng-trim="false" name="description"
-                class="textboxInput" minlength="100" maxlength="600"
+                class="textboxInput" minlength="100" maxlength="600" (input) = "onPersonalChange()"
                 placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу." #personalDescription></textarea>
               <span class="paragraph noOfChar">{{personalDescription.value.length}} / 600</span>
               <span *ngIf="!personalForm.get('description').valid && personalForm.get('description').touched"
@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="setUpForm__personalBtns">
-            <button type="button" class="btn btn-orange" (click)="savePersonalData()">Хадгалах</button>
+            <button [disabled] = '!changeOccured' type="button" class="btn btn-orange" (click)="onSavePersonalData()">Хадгалах</button>
             <button type="submit" class="btn btn-green btn-next" [disabled]="!personalForm.valid">Үргэлжлүүлэх</button>
           </div>
         </form>

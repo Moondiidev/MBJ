@@ -18,6 +18,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum: number = null;
   personalFormValid: boolean = false;
   notLoading: boolean = false;
+  changeOccured: boolean = false;
   personalFormValidSub: Subscription;
   mainUrlName: string = 'seller-set-up/';
   firstNavUrlName: string = 'personal';
@@ -120,6 +121,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   savePersonalData() {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
+  }
+
+  onSavePersonalData() {
+    this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
+    this.changeOccured = false;
+  }
+  onPersonalChange(){
+    this.changeOccured = true;
   }
   usePersonalData() {
     if (this.personalData !== null) {
