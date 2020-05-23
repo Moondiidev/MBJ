@@ -1,5 +1,5 @@
 <div *ngIf="isLoading">
-  <app-loading-spinner></app-loading-spinner>
+  <app-loading-dots></app-loading-dots>
 </div>
 <div class="auth-container">
   <form [formGroup]="authForm" class="auth-form" (ngSubmit)="onSubmit()">
@@ -21,7 +21,7 @@
     <!--- SINGUP INPUTS -->
     <div *ngIf="!isLogIn" class="auth-form__inputs">
       <div class="auth-form__userNameContainer">
-        <input type="text" class="auth-form__input" placeholder="Бусдад Харагдах Нэр" formControlName="userName">
+        <input type="text" class="auth-form__input" placeholder="Бусдад Харагдах Нэр" maxlength="15" formControlName="userName">
         <img *ngIf = "checkingUserName" src="../../assets/img/spinner.svg" class="auth-form__spinner" alt="">
       </div>
       <ul class="auth-form__inputErrors"

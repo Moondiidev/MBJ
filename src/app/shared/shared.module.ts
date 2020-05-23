@@ -1,19 +1,19 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from '@angular/core';
-import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { LoadingDotsComponent } from './loading-dots/loading-dots.component';
 import { DropdownDirective } from './dropdown.directive';
 
 @NgModule({
     declarations: [
       DropdownDirective,
-      LoadingSpinnerComponent,
+      LoadingDotsComponent,
     ],
     imports: [
         CommonModule
     ],
     exports: [
         DropdownDirective,
-        LoadingSpinnerComponent,
+        LoadingDotsComponent,
         CommonModule     
     ]
 })

@@ -17,6 +17,7 @@ import { Location } from '@angular/common';
 export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum: number = null;
   personalFormValid: boolean = false;
+  notLoading: boolean = false;
   personalFormValidSub: Subscription;
   mainUrlName: string = 'seller-set-up/';
   firstNavUrlName: string = 'personal';
@@ -52,6 +53,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   setUpPersonalForm() {
     this.navNum = 0;
+
+    // Seller-set-up header navigation only allows navigation when form is valid
+    this.personalForm.statusChanges.subscribe(status => {
+      if (status === "VALID") {
+        this.sellerService.personalFormValid.next(true);
+      }
+    })
+
     //Only need to run once like as if it was a seperate component with NgOnInit
     if (this.personalNavOnce) {
       //PERSONAL FORM
@@ -64,15 +73,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         'description': new FormControl(null, Validators.required)
       });
       this.getProfileImage();
-      // Seller-set-up header navigation only allows navigation when form is valid
-      this.personalForm.statusChanges.subscribe(status => {
-        if (status === "VALID") {
-          this.sellerService.personalFormValid.next(true);
-        }
-      })
+
       this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
         this.personalData = data;
-        this.usePersonalData();
+        if (this.personalData != null) {
+          this.usePersonalData();
+          this.notLoading = true;
+        }
       });
     }
   }
@@ -171,6 +178,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         //Use data
         if (this.professionalData !== null) {
           this.useProfessionalData();
+          this.notLoading = true;
         }
       });
       this.scrollSub = this.scrollEls.changes.subscribe((el: QueryList<ElementRef>) => {
@@ -870,12 +878,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     return valid;
   }
   ngOnDestroy() {
-    if(this.navNum === 0){
+    if (this.navNum === 0) {
       this.personalFormValidSub.unsubscribe();
       this.personalFormOnDestroy();
     }
     //These need to be subscribed even when professional Nav is not being used.
-    else if(this.navNum === 1){
+    else if (this.navNum === 1) {
       this.scrollSub.unsubscribe();
       this.skillsTableSub.unsubscribe();
       this.educationsTableSub.unsubscribe();
