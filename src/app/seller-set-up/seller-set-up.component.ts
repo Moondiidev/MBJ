@@ -20,7 +20,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   showSavedPersonalAnim: boolean = false;
   savedPersonalSub: Subscription;
   notLoading: boolean = false;
-  enableSaveBtn: boolean = false;
+  personalChangesOccured: boolean = false;
   personalFormValidSub: Subscription;
   mainUrlName: string = 'seller-set-up/';
   firstNavUrlName: string = 'personal';
@@ -56,7 +56,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   personalNav() {
-    this.enableSaveBtn = false;
+    //If user clicks save and immediately moves to next form without letting the anim playout, it gets played once user returns
+    //To the personal form. This fixes the issue.
+    this.showSavedPersonalAnim = false;
     this.onNavigation();
     this.location.go(this.mainUrlName + this.firstNavUrlName);
     this.setUpPersonalForm();
@@ -133,17 +135,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   personalDataSub: Subscription;
   personalNavOnce: boolean = true;
 
-  savePersonalData() {
-    this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
-  }
-
-  onSavePersonalData() {
-    this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
-    this.enableSaveBtn = false;
+  savePersonalData(btn?) {
+    this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value, btn);
+    this.personalChangesOccured = false;
   }
   onPersonalChange() {
     this.sellerService.savedPersonalInfo.next(false);
-    this.enableSaveBtn = true;
+    this.personalChangesOccured = true;
   }
   usePersonalData() {
     if (this.personalData !== null) {

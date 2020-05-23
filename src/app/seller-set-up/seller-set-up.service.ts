@@ -19,10 +19,14 @@ export class SellerSetUpService implements OnInit {
   ngOnInit() { }
 
 
-  savePersonalInfo(firstName, lastName, description) {
+  savePersonalInfo(firstName : string, lastName: string, description: string, btn? : boolean) {
     this.personalModel = new PersonalModel(firstName, lastName, description);
-    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/personalInfo.json`, this.personalModel).subscribe(res => { console.log(res); 
-      this.savedPersonalInfo.next(true)});
+    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/personalInfo.json`, this.personalModel).subscribe(res => {
+      console.log(res);
+      if (btn) {
+        this.savedPersonalInfo.next(true);
+      };
+    })
   }
   fetchPersonalInfo() {
     return this.http.get<PersonalModel>(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/personalInfo.json`);
