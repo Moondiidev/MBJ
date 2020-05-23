@@ -1,20 +1,13 @@
 @import '../scss/mixins.scss';
 @import '../scss/checkbox.scss';
 @import '../scss/utilities.scss';
+@import '../scss/animations.scss';
 
 .auth-container {
   width: 34rem;
   margin-top: 5rem;
   @include absCenter;
   background-color: rgb(255, 255, 255);
-}
-@keyframes spin{
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform: rotate(360deg);
-    }
 }
 .auth-form {
   text-align: center;

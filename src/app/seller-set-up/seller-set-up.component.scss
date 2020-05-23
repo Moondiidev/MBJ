@@ -2,6 +2,7 @@
 @import '../scss/variables.scss';
 @import '../scss/mixins.scss';
 @import '../scss/checkboxClassWorker.scss';
+@import '../scss/animations.scss';
 
 $active-color : #1fab89;
 $tick-color : #d7fbe8;
@@ -86,14 +87,26 @@ textarea {
     margin-right: 4rem;
   }
 }
-.formLoader{
-    
+.spinner{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__icon{
+        display: block;
+        width: 8rem;
+        height: 8rem;
+        animation: spin 1s linear infinite;
+    }    
 }
 //*************************************************************
 //*********************** HEADER NAV **************************
 //*************************************************************
 .setUpContainer{
     margin-top: $nav-height;
+    height: calc(100vh - 14rem);
     &__notice{
         text-align: right;
     }

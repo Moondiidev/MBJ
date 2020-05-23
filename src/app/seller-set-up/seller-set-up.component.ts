@@ -54,16 +54,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   setUpPersonalForm() {
     this.navNum = 0;
 
-    // Seller-set-up header navigation only allows navigation when form is valid
-    this.personalForm.statusChanges.subscribe(status => {
-      if (status === "VALID") {
-        this.sellerService.personalFormValid.next(true);
-      }
-    })
-
     //Only need to run once like as if it was a seperate component with NgOnInit
     if (this.personalNavOnce) {
       //PERSONAL FORM
+      this.startLoading();
       this.personalNavOnce = false;
       this.personalForm = new FormGroup({
         'name': new FormGroup({
@@ -75,20 +69,43 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.getProfileImage();
 
       this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
-        this.personalData = data;
+        console.log(data);
+        this.personalData = {
+          firstname: data.firstname,
+          lastname: data.lastname,
+          personalDescription: data.personalDescription,
+        };
         if (this.personalData != null) {
           this.usePersonalData();
-          this.notLoading = true;
         }
+
+        // Seller-set-up header navigation only allows navigation when form is valid
+        this.personalForm.statusChanges.subscribe(status => {
+          if (status === "VALID") {
+            this.sellerService.personalFormValid.next(true);
+          } else {
+            this.sellerService.personalFormValid.next(false);
+          }
+        })
+        //Stop loading
+        this.finishLoading();
       });
     }
+  }
+  startLoading() {
+    this.notLoading = false;
+  }
+  finishLoading() {
+    //There is a bit of delay while displaying form so to compensate, I used timeout
+    setTimeout(() => {
+      this.notLoading = true;
+    }, 500);
   }
   // ****************************************************************************************** //
   // ************************************ PERSONAL FORM *********************************** //
   // ****************************************************************************************** //
   selectedImage = null;
   url = null;
-  noOfChar: string = "";
   personalForm: FormGroup;
   ref;
   task;
@@ -113,7 +130,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         this.personalForm.get('name.lastName').setValue(this.personalData.lastname);
       }
       if (this.personalData.personalDescription !== undefined) {
+        console.log(this.personalForm.get('description'));
         this.personalForm.get('description').setValue(this.personalData.personalDescription);
+        console.log(this.personalForm.get('description').value);
+      }
+      //Allowing header nav btn to be used if data made the form valid.
+      if (this.personalForm.status === "VALID") {
+        this.sellerService.personalFormValid.next(true);
       }
     }
   }
@@ -134,6 +157,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.navNum = 1;
 
     if (this.professionalNavOnce) {
+      this.startLoading();
       this.professionalNavOnce = false;
       this.professionalForm = new FormGroup({
         'skills': new FormGroup({
@@ -173,13 +197,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         sorter: []
       }
       this.professionalDataSub = this.sellerService.fetchProfessionalInfo().subscribe((data: ProfessionalModel) => {
+        console.log(data);
         //Get data
         this.professionalData = data;
         //Use data
         if (this.professionalData !== null) {
           this.useProfessionalData();
-          this.notLoading = true;
         }
+        this.finishLoading();
       });
       this.scrollSub = this.scrollEls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.scrollEl = el.first;
