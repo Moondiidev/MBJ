@@ -80,9 +80,9 @@
           </div>
           <div class="setUpForm__personalBtns">
             <div class="setUpForm__personalBtns__save">
-              <button [disabled]='!changeOccured' type="button" class="btn btn-orange"
+              <button [disabled]='!enableSaveBtn' type="button" class="btn btn-orange"
                 (click)="onSavePersonalData()">Хадгалах</button>
-              <div *ngIf="showSavedAnim" class="animated savedFadeUpAnim setUpForm__personalBtns__savedNotification">
+              <div *ngIf="showSavedPersonalAnim" class="animated savedFadeUpAnim setUpForm__personalBtns__savedNotification">
                 <img src='../../assets/img/saved.svg' class="setUpForm__personalBtns__savedNotification__icon">
                 <span class="setUpForm__personalBtns__savedNotification__text">Хадгаллаа</span>
               </div>

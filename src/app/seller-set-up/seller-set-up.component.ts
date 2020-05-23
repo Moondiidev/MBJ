@@ -17,10 +17,10 @@ import { Location } from '@angular/common';
 export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum: number = null;
   personalFormValid: boolean = false;
-  showSavedAnim: boolean = false;
+  showSavedPersonalAnim: boolean = false;
   savedPersonalSub: Subscription;
   notLoading: boolean = false;
-  changeOccured: boolean = false;
+  enableSaveBtn: boolean = false;
   personalFormValidSub: Subscription;
   mainUrlName: string = 'seller-set-up/';
   firstNavUrlName: string = 'personal';
@@ -49,9 +49,15 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       }
     }, 0)
   }
+  onNavigation() {
+    //If navigate to another form while the current form is loading, stop the loading
+    if (!this.notLoading) {
+      this.finishLoading();
+    }
+  }
   personalNav() {
-    //Only trigger saved anim if hadgalah btn is clicked on personal form
-    this.showSavedAnim = false;
+    this.enableSaveBtn = false;
+    this.onNavigation();
     this.location.go(this.mainUrlName + this.firstNavUrlName);
     this.setUpPersonalForm();
     this.professionalFormOnDestroy();
@@ -64,8 +70,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       //PERSONAL FORM
       this.startLoading();
       this.savedPersonalSub = this.sellerService.savedPersonalInfo.subscribe(res => {
-        this.showSavedAnim = res;
-        console.log(this.showSavedAnim);
+        this.showSavedPersonalAnim = res;
+        console.log(this.showSavedPersonalAnim);
       })
       this.personalNavOnce = false;
       this.personalForm = new FormGroup({
@@ -133,11 +139,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   onSavePersonalData() {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value);
-    this.changeOccured = false;
+    this.enableSaveBtn = false;
   }
   onPersonalChange() {
     this.sellerService.savedPersonalInfo.next(false);
-    this.changeOccured = true;
+    this.enableSaveBtn = true;
   }
   usePersonalData() {
     if (this.personalData !== null) {
@@ -169,6 +175,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.savePersonalData();
     this.setUpProfessionalNav();
     this.personalFormOnDestroy();
+    this.onNavigation();
   }
   setUpProfessionalNav() {
     //PROFESSIONAL FORM
@@ -254,7 +261,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   onPersonalFormSubmit() {
     if (this.personalForm.valid) {
       this.professionalNav();
-      this.savePersonalData();
     }
   }
   onFileSelected(event) {
