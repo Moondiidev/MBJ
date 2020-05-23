@@ -11,28 +11,30 @@ import { environment } from 'src/environments/environment';
 })
 export class SellerSetUpService implements OnInit {
   personalFormValid = new Subject<boolean>();
-  professionalModel : ProfessionalModel;
-  personalModel : PersonalModel;
+  professionalModel: ProfessionalModel;
+  personalModel: PersonalModel;
+  savedPersonalInfo = new Subject<boolean>();
   sellerModel;
   constructor(private http: HttpClient, private appManagerService: AppManagerService) { }
-  ngOnInit(){}
-  
+  ngOnInit() { }
 
-  savePersonalInfo(firstName, lastName, description){
+
+  savePersonalInfo(firstName, lastName, description) {
     this.personalModel = new PersonalModel(firstName, lastName, description);
-    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/personalInfo.json`,this.personalModel).subscribe(res=>{console.log(res);});
+    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/personalInfo.json`, this.personalModel).subscribe(res => { console.log(res); 
+      this.savedPersonalInfo.next(true)});
   }
-  fetchPersonalInfo(){
+  fetchPersonalInfo() {
     return this.http.get<PersonalModel>(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/personalInfo.json`);
   }
-  saveProfessionalInfo(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,educations,certifications){
-    this.professionalModel = new ProfessionalModel(selectedProfession,checkedProfessions,selectedFromYear,selectedToYear,skills,educations,certifications);
-    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/professionalInfo.json`,this.professionalModel).subscribe(res=>{console.log(res);});
+  saveProfessionalInfo(selectedProfession, checkedProfessions, selectedFromYear, selectedToYear, skills, educations, certifications) {
+    this.professionalModel = new ProfessionalModel(selectedProfession, checkedProfessions, selectedFromYear, selectedToYear, skills, educations, certifications);
+    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/professionalInfo.json`, this.professionalModel).subscribe(res => { console.log(res); });
   }
-  fetchProfessionalInfo(){
+  fetchProfessionalInfo() {
     return this.http.get<ProfessionalModel>(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/professionalInfo.json`);
   }
-  saveSellerFormInfo(){
-    this.sellerModel = {...this.personalModel, ...this.professionalModel};
+  saveSellerFormInfo() {
+    this.sellerModel = { ...this.personalModel, ...this.professionalModel };
   }
 }

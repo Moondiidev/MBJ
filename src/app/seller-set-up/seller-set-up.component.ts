@@ -17,6 +17,8 @@ import { Location } from '@angular/common';
 export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum: number = null;
   personalFormValid: boolean = false;
+  savedPersonalData: boolean = false;
+  savedPersonalSub: Subscription;
   notLoading: boolean = false;
   changeOccured: boolean = false;
   personalFormValidSub: Subscription;
@@ -59,6 +61,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     if (this.personalNavOnce) {
       //PERSONAL FORM
       this.startLoading();
+      this.savedPersonalSub = this.sellerService.savedPersonalInfo.subscribe(res => {
+        this.savedPersonalData = res;
+      })
       this.personalNavOnce = false;
       this.personalForm = new FormGroup({
         'name': new FormGroup({
@@ -128,6 +133,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.changeOccured = false;
   }
   onPersonalChange(){
+    this.sellerService.savedPersonalInfo.next(false);
     this.changeOccured = true;
   }
   usePersonalData() {

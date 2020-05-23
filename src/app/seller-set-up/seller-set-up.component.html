@@ -23,7 +23,7 @@
     <hr class="horizontalLine2">
   </div>
 
-  <div *ngIf = 'notLoading; else formLoader'>
+  <div *ngIf='notLoading; else formLoader'>
     <div class="childContainer" [ngSwitch]="navNum">
       <!-- ************************** PERSONAL FORM ***************************************-->
       <div *ngSwitchCase="0">
@@ -56,9 +56,9 @@
             </div>
             <div formGroupName="name" class="inputs__right">
               <input formControlName="firstName" type="text" name="fullName" class="personalTextInput"
-                placeholder="Өөрийн нэр" (input) = "onPersonalChange()">
+                placeholder="Өөрийн нэр" (input)="onPersonalChange()">
               <input formControlName="lastName" type="text" name="fullName" class="personalTextInput"
-                placeholder="Эцгийн нэр" (input) = "onPersonalChange()">
+                placeholder="Эцгийн нэр" (input)="onPersonalChange()">
               <span
                 *ngIf="!personalForm.get('name').valid && personalForm.get('name.firstName').touched && personalForm.get('name.lastName').touched"
                 class="error-text margin-top-tiny block">Бүтэн нэрээ оруулна уу.</span>
@@ -69,16 +69,24 @@
               <label class="setUpText setUpText--required" for="description">Хувийн тайлбар</label>
             </div>
             <div class="inputs__right">
-              <textarea formControlName="description" ng-trim="false" name="description"
-                class="textboxInput" minlength="100" maxlength="600" (input) = "onPersonalChange()"
-                placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу." #personalDescription></textarea>
+              <textarea formControlName="description" ng-trim="false" name="description" class="textboxInput"
+                minlength="100" maxlength="600" (input)="onPersonalChange()"
+                placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу."
+                #personalDescription></textarea>
               <span class="paragraph noOfChar">{{personalDescription.value.length}} / 600</span>
               <span *ngIf="!personalForm.get('description').valid && personalForm.get('description').touched"
                 class="error-text text-left">Хамгийн багадаа 100 үсэг бичнэ үү.</span>
             </div>
           </div>
           <div class="setUpForm__personalBtns">
-            <button [disabled] = '!changeOccured' type="button" class="btn btn-orange" (click)="onSavePersonalData()">Хадгалах</button>
+            <div class="setUpForm__personalBtns__save">
+              <button [disabled]='!changeOccured' type="button" class="btn btn-orange"
+                (click)="onSavePersonalData()">Хадгалах</button>
+              <div *ngIf="savedPersonalData" class="animated savedFadeUpAnim setUpForm__personalBtns__savedNotification">
+                <img src='../../assets/img/saved.svg' class="setUpForm__personalBtns__savedNotification__icon">
+                <span class="setUpForm__personalBtns__savedNotification__text">Хадгаллаа</span>
+              </div>
+            </div>
             <button type="submit" class="btn btn-green btn-next" [disabled]="!personalForm.valid">Үргэлжлүүлэх</button>
           </div>
         </form>
@@ -767,4 +775,3 @@
 <ng-template #order2>
   <div class='step__order__number'>2</div>
 </ng-template>
-
