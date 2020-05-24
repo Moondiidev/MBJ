@@ -6,6 +6,7 @@ import { SellerSetUpComponent } from './seller-set-up.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from "angularfire2/storage";
+import { AuthGuard } from '../auth/auth.guard';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,7 @@ import { AngularFireStorageModule } from "angularfire2/storage";
         SharedModule,
         RouterModule.forChild([
             {
-                path: ':nav', component: SellerSetUpComponent
+                path: ':nav', component: SellerSetUpComponent, canActivate: [AuthGuard]
             }
         ])
     ],

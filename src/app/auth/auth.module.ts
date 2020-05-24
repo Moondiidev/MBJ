@@ -1,3 +1,4 @@
+import { HeadErrorComponent } from './../head-error/head-error.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
@@ -6,7 +7,8 @@ import { AuthComponent } from './auth.component';
 
 @NgModule({
   declarations: [
-    AuthComponent
+    AuthComponent,
+    HeadErrorComponent
   ],
   imports: [
     SharedModule,

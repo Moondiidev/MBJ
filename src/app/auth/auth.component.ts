@@ -1,3 +1,4 @@
+import { HeaderErrorService } from './../head-error/header-error.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -21,9 +22,18 @@ export class AuthComponent implements OnInit, OnDestroy {
   errorMode: string;
   uniqueUserTimeout;
   userNameSub: Subscription;
-  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router) { }
+  accessDeniedError: boolean = true;
+  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router, private headerErrorService: HeaderErrorService) { }
 
   ngOnInit(): void {
+    //See if user came from access denied error
+    this.accessDeniedError = !!this.route.snapshot.queryParamMap.get('access');
+    if (this.accessDeniedError) {
+      this.headerErrorService.headerErrorMsg.next('Энэ хуудас луу орохын тулд та нэвтэрсэн байх шаардлагатай.');
+      alert('bru');
+    }
+
+    //Decide whether form should be signUp or logIn
     this.route.params.subscribe((params: Params) => {
       this.isLogIn = 'logIn' === params['isLogIn'] ? true : false;
       this.error = null;
@@ -68,7 +78,7 @@ export class AuthComponent implements OnInit, OnDestroy {
             this.checkingUserName = false;
           }
         });
-      },700)
+      }, 700)
     })
     return promise;
   }
@@ -89,6 +99,10 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.userNameSub !== undefined) {
       this.userNameSub.unsubscribe();
+    }
+    //Removes error if it was present
+    if (this.accessDeniedError) {
+      this.headerErrorService.headerErrorMsg.next(null);
     }
   }
   onSubmit() {

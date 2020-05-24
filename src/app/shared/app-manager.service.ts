@@ -9,8 +9,8 @@ export class AppManagerService {
   headerStates = {
     main: 'main',
     sellerMain: 'sellerMain',
-    onlyLogo: 'onlyLogo',
+    onlyLogo: 'onlyLogo'
   }
-  userName : string;
+  userName: string;
   constructor() { }
 }

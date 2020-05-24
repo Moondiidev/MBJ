@@ -1,7 +1,8 @@
 <div *ngIf="isLoading">
   <app-loading-dots></app-loading-dots>
 </div>
-<div class="auth-container">
+<app-head-error *ngIf="accessDeniedError"></app-head-error>
+<div [ngClass]="(accessDeniedError) ? 'auth-container--withError' : 'auth-container'">
   <form [formGroup]="authForm" class="auth-form" (ngSubmit)="onSubmit()">
     <img src="../../assets/img/user.svg" alt="" class="userLogo">
     <h2 class="heading-secondary auth-form__header">{{isLogIn === true ? "Тавтай морилнуу" : "Бүртгүүлэх"}}</h2>
@@ -21,8 +22,9 @@
     <!--- SINGUP INPUTS -->
     <div *ngIf="!isLogIn" class="auth-form__inputs">
       <div class="auth-form__userNameContainer">
-        <input type="text" class="auth-form__input" placeholder="Бусдад Харагдах Нэр" maxlength="15" formControlName="userName">
-        <img *ngIf = "checkingUserName" src="../../assets/img/spinner.svg" class="auth-form__spinner" alt="">
+        <input type="text" class="auth-form__input" placeholder="Бусдад Харагдах Нэр" maxlength="15"
+          formControlName="userName">
+        <img *ngIf="checkingUserName" src="../../assets/img/spinner.svg" class="auth-form__spinner" alt="">
       </div>
       <ul class="auth-form__inputErrors"
         *ngIf="!this.authForm.get('userName').valid && this.authForm.get('userName').touched">
@@ -32,7 +34,8 @@
         <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.minlength">6-аас дээш
           үсэгтэй нэр
           оруулна уу</li>
-        <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.pattern">Нэр заавал үсгээр эхэлж, зөвхөн доогуур зураас болон тоо агуулж болно.</li>
+        <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.pattern">Нэр заавал
+          үсгээр эхэлж, зөвхөн доогуур зураас болон тоо агуулж болно.</li>
       </ul>
       <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Эмэйл" formControlName="email">
       <div class="auth-form__passwordContainer">
