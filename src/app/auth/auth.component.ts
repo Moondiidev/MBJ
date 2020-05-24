@@ -30,7 +30,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.accessDeniedError = !!this.route.snapshot.queryParamMap.get('access');
     if (this.accessDeniedError) {
       this.headerErrorService.headerErrorMsg.next('Энэ хуудас луу орохын тулд та нэвтэрсэн байх шаардлагатай.');
-      alert('bru');
     }
 
     //Decide whether form should be signUp or logIn
