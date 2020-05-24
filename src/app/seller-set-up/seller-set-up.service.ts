@@ -31,7 +31,7 @@ export class SellerSetUpService implements OnInit {
   fetchPersonalInfo() {
     return this.http.get<PersonalModel>(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/personalInfo.json`);
   }
-  saveProfessionalInfo(selectedProfession, checkedProfessions, selectedFromYear, selectedToYear, skills, educations, certifications) {
+  saveProfessionalInfo(selectedProfession: string, checkedProfessions: Array<string>, selectedFromYear: number, selectedToYear: number, skills , educations, certifications) {
     this.professionalModel = new ProfessionalModel(selectedProfession, checkedProfessions, selectedFromYear, selectedToYear, skills, educations, certifications);
     this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName}/professionalInfo.json`, this.professionalModel).subscribe(res => { console.log(res); });
   }

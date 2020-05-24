@@ -29,6 +29,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
+    this.personalFormValid = localStorage.getItem('personalFormValid') ? true : false;
     this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
       this.personalFormValid = validity;
     })
@@ -41,7 +42,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.setUpPersonalForm();
           break;
         case this.secondNavUrlName:
-          this.setUpProfessionalNav();
+          if(this.personalFormValid){
+            this.setUpProfessionalNav();
+          }else{
+            this.setUpPersonalForm();
+          }
           break;
         default:
           this.setUpPersonalForm();
@@ -60,13 +65,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     //To the personal form. This fixes the issue.
     this.showSavedPersonalAnim = false;
     this.onNavigation();
-    this.location.go(this.mainUrlName + this.firstNavUrlName);
     this.setUpPersonalForm();
     this.professionalFormOnDestroy();
   }
   setUpPersonalForm() {
     this.navNum = 0;
-
+    this.location.go(this.mainUrlName + this.firstNavUrlName);
     //Only need to run once like as if it was a seperate component with NgOnInit
     if (this.personalNavOnce) {
       //PERSONAL FORM
@@ -138,6 +142,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   savePersonalData(btn?) {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value, btn);
     this.personalChangesOccured = false;
+    //Save form validity
+    if(this.personalFormValid){
+      localStorage.setItem('personalFormValid',"true");
+    }else{
+      localStorage.setItem('personalFormValid',"");
+    }
   }
   onPersonalChange() {
     this.sellerService.savedPersonalInfo.next(false);
@@ -169,7 +179,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     });
   }
   professionalNav() {
-    this.location.go(this.mainUrlName + this.secondNavUrlName);
     this.savePersonalData();
     this.setUpProfessionalNav();
     this.personalFormOnDestroy();
@@ -178,6 +187,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   setUpProfessionalNav() {
     //PROFESSIONAL FORM
     this.navNum = 1;
+    this.location.go(this.mainUrlName + this.secondNavUrlName);
 
     if (this.professionalNavOnce) {
       this.startLoading();
