@@ -8,8 +8,9 @@ export class AppManagerService {
   headerStateSub = new BehaviorSubject<string>(null);
   headerStates = {
     main: 'main',
+    authenticated: 'authenticated',
     sellerMain: 'sellerMain',
-    onlyLogo: 'onlyLogo'
+    onlyLogo: 'onlyLogo',
   }
   userName: string;
   constructor() { }
