@@ -16,7 +16,25 @@
         <a class="nav-text">Мессеж</a>
         <a class="nav-text">Хадгалсан Gig-үүд</a>
         <a class="nav-text">Захиалгууд</a>
-        <a class="nav-text" (click)="logOut()">Гарах</a>
+        <div>
+          <button class="profileBtn">
+            <img [src]="profileImgUrl" alt="" class="profileBtn__img">
+            <div class="profileBtn__downArrow"></div>
+          </button>
+          <div class="profileOptions">
+            <a class="profileOption">Профиль</a>
+            <a class="profileOption">Тохиргоо</a>
+            <hr>
+            <div class="profileOption profileOption__flexed profileOption__green">
+              <a class="whiteText">Шагнал</a>
+              <img src="../../assets/img/referal.svg" alt="" class="profileOption__img">
+            </div>
+            <div class="profileOption profileOption__flexed profileOption__blue">
+              <a class="whiteText" (click)="logout()">Гарах</a>
+              <img src="../../assets/img/logout.svg" alt="" class="profileOption__img">
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   </div>

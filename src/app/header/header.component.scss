@@ -1,96 +1,207 @@
 @import '../scss/variables.scss';
+@import '../scss/typography.scss';
+.header-container {
+  height: $nav-height;
+  padding: 2rem 4rem 1rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 5px 10px -8px rgba(0, 0, 0, 0.25);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: white;
+}
 
-.header-container{
-    height: $nav-height;
-    padding: 2rem 4rem 1rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    box-shadow: 0px 5px 10px -8px rgba(0,0,0,0.25);
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    background-color: white;
+.header {
+  display: flex;
+  align-items: center;
+
+  &__logo {
+    width: 6rem;
+    height: 4rem;
+    margin-top: 5px;
+    cursor: pointer;
+  }
 }
-.header{
+
+.verticalLine {
+  height: 50%;
+  border-left: 2px solid rgba(102, 102, 102, 0.2);
+  margin-left: -3px;
+  margin-bottom: 6px;
+}
+
+.nav-text {
+  cursor: pointer;
+  margin: 0 2rem;
+  font-size: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(0, 0, 0, 0);
+  transition: 0.2s;
+  white-space: nowrap;
+  color: black;
+
+  &:hover {
+    border-bottom: 2px solid black;
+  }
+}
+
+.activeNav {
+  border-bottom: 2px solid rgb(28, 158, 209);
+}
+
+.search {
+  height: 3.5rem;
+  width: 40rem;
+  margin-left: 3rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.searchBar {
+  border: 1px solid black;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 100px;
+  box-shadow: 0px 10px 10px -8px rgba(255, 255, 255, 0.25);
+}
+
+.searchIcon {
+  height: 60%;
+  margin: 0 2rem;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(138, 133, 133, 0.5);
+}
+
+.search-button {
+  height: 100%;
+  padding: 1rem;
+  text-align: center;
+  outline: none;
+  font-size: 1rem;
+  border: none;
+  background-color: #00adb5;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  color: white;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+input.ng-invalid+.search-button {
+  background-color: #9e9595;
+}
+
+.search-input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 2rem;
+}
+
+.profileBtn {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  &__img {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 1rem;
+    border-radius: 50%;
+  }
+
+  &__downArrow {
+    width: 0;
+    height: 0;
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
+    border-top: 1rem solid black;
+  }
+}
+
+.profileOptions {
+    hr{
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 75px;
+  right: 35px;
+  transform: scale(0);
+  transform-origin: 250px 0;
+  opacity: 0;
+  border-radius: 4px;
+  transition: transform .3s, opacity .3s;
+  width: 240px;
+  background-color: #f6f9fc;
+  box-shadow: 0 0 40px 5px rgba(0, 0, 0, .5);
+  padding: 2rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    border: 10px solid transparent;
+    border-bottom-color: #fff;
+    top: -20px;
+    right: 20px;
+  }
+}
+
+.profileOption {
+  margin-bottom: 1.5rem;
+  width: 100%;
+  padding: 0.7rem 0;
+  text-align: center;
+  font-size: 1.4rem;
+  color: white;
+  cursor: pointer;
+  background-color: #52616b;
+  border-radius: 4px;
+  transition: 0.3s;
+  &:hover{
+      background-color: #3f4c55;
+  }
+  &__flexed{
     display: flex;
     align-items: center;
-    &__logo{
-        width: 6rem;
-        height: 4rem;
-        margin-top: 5px;
-        cursor: pointer;
+    justify-content: center;
+    &:last-of-type{
+        margin-bottom: 0;
     }
-}
-.verticalLine{
-    height: 50%;
-    border-left: 2px solid rgba(102, 102, 102, 0.2);
-    margin-left: -3px;
-    margin-bottom: 6px;
-}
-.nav-text{
-    cursor: pointer;
-    margin: 0 2rem;
-    font-size: 1.4rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid rgba(0, 0, 0, 0);
-    transition: 0.2s;
-    white-space: nowrap;
-    color: black;
+  }
+  &__blue {
+    background-color: #112d4e;
     &:hover{
-        border-bottom: 2px solid black;
+        background-color: #0b233f;
     }
+  }
+  &__green{
+      background-color: #15775e;
+      &:hover{
+        background-color: #126b55;
+    }
+  }
+  &__img {
+    margin-left: 1rem;
+    width: 2rem;
+    height: 2rem;
+  }
 }
-.activeNav{
-    border-bottom: 2px solid rgb(28, 158, 209);
-}
-.search{
-    height: 3.5rem;
-    width: 40rem;
-    margin-left: 3rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-}
-.searchBar{
-    border: 1px solid black;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    border-radius: 100px;
-    box-shadow: 0px 10px 10px -8px rgba(255, 255, 255, 0.25);
-}
-.searchIcon{
-    height: 60%;
-    margin: 0 2rem;
-    padding-right: 1rem;
-    border-right: 1px solid rgba(138, 133, 133, 0.5);
-}
-.search-button{
-    height: 100%;
-    padding: 1rem;
-    text-align: center;
-    outline: none;
-    font-size: 1rem;
-    border: none;
-    background-color: #00adb5;
-    border-top-right-radius: 100px;
-    border-bottom-right-radius: 100px;
-    color: white;
-    transition: 0.2s;
-    cursor: pointer;
-}
-input.ng-invalid + .search-button{
-    background-color: #9e9595;
-}
-.search-input{
-    height: 100%;
-    width: 100%;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    font-size: 2rem;
+
+.isOpen {
+  opacity: 1;
+  transform: scale(1);
 }

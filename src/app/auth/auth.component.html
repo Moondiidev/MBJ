@@ -2,7 +2,7 @@
   <app-loading-dots></app-loading-dots>
 </div>
 <app-head-error *ngIf="accessDeniedError"></app-head-error>
-<div [ngClass]="(accessDeniedError) ? 'auth-container--withError' : 'auth-container'">
+<div [ngClass]="(accessDeniedError) ? 'auth-container auth-container--withError' : 'auth-container'">
   <form [formGroup]="authForm" class="auth-form" (ngSubmit)="onSubmit()">
     <img src="../../assets/img/user.svg" alt="" class="userLogo">
     <h2 class="heading-secondary auth-form__header">{{isLogIn === true ? "Тавтай морилнуу" : "Бүртгүүлэх"}}</h2>

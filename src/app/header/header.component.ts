@@ -1,4 +1,5 @@
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { SellerSetUpService } from './../seller-set-up/seller-set-up.service';
+import { Router, NavigationEnd } from '@angular/router';
 import { AppManagerService } from './../shared/app-manager.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
@@ -13,9 +14,11 @@ import { filter } from 'rxjs/operators';
 export class HeaderComponent implements OnInit, OnDestroy {
   currentState: string = "main";
   isAuthenticated: boolean = false;
+  profileImgUrl : string = "../../assets/img/profilePlaceholder.svg";
   private userSub: Subscription;
   private appStateSub: Subscription;
-  constructor(private authService: AuthService, private appManagerService: AppManagerService, private route: ActivatedRoute, private router: Router) { }
+  private profileImgSub: Subscription;
+  constructor(private authService: AuthService, private appManagerService: AppManagerService, private sellerService: SellerSetUpService, private router: Router) { }
 
   ngOnInit() {
     //If user exists, authenticated
@@ -36,6 +39,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         let url = this.router.url;
         if (this.isAuthenticated) {
           if (url === '/main') {
+            this.profileImgSub = this.sellerService.getProfileImg().subscribe(url=>{
+              this.profileImgUrl = url;
+            })
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.authenticated);
           } else if (url.includes('/seller-set-up')) {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.onlyLogo);
@@ -62,8 +68,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.appStateSub.unsubscribe();
+    this.profileImgSub.unsubscribe();   
   }
-  logOut() {
+  logout() {
     this.authService.logout();
   }
 }

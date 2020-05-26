@@ -25,7 +25,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   mainUrlName: string = 'seller-set-up/';
   firstNavUrlName: string = 'personal';
   secondNavUrlName: string = 'professional';
-
+  profileImgSub: Subscription;
   constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
@@ -134,8 +134,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   progressValue: number;
   hideProgress: boolean = true;
   personalData: PersonalModel;
-  folderName: string = 'profileImages';
-  imageName: string = 'user1profileImg';
   personalDataSub: Subscription;
   personalNavOnce: boolean = true;
 
@@ -173,10 +171,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   getProfileImage() {
-    //Get profile image and show it
-    this.afStorage.ref(`${this.folderName}/${this.appManagerService.userName}`).getDownloadURL().subscribe(url => {
+    this.profileImgSub = this.sellerService.getProfileImg().subscribe(url => {
       this.url = url;
-    });
+    })
   }
   professionalNav() {
     this.savePersonalData();
@@ -279,7 +276,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.hideProgress = false;
 
       //FIREBASE UPLOAD
-      this.ref = this.afStorage.ref(`${this.folderName}/${this.appManagerService.userName}`);
+      this.ref = this.afStorage.ref(`${this.sellerService.folderName}/${this.appManagerService.userName}`);
       this.task = this.ref.put(this.selectedImage);
       this.uploadProgress = this.task.percentageChanges();
       this.uploadProgress.subscribe(progress => {
@@ -950,6 +947,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   personalFormOnDestroy() {
     this.personalDataSub.unsubscribe();
+    this.profileImgSub.unsubscribe();
   }
   professionalFormOnDestroy() {
     this.professionalDataSub.unsubscribe();
