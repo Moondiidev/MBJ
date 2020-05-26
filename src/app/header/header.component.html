@@ -14,14 +14,14 @@
       <div class="header header__right">
         <a class="nav-text" routerLink='/seller-set-up/personal'>Худалдагч Болох</a>
         <a class="nav-text">Мессеж</a>
-        <a class="nav-text">Хадгалсан Gig-үүд</a>
+        <a class="nav-text">Хадгалсан Гиг-үүд</a>
         <a class="nav-text">Захиалгууд</a>
         <div>
-          <button class="profileBtn">
+          <button type ="button" class="profileBtn" (click) = "profileDropdown.click()">
             <img [src]="profileImgUrl" alt="" class="profileBtn__img">
             <div class="profileBtn__downArrow"></div>
           </button>
-          <div class="profileOptions">
+          <div class="profileOptions" #profileDropdown appDropDown>
             <a class="profileOption">Профиль</a>
             <a class="profileOption">Тохиргоо</a>
             <hr>
@@ -29,8 +29,8 @@
               <a class="whiteText">Шагнал</a>
               <img src="../../assets/img/referal.svg" alt="" class="profileOption__img">
             </div>
-            <div class="profileOption profileOption__flexed profileOption__blue">
-              <a class="whiteText" (click)="logout()">Гарах</a>
+            <div class="profileOption profileOption__flexed profileOption__blue" (click)="logout()">
+              <a class="whiteText">Гарах</a>
               <img src="../../assets/img/logout.svg" alt="" class="profileOption__img">
             </div>
           </div>
