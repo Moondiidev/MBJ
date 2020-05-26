@@ -91,11 +91,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
       this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
         console.log(data);
-        this.personalData = {
-          firstname: data.firstname,
-          lastname: data.lastname,
-          personalDescription: data.personalDescription,
-        };
+        if(data != null){
+          this.personalData = {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            personalDescription: data.personalDescription,
+          };
+        }
         if (this.personalData != null) {
           this.usePersonalData();
         }
@@ -229,7 +231,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.professionalDataSub = this.sellerService.fetchProfessionalInfo().subscribe((data: ProfessionalModel) => {
         console.log(data);
         //Get data
-        this.professionalData = data;
+        if(data != null){
+          this.professionalData = data;
+        }
         //Use data
         if (this.professionalData !== null) {
           this.useProfessionalData();
