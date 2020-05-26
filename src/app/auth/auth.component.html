@@ -9,7 +9,13 @@
 
     <!--- LOGIN INPUTS -->
     <div *ngIf="isLogIn" class="auth-form__inputs">
-      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Эмэйл" formControlName="email">
+      <div class="auth-form__emailInput">
+        <input type="text" class="auth-form__input" placeholder="Эмэйл" formControlName="email">
+        <ul *ngIf="!this.authForm.get('email').valid && this.authForm.get('email').touched" class="auth-form__inputErrors">
+          <li class="auth-form__inputError error-text">Байж болох эмэйл хаяг
+            оруулна уу.</li>
+        </ul>
+      </div>
       <div class="auth-form__passwordContainer">
         <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput"
           placeholder="Нууц Үг" formControlName="password">
@@ -37,7 +43,13 @@
         <li class="auth-form__inputError error-text" *ngIf="this.authForm.get('userName').errors?.pattern">Нэр заавал
           үсгээр эхэлж, зөвхөн доогуур зураас болон тоо агуулж болно.</li>
       </ul>
-      <input type="text" class="auth-form__input auth-form__emailInput" placeholder="Эмэйл" formControlName="email">
+      <div class="auth-form__emailInput">
+        <input type="text" class="auth-form__input" placeholder="Эмэйл" formControlName="email">
+        <ul *ngIf="!this.authForm.get('email').valid && this.authForm.get('email').touched" class="auth-form__inputErrors">
+          <li class="auth-form__inputError error-text">Байж болох эмэйл хаяг
+            оруулна уу.</li>
+        </ul>
+      </div>
       <div class="auth-form__passwordContainer">
         <input [type]="passwordShow === true ? 'text' : 'password'" class="auth-form__input auth-form__passwordInput"
           placeholder="Нууц Үг" formControlName="password">
