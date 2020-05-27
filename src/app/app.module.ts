@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from "angularfire2/storage";
+import { AngularFireAuthModule } from "angularfire2/auth";
 import { UserProfileComponent } from './user-profile/user-profile.component';
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
       storageBucket: "mbj-2f9fa.appspot.com",
   }),
   AngularFireStorageModule,
+  AngularFireAuthModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

@@ -7,6 +7,7 @@ import { tap, map } from 'rxjs/operators';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { FirebaseApp } from 'angularfire2';
 
 export interface AuthResponseData {
     displayName: string;
@@ -24,7 +25,11 @@ export class AuthService {
     rememberToggle: boolean = false;
     rememberUser: boolean = false;
     private tokenExpirationTimer: any;
-    constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService) { }
+    constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService, private firebase: FirebaseApp) {
+        this.firebase.auth().onAuthStateChanged(()=>{
+            console.log('bro');
+        })
+     }
     private handleError(errorRes: HttpErrorResponse) {
         console.log(errorRes);
         let errorMessage = 'An unknown  error occured!';
@@ -51,10 +56,11 @@ export class AuthService {
         const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
         const user = new User(email, userId, token, expirationDate);
         this.user.next(user);
-        this.autoLogout(expiresIn * 1000);
+        this.refreshToken(expiresIn * 1000);
         localStorage.setItem('userData', JSON.stringify(user));
     }
     signup(userName: string, email: string, password: string) {
+        this.firebase.auth().signInWithEmailAndPassword(email, password);
         return this.http.post<AuthResponseData>("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA5Y-a9JJesQov7UMNrlBHFDN5wfaA9ANw",
             {
                 email: email,
@@ -77,10 +83,16 @@ export class AuthService {
             this.tokenExpirationTimer = null;
         };
     }
-    autoLogout(expirationDuration: number) {
+    refreshToken(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
-            this.logout();
-        }, expirationDuration);
+            this.firebase.auth().currentUser.getIdToken(true)
+                .then(function (idToken) {
+                    console.log(idToken);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            // refresh token 5seconds before expiration
+        }, expirationDuration - 5000);
     }
     login(email: string, password: string) {
         /* rememberToggle is connected to namaig sana checkbox in login section and will always be true when
@@ -90,6 +102,7 @@ export class AuthService {
         this.rememberToggle = false;
         localStorage.setItem('userRemember', JSON.stringify(this.rememberUser));
         console.log(localStorage);
+        this.firebase.auth().signInWithEmailAndPassword(email, password);
         return this.http.post<AuthResponseData>("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA5Y-a9JJesQov7UMNrlBHFDN5wfaA9ANw",
             {
                 email: email,
@@ -119,28 +132,28 @@ export class AuthService {
         if (loadedUser.token) {
             this.user.next(loadedUser);
             const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
-            this.autoLogout(expirationDuration);
+            this.refreshToken(expirationDuration);
         }
     }
     saveUserName(name) {
         //Creates a unique folder using the name
         this.http.post(`${environment.cors}${environment.databaseURL}userNames.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
     }
-    getUserNames(){
+    getUserNames() {
         return this.http.get<Array<string>>(`${environment.cors}${environment.databaseURL}userNames.json`)
-        .pipe(map(res => {
-            const namesArr = [];
-            for(const key in res){
-                if(res.hasOwnProperty(key)){
-                    namesArr.push(res[key]);
+            .pipe(map(res => {
+                const namesArr = [];
+                for (const key in res) {
+                    if (res.hasOwnProperty(key)) {
+                        namesArr.push(res[key]);
+                    }
                 }
-            }
-            return namesArr;
-        }));
+                return namesArr;
+            }));
     }
 
-    setUserName(name){
+    setUserName(name) {
         this.appManagerService.userName = name;
-        localStorage.setItem('userName',name);
+        localStorage.setItem('userName', name);
     }
 }

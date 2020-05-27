@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   box-shadow: 0px 5px 10px -8px rgba(0, 0, 0, 0.25);
-  position: fixed;
+  position: absolute;
   width: 100%;
   z-index: 1000;
   top: 0;
@@ -118,7 +118,8 @@ input.ng-valid+.search-button {
 .profileBtn {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  padding: 0 0.8rem;
+  padding-bottom: 1rem;
   cursor: pointer;
 
   &__img {
