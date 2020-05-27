@@ -1,5 +1,6 @@
 @import '../scss/variables.scss';
 @import '../scss/typography.scss';
+
 .header-container {
   height: $nav-height;
   padding: 2rem 4rem 1rem 4rem;
@@ -54,7 +55,7 @@
 
 .search {
   height: 3.5rem;
-  width: 40rem;
+  width: 38rem;
   margin-left: 3rem;
   margin-bottom: 0.5rem;
   display: flex;
@@ -68,34 +69,41 @@
   display: flex;
   align-items: center;
   background-color: white;
-  border-radius: 100px;
+  border-radius: 5px;
   box-shadow: 0px 10px 10px -8px rgba(255, 255, 255, 0.25);
 }
 
 .searchIcon {
   height: 60%;
-  margin: 0 2rem;
+  margin-left: 1rem;
+  margin-right: 1.5rem;
   padding-right: 1rem;
   border-right: 1px solid rgba(138, 133, 133, 0.5);
 }
 
 .search-button {
   height: 100%;
-  padding: 1rem;
+  padding: 1rem 2rem;
   text-align: center;
   outline: none;
-  font-size: 1rem;
+  font-size: 1.3rem;
   border: none;
-  background-color: #00adb5;
-  border-top-right-radius: 100px;
-  border-bottom-right-radius: 100px;
+  background-color: #9e9595;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   color: white;
   transition: 0.2s;
   cursor: pointer;
+  font-weight: 400;
 }
 
-input.ng-invalid+.search-button {
-  background-color: #9e9595;
+
+input.ng-valid+.search-button {
+  background-color: #00adb5;
+
+  &:hover {
+    background-color: #07bfc9;
+  }
 }
 
 .search-input {
@@ -104,7 +112,7 @@ input.ng-invalid+.search-button {
   border: none;
   outline: none;
   background-color: transparent;
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 .profileBtn {
@@ -130,10 +138,11 @@ input.ng-invalid+.search-button {
 }
 
 .profileOptions {
-    hr{
-        width: 100%;
-        margin-bottom: 1.5rem;
-    }
+  hr {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,7 +153,8 @@ input.ng-invalid+.search-button {
   transform-origin: 250px 0;
   opacity: 0;
   border-radius: 4px;
-  transition: transform .3s, opacity .3s;
+  transition: transform .3s,
+  opacity .3s;
   width: 240px;
   background-color: #f6f9fc;
   box-shadow: 0 0 40px 5px rgba(0, 0, 0, .5);
@@ -171,29 +181,37 @@ input.ng-invalid+.search-button {
   background-color: #52616b;
   border-radius: 4px;
   transition: 0.3s;
-  &:hover{
-      background-color: #3f4c55;
+
+  &:hover {
+    background-color: #3f4c55;
   }
-  &__flexed{
+
+  &__flexed {
     display: flex;
     align-items: center;
     justify-content: center;
-    &:last-of-type{
-        margin-bottom: 0;
+
+    &:last-of-type {
+      margin-bottom: 0;
     }
   }
+
   &__blue {
     background-color: #112d4e;
-    &:hover{
-        background-color: #0b233f;
+
+    &:hover {
+      background-color: #0b233f;
     }
   }
-  &__green{
-      background-color: #15775e;
-      &:hover{
-        background-color: #126b55;
+
+  &__green {
+    background-color: #15775e;
+
+    &:hover {
+      background-color: #126b55;
     }
   }
+
   &__img {
     margin-left: 1rem;
     width: 2rem;
