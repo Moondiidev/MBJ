@@ -27,7 +27,8 @@ export class AuthService {
     private tokenExpirationTimer: any;
     constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService, private firebase: FirebaseApp) {
         this.firebase.auth().onAuthStateChanged(()=>{
-            console.log('bro');
+            let timeNow = new Date();
+            console.log('bro ' + timeNow.getHours() + " " + timeNow.getMinutes());
         })
      }
     private handleError(errorRes: HttpErrorResponse) {
@@ -82,6 +83,7 @@ export class AuthService {
             clearTimeout(this.tokenExpirationTimer);
             this.tokenExpirationTimer = null;
         };
+        console.log('LOGOUT');
     }
     refreshToken(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
