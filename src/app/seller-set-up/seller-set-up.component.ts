@@ -98,7 +98,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
             personalDescription: data.personalDescription,
           };
         }
-        if (this.personalData != null) {
+        if (this.personalData != null || this.personalData !== undefined) {
           this.usePersonalData();
         }
 
@@ -235,7 +235,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.professionalData = data;
         }
         //Use data
-        if (this.professionalData !== null) {
+        if (this.professionalData !== null || this.professionalData !== undefined) {
           this.useProfessionalData();
         }
         this.finishLoading();

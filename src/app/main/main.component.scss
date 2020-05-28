@@ -1,10 +1,8 @@
 $font-color-primary: #f7f7f7;
-@import '../scss/variables';
 
 // ************ HERO SECTION ************** //
 .hero-container {
   // To compensate for the header
-  margin-top: $nav-height;
   height: 55rem;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../../assets/img/background.jpg) no-repeat center;
   background-size: cover;
@@ -155,8 +153,8 @@ input.ng-valid+.search-button {
 
 // ************ FOOTER SECTION ************** //
 
-$font-colorPrimary: #eeeeee;
-$font-colorSecondary: #778DA9;
+$font-footerColorPrimary: #eeeeee;
+$font-footerColorSecondary: #778DA9;
 
 .footer-container {
   background-color: rgb(32, 35, 43);
@@ -170,7 +168,7 @@ $font-colorSecondary: #778DA9;
   font-size: 1.6rem;
 
   p {
-    color: $font-colorPrimary;
+    color: $font-footerColorPrimary;
   }
 
   &__left,
@@ -190,11 +188,11 @@ $font-colorSecondary: #778DA9;
   }
 
   &__link {
-    color: $font-colorSecondary;
+    color: $font-footerColorSecondary;
     transition: 0.2s;
 
     &:hover {
-      color: $font-colorPrimary;
+      color: $font-footerColorPrimary;
     }
   }
 

@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentState: string = "main";
   isAuthenticated: boolean = false;
   profileImgUrl : string = "../../assets/img/profilePlaceholder.svg";
+  userName: string;
   private userSub: Subscription;
   private appStateSub: Subscription;
   private profileImgSub: Subscription;
@@ -27,6 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isAuthenticated = !!user;
       if (this.isAuthenticated) {
         this.currentState = 'authenticated';
+        this.userName = this.appManagerService.userName;
       } else {
         this.currentState = 'main';
       }

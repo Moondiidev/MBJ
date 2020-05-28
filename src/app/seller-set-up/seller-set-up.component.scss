@@ -1,5 +1,4 @@
 @import '../scss/utilities.scss';
-@import '../scss/variables.scss';
 @import '../scss/mixins.scss';
 @import '../scss/checkboxClassWorker.scss';
 @import '../scss/animations.scss';
@@ -134,7 +133,6 @@ textarea {
 //*********************** HEADER NAV **************************
 //*************************************************************
 .setUpContainer {
-  margin-top: $nav-height;
   height: calc(100vh - 14rem);
 
   &__notice {
