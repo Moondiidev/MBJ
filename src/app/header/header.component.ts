@@ -14,7 +14,8 @@ import { filter } from 'rxjs/operators';
 export class HeaderComponent implements OnInit, OnDestroy {
   currentState: string = "main";
   isAuthenticated: boolean = false;
-  profileImgUrl : string = "../../assets/img/profilePlaceholder.svg";
+  isSellerMode: boolean = false;
+  profileImgUrl: string = "../../assets/img/profilePlaceholder.svg";
   userName: string;
   private userSub: Subscription;
   private appStateSub: Subscription;
@@ -41,12 +42,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
         let url = this.router.url;
         if (this.isAuthenticated) {
           if (url === '/main') {
-            this.profileImgSub = this.sellerService.getProfileImg().subscribe(url=>{
-              this.profileImgUrl = url;
-            })
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.authenticated);
           } else if (url.includes('/seller-set-up')) {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.onlyLogo);
+          }
+        } else if (this.isSellerMode) {
+          if (url === '/main') {
+            this.profileImgSub = this.sellerService.getProfileImg().subscribe(url => {
+              if (url != null || url != undefined) {
+                this.profileImgUrl = url;
+              }
+            })
+            this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.sellerMain);
           }
         } else {
           if (url === '/main') {
@@ -70,10 +77,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.appStateSub.unsubscribe();
-    this.profileImgSub.unsubscribe();   
+    this.profileImgSub.unsubscribe();
   }
   logout() {
     this.authService.logout();
   }
-  
+
 }

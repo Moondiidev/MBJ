@@ -1,3 +1,4 @@
+import { userData } from './userData.interface';
 import { AppManagerService } from './../shared/app-manager.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from "@angular/core";
@@ -137,19 +138,22 @@ export class AuthService {
             this.refreshToken(expirationDuration);
         }
     }
-    saveUserName(name) {
+    saveUserData(data) {
         //Creates a unique folder using the name
-        this.http.post(`${environment.cors}${environment.databaseURL}userNames.json`, JSON.stringify(name)).subscribe(res => { console.log(res); });
+        console.log(data);
+        this.http.post(`${environment.cors}${environment.databaseURL}userData.json`, JSON.stringify(data)).subscribe(res => { console.log(res); });
     }
     getUserNames() {
-        return this.http.get<Array<string>>(`${environment.cors}${environment.databaseURL}userNames.json`)
+        return this.http.get<userData>(`${environment.cors}${environment.databaseURL}userData.json`)
             .pipe(map(res => {
                 const namesArr = [];
+                console.log(res);
                 for (const key in res) {
                     if (res.hasOwnProperty(key)) {
-                        namesArr.push(res[key]);
+                        namesArr.push(res[key].userName);
                     }
                 }
+                console.log(namesArr);
                 return namesArr;
             }));
     }

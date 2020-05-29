@@ -1,3 +1,4 @@
+import { userData } from './userData.interface';
 import { HeaderErrorService } from './../head-error/header-error.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -18,7 +19,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLogIn: boolean = false;
   passwordShow: boolean = false;
   checkingUserName: boolean = false;
-  currentUserName: string;
+  months: Array<string> = ['Нэгдүгээр сар', 'Хоёрдугаар сар', 'Гуравдугаар сар', 'Дөрөвдүгээр сар', 'Тавдугаар сар', 'Зургадугаар сар'
+    , 'Долоодугаар сар', 'Наймдугаар сар', 'Есдүгээр сар', 'Аравдугаар сар', 'Арваннэгдүгээр сар', 'Арванхоёрдугаар сар'];
+  userData: userData = {
+    userName: '',
+    joinDate: ''
+  };
   errorMode: string;
   uniqueUserTimeout;
   userNameSub: Subscription;
@@ -111,7 +117,9 @@ export class AuthComponent implements OnInit, OnDestroy {
     const email = this.authForm.get('email').value;
     const password = this.authForm.get('password').value;
     if (!this.isLogIn) {
-      this.currentUserName = this.authForm.get('userName').value;
+      this.userData.userName = this.authForm.get('userName').value;
+      const today = new Date();
+      this.userData.joinDate = `${today.getFullYear()} ${this.months[today.getMonth()]}`;
     }
     let authObs: Observable<AuthResponseData>;
 
@@ -120,13 +128,14 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.isLogIn) {
       authObs = this.authService.login(email, password);
     } else {
-      authObs = this.authService.signup(this.currentUserName, email, password);
+      authObs = this.authService.signup(this.userData.userName, email, password);
     }
     authObs.subscribe(
       resData => {
         //On Valid authentication, if it is signup form, save username to database 
         if (!this.isLogIn) {
-          this.authService.saveUserName(this.currentUserName);
+          console.log(this.userData);
+          this.authService.saveUserData(this.userData);
         }
         console.log(resData);
         this.authService.setUserName(resData.displayName);
