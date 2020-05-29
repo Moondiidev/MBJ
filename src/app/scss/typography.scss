@@ -5,6 +5,9 @@
 .heading-secondary {
   font-size: 2.5rem;
 }
+.heading-tertiary {
+  font-size: 2rem;
+}
 
 .heading-fourth {
   font-size: 1.8rem;
@@ -21,6 +24,9 @@
   font-size: 1.1rem;
   color: #62646a;
 }
+.paragraph-medium {
+  font-size: 1.3rem;
+}
 
 .labelText {
   font-size: 1.2rem;
@@ -31,6 +37,10 @@
     font-size: 1.3rem;
     font-weight: bold;
     text-align: left;
+}
+.boldText-large{
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .error-text {
