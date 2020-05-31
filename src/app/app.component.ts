@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private appManagerService: AppManagerService) { }
   ngOnInit(): void {
     //Get username
-    this.appManagerService.userName = localStorage.getItem('userName');
+    this.appManagerService.userName.next(localStorage.getItem('userName'));
     console.log(this.appManagerService.userName);
     //This component loads first so do auto login here
     this.authService.rememberer();

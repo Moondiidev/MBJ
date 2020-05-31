@@ -1,4 +1,4 @@
-export interface userData{
+export interface signupData{
     userName : string,
     joinDate : string
 }

@@ -1,4 +1,4 @@
-import { userData } from './userData.interface';
+import { signupData } from './signupData.interface';
 import { AppManagerService } from './../shared/app-manager.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from "@angular/core";
@@ -138,13 +138,13 @@ export class AuthService {
             this.refreshToken(expirationDuration);
         }
     }
-    saveUserData(data) {
+    saveSignupData(data) {
         //Creates a unique folder using the name
         console.log(data);
-        this.http.post(`${environment.cors}${environment.databaseURL}userData.json`, JSON.stringify(data)).subscribe(res => { console.log(res); });
+        this.http.post(`${environment.cors}${environment.databaseURL}signupData.json`, data).subscribe(res => { console.log(res); });
     }
     getUserNames() {
-        return this.http.get<userData>(`${environment.cors}${environment.databaseURL}userData.json`)
+        return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`)
             .pipe(map(res => {
                 const namesArr = [];
                 console.log(res);
@@ -157,9 +157,28 @@ export class AuthService {
                 return namesArr;
             }));
     }
+    getUserJoinDate(userName : string) {
+        return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`)
+            .pipe(map(res => {
+                const dataArr = [];
+                const namesArr = [];
+                console.log(res);
+                for (const key in res) {
+                    if (res.hasOwnProperty(key)) {
+                        dataArr.push(res[key]);
+                        namesArr.push(res[key].userName);
+                    }
+                }
+                const currentUserIndex = namesArr.indexOf(userName);
+                const joinDate : string = dataArr[currentUserIndex].joinDate;
+                console.log(dataArr);
+                console.log(joinDate);
+                return joinDate;
+            }));
+    }
 
     setUserName(name) {
-        this.appManagerService.userName = name;
+        this.appManagerService.userName.next(name);
         localStorage.setItem('userName', name);
     }
 }

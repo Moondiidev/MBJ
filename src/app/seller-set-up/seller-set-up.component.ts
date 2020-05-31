@@ -69,17 +69,24 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.professionalFormOnDestroy();
   }
   setUpPersonalForm() {
+    //Adjust html to personal form
     this.navNum = 0;
+
+    //Change url to personalInfo without causing anything. 
     this.location.go(this.mainUrlName + this.firstNavUrlName);
+
     //Only need to run once like as if it was a seperate component with NgOnInit
     if (this.personalNavOnce) {
       //PERSONAL FORM
       this.startLoading();
       this.savedPersonalSub = this.sellerService.savedPersonalInfo.subscribe(res => {
+        //Show saved pink animation after finished saving
         this.showSavedPersonalAnim = res;
         console.log(this.showSavedPersonalAnim);
       })
+      //NgOnInit gets called only once. This variable is used to simulate that.
       this.personalNavOnce = false;
+      //Create form
       this.personalForm = new FormGroup({
         'name': new FormGroup({
           'firstName': new FormControl(null, Validators.required),
@@ -87,8 +94,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         }),
         'description': new FormControl(null, Validators.required)
       });
+
+      //Get profile image from firebase storage
       this.getProfileImage();
 
+      //Get data from firebase database
       this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
         console.log(data);
         if(data != null){
@@ -162,9 +172,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         this.personalForm.get('name.lastName').setValue(this.personalData.lastname);
       }
       if (this.personalData.personalDescription !== undefined) {
-        console.log(this.personalForm.get('description'));
         this.personalForm.get('description').setValue(this.personalData.personalDescription);
-        console.log(this.personalForm.get('description').value);
       }
       //Allowing header nav btn to be used if data made the form valid.
       if (this.personalForm.status === "VALID") {

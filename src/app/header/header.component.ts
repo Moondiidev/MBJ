@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isSellerMode: boolean = false;
   profileImgUrl: string = "../../assets/img/profilePlaceholder.svg";
   userName: string;
+  private userNameSub: Subscription;
   private userSub: Subscription;
   private appStateSub: Subscription;
   private profileImgSub: Subscription;
@@ -29,7 +30,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isAuthenticated = !!user;
       if (this.isAuthenticated) {
         this.currentState = 'authenticated';
-        this.userName = this.appManagerService.userName;
+        this.userNameSub = this.appManagerService.userName.subscribe(name => {
+          this.userName = name;
+        });
       } else {
         this.currentState = 'main';
       }
@@ -78,6 +81,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
     this.appStateSub.unsubscribe();
     this.profileImgSub.unsubscribe();
+    this.userNameSub.unsubscribe();
   }
   logout() {
     this.authService.logout();

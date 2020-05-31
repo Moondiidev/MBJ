@@ -5,6 +5,7 @@
 .heading-secondary {
   font-size: 2.5rem;
 }
+
 .heading-tertiary {
   font-size: 2rem;
 }
@@ -16,19 +17,35 @@
 .emphasis-link {
   color: rgb(30, 135, 255);
   cursor: pointer;
+
+  &--2 {
+    color: rgb(18, 103, 129);
+    transition: 0.2s;
+    &:hover {
+      color: rgb(18, 151, 192);
+
+    }
+  }
 }
-.whiteText{
+
+.whiteText {
   color: white !important;
 }
+
 .paragraph {
   font-size: 1.1rem;
   color: #62646a;
 }
+
 .paragraph-md {
   font-size: 1.2rem;
 }
+
 .paragraph-lg {
   font-size: 1.3rem;
+}
+.paragraph-xl {
+  font-size: 1.4rem;
 }
 
 .labelText {
@@ -36,14 +53,15 @@
   color: rgb(150, 150, 150);
 }
 
-.boldText{
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-align: left;
+.boldText {
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: left;
 }
-.boldText-large{
-    font-size: 1.5rem;
-    font-weight: bold;
+
+.boldText-large {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .error-text {

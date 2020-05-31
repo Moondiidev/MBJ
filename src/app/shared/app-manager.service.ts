@@ -12,6 +12,6 @@ export class AppManagerService {
     sellerMain: 'sellerMain',
     onlyLogo: 'onlyLogo',
   }
-  userName: string;
+  userName = new BehaviorSubject<string>(null);
   constructor() { }
 }
