@@ -46,6 +46,7 @@ export class SellerSetUpService implements OnInit {
   }
   getProfileImg() {
     //Get profile image and show it
+    //Check if file exists and only get it if it does.
     return this.afStorage.ref(`${this.folderName}/${this.appManagerService.userName}`).getDownloadURL();
   }
 }
