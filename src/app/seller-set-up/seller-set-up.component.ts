@@ -1,7 +1,8 @@
 import { AppManagerService } from './../shared/app-manager.service';
 import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { SellerSetUpService } from './seller-set-up.service';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -42,9 +43,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.setUpPersonalForm();
           break;
         case this.secondNavUrlName:
-          if(this.personalFormValid){
+          if (this.personalFormValid) {
             this.setUpProfessionalNav();
-          }else{
+          } else {
             this.setUpPersonalForm();
           }
           break;
@@ -99,19 +100,23 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.getProfileImage();
 
       //Get data from firebase database
-      this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
+      this.personalDataSub = this.sellerService.fetchPersonalInfo().pipe(
+        catchError(() => {
+          //Stop loading
+          this.finishLoading();
+          return throwError("Couldn't retrieve personal information from firebase database");
+        })
+      ).subscribe((data: PersonalModel) => {
         console.log(data);
-        if(data != null){
+        if (data != null || data != undefined) {
           this.personalData = {
             firstname: data.firstname,
             lastname: data.lastname,
             personalDescription: data.personalDescription,
           };
-        }
-        if (this.personalData != null || this.personalData !== undefined) {
           this.usePersonalData();
-        }
 
+        }
         // Seller-set-up header navigation only allows navigation when form is valid
         this.personalForm.statusChanges.subscribe(status => {
           if (status === "VALID") {
@@ -153,10 +158,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value, btn);
     this.personalChangesOccured = false;
     //Save form validity
-    if(this.personalFormValid){
-      localStorage.setItem('personalFormValid',"true");
-    }else{
-      localStorage.setItem('personalFormValid',"");
+    if (this.personalFormValid) {
+      localStorage.setItem('personalFormValid', "true");
+    } else {
+      localStorage.setItem('personalFormValid', "");
     }
   }
   onPersonalChange() {
@@ -181,7 +186,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   getProfileImage() {
-    this.profileImgSub = this.sellerService.getProfileImg().subscribe(url => {
+    this.profileImgSub = this.sellerService.getProfileImg().pipe(
+      catchError(() => {
+        return throwError('profile image was not retrieved from firebase storage');
+      })
+    ).subscribe(url => {
       this.url = url;
     })
   }
@@ -236,10 +245,16 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         data: [],
         sorter: []
       }
-      this.professionalDataSub = this.sellerService.fetchProfessionalInfo().subscribe((data: ProfessionalModel) => {
+      this.professionalDataSub = this.sellerService.fetchProfessionalInfo().pipe(
+        catchError(() => {
+          //Stop loading
+          this.finishLoading();
+          return throwError("Couldn't retrieve professional information from firebase database");
+        })
+      ).subscribe((data: ProfessionalModel) => {
         console.log(data);
         //Get data
-        if(data != null){
+        if (data != null || data != undefined) {
           this.professionalData = data;
         }
         //Use data

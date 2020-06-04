@@ -2,11 +2,10 @@ import { AppManagerService } from './../shared/app-manager.service';
 import { HttpClient } from '@angular/common/http';
 import { PersonalModel } from './../shared/personal.model';
 import { ProfessionalModel } from 'src/app/shared/professional.model';
-import { Subject } from 'rxjs';
+import { Subject} from 'rxjs';
 import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AngularFireStorage } from 'angularfire2/storage';
-
 @Injectable({
   providedIn: 'root'
 })
