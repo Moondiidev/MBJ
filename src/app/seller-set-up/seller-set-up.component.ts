@@ -30,12 +30,30 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
-    this.personalFormValid = localStorage.getItem('personalFormValid') ? true : false;
     this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
       this.personalFormValid = validity;
+      this.sellerService.saveValidityInfo(this.personalFormValid);
     })
+
   }
   ngAfterViewInit(): void {
+    this.sellerService.fetchValidityInfo().pipe(
+      catchError(() => {
+        alert('bru');
+        this.init();
+        return throwError('failed to get validity info from firebase database');
+      })
+    ).subscribe(data => {
+      console.log(data);
+      //Only after checking if forms are valid, decide which form to set up
+      if(data != null || data != undefined){
+        const validityInfo = data;
+        this.personalFormValid = validityInfo.validity.personalFormValid;
+      }
+      this.init();
+    })
+  }
+  init() {
     //Depending on the url (which reflects the NAV name) that the user was last using, correct NAV is loaded and presented on webpage reload/load
     setTimeout(() => {
       switch (this.route.snapshot.params['nav']) {
@@ -83,7 +101,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.savedPersonalSub = this.sellerService.savedPersonalInfo.subscribe(res => {
         //Show saved pink animation after finished saving
         this.showSavedPersonalAnim = res;
-        console.log(this.showSavedPersonalAnim);
       })
       //NgOnInit gets called only once. This variable is used to simulate that.
       this.personalNavOnce = false;
@@ -102,6 +119,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       //Get data from firebase database
       this.personalDataSub = this.sellerService.fetchPersonalInfo().pipe(
         catchError(() => {
+          this.checkFirstFormValidation();
           //Stop loading
           this.finishLoading();
           return throwError("Couldn't retrieve personal information from firebase database");
@@ -117,18 +135,22 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.usePersonalData();
 
         }
-        // Seller-set-up header navigation only allows navigation when form is valid
-        this.personalForm.statusChanges.subscribe(status => {
-          if (status === "VALID") {
-            this.sellerService.personalFormValid.next(true);
-          } else {
-            this.sellerService.personalFormValid.next(false);
-          }
-        })
+        this.checkFirstFormValidation();
         //Stop loading
         this.finishLoading();
       });
     }
+  }
+  checkFirstFormValidation() {
+    // Seller-set-up header navigation only allows navigation when form is valid
+    this.personalForm.statusChanges.subscribe(status => {
+      if (status === "VALID") {
+        this.sellerService.personalFormValid.next(true);
+      } else {
+        this.sellerService.personalFormValid.next(false);
+      }
+    }
+    )
   }
   startLoading() {
     this.notLoading = false;
@@ -157,12 +179,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   savePersonalData(btn?) {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value, btn);
     this.personalChangesOccured = false;
-    //Save form validity
-    if (this.personalFormValid) {
-      localStorage.setItem('personalFormValid', "true");
-    } else {
-      localStorage.setItem('personalFormValid', "");
-    }
   }
   onPersonalChange() {
     this.sellerService.savedPersonalInfo.next(false);
@@ -258,7 +274,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.professionalData = data;
         }
         //Use data
-        if (this.professionalData !== null || this.professionalData !== undefined) {
+        if (this.professionalData != null || this.professionalData != undefined) {
           this.useProfessionalData();
         }
         this.finishLoading();
@@ -303,7 +319,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.hideProgress = false;
 
       //FIREBASE UPLOAD
-      this.ref = this.afStorage.ref(`${this.sellerService.folderName}/${this.appManagerService.userName}`);
+      this.ref = this.afStorage.ref(`${this.sellerService.folderName}/${this.appManagerService.userName.value}`);
       this.task = this.ref.put(this.selectedImage);
       this.uploadProgress = this.task.percentageChanges();
       this.uploadProgress.subscribe(progress => {
