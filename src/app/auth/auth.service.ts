@@ -25,6 +25,8 @@ export class AuthService {
     user = new BehaviorSubject<User>(null);
     rememberToggle: boolean = false;
     rememberUser: boolean = false;
+    currentUserEmail: string;
+    currentUserPass: string;
     private tokenExpirationTimer: any;
     constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService, private firebase: FirebaseApp) {
         this.firebase.auth().onAuthStateChanged(()=>{
@@ -88,6 +90,8 @@ export class AuthService {
     }
     refreshToken(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
+            // Sign in the user again in firebase
+            this.firebase.auth().signInWithEmailAndPassword(this.currentUserEmail, this.currentUserPass);
             this.firebase.auth().currentUser.getIdToken(true)
                 .then(function (idToken) {
                     console.log(idToken);
@@ -101,11 +105,13 @@ export class AuthService {
         /* rememberToggle is connected to namaig sana checkbox in login section and will always be true when
         checked and false when not. rememberUser is used to store and check if user had clciked namaig sana
         checkbox before clicking login. */
+        this.currentUserEmail = email;
+        this.currentUserPass = password;
         this.rememberUser = this.rememberToggle;
         this.rememberToggle = false;
         localStorage.setItem('userRemember', JSON.stringify(this.rememberUser));
         console.log(localStorage);
-        this.firebase.auth().signInWithEmailAndPassword(email, password);
+        this.firebase.auth().signInWithEmailAndPassword(this.currentUserEmail, this.currentUserPass);
         return this.http.post<AuthResponseData>("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA5Y-a9JJesQov7UMNrlBHFDN5wfaA9ANw",
             {
                 email: email,

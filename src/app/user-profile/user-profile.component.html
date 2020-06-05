@@ -1,10 +1,18 @@
 <div class="profileContainer max-width-container">
   <div class="profileInfo profileWrapper">
     <div class="profileInfo__overview">
-      <img src="../../assets/img/profilePlaceholder.svg" alt="" class="profileInfo__overview__profileImage">
+      <div class="profileInfo__overview__preview">
+        <img src="../../assets/img/profilePlaceholder.svg" alt="" class="profileInfo__overview__profileImage">
+        <div class="profileInfo__overview__preview__parts">
+          <p class="boldText-large">{{userSignupData.userName}}</p>
+          <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__preview__rating">
+          <div class="flex-verticalCentered">
+            <p class="paragraph-lg">Би бол МБЖ-ийн гишүүн</p>
+            <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__editIcon" alt="">
+          </div>
+        </div>
+      </div>
       <div class="profileInfo__overview__details">
-        <p class="boldText-large">{{userSignupData.userName}}</p>
-        <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__details__rating">
         <p class="paragraph-lg">МБЖ-д нэгдсэн он, сар: <span class="boldText">{{userSignupData.joinDate}}</span></p>
         <p class="paragraph-lg">Дундаж хариу өгдөг хугацаа: <span class="boldText">{{userResponseTime}}</span></p>
       </div>

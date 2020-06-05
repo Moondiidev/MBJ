@@ -9,7 +9,6 @@
   flex-direction: column;
 
   &__overview {
-    display: flex;
 
     &__profileImage {
       width: 10rem;
@@ -18,13 +17,26 @@
       margin-right: 2rem;
     }
 
-    &__details {
+    &__preview {
       display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
+      justify-content: flex-start;
+
+      &__parts {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+      }
+
+      margin-bottom: 2rem;
 
       &__rating {
         width: 10rem;
+      }
+      &__editIcon{
+          margin-left: 1rem;
+          width: 1.5rem;
+          height: 1.5rem;
+          cursor: pointer;
       }
     }
   }
@@ -33,15 +45,18 @@
     margin-top: 3rem;
   }
 }
-.profileInfo_detail{
-    &:not(:last-of-type){
-        margin-bottom: 2rem;
-    }
-    &__heading{
-        display: flex;
-        justify-content: space-between;
-    }
+
+.profileInfo_detail {
+  &:not(:last-of-type) {
+    margin-bottom: 2rem;
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+  }
 }
+
 .profileWork {
   width: 62%;
 }
