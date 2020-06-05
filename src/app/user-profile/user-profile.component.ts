@@ -17,6 +17,7 @@ export class UserProfileComponent implements OnInit {
     userName: '',
     joinDate: ''
   };
+  userLastDeliveryTime: string = '';
   userResponseTime: string = '';
   personalDescription: string = '';
   professionalEducations;
