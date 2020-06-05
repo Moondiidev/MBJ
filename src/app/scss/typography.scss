@@ -48,11 +48,15 @@
 .paragraph-xl {
   font-size: 1.4rem;
 }
-
 .labelText {
   font-size: 1.2rem;
   color: rgb(150, 150, 150);
+  &--2{
+    font-size: 1.3rem;
+    color: rgb(131, 131, 131);
+  }
 }
+
 
 .boldText {
   font-size: 1.3rem;

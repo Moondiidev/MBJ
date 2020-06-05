@@ -7,7 +7,7 @@
           <p class="boldText-large">{{userSignupData.userName}}</p>
           <div class="flex-verticalCentered">
             <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__preview__rating">
-            <p class="paragraph-lg">(8-ш үнэлгээнүүд)</p>
+            <p class="labelText--2">(8-ш үнэлгээнүүд)</p>
           </div>
           <div class="flex-verticalCentered">
             <p class="paragraph-lg">Би бол МБЖ-ийн гишүүн</p>
@@ -20,20 +20,20 @@
         <div class="profileInfo__overview__detail">
           <img src="../../assets/img/leftCorny/profile.svg" class="paragraph-lg profileInfo__overview__detail__img"
             alt="">
-          <p class="paragraph-lg profileInfo__overview__detail__text">МБЖ-д нэгдсэн он, сар: 
-              <span class="boldText">{{userSignupData.joinDate}}</span></p>
+          <p class="paragraph-lg profileInfo__overview__detail__text">МБЖ-д нэгдсэн он, сар:
+            <span class="boldText">{{userSignupData.joinDate}}</span></p>
         </div>
         <div class="profileInfo__overview__detail">
           <img src="../../assets/img/leftCorny/watch.svg" class="paragraph-lg profileInfo__overview__detail__img"
             alt="">
-          <p class="paragraph-lg profileInfo__overview__detail__text">Дундаж хариу өгдөг хугацаа: 
-              <span class="boldText">{{userResponseTime}}</span></p>
+          <p class="paragraph-lg profileInfo__overview__detail__text">Дундаж хариу өгдөг хугацаа:
+            <span class="boldText">{{userResponseTime}}</span></p>
         </div>
         <div class="profileInfo__overview__detail">
           <img src="../../assets/img/leftCorny/email.svg" class="paragraph-lg profileInfo__overview__detail__img"
             alt="">
-          <p class="paragraph-lg profileInfo__overview__detail__text">Сүүлийн Хүргэлтийн Хурд: 
-              <span class="boldText">{{userLastDeliveryTime}}</span></p>
+          <p class="paragraph-lg profileInfo__overview__detail__text">Сүүлийн Хүргэлтийн Хурд:
+            <span class="boldText">{{userLastDeliveryTime}}</span></p>
         </div>
       </div>
     </div>
@@ -52,8 +52,11 @@
           <p class="boldText-large margin-bot-xs">Чадварууд</p>
           <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
         </div>
-        <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills; let i = index">
-          <p class="paragraph-md">{{professionalSkills[i]}}</p>
+
+        <div *ngIf='professionalSkills; else noSkill'>
+          <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills; let i = index">
+            <p class="paragraph-md">{{professionalSkills[i]}}</p>
+          </div>
         </div>
       </div>
       <!-- show certifications only if education exists because it was a optional input in seller set up component -->
@@ -62,9 +65,12 @@
           <p class="boldText-large margin-bot-xs">Сертификатнууд</p>
           <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
         </div>
-        <div class="profileInfo_detail__certification"
-          *ngFor="let certification of professionalCertifications; let i = index">
-          <p class="paragraph-md">{{professionalCertifications[i]}}/p>
+
+        <div *ngIf='professionalCertifications; else noCertification'>
+          <div class="profileInfo_detail__certification"
+            *ngFor="let certification of professionalCertifications; let i = index">
+            <p class="paragraph-md">{{professionalCertifications[i]}}</p>
+          </div>
         </div>
       </div>
 
@@ -74,8 +80,10 @@
           <p class="boldText-large margin-bot-xs">Боловсрол</p>
           <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
         </div>
-        <div class="profileInfo_detail__education" *ngFor="let education of professionalEducations; let i = index">
-          <p class="paragraph-md">{{professionalEducations[i]}}/p>
+        <div *ngIf='professionalEducations; else noEducation'>
+          <div class="profileInfo_detail__education" *ngFor="let education of professionalEducations; let i = index">
+            <p class="paragraph-md">{{professionalEducations[i]}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -87,3 +95,16 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #noSkill>
+  <p class="paragraph-md">Чадвараа нэм нүү<p>
+</ng-template>
+
+<ng-template #noCertification>
+  <p class="paragraph-md">Сертификатаа нэм нүү<p>
+</ng-template>
+
+<ng-template #noEducation>
+  <p class="paragraph-md">Боловсролоо нэм нүү<p>
+</ng-template>

@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit {
   personalDescription: string = '';
   professionalEducations;
   professionalCertifications;
-  professionalSkills: Array<string> = [];
+  professionalSkills: Array<string>;
   personalDataSub: Subscription;
   professionalDataSub: Subscription;
   userNameSub: Subscription;
