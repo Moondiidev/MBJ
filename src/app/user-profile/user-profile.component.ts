@@ -13,6 +13,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
+  reviewChoices: Array<string> = ['Худалдагчийн','Худалдан авагчийн'];
+  currentChoice : number = 0;
   userSignupData: signupData = {
     userName: '',
     joinDate: ''
@@ -62,4 +64,11 @@ export class UserProfileComponent implements OnInit {
   ngOnDestroy(): void {
     this.userNameSub.unsubscribe();
   }
+
+  //ngClass uses currentChoice var to decide which el should have active class added. 
+  //ngFor allows (click) event to know which elemnt was clicked 
+  choiceChange(choiceNum : number){
+    this.currentChoice = choiceNum;
+  }
+
 }

@@ -99,10 +99,9 @@
       <button type="button" class="profileWork__createGig btn btn-green">Гиг Зохиох</button>
     </div>
     <div class="profileWork__review">
-      <h2 class="heading-tertiary">Үнэлгээнүүд</h2>
+      <h2 class="heading-tertiary marginVertical-medium">Үнэлгээнүүд</h2>
       <div class="profileWork__review__chooseType">
-        <button type="button" class="btn">Худалдагчийн үүднээс</button>
-        <button type="button" class="btn">Худалдан авагчийн үүднээс</button>
+        <button *ngFor="let choice of reviewChoices; let i = index" [ngClass] = "{'choice-btn-checked' : currentChoice === i}" type="button" class="choice-btn" (click) = "choiceChange(i)">{{reviewChoices[i]}} үүднээс</button>
       </div>
     </div>
   </div>

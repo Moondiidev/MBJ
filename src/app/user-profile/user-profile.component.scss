@@ -86,6 +86,9 @@
 
 .profileWork {
   width: 62%;
+  //This fixes child div overflowing parent element issue
+  display: flex;
+  flex-direction: column;
 
   &__info {
     display: flex;
@@ -118,6 +121,12 @@
   &__createGig {
     display: block;
     margin: 0 auto;
+  }
+
+  &__review{
+    &__chooseType{
+      margin-top: 1rem;
+    }
   }
 }
 
