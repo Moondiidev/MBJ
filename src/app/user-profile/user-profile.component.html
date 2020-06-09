@@ -89,8 +89,8 @@
     </div>
 
   </div>
-  <div class="profileWork profileWrapper">
-    <div class="profileWork__info">
+  <div class="profileWork">
+    <div class="profileWork__info profileWrapper">
       <h2 class="heading-tertiary">Худалдаалж буй Гигүүд</h2>
       <div class="profileWork__closed">
         <h2 class="profileWork__closed__text">Харуулах гиг байхгүй байна</h2>
@@ -98,10 +98,15 @@
       </div>
       <button type="button" class="profileWork__createGig btn btn-green">Гиг Зохиох</button>
     </div>
-    <div class="profileWork__review">
-      <h2 class="heading-tertiary marginVertical-medium">Үнэлгээнүүд</h2>
-      <div class="profileWork__review__chooseType">
-        <button *ngFor="let choice of reviewChoices; let i = index" [ngClass] = "{'choice-btn-checked' : currentChoice === i}" type="button" class="choice-btn" (click) = "choiceChange(i)">{{reviewChoices[i]}} үүднээс</button>
+    <div class="profileWork__reviewContainer profileWrapper">
+      <h2 class="heading-tertiary">Үнэлгээнүүд</h2>
+      <div class="profileWork__reviewContainer__chooseType">
+        <button *ngFor="let choice of reviewChoices; let i = index"
+          [ngClass]="{'choice-btn-checked' : currentChoice === i}" type="button" class="choice-btn"
+          (click)="choiceChange(i)">{{reviewChoices[i]}} үүднээс</button>
+      </div>
+      <div class="profileWork__reviewContainer__review">
+        
       </div>
     </div>
   </div>

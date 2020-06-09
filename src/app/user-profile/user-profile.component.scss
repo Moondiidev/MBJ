@@ -4,6 +4,7 @@
 
 .profileContainer {
   display: flex;
+  align-items: flex-start;
 }
 
 .profileInfo {
@@ -112,7 +113,7 @@
 
     &__img {
       width: 100%;
-      height: 100%;
+      height: 40rem;
       background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../../assets/img/closed.svg') center no-repeat;
       background-size: contain;
     }
@@ -123,7 +124,8 @@
     margin: 0 auto;
   }
 
-  &__review{
+  &__reviewContainer{
+    margin-top: 2rem;
     &__chooseType{
       margin-top: 1rem;
     }
