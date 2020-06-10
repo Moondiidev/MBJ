@@ -129,7 +129,27 @@
     &__chooseType{
       margin-top: 1rem;
     }
+    &__review{
+      display: flex;
+      &__profileImg{
+        width: 3rem;
+        height: 3rem;
+        margin-right: 2rem;
+      }
+      &__star{
+        height: 1.5rem;
+        width: 1.5rem;
+        margin-left: 1rem;
+        margin-right: 0.5rem;
+      }
+      &__startText{
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: rgb(92, 92, 14);
+      }
+    }
   }
+  
 }
 
 .profileWrapper {
