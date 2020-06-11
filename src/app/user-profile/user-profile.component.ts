@@ -6,6 +6,7 @@ import { SellerSetUpService } from './../seller-set-up/seller-set-up.service';
 import { ProfessionalModel } from 'src/app/shared/professional.model';
 import { PersonalModel } from 'src/app/shared/personal.model';
 import { Component, OnInit } from '@angular/core';
+import { UserReviewModel } from './userReview.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,6 +29,7 @@ export class UserProfileComponent implements OnInit {
   personalDataSub: Subscription;
   professionalDataSub: Subscription;
   userNameSub: Subscription;
+  reviews: Array<UserReviewModel> = [{name: 'allah ala tunji',rating: 2, review: 'It was great experience. Great communication. Thank you :)', date: '9 sariin omno'}];
   constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService) { }
 
   ngOnInit(): void {
