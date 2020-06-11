@@ -414,7 +414,7 @@ select {
 
   &-row {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 
     &--center {
@@ -530,7 +530,6 @@ select {
 
 .professionalTextInput {
   width: 100%;
-  padding: 0.5rem 1rem;
-  //This removes unwated background styling on the first input text by overriding targeted css background styling
-  background-image: none !important;
+  padding: 0.4rem 1rem;
+  
 }
