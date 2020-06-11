@@ -85,6 +85,11 @@
   }
 }
 
+.profileInfo,
+.profileWork {
+  height: 55rem;
+}
+
 .profileWork {
   width: 62%;
   //This fixes child div overflowing parent element issue
@@ -125,7 +130,7 @@
   }
 
   &__reviewContainer {
-    margin-top: 2rem;
+    margin: 2rem 0;
 
     &__chooseType {
       margin-top: 1rem;
