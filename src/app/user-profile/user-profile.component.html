@@ -11,12 +11,12 @@
               <p class="labelText--2">(8-ш үнэлгээнүүд)</p>
             </div>
             <div class="flex-verticalCentered" *ngIf="!editingIntro">
-              <p class="paragraph-lg">{{intro}}</p>
-              <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__editIcon"
+              <p class="paragraph-lg profileInfo__overview__preview__parts__intro">{{intro}}</p>
+              <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__parts__editIcon"
                 (click)="onEditIntro()" alt="">
             </div>
             <form [formGroup] = "introForm">
-              <input type="text" class="subtle-input" *ngIf="editingIntro" formControlName="intro">
+              <input type="text" class="subtle-input" *ngIf="editingIntro" maxlength="45" formControlName="intro">
             </form>
           </div>
         </div>

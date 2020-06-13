@@ -1,9 +1,11 @@
 @import '../scss/mixins.scss';
 @import '../scss/utilities.scss';
 @import '../scss/buttons.scss';
-.backgroundColor{
+
+.backgroundColor {
   background-color: rgb(245, 245, 245);
 }
+
 .profileContainer {
   display: flex;
   align-items: flex-start;
@@ -52,35 +54,41 @@
       display: flex;
       justify-content: flex-start;
 
-      &__editBtns{
+      &__editBtns {
         margin-top: 1rem;
         display: flex;
         justify-content: center;
-        &__cancel{
+
+        &__cancel {
           margin-right: 2rem;
         }
       }
+
       &__parts {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
+
+        &__intro {
+          line-break: anywhere;
+        }
+
+        &__editIcon {
+          margin-left: 1rem;
+          width: 1.4rem;
+          height: 1.4rem;
+          cursor: pointer;
+          transition: 0.2s;
+
+          &:hover {
+            opacity: 0.6;
+          }
+        }
       }
 
       &__rating {
         width: 10rem;
         margin-right: 1rem;
-      }
-
-      &__editIcon {
-        margin-left: 1rem;
-        width: 1.4rem;
-        height: 1.4rem;
-        cursor: pointer;
-        transition: 0.2s;
-
-        &:hover {
-          opacity: 0.6;
-        }
       }
     }
   }
@@ -179,7 +187,7 @@
   padding: 2rem 4rem;
 }
 
-.subtle-input{
+.subtle-input {
   display: block;
   width: 100%;
   border: none;
