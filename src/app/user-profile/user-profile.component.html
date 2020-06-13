@@ -106,7 +106,7 @@
           <h2 class="profileWork__closed__text">Харуулах гиг байхгүй байна</h2>
           <div class="profileWork__closed__img"></div>
         </div>
-        <button type="button" class="profileWork__createGig btn btn-green">Гиг Зохиох</button>
+        <button type="button" class="profileWork__createGig btn btn-green btn--largeText">Гиг Зохиох</button>
       </div>
       <div class="profileWork__reviewContainer profileWrapper">
         <h2 class="heading-tertiary">Үнэлгээнүүд</h2>
@@ -116,8 +116,8 @@
             (click)="choiceChange(i)">{{reviewChoices[i]}} үүднээс</button>
         </div>
         <div>
+          <hr>
           <div class="margin-bot-md profileWork__reviewContainer__reviewWrapper" *ngFor="let review of reviews">
-            <hr>
             <div class="profileWork__reviewContainer__review">
               <img src="../../assets/img/profilePlaceholder.svg" alt=""
                 class="profileWork__reviewContainer__review__profileImg">
@@ -136,6 +136,8 @@
                 </p>
               </div>
             </div>
+            <hr>
+            <button class="text-btn text-btn--large text-btn--green margin-top-sm">+ Сунгах</button>
           </div>
         </div>
       </div>

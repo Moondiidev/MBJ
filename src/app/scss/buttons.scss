@@ -8,7 +8,9 @@
   font-weight: bold;
   box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.1);
   transition: 0.2s;
-
+  &--largeText{
+      font-size: 1.4rem;
+  }
   &:hover {
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.3);
     transform: translateY(-1px);
@@ -108,7 +110,9 @@ $blue-color-light: #96f1fd;
   &--green {
     color: #1fab89;
   }
-
+  &--large{
+      font-size: 1.4rem;
+  }
   cursor: pointer;
   font-size: 1.2rem;
   font-weight: 500;
