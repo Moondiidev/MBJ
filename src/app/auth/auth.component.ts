@@ -117,7 +117,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (!this.isLogIn) {
       this.signupData.userName = this.authForm.get('userName').value;
       const today = new Date();
-      this.signupData.joinDate = `${today.getFullYear()} ${today.getMonth()}-р сар`;
+      this.signupData.joinDate = `${today.getFullYear()} ${today.getMonth()+1}-р сар`;
     }
     let authObs: Observable<AuthResponseData>;
 

@@ -1,132 +1,140 @@
-<div class="profileContainer max-width-container">
-  <div class="profileInfo profileWrapper">
-    <div class="profileInfo__overview">
-      <div class="profileInfo__overview__preview">
-        <img src="../../assets/img/profilePlaceholder.svg" alt="" class="profileInfo__overview__profileImage">
-        <div class="profileInfo__overview__preview__parts">
-          <p class="boldText-large">{{userSignupData.userName}}</p>
-
-          <div class="flex-verticalCentered">
-            <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__preview__rating">
-            <p class="labelText--2">(8-ш үнэлгээнүүд)</p>
-          </div>
-          <div class="flex-verticalCentered">
-            <p class="paragraph-lg">Би бол МБЖ-ийн гишүүн</p>
-            <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__editIcon" alt="">
-          </div>
-        </div>
-      </div>
-      <hr class="horizontalLine">
-      <div class="profileInfo__overview__details">
-        <div class="profileInfo__overview__detail">
-          <img src="../../assets/img/leftCorny/profile.svg" class="paragraph-lg profileInfo__overview__detail__img"
-            alt="">
-          <p class="paragraph-lg profileInfo__overview__detail__text">МБЖ-д нэгдсэн он, сар:
-            <span class="boldText">{{userSignupData.joinDate}}</span></p>
-        </div>
-        <div class="profileInfo__overview__detail">
-          <img src="../../assets/img/leftCorny/watch.svg" class="paragraph-lg profileInfo__overview__detail__img"
-            alt="">
-          <p class="paragraph-lg profileInfo__overview__detail__text">Дундаж хариу өгдөг хугацаа:
-            <span class="boldText">{{userResponseTime}}</span></p>
-        </div>
-        <div class="profileInfo__overview__detail">
-          <img src="../../assets/img/leftCorny/email.svg" class="paragraph-lg profileInfo__overview__detail__img"
-            alt="">
-          <p class="paragraph-lg profileInfo__overview__detail__text">Сүүлийн Хүргэлтийн Хурд:
-            <span class="boldText">{{userLastDeliveryTime}}</span></p>
-        </div>
-      </div>
-    </div>
-    <hr class="horizontalLine">
-    <div class="profileInfo__details">
-      <div class="profileInfo_detail">
-        <div class="profileInfo_detail__heading">
-          <p class="boldText-large margin-bot-xs">Хувийн Тайлбар</p>
-          <a class="emphasis-link--2 paragraph-xl">Өөрчлөх</a>
-        </div>
-        <div *ngIf='personalDescription; else noDescription'>
-          <p class="paragraph-md">{{personalDescription}}</p>
-        </div>
-      </div>
-
-      <div class="profileInfo_detail">
-        <div class="profileInfo_detail__heading">
-          <p class="boldText-large margin-bot-xs">Чадварууд</p>
-          <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
-        </div>
-
-        <div *ngIf='professionalSkills; else noSkill'>
-          <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills; let i = index">
-            <p class="paragraph-md">{{professionalSkills[i]}}</p>
+<div class="backgroundColor">
+  <div class="profileContainer max-width-container">
+    <div class="profileInfo profileWrapper">
+      <div class="profileInfo__overview">
+        <div class="profileInfo__overview__preview">
+          <img src="../../assets/img/profilePlaceholder.svg" alt="" class="profileInfo__overview__profileImage">
+          <div class="profileInfo__overview__preview__parts">
+            <p class="boldText-large">{{userSignupData.userName}}</p>
+            <div class="flex-verticalCentered">
+              <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__preview__rating">
+              <p class="labelText--2">(8-ш үнэлгээнүүд)</p>
+            </div>
+            <div class="flex-verticalCentered">
+              <p class="paragraph-lg">Би бол МБЖ-ийн гишүүн</p>
+              <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__editIcon" alt="">
+            </div>
           </div>
         </div>
-      </div>
-      <!-- show certifications only if education exists because it was a optional input in seller set up component -->
-      <div class="profileInfo_detail">
-        <div class="profileInfo_detail__heading">
-          <p class="boldText-large margin-bot-xs">Сертификатнууд</p>
-          <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+        <div class="profileInfo__actions">
+          <button type="button" class="marginVertical-md coolBtn-1"><span>Олон Нийтийн Нүдээр Харах</span></button>
         </div>
 
-        <div *ngIf='professionalCertifications; else noCertification'>
-          <div class="profileInfo_detail__certification"
-            *ngFor="let certification of professionalCertifications; let i = index">
-            <p class="paragraph-md">{{professionalCertifications[i]}}</p>
+        <div class="profileInfo__overview__timeInfo" *ngIf="!privateMode">
+          <hr class="horizontalLine">
+          <div class="profileInfo__overview__details">
+            <div class="profileInfo__overview__detail">
+              <img src="../../assets/img/leftCorny/profile.svg" class="paragraph-lg profileInfo__overview__detail__img"
+                alt="">
+              <p class="paragraph-lg profileInfo__overview__detail__text">МБЖ-д нэгдсэн он, сар:
+                <span class="boldText">{{userSignupData.joinDate}}</span></p>
+            </div>
+            <div class="profileInfo__overview__detail">
+              <img src="../../assets/img/leftCorny/watch.svg" class="paragraph-lg profileInfo__overview__detail__img"
+                alt="">
+              <p class="paragraph-lg profileInfo__overview__detail__text">Дундаж хариу өгдөг хугацаа:
+                <span class="boldText">{{userResponseTime}}</span></p>
+            </div>
+            <div class="profileInfo__overview__detail">
+              <img src="../../assets/img/leftCorny/email.svg" class="paragraph-lg profileInfo__overview__detail__img"
+                alt="">
+              <p class="paragraph-lg profileInfo__overview__detail__text">Сүүлийн Хүргэлтийн Хурд:
+                <span class="boldText">{{userLastDeliveryTime}}</span></p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- show educations only if education exists because it was a optional input in seller set up component -->
-      <div class="profileInfo_detail">
-        <div class="profileInfo_detail__heading">
-          <p class="boldText-large margin-bot-xs">Боловсрол</p>
-          <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
-        </div>
-        <div *ngIf='professionalEducations; else noEducation'>
-          <div class="profileInfo_detail__education" *ngFor="let education of professionalEducations; let i = index">
-            <p class="paragraph-md">{{professionalEducations[i]}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <div class="profileWork">
-    <div class="profileWork__info profileWrapper">
-      <h2 class="heading-tertiary">Худалдаалж буй Гигүүд</h2>
-      <div class="profileWork__closed">
-        <h2 class="profileWork__closed__text">Харуулах гиг байхгүй байна</h2>
-        <div class="profileWork__closed__img"></div>
-      </div>
-      <button type="button" class="profileWork__createGig btn btn-green">Гиг Зохиох</button>
-    </div>
-    <div class="profileWork__reviewContainer profileWrapper">
-      <h2 class="heading-tertiary">Үнэлгээнүүд</h2>
-      <div class="profileWork__reviewContainer__chooseType">
-        <button *ngFor="let choice of reviewChoices; let i = index"
-          [ngClass]="{'choice-btn-checked' : currentChoice === i}" type="button" class="choice-btn"
-          (click)="choiceChange(i)">{{reviewChoices[i]}} үүднээс</button>
       </div>
       <div>
-        <div class="margin-bot-md profileWork__reviewContainer__reviewWrapper" *ngFor="let review of reviews">
-          <hr>
-          <div class="profileWork__reviewContainer__review">
-            <img src="../../assets/img/profilePlaceholder.svg" alt=""
-              class="profileWork__reviewContainer__review__profileImg">
-            <div>
-              <div class="flex-verticalCentered">
-                <p class="boldText-large">{{review.name}}</p>
-                <img src="../../assets/img/rating-stars/star-solo.svg" alt=""
-                  class="profileWork__reviewContainer__review__star">
-                <p class="profileWork__reviewContainer__review__startText">{{review.rating}}</p>
+        <hr>
+        <div class="profileInfo__details">
+          <div class="profileInfo_detail">
+            <div class="profileInfo_detail__heading">
+              <p class="boldText-large margin-bot-xs">Хувийн Тайлбар</p>
+              <a class="emphasis-link--2 paragraph-xl">Өөрчлөх</a>
+            </div>
+            <p class="paragraph-md">{{personalDescription}}</p>
+          </div>
+
+          <div class="profileInfo_detail">
+            <div class="profileInfo_detail__heading">
+              <p class="boldText-large margin-bot-xs">Чадварууд</p>
+              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+            </div>
+
+            <div *ngIf='professionalSkills; else noSkill'>
+              <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills; let i = index">
+                <p class="paragraph-md">{{professionalSkills[i]}}</p>
               </div>
-              <p class="marginVertical-small paragraph-md">
-                {{review.review}}
-              </p>
-              <p class="greyText paragraph-md">
-                {{review.date}}
-              </p>
+            </div>
+          </div>
+          <!-- show certifications only if education exists because it was a optional input in seller set up component -->
+          <div class="profileInfo_detail">
+            <div class="profileInfo_detail__heading">
+              <p class="boldText-large margin-bot-xs">Сертификатнууд</p>
+              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+            </div>
+
+            <div *ngIf='professionalCertifications; else noCertification'>
+              <div class="profileInfo_detail__certification"
+                *ngFor="let certification of professionalCertifications; let i = index">
+                <p class="paragraph-md">{{professionalCertifications[i]}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- show educations only if education exists because it was a optional input in seller set up component -->
+          <div class="profileInfo_detail">
+            <div class="profileInfo_detail__heading">
+              <p class="boldText-large margin-bot-xs">Боловсрол</p>
+              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+            </div>
+            <div *ngIf='professionalEducations; else noEducation'>
+              <div class="profileInfo_detail__education"
+                *ngFor="let education of professionalEducations; let i = index">
+                <p class="paragraph-md">{{professionalEducations[i]}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profileWork">
+      <div class="profileWork__info profileWrapper">
+        <h2 class="heading-tertiary">Худалдаалж буй Гигүүд</h2>
+        <div class="profileWork__closed">
+          <h2 class="profileWork__closed__text">Харуулах гиг байхгүй байна</h2>
+          <div class="profileWork__closed__img"></div>
+        </div>
+        <button type="button" class="profileWork__createGig btn btn-green">Гиг Зохиох</button>
+      </div>
+      <div class="profileWork__reviewContainer profileWrapper">
+        <h2 class="heading-tertiary">Үнэлгээнүүд</h2>
+        <div class="profileWork__reviewContainer__chooseType">
+          <button *ngFor="let choice of reviewChoices; let i = index"
+            [ngClass]="{'choice-btn-checked' : currentChoice === i}" type="button" class="choice-btn"
+            (click)="choiceChange(i)">{{reviewChoices[i]}} үүднээс</button>
+        </div>
+        <div>
+          <div class="margin-bot-md profileWork__reviewContainer__reviewWrapper" *ngFor="let review of reviews">
+            <hr>
+            <div class="profileWork__reviewContainer__review">
+              <img src="../../assets/img/profilePlaceholder.svg" alt=""
+                class="profileWork__reviewContainer__review__profileImg">
+              <div>
+                <div class="flex-verticalCentered">
+                  <p class="boldText-large">{{review.name}}</p>
+                  <img src="../../assets/img/rating-stars/star-solo.svg" alt=""
+                    class="profileWork__reviewContainer__review__star">
+                  <p class="profileWork__reviewContainer__review__startText">{{review.rating}}</p>
+                </div>
+                <p class="marginVertical-sm paragraph-md">
+                  {{review.review}}
+                </p>
+                <p class="greyText paragraph-md">
+                  {{review.date}}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -135,10 +143,6 @@
   </div>
 </div>
 
-
-<ng-template #noDescription>
-  <p class="paragraph-md">Хувийн Тайлбараа нэм нүү<p>
-</ng-template>
 <ng-template #noSkill>
   <p class="paragraph-md">Чадвараа нэм нүү<p>
 </ng-template>

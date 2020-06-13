@@ -29,6 +29,7 @@ export class UserProfileComponent implements OnInit {
   personalDataSub: Subscription;
   professionalDataSub: Subscription;
   userNameSub: Subscription;
+  privateMode: boolean = true;
   reviews: Array<UserReviewModel> = [{name: 'allah ala tunji',rating: 2, review: 'It was great experience. Great communication. Thank you :)', date: '9 sariin omno'}];
   constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService) { }
 
