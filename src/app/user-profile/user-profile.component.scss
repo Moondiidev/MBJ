@@ -52,6 +52,14 @@
       display: flex;
       justify-content: flex-start;
 
+      &__editBtns{
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        &__cancel{
+          margin-right: 2rem;
+        }
+      }
       &__parts {
         display: flex;
         flex-direction: column;
@@ -169,4 +177,10 @@
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.7);
   padding: 2rem 4rem;
+}
+
+.borderless-input{
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 1.3rem;
 }

@@ -10,11 +10,21 @@
               <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__preview__rating">
               <p class="labelText--2">(8-ш үнэлгээнүүд)</p>
             </div>
-            <div class="flex-verticalCentered">
-              <p class="paragraph-lg">Би бол МБЖ-ийн гишүүн</p>
-              <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__editIcon" alt="">
+            <div class="flex-verticalCentered" *ngIf="!editingIntro">
+              <p class="paragraph-lg">{{intro}}</p>
+              <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__editIcon"
+                (click)="onEditIntro()" alt="">
             </div>
+            <form>
+              <input type="text" class="borderless-input paragraph-lg" *ngIf="editingIntro" #editIntro>
+            </form>
           </div>
+        </div>
+        <div class="profileInfo__overview__preview__editBtns" *ngIf="editingIntro">
+          <button type="button" class="profileInfo__overview__preview__editBtns__cancel btn"
+            (click)="onCancelEditingIntro()">Болих</button>
+          <button type="button" class="profileInfo__overview__preview__editBtns__update btn btn-green"
+            (click)="onUpdateIntro()">Өөрчлөх</button>
         </div>
         <div class="profileInfo__actions">
           <button type="button" class="marginVertical-md coolBtn-1"><span>Олон Нийтийн Нүдээр Харах</span></button>
@@ -137,7 +147,7 @@
               </div>
             </div>
             <hr>
-            <button class="text-btn text-btn--large text-btn--green margin-top-sm">+ Сунгах</button>
+            <button class="text-btn text-btn--large text-btn--darkGreen margin-top-sm">+ Сунгах</button>
           </div>
         </div>
       </div>
