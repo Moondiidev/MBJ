@@ -179,7 +179,9 @@
   padding: 2rem 4rem;
 }
 
-.borderless-input{
+.subtle-input{
+  display: block;
+  width: 100%;
   border: none;
   border-bottom: 1px solid black;
   font-size: 1.3rem;

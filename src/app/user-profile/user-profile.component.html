@@ -15,8 +15,8 @@
               <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__editIcon"
                 (click)="onEditIntro()" alt="">
             </div>
-            <form>
-              <input type="text" class="borderless-input paragraph-lg" *ngIf="editingIntro" #editIntro>
+            <form [formGroup] = "introForm">
+              <input type="text" class="subtle-input" *ngIf="editingIntro" formControlName="intro">
             </form>
           </div>
         </div>

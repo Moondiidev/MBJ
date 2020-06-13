@@ -1,3 +1,4 @@
+import { FormGroup, FormControl } from '@angular/forms';
 import { AppManagerService } from './../shared/app-manager.service';
 import { AuthService } from './../auth/auth.service';
 import { signupData } from './../auth/signupData.interface';
@@ -33,12 +34,16 @@ export class UserProfileComponent implements OnInit {
   editingIntro: boolean = false;
   intro : string = "Би бол МБЖ-ийн гишүүн";
   reviews: Array<UserReviewModel> = [{name: 'allah ala tunji',rating: 2, review: 'It was great experience. Great communication. Thank you :)', date: '9 sariin omno'}];
+  introForm: FormGroup;
   constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService) { }
 
   ngOnInit(): void {
     this.userNameSub = this.appManagerService.userName.subscribe(name => {
       this.userSignupData.userName = name;
       this.getUserData();
+    });
+    this.introForm = new FormGroup({
+      'intro': new FormControl(null)
     })
   }
   getUserData() {
@@ -77,13 +82,14 @@ export class UserProfileComponent implements OnInit {
   }
 
   onEditIntro(){
+    this.introForm.get('intro').setValue(this.intro);
     this.editingIntro = true;
-
   }
   onCancelEditingIntro(){
     this.editingIntro = false;
   }
   onUpdateIntro(){
     this.editingIntro = false;
+    this.intro = this.introForm.get('intro').value;
   }
 }

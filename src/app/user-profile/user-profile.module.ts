@@ -1,7 +1,7 @@
 import { UserProfileComponent } from './user-profile.component';
 import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from '../auth/auth.guard';
 
@@ -10,7 +10,6 @@ import { AuthGuard } from '../auth/auth.guard';
         UserProfileComponent
     ],
     imports: [
-        FormsModule,
         ReactiveFormsModule,
         SharedModule,
         RouterModule.forChild([
