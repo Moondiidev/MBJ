@@ -5,7 +5,7 @@
         <img src="../../assets/img/profilePlaceholder.svg" alt="" class="profileInfo__overview__profileImage">
         <div class="profileInfo__overview__preview__parts">
           <p class="boldText-large">{{userSignupData.userName}}</p>
-          
+
           <div class="flex-verticalCentered">
             <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__preview__rating">
             <p class="labelText--2">(8-ш үнэлгээнүүд)</p>
@@ -45,7 +45,9 @@
           <p class="boldText-large margin-bot-xs">Хувийн Тайлбар</p>
           <a class="emphasis-link--2 paragraph-xl">Өөрчлөх</a>
         </div>
-        <p class="paragraph-md">{{personalDescription}}</p>
+        <div *ngIf='personalDescription; else noDescription'>
+          <p class="paragraph-md">{{personalDescription}}</p>
+        </div>
       </div>
 
       <div class="profileInfo_detail">
@@ -134,6 +136,9 @@
 </div>
 
 
+<ng-template #noDescription>
+  <p class="paragraph-md">Хувийн Тайлбараа нэм нүү<p>
+</ng-template>
 <ng-template #noSkill>
   <p class="paragraph-md">Чадвараа нэм нүү<p>
 </ng-template>
