@@ -46,7 +46,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     ).subscribe(data => {
       console.log(data);
       //Only after checking if forms are valid, decide which form to set up
-      if(data != null || data != undefined){
+      if (data != null || data != undefined) {
         const validityInfo = data;
         this.personalFormValid = validityInfo.validity.personalFormValid;
       }
@@ -499,7 +499,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   checkCheckBoxes() {
     for (let i = 0; i < this.checkedProfessions.length; i++) {
-      document.getElementById(this.checkedProfessions[i]).classList.add('isChecked');
+      const tempEl = document.getElementById(this.checkedProfessions[i]);
+      if (tempEl !== null) {
+        tempEl.classList.add('isChecked');
+      }
     }
     this.counter = this.checkedProfessions.length;
   }

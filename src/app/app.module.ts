@@ -1,4 +1,4 @@
-import { DropdownDirective } from './shared/dropdown.directive';
+import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -14,8 +14,7 @@ import { AngularFireAuthModule } from "angularfire2/auth";
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    DropdownDirective
+    HeaderComponent
   ],
   imports: [
     AngularFireModule.initializeApp({
@@ -23,14 +22,15 @@ import { AngularFireAuthModule } from "angularfire2/auth";
       authDomain: "mbj-2f9fa.firebaseapp.com",
       projectId: "mbj-2f9fa",
       storageBucket: "mbj-2f9fa.appspot.com",
-  }),
-  AngularFireStorageModule,
-  AngularFireAuthModule,
+    }),
+    AngularFireStorageModule,
+    AngularFireAuthModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
