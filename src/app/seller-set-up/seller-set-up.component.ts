@@ -82,13 +82,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     //If user clicks save and immediately moves to next form without letting the anim playout, it gets played once user returns
     //To the personal form. This fixes the issue.
     this.showSavedPersonalAnim = false;
-    this.onNavigation();
     this.setUpPersonalForm();
     this.professionalFormOnDestroy();
   }
   setUpPersonalForm() {
     //Adjust html to personal form
     this.navNum = 0;
+    this.onNavigation();
 
     //Change url to personalInfo without causing anything. 
     this.location.go(this.mainUrlName + this.firstNavUrlName);
@@ -172,10 +172,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.notLoading = false;
   }
   finishLoading() {
-    //There is a bit of delay while displaying form so to compensate, I used timeout
-    setTimeout(() => {
-      this.notLoading = true;
-    }, 500);
+    this.notLoading = true;
   }
   // ****************************************************************************************** //
   // ************************************ PERSONAL FORM *********************************** //
@@ -224,18 +221,24 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.savePersonalData();
     this.setUpProfessionalNav();
     this.personalFormOnDestroy();
-    this.onNavigation();
   }
   setUpProfessionalNav() {
     //PROFESSIONAL FORM
-
+    setInterval(()=>{
+      console.log('ayayaya:' + this.notLoading);
+    },1000);
     //Change DOM
     this.navNum = 1;
+    this.onNavigation();
+
     //Change url name only
     this.location.go(this.mainUrlName + this.secondNavUrlName);
     //Set up form
     if (this.professionalNavOnce) {
+      console.log('aa:' + this.notLoading);
+
       this.startLoading();
+      console.log('aftaaa:' + this.notLoading);
       this.professionalNavOnce = false;
       this.professionalForm = new FormGroup({
         'skills': new FormGroup({
@@ -270,11 +273,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         if (data != null || data != undefined) {
           this.professionalData = data;
         }
+        this.finishLoading();
         //Use data
         if (this.professionalData != null || this.professionalData != undefined) {
-          this.useProfessionalData();
+          //This small delay allows useProfessionalData func to access DOM elements after finishLoading
+          setTimeout(() => this.useProfessionalData(), 10);
         }
-        this.finishLoading();
       });
       //These are used to get each separate table elements when user navigates and professional form comes
       //into existance
@@ -290,20 +294,21 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.certificationsTableSub = this.certificationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.certificationsTableHtml = el.first;
       })
+    } else {
+      //NgIf messes with the form parts so I need to check checkboxes, repopulate tables and reset some variables whenever ngIf becomes true for professionalNav
+      setTimeout(() => {
+        this.skillCounter = 0;
+        this.skillContent = [];
+        this.educationCounter = 0;
+        this.educationContent = [];
+        this.certificationCounter = 0;
+        this.certificationContent = [];
+        this.checkCheckBoxes();
+        this.populateSkillsTable();
+        this.populateEducationsTable();
+        this.populateCertificationsTable();
+      }, 100);
     }
-    //NgIf messes with Miniform tables so I need to repopulate them whenever ngIf becomes true for professionalNav
-    setTimeout(() => {
-      this.skillCounter = 0;
-      this.skillContent = [];
-      this.educationCounter = 0;
-      this.educationContent = [];
-      this.certificationCounter = 0;
-      this.certificationContent = [];
-      this.checkCheckBoxes();
-      this.populateSkillsTable();
-      this.populateEducationsTable();
-      this.populateCertificationsTable();
-    }, 100);
   }
   initializeMiniForms() {
     this.checkedProfessions = [];
@@ -452,6 +457,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   showSkills: boolean = false;
   showEducations: boolean = false;
   showCertifications: boolean = false;
+
   // **************** MINIFORMS *************** //
   professionalData: ProfessionalModel;
   professionalDataSub = new Subscription();
@@ -616,15 +622,16 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         el.classList.remove('isChecked');
         let a = this.checkedProfessions.indexOf(el.id);
         this.checkedProfessions.splice(a, 1);
+        this.saveProfessionalData();
       }
     } else {
       if (this.counter < 5) {
         el.classList.add('isChecked');
         this.checkedProfessions[this.counter] = el.id;
         this.counter++;
+        this.saveProfessionalData();
       }
     }
-    this.saveProfessionalData();
   }
   onProfessionalFormSubmit() {
     if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null) {
