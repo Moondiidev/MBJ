@@ -1,7 +1,7 @@
 import { AppManagerService } from './../shared/app-manager.service';
 import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { SellerSetUpService } from './seller-set-up.service';
-import { Subscription, throwError } from 'rxjs';
+import { Subscription, throwError, forkJoin } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -26,7 +26,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   mainUrlName: string = 'seller-set-up/';
   firstNavUrlName: string = 'personal';
   secondNavUrlName: string = 'professional';
-  profileImgSub: Subscription;
   constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
@@ -112,45 +111,62 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         }),
         'description': new FormControl(null, Validators.required)
       });
-
-      //Get profile image from firebase storage
-      this.getProfileImage();
-
-      //Get data from firebase database
-      this.personalDataSub = this.sellerService.fetchPersonalInfo().pipe(
+      //Get data
+      this.personalDataSub = this.getAllPersonalData().pipe(
         catchError(() => {
-          this.checkFirstFormValidation();
-          //Stop loading
-          this.finishLoading();
-          return throwError("Couldn't retrieve personal information from firebase database");
-        })
-      ).subscribe((data: PersonalModel) => {
-        console.log(data);
-        if (data != null || data != undefined) {
-          this.personalData = {
-            firstname: data.firstname,
-            lastname: data.lastname,
-            personalDescription: data.personalDescription,
-          };
-          this.usePersonalData();
-
-        }
-        this.checkFirstFormValidation();
-        //Stop loading
-        this.finishLoading();
-      });
+          this.initializePersonalForm();
+          return throwError("Couldn't retrieve personal information from firebase");
+        }))
+        .subscribe(([imgURL, data]: [string, PersonalModel]) => {
+          //Get profile img
+          this.url = imgURL;
+          //Get form data
+          console.log(data);
+          if (data != null || data != undefined) {
+            this.personalData = {
+              firstname: data.firstname,
+              lastname: data.lastname,
+              personalDescription: data.personalDescription,
+            };
+            this.usePersonalData();
+          }
+          this.initializePersonalForm();
+        });
     }
+  }
+  initializePersonalForm() {
+    //Check if form is valid
+    this.subFirstFormValidation();
+    //Stop loading
+    this.finishLoading();
+  }
+  getAllPersonalData() {
+    //Waits for both observables and returns combined result and error.
+    return forkJoin([this.getProfileImage(), this.getPersonalFormData()]);
+  }
+  getPersonalFormData() {
+    //Get data from firebase database
+    return this.sellerService.fetchPersonalInfo().pipe(
+      catchError(() => {
+        return throwError("Couldn't retrieve personal text data from firebase database");
+      })
+    )
   }
   checkFirstFormValidation() {
     // Seller-set-up header navigation only allows navigation when form is valid
-    this.personalForm.statusChanges.subscribe(status => {
-      if (status === "VALID") {
-        this.sellerService.personalFormValid.next(true);
-      } else {
-        this.sellerService.personalFormValid.next(false);
-      }
+    if (this.personalForm.status === "VALID" && this.url !== null) {
+      alert('truee');
+      this.sellerService.personalFormValid.next(true);
+    } else {
+      alert('faake');
+      this.sellerService.personalFormValid.next(false);
     }
-    )
+  }
+
+  subFirstFormValidation() {
+    this.personalForm.statusChanges.subscribe(() => {
+      this.checkFirstFormValidation();
+    });
   }
   startLoading() {
     this.notLoading = false;
@@ -195,20 +211,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       if (this.personalData.personalDescription !== undefined) {
         this.personalForm.get('description').setValue(this.personalData.personalDescription);
       }
-      //Allowing header nav btn to be used if data made the form valid.
-      if (this.personalForm.status === "VALID") {
-        this.sellerService.personalFormValid.next(true);
-      }
     }
   }
   getProfileImage() {
-    this.profileImgSub = this.sellerService.getProfileImg().pipe(
+    return this.sellerService.getProfileImg().pipe(
       catchError(() => {
         return throwError('profile image was not retrieved from firebase storage');
       })
-    ).subscribe(url => {
-      this.url = url;
-    })
+    )
   }
   professionalNav() {
     this.savePersonalData();
@@ -218,9 +228,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   setUpProfessionalNav() {
     //PROFESSIONAL FORM
-    this.navNum = 1;
-    this.location.go(this.mainUrlName + this.secondNavUrlName);
 
+    //Change DOM
+    this.navNum = 1;
+    //Change url name only
+    this.location.go(this.mainUrlName + this.secondNavUrlName);
+    //Set up form
     if (this.professionalNavOnce) {
       this.startLoading();
       this.professionalNavOnce = false;
@@ -243,24 +256,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         })
       });
       this.fillFromYears();
-
-      this.checkedProfessions = [];
-
-      this.showSkillsForm();
-      this.skills = {
-        data: [],
-        sorter: []
-      }
-      this.showEducationsForm();
-      this.educations = {
-        data: [],
-        sorter: []
-      }
-      this.showCertificationsForm();
-      this.certifications = {
-        data: [],
-        sorter: []
-      }
+      this.initializeMiniForms();
+      //Get data
       this.professionalDataSub = this.sellerService.fetchProfessionalInfo().pipe(
         catchError(() => {
           //Stop loading
@@ -269,7 +266,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         })
       ).subscribe((data: ProfessionalModel) => {
         console.log(data);
-        //Get data
+        //Check data
         if (data != null || data != undefined) {
           this.professionalData = data;
         }
@@ -279,6 +276,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         }
         this.finishLoading();
       });
+      //These are used to get each separate table elements when user navigates and professional form comes
+      //into existance
       this.scrollSub = this.scrollEls.changes.subscribe((el: QueryList<ElementRef>) => {
         this.scrollEl = el.first;
       })
@@ -306,6 +305,25 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.populateCertificationsTable();
     }, 100);
   }
+  initializeMiniForms() {
+    this.checkedProfessions = [];
+
+    this.showSkillsForm();
+    this.skills = {
+      data: [],
+      sorter: []
+    }
+    this.showEducationsForm();
+    this.educations = {
+      data: [],
+      sorter: []
+    }
+    this.showCertificationsForm();
+    this.certifications = {
+      data: [],
+      sorter: []
+    }
+  }
   onPersonalFormSubmit() {
     if (this.personalForm.valid) {
       this.professionalNav();
@@ -332,6 +350,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           reader.readAsDataURL(this.selectedImage);
           reader.onload = (event => {
             this.url = event.target.result;
+            //Changing profile img is also considered as changing form so validity is checked
+            this.checkFirstFormValidation();
             this.savePersonalData();
           })
         }
@@ -993,7 +1013,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   personalFormOnDestroy() {
     this.personalDataSub.unsubscribe();
-    this.profileImgSub.unsubscribe();
   }
   professionalFormOnDestroy() {
     this.professionalDataSub.unsubscribe();
