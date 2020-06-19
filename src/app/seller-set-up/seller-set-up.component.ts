@@ -224,9 +224,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   setUpProfessionalNav() {
     //PROFESSIONAL FORM
-    setInterval(()=>{
-      console.log('ayayaya:' + this.notLoading);
-    },1000);
+
     //Change DOM
     this.navNum = 1;
     this.onNavigation();
@@ -235,10 +233,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.location.go(this.mainUrlName + this.secondNavUrlName);
     //Set up form
     if (this.professionalNavOnce) {
-      console.log('aa:' + this.notLoading);
 
       this.startLoading();
-      console.log('aftaaa:' + this.notLoading);
       this.professionalNavOnce = false;
       this.professionalForm = new FormGroup({
         'skills': new FormGroup({
@@ -387,7 +383,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
 
   //checkedProfessions is used to initiliaze checked elements with class is-checked in html
-  checkedProfessions: Array<string>;
+  checkedProfessions: Array<Object> = [];
 
 
   currentYear = new Date().getFullYear();

@@ -2,9 +2,9 @@ import { AppManagerService } from './../shared/app-manager.service';
 import { HttpClient } from '@angular/common/http';
 import { PersonalModel } from './../shared/personal.model';
 import { ProfessionalModel } from 'src/app/shared/professional.model';
-import { Subject, throwError, Subscription } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { ValidityModel } from '../shared/validity.model';
@@ -42,7 +42,7 @@ export class SellerSetUpService {
   fetchPersonalInfo() {
     return this.http.get<PersonalModel>(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName.value}/personalInfo.json`);
   }
-  saveProfessionalInfo(selectedProfession: string, checkedProfessions: Array<string>, selectedFromYear: number, selectedToYear: number, skills, educations, certifications) {
+  saveProfessionalInfo(selectedProfession: string, checkedProfessions: Array<Object>, selectedFromYear: number, selectedToYear: number, skills, educations, certifications) {
     this.professionalModel = new ProfessionalModel(selectedProfession, checkedProfessions, selectedFromYear, selectedToYear, skills, educations, certifications);
     this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.appManagerService.userName.value}/professionalInfo.json`, this.professionalModel).subscribe(res => { console.log(res); });
   }
