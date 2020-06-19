@@ -383,7 +383,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
 
   //checkedProfessions is used to initiliaze checked elements with class is-checked in html
-  checkedProfessions: Array<Object> = [];
+  checkedProfessions: {
+    id: string,
+    name: string
+  }[];
 
 
   currentYear = new Date().getFullYear();
@@ -521,7 +524,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   checkCheckBoxes() {
     for (let i = 0; i < this.checkedProfessions.length; i++) {
-      const tempEl = document.getElementById(this.checkedProfessions[i]);
+      const tempEl = document.getElementById(this.checkedProfessions[i].id);
       if (tempEl !== null) {
         tempEl.classList.add('isChecked');
       }
@@ -611,19 +614,19 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.toYears.push(...newYears);
   }
   checkedState(event) {
-    let el: HTMLInputElement = event.target;
-    if (el.className.includes('isChecked')) {
+    let chosenEl: HTMLInputElement = event.target;
+    if (chosenEl.className.includes('isChecked')) {
       if (this.counter > 0) {
         this.counter--;
-        el.classList.remove('isChecked');
-        let a = this.checkedProfessions.indexOf(el.id);
+        chosenEl.classList.remove('isChecked');
+        let a = this.checkedProfessions.findIndex(el => el.id === chosenEl.id);
         this.checkedProfessions.splice(a, 1);
         this.saveProfessionalData();
       }
     } else {
       if (this.counter < 5) {
-        el.classList.add('isChecked');
-        this.checkedProfessions[this.counter] = el.id;
+        chosenEl.classList.add('isChecked');
+        this.checkedProfessions[this.counter] = {id: chosenEl.id,name: chosenEl.value};
         this.counter++;
         this.saveProfessionalData();
       }

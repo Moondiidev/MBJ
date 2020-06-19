@@ -1,10 +1,10 @@
 export class ProfessionalModel {
     constructor(
         public profession: string,
-        public professionSkills:{
+        public professionSkills:[{
             id: string,
             name: string
-        },
+        }],
         public fromYear: number,
         public toYear: number,
         public skills: {

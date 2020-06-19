@@ -26,7 +26,10 @@ export class UserProfileComponent implements OnInit {
   personalDescription: string = '';
   professionalEducations;
   professionalCertifications;
-  professionalSkills: Array<Object>;
+  professionalSkills: [{
+    id: string,
+    name: string
+  }];
   personalDataSub: Subscription;
   professionalDataSub: Subscription;
   userNameSub: Subscription;
