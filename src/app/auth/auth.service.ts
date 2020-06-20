@@ -163,7 +163,20 @@ export class AuthService {
     getUserJoinDate(userName: string) {
         return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`)
             .pipe(map(res => {
-                this.getSpecificData(userName, res, 'joinDate');
+                const dataArr = [];
+                const namesArr = [];
+                console.log(res);
+                for (const key in res) {
+                    if (res.hasOwnProperty(key)) {
+                        dataArr.push(res[key]);
+                        namesArr.push(res[key].userName);
+                    }
+                }
+                const currentUserIndex = namesArr.indexOf(userName);
+                const joinDate: string = dataArr[currentUserIndex].joinDate;
+                console.log(dataArr);
+                console.log(joinDate);
+                return joinDate;
             }));
     }
 
@@ -175,32 +188,22 @@ export class AuthService {
         //Getting stored email and pass to later use to signInWithEmailAndPassword in firebase
         return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`)
             .pipe(map(res => {
-                this.getSpecificData(userName, res, 'email', 'password');
-            }));
-    }
-    getSpecificData(userName: string, res, dataToSearch: string, secondDataToSearch?: string) {
-        const dataArr = [];
-        const namesArr = [];
-        console.log(res);
-        for (const key in res) {
-            if (res.hasOwnProperty(key)) {
-                dataArr.push(res[key]);
-                namesArr.push(res[key].userName);
-            }
-        }
-        const currentUserIndex = namesArr.indexOf(userName);
-        //if 2 data passed in, return it in object format, else, return in string format
-        if (secondDataToSearch && dataToSearch) {
-            const tempData: Object = {
-                firstData: dataArr[currentUserIndex][dataToSearch],
-                secondData: dataArr[currentUserIndex][secondDataToSearch]
-            };
-            return tempData;
-        } else {
-            const tempData: string = dataArr[currentUserIndex][dataToSearch];
-            console.log(dataArr);
-            console.log(tempData);
-            return tempData;
-        }
+                const dataArr = [];
+                const namesArr = [];
+                console.log(res);
+                for (const key in res) {
+                    if (res.hasOwnProperty(key)) {
+                        dataArr.push(res[key]);
+                        namesArr.push(res[key].userName);
+                    }
+                }
+                const currentUserIndex = namesArr.indexOf(userName);               
+
+                const emailAndPassword = {
+                    email: dataArr[currentUserIndex].email,
+                    password: dataArr[currentUserIndex].password
+                }
+                return emailAndPassword;;
+            }))
     }
 }

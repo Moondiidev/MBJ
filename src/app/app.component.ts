@@ -10,11 +10,12 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
   emailAndPasswordSub: Subscription;
-
+  savedUserName: string;
   constructor(private authService: AuthService, private appManagerService: AppManagerService) { }
   ngOnInit(): void {
     //Get username
-    this.appManagerService.userName.next(localStorage.getItem('userName'));
+    this.savedUserName = localStorage.getItem('userName');
+    this.appManagerService.userName.next(this.savedUserName);
     console.log(this.appManagerService.userName);
     //This component loads first so do auto login here
     this.authService.rememberer();
@@ -22,12 +23,10 @@ export class AppComponent implements OnInit {
       this.authService.autoLogin();
     }
 
-    this.emailAndPasswordSub = this.authService.getEmailAndPass().subscribe(data => {
+    this.emailAndPasswordSub = this.authService.getEmailAndPass(this.savedUserName).subscribe(data => {
       console.log(data);
       this.authService.currentUserEmail = data.email;
       this.authService.currentUserPass = data.password;
-      alert(this.authService.currentUserEmail);
-      alert(this.authService.currentUserEmail);
     })
   }
   ngOnDestroy(): void {

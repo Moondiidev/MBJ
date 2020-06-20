@@ -155,10 +155,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   checkFirstFormValidation() {
     // Seller-set-up header navigation only allows navigation when form is valid
     if (this.personalForm.status === "VALID" && this.url !== null) {
-      alert('truee');
       this.sellerService.personalFormValid.next(true);
     } else {
-      alert('faake');
       this.sellerService.personalFormValid.next(false);
     }
   }
