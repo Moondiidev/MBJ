@@ -28,7 +28,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   errorMode: string;
   uniqueUserTimeout;
   userNameSub: Subscription;
-  emailAndPasswordSub: Subscription;
   accessDeniedError: boolean = true;
   constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router, private headerErrorService: HeaderErrorService) { }
 
@@ -55,11 +54,6 @@ export class AuthComponent implements OnInit, OnDestroy {
           'password': new FormControl(null, [Validators.required, Validators.minLength(8)]),
         });
       }
-    })
-    
-    this.emailAndPasswordSub = this.authService.getEmailAndPass().subscribe(data => {
-      this.authService.currentUserEmail = data.email;
-      this.authService.currentUserPass = data.password;
     })
   }
   uniqueUserName(control: FormControl): Promise<any> | Observable<any> {
@@ -108,7 +102,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.authService.rememberToggle = !this.authService.rememberToggle;
   }
   ngOnDestroy() {
-    this.emailAndPasswordSub.unsubscribe();
     if (this.userNameSub !== undefined) {
       this.userNameSub.unsubscribe();
     }

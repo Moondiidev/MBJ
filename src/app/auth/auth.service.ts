@@ -86,6 +86,8 @@ export class AuthService {
     refreshToken(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
             // Sign in the user again in firebase
+            alert('signoff ' + this.currentUserEmail);
+            alert('signoff ' + this.currentUserPass);
             this.firebase.auth().signInWithEmailAndPassword(this.currentUserEmail, this.currentUserPass);
             this.firebase.auth().currentUser.getIdToken(true)
                 .then(function (idToken) {
@@ -161,20 +163,7 @@ export class AuthService {
     getUserJoinDate(userName: string) {
         return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`)
             .pipe(map(res => {
-                const dataArr = [];
-                const namesArr = [];
-                console.log(res);
-                for (const key in res) {
-                    if (res.hasOwnProperty(key)) {
-                        dataArr.push(res[key]);
-                        namesArr.push(res[key].userName);
-                    }
-                }
-                const currentUserIndex = namesArr.indexOf(userName);
-                const joinDate: string = dataArr[currentUserIndex].joinDate;
-                console.log(dataArr);
-                console.log(joinDate);
-                return joinDate;
+                this.getSpecificData(userName, res, 'joinDate');
             }));
     }
 
@@ -182,8 +171,36 @@ export class AuthService {
         this.appManagerService.userName.next(name);
         localStorage.setItem('userName', name);
     }
-    getEmailAndPass() {
+    getEmailAndPass(userName: string) {
         //Getting stored email and pass to later use to signInWithEmailAndPassword in firebase
-        return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`);
+        return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`)
+            .pipe(map(res => {
+                this.getSpecificData(userName, res, 'email', 'password');
+            }));
+    }
+    getSpecificData(userName: string, res, dataToSearch: string, secondDataToSearch?: string) {
+        const dataArr = [];
+        const namesArr = [];
+        console.log(res);
+        for (const key in res) {
+            if (res.hasOwnProperty(key)) {
+                dataArr.push(res[key]);
+                namesArr.push(res[key].userName);
+            }
+        }
+        const currentUserIndex = namesArr.indexOf(userName);
+        //if 2 data passed in, return it in object format, else, return in string format
+        if (secondDataToSearch && dataToSearch) {
+            const tempData: Object = {
+                firstData: dataArr[currentUserIndex][dataToSearch],
+                secondData: dataArr[currentUserIndex][secondDataToSearch]
+            };
+            return tempData;
+        } else {
+            const tempData: string = dataArr[currentUserIndex][dataToSearch];
+            console.log(dataArr);
+            console.log(tempData);
+            return tempData;
+        }
     }
 }

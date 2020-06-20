@@ -19,7 +19,9 @@ export class UserProfileComponent implements OnInit {
   currentChoice : number = 0;
   userSignupData: signupData = {
     userName: '',
-    joinDate: ''
+    joinDate: '',
+    email: '',
+    password: '',
   };
   userLastDeliveryTime: string = '';
   userResponseTime: string = '';
