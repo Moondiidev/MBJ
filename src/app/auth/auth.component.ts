@@ -21,11 +21,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   checkingUserName: boolean = false;
   signupData: signupData = {
     userName: '',
-    joinDate: ''
+    joinDate: '',
+    email: '',
+    password: ''
   };
   errorMode: string;
   uniqueUserTimeout;
   userNameSub: Subscription;
+  emailAndPasswordSub: Subscription;
   accessDeniedError: boolean = true;
   constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router, private headerErrorService: HeaderErrorService) { }
 
@@ -52,6 +55,11 @@ export class AuthComponent implements OnInit, OnDestroy {
           'password': new FormControl(null, [Validators.required, Validators.minLength(8)]),
         });
       }
+    })
+    
+    this.emailAndPasswordSub = this.authService.getEmailAndPass().subscribe(data => {
+      this.authService.currentUserEmail = data.email;
+      this.authService.currentUserPass = data.password;
     })
   }
   uniqueUserName(control: FormControl): Promise<any> | Observable<any> {
@@ -100,6 +108,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.authService.rememberToggle = !this.authService.rememberToggle;
   }
   ngOnDestroy() {
+    this.emailAndPasswordSub.unsubscribe();
     if (this.userNameSub !== undefined) {
       this.userNameSub.unsubscribe();
     }
@@ -109,19 +118,25 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
   }
   onSubmit() {
+    //If not valid, exit
     if (!this.authForm.valid) {
       return;
     }
+    //Save all data to firebase database
     const email = this.authForm.get('email').value;
     const password = this.authForm.get('password').value;
     if (!this.isLogIn) {
       this.signupData.userName = this.authForm.get('userName').value;
       const today = new Date();
-      this.signupData.joinDate = `${today.getFullYear()} ${today.getMonth()+1}-р сар`;
+      this.signupData.joinDate = `${today.getFullYear()} ${today.getMonth() + 1}-р сар`;
+      this.signupData.email = email;
+      this.signupData.password = password;
     }
-    let authObs: Observable<AuthResponseData>;
-
+    //Start loading
     this.isLoading = true;
+
+    //Login or signup using firebase authentication
+    let authObs: Observable<AuthResponseData>;
 
     if (this.isLogIn) {
       authObs = this.authService.login(email, password);
@@ -137,15 +152,16 @@ export class AuthComponent implements OnInit, OnDestroy {
         }
         console.log(resData);
         this.authService.setUserName(resData.displayName);
+        this.authForm.reset();
         this.isLoading = false;
         this.router.navigate(['']);
       },
       errorMessage => {
         console.log(errorMessage);
         this.error = errorMessage;
+        this.authForm.reset();
         this.isLoading = false;
       }
     );
-    this.authForm.reset();
   }
 }

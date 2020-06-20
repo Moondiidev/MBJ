@@ -28,12 +28,7 @@ export class AuthService {
     currentUserEmail: string;
     currentUserPass: string;
     private tokenExpirationTimer: any;
-    constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService, private firebase: FirebaseApp) {
-        this.firebase.auth().onAuthStateChanged(()=>{
-            let timeNow = new Date();
-            console.log('bro ' + timeNow.getHours() + " " + timeNow.getMinutes());
-        })
-     }
+    constructor(private http: HttpClient, private router: Router, private appManagerService: AppManagerService, private firebase: FirebaseApp) { }
     private handleError(errorRes: HttpErrorResponse) {
         console.log(errorRes);
         let errorMessage = 'An unknown  error occured!';
@@ -163,7 +158,7 @@ export class AuthService {
                 return namesArr;
             }));
     }
-    getUserJoinDate(userName : string) {
+    getUserJoinDate(userName: string) {
         return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`)
             .pipe(map(res => {
                 const dataArr = [];
@@ -176,7 +171,7 @@ export class AuthService {
                     }
                 }
                 const currentUserIndex = namesArr.indexOf(userName);
-                const joinDate : string = dataArr[currentUserIndex].joinDate;
+                const joinDate: string = dataArr[currentUserIndex].joinDate;
                 console.log(dataArr);
                 console.log(joinDate);
                 return joinDate;
@@ -186,5 +181,9 @@ export class AuthService {
     setUserName(name) {
         this.appManagerService.userName.next(name);
         localStorage.setItem('userName', name);
+    }
+    getEmailAndPass() {
+        //Getting stored email and pass to later use to signInWithEmailAndPassword in firebase
+        return this.http.get<signupData>(`${environment.cors}${environment.databaseURL}signupData.json`);
     }
 }
