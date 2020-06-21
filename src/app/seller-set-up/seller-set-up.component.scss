@@ -458,6 +458,7 @@ select {
   }
 
   &__select {
+    display: inline-block;
     width: 40%;
     -webkit-appearance: none;
     cursor: pointer;
@@ -524,7 +525,7 @@ select {
 }
 
 .professionalTextInput {
-  width: 100%;
+  width: 90%;
   padding: 0.4rem 1rem;
   
 }
