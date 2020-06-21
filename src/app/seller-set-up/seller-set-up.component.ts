@@ -9,7 +9,9 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { PersonalModel } from 'src/app/shared/personal.model';
 import { ProfessionalModel } from '../shared/professional.model';
 import { Location } from '@angular/common';
-
+import { skillsInterface } from './skills.interface';
+import { educationsInterface } from './educations.interface';
+import { certificationsInterface } from './certifications.interface';
 @Component({
   selector: 'app-seller-set-up',
   templateUrl: './seller-set-up.component.html',
@@ -418,11 +420,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   skillsEmpty: boolean = true;
   certificationsEmpty: boolean = true;
 
-  skills: {
-    data: Array<{ name: string, experienceLevel: string }>,
-    //Used to provide correct index even when elements are removed from the middle and array looks off like [0,3,5], 1st,2nd,4th elements were deleted --> [0,1,2] 
-    sorter: Array<number>
-  };
+  skills: skillsInterface;
   //Stores added <tr> element references to later use them to remove correct child from DOM.
   skillContent: Array<HTMLTableRowElement> = [];
   skillIndex: number = 0;
@@ -432,10 +430,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   skillEditing = false;
 
 
-  educations: {
-    data: Array<{ universityName: string, major: string, country: string, title: string, graduationYear: number }>;
-    sorter: Array<number>,
-  };
+  educations: educationsInterface;
 
   educationIndex: number = 0;
   educationTracker: number = 0;
@@ -444,10 +439,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   educationEditing = false;
 
 
-  certifications: {
-    data: Array<{ name: string, giver: string, year: number }>;
-    sorter: Array<number>,
-  }
+  certifications: certificationsInterface;
   certificationIndex: number = 0;
   certificationTracker: number = 0;
   certificationCounter: number = 0;
@@ -627,7 +619,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     } else {
       if (this.counter < 5) {
         chosenEl.classList.add('isChecked');
-        this.checkedProfessions[this.counter] = {id: chosenEl.id,name: chosenEl.value};
+        this.checkedProfessions[this.counter] = { id: chosenEl.id, name: chosenEl.value };
         this.counter++;
         this.saveProfessionalData();
       }

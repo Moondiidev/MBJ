@@ -15,7 +15,7 @@
               <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__parts__editIcon"
                 (click)="onEditIntro()" alt="">
             </div>
-            <form [formGroup] = "introForm">
+            <form [formGroup]="introForm">
               <input type="text" class="subtle-input" *ngIf="editingIntro" maxlength="63" formControlName="intro">
             </form>
           </div>
@@ -73,8 +73,20 @@
             </div>
 
             <div *ngIf='professionalSkills; else noSkill'>
-              <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills; let i = index">
-                <p class="paragraph-md">{{professionalSkills[i].name}}</p>
+              <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills">
+                <p class="paragraph-md">{{skill.name}}</p>
+              </div>
+            </div>
+          </div>
+          <!-- show educations only if education exists because it was a optional input in seller set up component -->
+          <div class="profileInfo_detail">
+            <div class="profileInfo_detail__heading">
+              <p class="boldText-large margin-bot-xs">Боловсрол</p>
+              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+            </div>
+            <div *ngIf='professionalEducations; else noEducation'>
+              <div class="profileInfo_detail__education" *ngFor="let education of professionalEducations.data">
+                <p class="paragraph-md">{{education.major}}</p>
               </div>
             </div>
           </div>
@@ -87,22 +99,8 @@
 
             <div *ngIf='professionalCertifications; else noCertification'>
               <div class="profileInfo_detail__certification"
-                *ngFor="let certification of professionalCertifications; let i = index">
-                <p class="paragraph-md">{{professionalCertifications[i]}}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- show educations only if education exists because it was a optional input in seller set up component -->
-          <div class="profileInfo_detail">
-            <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-xs">Боловсрол</p>
-              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
-            </div>
-            <div *ngIf='professionalEducations; else noEducation'>
-              <div class="profileInfo_detail__education"
-                *ngFor="let education of professionalEducations; let i = index">
-                <p class="paragraph-md">{{professionalEducations[i]}}</p>
+                *ngFor="let certification of professionalCertifications.data">
+                <p class="paragraph-md">{{certification.name}}</p>
               </div>
             </div>
           </div>
