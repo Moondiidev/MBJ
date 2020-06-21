@@ -86,7 +86,7 @@
               <p class="boldText-large margin-bot-sm">Боловсрол</p>
               <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
             </div>
-            <div *ngIf='professionalEducations; else noEducation'>
+            <div *ngIf='professionalEducations.data.length !== 0; else noEducation'>
               <div class="margin-bot-sm" *ngFor="let education of professionalEducations.data">
                 <div class="profileInfo_detail__education">
                   <p class="paragraph-lg">{{education.title}} - {{education.major}}</p>
@@ -103,7 +103,7 @@
               <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
             </div>
 
-            <div *ngIf='professionalCertifications; else noCertification'>
+            <div *ngIf='professionalCertifications.data.length !== 0; else noCertification'>
               <div class="margin-bot-sm" *ngFor="let certification of professionalCertifications.data">
                 <div class="profileInfo_detail__certification">
                   <p class="paragraph-lg">{{certification.name}}</p>
@@ -162,13 +162,13 @@
 </div>
 
 <ng-template #noSkill>
-  <p class="paragraph-md">Чадвараа нэм нүү<p>
+  <p class="paragraph-lg">Чадвараа нэм нүү<p>
 </ng-template>
 
 <ng-template #noCertification>
-  <p class="paragraph-md">Сертификатаа нэм нүү<p>
+  <p class="paragraph-lg">Сертификатаа нэм нүү<p>
 </ng-template>
 
 <ng-template #noEducation>
-  <p class="paragraph-md">Боловсролоо нэм нүү<p>
+  <p class="paragraph-lg">Боловсролоо нэм нүү<p>
 </ng-template>

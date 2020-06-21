@@ -69,10 +69,15 @@ export class UserProfileComponent implements OnInit {
     this.professionalDataSub = this.sellerService.fetchProfessionalInfo().subscribe((data: ProfessionalModel) => {
       console.log(data);
       if (data != null) {
-        this.professionalSkills = data.professionSkills;
-        this.professionalCertifications.data = data.certifications.data;
-        this.professionalEducations.data = data.educations.data;
-        console.log(this.professionalCertifications.data);  
+        if(data.professionSkills != null){
+          this.professionalSkills = data.professionSkills;
+        }
+        if(data.certifications != null){
+          this.professionalCertifications.data = data.certifications.data;
+        }
+        if(data.educations != null){
+          this.professionalEducations.data = data.educations.data;
+        }
       }
     })
 
