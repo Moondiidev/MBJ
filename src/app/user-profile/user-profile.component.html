@@ -60,47 +60,55 @@
         <div class="profileInfo__details">
           <div class="profileInfo_detail">
             <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-xs">Хувийн Тайлбар</p>
+              <p class="boldText-large margin-bot-sm">Хувийн Тайлбар</p>
               <a class="emphasis-link--2 paragraph-xl">Өөрчлөх</a>
             </div>
-            <p class="paragraph-md">{{personalDescription}}</p>
+            <p class="paragraph-lg">{{personalDescription}}</p>
           </div>
 
           <div class="profileInfo_detail">
             <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-xs">Чадварууд</p>
+              <p class="boldText-large margin-bot-sm">Чадварууд</p>
               <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
             </div>
 
             <div *ngIf='professionalSkills; else noSkill'>
-              <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills">
-                <p class="paragraph-md">{{skill.name}}</p>
+              <div class="margin-bot-sm" *ngFor="let skill of professionalSkills">
+                <div class="profileInfo_detail__skill">
+                  <p class="paragraph-lg">{{skill.name}}</p>
+                </div>
               </div>
             </div>
           </div>
           <!-- show educations only if education exists because it was a optional input in seller set up component -->
           <div class="profileInfo_detail">
             <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-xs">Боловсрол</p>
+              <p class="boldText-large margin-bot-sm">Боловсрол</p>
               <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
             </div>
             <div *ngIf='professionalEducations; else noEducation'>
-              <div class="profileInfo_detail__education" *ngFor="let education of professionalEducations.data">
-                <p class="paragraph-md">{{education.major}}</p>
+              <div class="margin-bot-sm" *ngFor="let education of professionalEducations.data">
+                <div class="profileInfo_detail__education">
+                  <p class="paragraph-lg">{{education.title}} - {{education.major}}</p>
+                  <p class="paragraph-lg greyText margin-top-xxs">{{education.universityName}}, {{education.country}},
+                    {{education.graduationYear}}</p>
+                </div>
               </div>
             </div>
           </div>
           <!-- show certifications only if education exists because it was a optional input in seller set up component -->
           <div class="profileInfo_detail">
             <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-xs">Сертификатнууд</p>
+              <p class="boldText-large margin-bot-sm">Сертификатнууд</p>
               <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
             </div>
 
             <div *ngIf='professionalCertifications; else noCertification'>
-              <div class="profileInfo_detail__certification"
-                *ngFor="let certification of professionalCertifications.data">
-                <p class="paragraph-md">{{certification.name}}</p>
+              <div class="margin-bot-sm" *ngFor="let certification of professionalCertifications.data">
+                <div class="profileInfo_detail__certification">
+                  <p class="paragraph-lg">{{certification.name}}</p>
+                  <p class="paragraph-lg greyText margin-top-xxs">{{certification.giver}} {{certification.year}}</p>
+                </div>
               </div>
             </div>
           </div>

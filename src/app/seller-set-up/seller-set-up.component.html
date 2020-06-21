@@ -52,7 +52,7 @@
           <div class="inputs">
             <div class="inputs__left">
               <label class="setUpText setUpText--required" for="fullName">Бүтэн нэр</label>
-              <span class="paragraph margin-left-tiny">Нууцлагдмал</span>
+              <span class="paragraph margin-left-xs">Нууцлагдмал</span>
             </div>
             <div formGroupName="name" class="inputs__right">
               <input formControlName="firstName" type="text" name="fullName" class="personalTextInput"
@@ -61,7 +61,7 @@
                 placeholder="Эцгийн нэр" (input)="onPersonalChange()">
               <span
                 *ngIf="!personalForm.get('name').valid && personalForm.get('name.firstName').touched && personalForm.get('name.lastName').touched"
-                class="error-text margin-top-tiny block">Бүтэн нэрээ оруулна уу.</span>
+                class="error-text margin-top-xs block">Бүтэн нэрээ оруулна уу.</span>
             </div>
           </div>
           <div class="inputs">
@@ -99,7 +99,7 @@
 
       <!--         
         profileImage error message
-        <span *ngIf = "!personalForm.get('profileImage').valid" class="error-text margin-top-tiny">Зураг оруулна уу.</span>
+        <span *ngIf = "!personalForm.get('profileImage').valid" class="error-text margin-top-xs">Зураг оруулна уу.</span>
     -->
 
       <!-- ************************** PROFESSIONAL FORM ***************************************-->
@@ -766,7 +766,7 @@
 
 <!--         
       profileImage error message
-      <span *ngIf = "!personalForm.get('profileImage').valid" class="error-text margin-top-tiny">Зураг оруулна уу.</span>
+      <span *ngIf = "!personalForm.get('profileImage').valid" class="error-text margin-top-xs">Зураг оруулна уу.</span>
   -->
 
 <ng-template #order1>
