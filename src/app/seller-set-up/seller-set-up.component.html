@@ -12,7 +12,7 @@
         <p class="step__navText" [ngClass]="{step__order__textActive : 0 <= navNum}">Хувийн мэдээлэл</p>
         <img src="../../assets/img/nextArrow.svg" alt="" class="step__arrow">
       </button>
-      <button [disabled]="!personalFormValid" (click)="professionalNav()" class="step">
+      <button [disabled]="!personalFormValid || !notLoading" (click)="professionalNav()" class="step">
         <div class="step__order" [ngClass]="{step__order__backgroundActive : 1 <= navNum}">
           <div *ngIf="1 < navNum; else order2" class='step__order__previous'></div>
         </div>

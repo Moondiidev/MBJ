@@ -61,7 +61,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           break;
         case this.secondNavUrlName:
           if (this.personalFormValid) {
-            this.setUpProfessionalNav();
+            this.setUpProfessionalForm();
           } else {
             this.setUpPersonalForm();
           }
@@ -156,8 +156,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     // Seller-set-up header navigation only allows navigation when form is valid
     if (this.personalForm.status === "VALID" && this.url !== null) {
       this.sellerService.personalFormValid.next(true);
+      this.sellerService.saveValidityInfo(true);
+      alert('savedd');
     } else {
       this.sellerService.personalFormValid.next(false);
+      this.sellerService.saveValidityInfo(false);
     }
   }
 
@@ -217,10 +220,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   professionalNav() {
     this.savePersonalData();
-    this.setUpProfessionalNav();
+    this.setUpProfessionalForm();
     this.personalFormOnDestroy();
   }
-  setUpProfessionalNav() {
+  setUpProfessionalForm() {
     //PROFESSIONAL FORM
 
     //Change DOM

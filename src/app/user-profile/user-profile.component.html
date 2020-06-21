@@ -74,7 +74,7 @@
 
             <div *ngIf='professionalSkills; else noSkill'>
               <div class="profileInfo_detail__skill" *ngFor="let skill of professionalSkills; let i = index">
-                <p class="paragraph-md">{{professionalSkills[i]}}</p>
+                <p class="paragraph-md">{{professionalSkills[i].name}}</p>
               </div>
             </div>
           </div>
