@@ -60,7 +60,7 @@
         <hr>
         <div class="profileInfo__details">
 
-          <div class="margin-bot-md">
+          <div class="personalDescription margin-bot-md">
             <div class="profileInfo_detail" *ngIf="!editingInput[1]">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large margin-bot-sm">Хувийн Тайлбар</p>
@@ -84,7 +84,7 @@
             </form>
           </div>
 
-          <div class="margin-bot-md">
+          <div class="professionalSkills margin-bot-md">
             <div class="profileInfo_detail" *ngIf="!addingInput[0]">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large margin-bot-sm">Чадварууд</p>
@@ -101,7 +101,7 @@
             </div>
           </div>
           <!-- show educations only if education exists because it was a optional input in seller set up component -->
-          <div class="margin-bot-md">
+          <div class="professionalEducations margin-bot-md">
             <div class="profileInfo_detail" *ngIf="!addingInput[1]">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large margin-bot-sm">Боловсрол</p>
@@ -119,7 +119,7 @@
             </div>
           </div>
           <!-- show certifications only if education exists because it was a optional input in seller set up component -->
-          <div class="margin-bot-md">
+          <div class="professionalCertifications margin-bot-md">
             <div class="profileInfo_detail" *ngIf="!addingInput[2]">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large margin-bot-sm">Сертификатнууд</p>
@@ -139,6 +139,7 @@
         </div>
       </div>
     </div>
+
     <div class="profileWork">
       <!------------------------------------------------------------------------->
       <!--------------------------- SHOWCASE SECTION ---------------------------->
