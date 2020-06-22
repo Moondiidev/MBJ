@@ -10,21 +10,22 @@
               <img src="../../assets/img/rating-stars/rating-1-star.svg" class="profileInfo__overview__preview__rating">
               <p class="labelText--2">(8-ш үнэлгээнүүд)</p>
             </div>
-            <div class="flex-verticalCentered" *ngIf="!editingIntro">
-              <p class="paragraph-lg profileInfo__overview__preview__parts__intro">{{intro}}</p>
+            <div class="flex-verticalCentered" *ngIf="!editingInput[0]">
+              <p class="paragraph-lg profileInfo__overview__preview__parts__intro">{{editableInputValue[0]}}</p>
               <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__parts__editIcon"
-                (click)="onEditIntro()" alt="">
+                (click)="onEditInput(0)" alt="">
             </div>
-            <form [formGroup]="introForm">
-              <input type="text" class="subtle-input" *ngIf="editingIntro" maxlength="63" formControlName="intro">
+            <form [formGroup]="editableInputForm[0]">
+              <input type="text" class="subtle-input" *ngIf="editingInput[0]" maxlength="63"
+                formControlName="inputValue">
             </form>
           </div>
         </div>
-        <div class="profileInfo__overview__preview__editBtns" *ngIf="editingIntro">
-          <button type="button" class="profileInfo__overview__preview__editBtns__cancel btn"
-            (click)="onCancelEditingIntro()">Болих</button>
-          <button type="button" class="profileInfo__overview__preview__editBtns__update btn btn-green"
-            (click)="onUpdateIntro()">Өөрчлөх</button>
+        <div class="profileInfo__editBtns" *ngIf="editingInput[0]">
+          <button type="button" class="profileInfo__editBtns__cancel btn"
+            (click)="onCancelEditingInput(0)">Болих</button>
+          <button type="button" class="profileInfo__editBtns__update btn btn-green"
+            (click)="onUpdateInput(0)">Өөрчлөх</button>
         </div>
         <div class="profileInfo__actions">
           <button type="button" class="marginVertical-md coolBtn-1"><span>Олон Нийтийн Нүдээр Харах</span></button>
@@ -58,56 +59,79 @@
       <div>
         <hr>
         <div class="profileInfo__details">
-          <div class="profileInfo_detail">
-            <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-sm">Хувийн Тайлбар</p>
-              <a class="emphasis-link--2 paragraph-xl">Өөрчлөх</a>
+
+          <div class="margin-bot-md">
+            <div class="profileInfo_detail" *ngIf="!editingInput[1]">
+              <div class="profileInfo_detail__heading">
+                <p class="boldText-large margin-bot-sm">Хувийн Тайлбар</p>
+                <a class="emphasis-link--2 paragraph-xl" (click)="onEditInput(1)">Өөрчлөх</a>
+              </div>
+              <p class="paragraph-lg">{{this.editableInputValue[1]}}</p>
             </div>
-            <p class="paragraph-lg">{{personalDescription}}</p>
+
+            <form [formGroup]="editableInputForm[1]">
+              <div *ngIf="editingInput[1]" class="dataChangerForm">
+                <div class="dataChangerForm__wrapper">
+                  <textarea class="dataChangerForm__textarea" formControlName="inputValue"></textarea>
+                  <div class="profileInfo__editBtns">
+                    <button type="button" class="profileInfo__editBtns__cancel btn"
+                      (click)="onCancelEditingInput(1)">Болих</button>
+                    <button type="button" class="profileInfo__editBtns__update btn btn-green"
+                      (click)="onUpdateInput(1)">Өөрчлөх</button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
 
-          <div class="profileInfo_detail">
-            <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-sm">Чадварууд</p>
-              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
-            </div>
+          <div class="margin-bot-md">
+            <div class="profileInfo_detail" *ngIf="!addingInput[0]">
+              <div class="profileInfo_detail__heading">
+                <p class="boldText-large margin-bot-sm">Чадварууд</p>
+                <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+              </div>
 
-            <div *ngIf='professionalSkills; else noSkill'>
-              <div class="margin-bot-sm" *ngFor="let skill of professionalSkills">
-                <div class="profileInfo_detail__skill">
-                  <p class="paragraph-lg">{{skill.name}}</p>
+              <div *ngIf='professionalSkills; else noSkill'>
+                <div class="margin-bot-sm" *ngFor="let skill of professionalSkills">
+                  <div class="profileInfo_detail__skill">
+                    <p class="paragraph-lg">{{skill.name}}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <!-- show educations only if education exists because it was a optional input in seller set up component -->
-          <div class="profileInfo_detail">
-            <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-sm">Боловсрол</p>
-              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
-            </div>
-            <div *ngIf='professionalEducations.data.length !== 0; else noEducation'>
-              <div class="margin-bot-sm" *ngFor="let education of professionalEducations.data">
-                <div class="profileInfo_detail__education">
-                  <p class="paragraph-lg">{{education.title}} - {{education.major}}</p>
-                  <p class="paragraph-lg greyText margin-top-xxs">{{education.universityName}}, {{education.country}},
-                    {{education.graduationYear}}</p>
+          <div class="margin-bot-md">
+            <div class="profileInfo_detail" *ngIf="!addingInput[1]">
+              <div class="profileInfo_detail__heading">
+                <p class="boldText-large margin-bot-sm">Боловсрол</p>
+                <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+              </div>
+              <div *ngIf='professionalEducations.data.length !== 0; else noEducation'>
+                <div class="margin-bot-sm" *ngFor="let education of professionalEducations.data">
+                  <div class="profileInfo_detail__education">
+                    <p class="paragraph-lg">{{education.title}} - {{education.major}}</p>
+                    <p class="paragraph-lg greyText margin-top-xxs">{{education.universityName}}, {{education.country}},
+                      {{education.graduationYear}}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <!-- show certifications only if education exists because it was a optional input in seller set up component -->
-          <div class="profileInfo_detail">
-            <div class="profileInfo_detail__heading">
-              <p class="boldText-large margin-bot-sm">Сертификатнууд</p>
-              <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
-            </div>
+          <div class="margin-bot-md">
+            <div class="profileInfo_detail" *ngIf="!addingInput[2]">
+              <div class="profileInfo_detail__heading">
+                <p class="boldText-large margin-bot-sm">Сертификатнууд</p>
+                <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+              </div>
 
-            <div *ngIf='professionalCertifications.data.length !== 0; else noCertification'>
-              <div class="margin-bot-sm" *ngFor="let certification of professionalCertifications.data">
-                <div class="profileInfo_detail__certification">
-                  <p class="paragraph-lg">{{certification.name}}</p>
-                  <p class="paragraph-lg greyText margin-top-xxs">{{certification.giver}} {{certification.year}}</p>
+              <div *ngIf='professionalCertifications.data.length !== 0; else noCertification'>
+                <div class="margin-bot-sm" *ngFor="let certification of professionalCertifications.data">
+                  <div class="profileInfo_detail__certification">
+                    <p class="paragraph-lg">{{certification.name}}</p>
+                    <p class="paragraph-lg greyText margin-top-xxs">{{certification.giver}} {{certification.year}}</p>
+                  </div>
                 </div>
               </div>
             </div>

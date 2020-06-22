@@ -26,7 +26,6 @@ export class UserProfileComponent implements OnInit {
   };
   userLastDeliveryTime: string = '';
   userResponseTime: string = '';
-  personalDescription: string = '';
   professionalEducations: educationsInterface =
     {
       data: [],
@@ -41,10 +40,11 @@ export class UserProfileComponent implements OnInit {
   professionalDataSub: Subscription;
   userNameSub: Subscription;
   privateMode: boolean = true;
-  editingIntro: boolean = false;
-  intro: string = "Би бол МБЖ-ийн гишүүн";
+  editableInputValue : Array<string> = ["Би бол МБЖ-ийн гишүүн",""];
+  editableInputForm: Array<FormGroup> = [];
+  editingInput: Array<boolean> = [false,false];
+  addingInput: Array<boolean> = [false,false,false];
   reviews: Array<UserReviewModel> = [{ name: 'allah ala tunji', rating: 2, review: 'It was great experience. Great communication. Thank you :)', date: '9 sariin omno' }];
-  introForm: FormGroup;
   constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService) { }
 
   ngOnInit(): void {
@@ -52,8 +52,11 @@ export class UserProfileComponent implements OnInit {
       this.userSignupData.userName = name;
       this.getUserData();
     });
-    this.introForm = new FormGroup({
-      'intro': new FormControl(null)
+    this.editableInputForm[0] = new FormGroup({
+      'inputValue': new FormControl(null)
+    })
+    this.editableInputForm[1] = new FormGroup({
+      'inputValue': new FormControl(null)
     })
   }
   getUserData() {
@@ -61,7 +64,7 @@ export class UserProfileComponent implements OnInit {
     this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
       console.log(data);
       if (data != null) {
-        this.personalDescription = data.personalDescription;
+        this.editableInputValue[1] = data.personalDescription;
       }
     })
 
@@ -97,15 +100,16 @@ export class UserProfileComponent implements OnInit {
     this.currentChoice = choiceNum;
   }
 
-  onEditIntro() {
-    this.introForm.get('intro').setValue(this.intro);
-    this.editingIntro = true;
+  onEditInput(i: number) {
+    console.log(this.editableInputForm[i].get('inputValue'));
+    this.editableInputForm[i].get('inputValue').setValue(this.editableInputValue[i]);
+    this.editingInput[i] = true;
   }
-  onCancelEditingIntro() {
-    this.editingIntro = false;
+  onCancelEditingInput(i: number) {
+    this.editingInput[i] = false;
   }
-  onUpdateIntro() {
-    this.editingIntro = false;
-    this.intro = this.introForm.get('intro').value;
+  onUpdateInput(i: number) {
+    this.editingInput[i] = false;
+    this.editableInputValue[i] = this.editableInputForm[i].get('inputValue').value;
   }
 }
