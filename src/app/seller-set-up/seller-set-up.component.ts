@@ -33,7 +33,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
       this.personalFormValid = validity;
-      this.sellerService.saveValidityInfo(this.personalFormValid);
     })
 
   }
@@ -158,11 +157,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     // Seller-set-up header navigation only allows navigation when form is valid
     if (this.personalForm.status === "VALID" && this.url !== null) {
       this.sellerService.personalFormValid.next(true);
-      this.sellerService.saveValidityInfo(true);
-      alert('savedd');
     } else {
       this.sellerService.personalFormValid.next(false);
-      this.sellerService.saveValidityInfo(false);
     }
   }
 
@@ -194,6 +190,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   savePersonalData(btn?) {
     this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value, btn);
+    this.sellerService.saveValidityInfo(this.personalFormValid);
     this.personalChangesOccured = false;
   }
   onPersonalChange() {

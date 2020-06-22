@@ -40,10 +40,16 @@ export class UserProfileComponent implements OnInit {
   professionalDataSub: Subscription;
   userNameSub: Subscription;
   privateMode: boolean = true;
-  editableInputValue : Array<string> = ["Би бол МБЖ-ийн гишүүн",""];
+  editableInputValue: Array<string> = ["Би бол МБЖ-ийн гишүүн", ""];
   editableInputForm: Array<FormGroup> = [];
-  editingInput: Array<boolean> = [false,false];
-  addingInput: Array<boolean> = [false,false,false];
+  editingInput: Array<boolean> = [false, false];
+  skillsForm: FormGroup;
+  editingSkills: boolean;
+  educationsForm: FormGroup;
+  editingEducations: boolean;
+  certificationsForm: FormGroup;
+  editingCertifications: boolean;
+
   reviews: Array<UserReviewModel> = [{ name: 'allah ala tunji', rating: 2, review: 'It was great experience. Great communication. Thank you :)', date: '9 sariin omno' }];
   constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService) { }
 
@@ -58,27 +64,41 @@ export class UserProfileComponent implements OnInit {
     this.editableInputForm[1] = new FormGroup({
       'inputValue': new FormControl(null)
     })
+    this.skillsForm = new FormGroup({
+      'skillName': new FormControl(null),
+      'skillLevel': new FormControl(0)
+    });
+    this.educationsForm = new FormGroup({
+      'universityName': new FormControl(null),
+      'major': new FormControl(null),
+      'country': new FormControl(0),
+      'title': new FormControl(0),
+      'graduationYear': new FormControl(0)
+    });
+    this.certificationsForm = new FormGroup({
+      'certificateName': new FormControl(null),
+      'certificateGiver': new FormControl(null),
+      'certificateYear': new FormControl(0)
+    })
   }
   getUserData() {
-    //Get personal data from firebase database
     this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
       console.log(data);
       if (data != null) {
         this.editableInputValue[1] = data.personalDescription;
       }
     })
-
     //Get professional data from firebase database
     this.professionalDataSub = this.sellerService.fetchProfessionalInfo().subscribe((data: ProfessionalModel) => {
       console.log(data);
       if (data != null) {
-        if(data.professionSkills != null){
+        if (data.professionSkills != null) {
           this.professionalSkills = data.professionSkills;
         }
-        if(data.certifications != null){
+        if (data.certifications != null) {
           this.professionalCertifications.data = data.certifications.data;
         }
-        if(data.educations != null){
+        if (data.educations != null) {
           this.professionalEducations.data = data.educations.data;
         }
       }
@@ -101,7 +121,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   onEditInput(i: number) {
-    console.log(this.editableInputForm[i].get('inputValue'));
     this.editableInputForm[i].get('inputValue').setValue(this.editableInputValue[i]);
     this.editingInput[i] = true;
   }
