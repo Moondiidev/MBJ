@@ -236,24 +236,23 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
       this.startLoading();
       this.professionalNavOnce = false;
-      this.professionalForm = new FormGroup({
-        'skills': new FormGroup({
-          'skillName': new FormControl(null),
-          'skillLevel': new FormControl(0)
-        }),
-        'educations': new FormGroup({
-          'universityName': new FormControl(null),
-          'major': new FormControl(null),
-          'country': new FormControl(0),
-          'title': new FormControl(0),
-          'graduationYear': new FormControl(0)
-        }),
-        'certifications': new FormGroup({
-          'certificateName': new FormControl(null),
-          'certificateGiver': new FormControl(null),
-          'certificateYear': new FormControl(0)
-        })
-      });
+      this.skillsForm = new FormGroup({
+        'skillName': new FormControl(null, Validators.required),
+        'skillLevel': new FormControl(0, Validators.required)
+      })
+      this.educationsForm = new FormGroup({
+        'universityName': new FormControl(null, Validators.required),
+        'major': new FormControl(null, Validators.required),
+        'country': new FormControl(0, Validators.required),
+        'title': new FormControl(0, Validators.required),
+        'graduationYear': new FormControl(0, Validators.required)
+      })
+      this.certificationsForm = new FormGroup({
+        'certificateName': new FormControl(null, Validators.required),
+        'certificateGiver': new FormControl(null, Validators.required),
+        'certificateYear': new FormControl(0, Validators.required)
+      })
+      this.professionalForm = new FormGroup({});
       this.fillFromYears();
       this.initializeMiniForms();
       //Get data
@@ -363,6 +362,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   // ************************************ PROFESSIONAL FORM *********************************** //
   // ****************************************************************************************** //
   professionalForm: FormGroup;
+  skillsForm: FormGroup;
+  educationsForm: FormGroup;
+  certificationsForm: FormGroup;
   closeDropdown = false;
   professions = ['График Дизайн', 'Онлайн Mаркетинг', 'Дуу & Ая', 'Бичиг & Орчуулагa', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
   fromYears = [];
@@ -447,7 +449,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   showEducations: boolean = false;
   showCertifications: boolean = false;
 
-  // **************** MINIFORMS *************** //
+  // ***************************************************************************** //
+  // ****************************** MINIFORMS ************************************ //
+  // ***************************************************************************** //
+
   professionalData: ProfessionalModel;
   professionalDataSub = new Subscription();
 
@@ -623,7 +628,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   onProfessionalFormSubmit() {
-    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null) {
+    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length < 1) {
       window.scrollTo(0, 0);
     } else if (this.skillsEmpty) {
       this.scrollEl.nativeElement.scrollIntoView(true);
@@ -634,7 +639,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   // ************************ SKILL MINIFORM *************************
   addSkill() {
-    this.skills.data.push({ name: this.professionalForm.get('skills.skillName').value, experienceLevel: this.professionalForm.get('skills.skillLevel').value });
+    this.skills.data.push({ name: this.skillsForm.get('skillName').value, experienceLevel: this.skillsForm.get('skillLevel').value });
 
     this.skillContent.push(document.createElement('tr'));
     this.updateSkillDOM(this.skillCounter);
@@ -686,8 +691,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     `
   }
   editSkill(id: number) {
-    this.skills.data[id].name = this.professionalForm.get('skills.skillName').value;
-    this.skills.data[id].experienceLevel = this.professionalForm.get('skills.skillLevel').value;
+    this.skills.data[id].name = this.skillsForm.get('skillName').value;
+    this.skills.data[id].experienceLevel = this.skillsForm.get('skillLevel').value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
     this.skillCounter--
@@ -718,8 +723,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     });
   }
   showSkillEditorForm(id: number) {
-    this.professionalForm.get('skills.skillName').setValue(this.skills.data[id].name);
-    this.professionalForm.get('skills.skillLevel').setValue(this.skills.data[id].experienceLevel);
+    this.skillsForm.get('skillName').setValue(this.skills.data[id].name);
+    this.skillsForm.get('skillLevel').setValue(this.skills.data[id].experienceLevel);
     this.skillEditing = true;
     this.showSkillsForm();
   }
@@ -755,14 +760,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   resetSkillsForm() {
-    this.professionalForm.get('skills.skillName').setValue(null);
-    this.professionalForm.get('skills.skillLevel').setValue(0);
+    this.skillsForm.get('skillName').setValue(null);
+    this.skillsForm.get('skillLevel').setValue(0);
   }
 
   // ************************ EDUCATION MINIFORM *************************
   addEducation() {
-    if (this.validateEducation()) {
-      this.educations.data.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value, graduationYear: this.professionalForm.get('educations.graduationYear').value });
+      this.educations.data.push({ universityName: this.educationsForm.get('universityName').value, major: this.educationsForm.get('major').value, country: this.educationsForm.get('country').value, title: this.educationsForm.get('title').value, graduationYear: this.educationsForm.get('graduationYear').value });
       this.educationContent.push(document.createElement('tr'));
       this.updateEducationDOM(this.educationCounter);
       let educationId = this.educationCounter + this.educationTracker;
@@ -779,7 +783,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.saveProfessionalData();
       this.educationCounter++;
       this.removeEducationsForm();
-    }
   }
   updateEducationDOM(i: number) {
     this.educationContent[i].innerHTML =
@@ -796,11 +799,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   `;
   }
   editEducation(id: number) {
-    this.educations.data[id].universityName = this.professionalForm.get('educations.universityName').value;
-    this.educations.data[id].major = this.professionalForm.get('educations.major').value;
-    this.educations.data[id].country = this.professionalForm.get('educations.country').value;
-    this.educations.data[id].title = this.professionalForm.get('educations.title').value;
-    this.educations.data[id].graduationYear = this.professionalForm.get('educations.graduationYear').value;
+    this.educations.data[id].universityName = this.educationsForm.get('universityName').value;
+    this.educations.data[id].major = this.educationsForm.get('major').value;
+    this.educations.data[id].country = this.educationsForm.get('country').value;
+    this.educations.data[id].title = this.educationsForm.get('title').value;
+    this.educations.data[id].graduationYear = this.educationsForm.get('graduationYear').value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
     this.educationCounter--
@@ -830,11 +833,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
 
   showEducationEditorForm(id: number) {
-    this.professionalForm.get('educations.universityName').setValue(this.educations.data[id].universityName);
-    this.professionalForm.get('educations.major').setValue(this.educations.data[id].major);
-    this.professionalForm.get('educations.country').setValue(this.educations.data[id].country);
-    this.professionalForm.get('educations.title').setValue(this.educations.data[id].title);
-    this.professionalForm.get('educations.graduationYear').setValue(this.educations.data[id].graduationYear);
+    this.educationsForm.get('universityName').setValue(this.educations.data[id].universityName);
+    this.educationsForm.get('major').setValue(this.educations.data[id].major);
+    this.educationsForm.get('country').setValue(this.educations.data[id].country);
+    this.educationsForm.get('title').setValue(this.educations.data[id].title);
+    this.educationsForm.get('graduationYear').setValue(this.educations.data[id].graduationYear);
     this.educationEditing = true;
     this.showEducationsForm();
   }
@@ -868,22 +871,17 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   resetEducationsForm() {
-    this.professionalForm.get('educations.universityName').setValue(null);
-    this.professionalForm.get('educations.major').setValue(null);
-    this.professionalForm.get('educations.country').setValue(0);
-    this.professionalForm.get('educations.title').setValue(0);
-    this.professionalForm.get('educations.graduationYear').setValue(0);
-  }
-  validateEducation() {
-    const valid = this.professionalForm.get('educations.universityName').value != null && this.professionalForm.get('educations.major').value != null && this.professionalForm.get('educations.country').value != 0 && this.professionalForm.get('educations.title').value != 0 && this.professionalForm.get('educations.graduationYear').value != 0;
-    return valid;
+    this.educationsForm.get('universityName').setValue(null);
+    this.educationsForm.get('major').setValue(null);
+    this.educationsForm.get('country').setValue(0);
+    this.educationsForm.get('title').setValue(0);
+    this.educationsForm.get('graduationYear').setValue(0);
   }
 
   // ************************ CERTIFICATION MINIFORM *************************
   addCertification() {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
-    if (this.validateCertification()) {
-      this.certifications.data.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
+      this.certifications.data.push({ name: this.certificationsForm.get('certificateName').value, giver: this.certificationsForm.get('certificateGiver').value, year: this.certificationsForm.get('certificateYear').value });
       this.certificationContent.push(document.createElement('tr'));
       this.updateCertificationDOM(this.certificationCounter);
 
@@ -903,7 +901,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.saveProfessionalData();
       this.certificationCounter++;
       this.removeCertificationsForm();
-    }
   }
   updateCertificationDOM(i: number) {
     this.certificationContent[i].innerHTML = `                 
@@ -918,9 +915,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   `;
   }
   editCertification(id: number) {
-    this.certifications.data[id].name = this.professionalForm.get('certifications.certificateName').value;
-    this.certifications.data[id].giver = this.professionalForm.get('certifications.certificateGiver').value;
-    this.certifications.data[id].year = this.professionalForm.get('certifications.certificateYear').value;
+    this.certifications.data[id].name = this.certificationsForm.get('certificateName').value;
+    this.certifications.data[id].giver = this.certificationsForm.get('certificateGiver').value;
+    this.certifications.data[id].year = this.certificationsForm.get('certificateYear').value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
     this.certificationCounter--
@@ -949,9 +946,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     });
   }
   showCertificationEditorForm(id: number) {
-    this.professionalForm.get('certifications.certificateName').setValue(this.certifications.data[id].name);
-    this.professionalForm.get('certifications.certificateGiver').setValue(this.certifications.data[id].giver);
-    this.professionalForm.get('certifications.certificateYear').setValue(this.certifications.data[id].year);
+    this.certificationsForm.get('certificateName').setValue(this.certifications.data[id].name);
+    this.certificationsForm.get('certificateGiver').setValue(this.certifications.data[id].giver);
+    this.certificationsForm.get('certificateYear').setValue(this.certifications.data[id].year);
     this.certificationEditing = true;
     this.showCertificationsForm();
   }
@@ -985,13 +982,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   resetCertificationsForm() {
-    this.professionalForm.get('certifications.certificateName').setValue(null);
-    this.professionalForm.get('certifications.certificateGiver').setValue(null);
-    this.professionalForm.get('certifications.certificateYear').setValue(0);
-  }
-  validateCertification() {
-    const valid = this.professionalForm.get('certifications.certificateName').value != null && this.professionalForm.get('certifications.certificateGiver').value != null && this.professionalForm.get('certifications.certificateYear').value != 0;
-    return valid;
+    this.certificationsForm.get('certificateName').setValue(null);
+    this.certificationsForm.get('certificateGiver').setValue(null);
+    this.certificationsForm.get('certificateYear').setValue(0);
   }
   ngOnDestroy() {
     if (this.navNum === 0) {

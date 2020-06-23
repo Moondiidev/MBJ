@@ -220,8 +220,8 @@
               <label class="setUpText setUpText--required">Чадварууд</label>
             </div>
             <div class="inputs__right">
-              <div class="form-ashen">
-                <div class="skills" formGroupName="skills">
+              <form [formGroup]="skillsForm" class="form-ashen">
+                <div class="skills">
                   <div class="form-ashen-wrapper" *ngIf="showSkills">
                     <div class="form-ashen-row">
                       <div class="professionalTextInput-wrapper">
@@ -239,7 +239,7 @@
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
                         (click)="removeSkillsForm()">Болих</button>
                       <button type="button" *ngIf="!skillEditing; else skillEditingHTML"
-                        class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()">Нэмэх</button>
+                        class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()" [disabled] = "!this.skillsForm.valid">Нэмэх</button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
@@ -256,7 +256,7 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
           <div class="inputs">
@@ -264,8 +264,8 @@
               <label class="setUpText">Боловсрол</label>
             </div>
             <div class="inputs__right">
-              <div class="form-ashen">
-                <div class="educations" formGroupName="educations">
+              <form [formGroup]="educationsForm" class="form-ashen">
+                <div class="educations">
                   <div class="form-ashen-wrapper" *ngIf="showEducations">
                     <div class="form-ashen-row">
                       <select class="form-ashen__select" formControlName="country">
@@ -619,7 +619,7 @@
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
                         (click)="removeEducationsForm()">Болих</button>
                       <button *ngIf="!educationEditing; else educationEditingHTML" type="button"
-                        class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()">Нэмэх</button>
+                        class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()" [disabled] = "!this.educationsForm.valid">Нэмэх</button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
@@ -636,7 +636,7 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
           <div class="inputs">
@@ -644,8 +644,8 @@
               <label class="setUpText">Сертификатнууд</label>
             </div>
             <div class="inputs__right">
-              <div class="form-ashen">
-                <div class="certifications" formGroupName="certifications">
+              <form [formGroup]="certificationsForm" class="form-ashen">
+                <div class="certifications">
                   <div class="form-ashen-wrapper" *ngIf="showCertifications">
                     <div class="form-ashen-row">
                       <div class="professionalTextInput-wrapper">
@@ -715,7 +715,7 @@
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
                         (click)="removeCertificationsForm()">Болих</button>
                       <button *ngIf="!certificationEditing; else certificationEditingHTML" type="button"
-                        class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()">Нэмэх</button>
+                        class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()" [disabled] = "!this.certificationsForm.valid">Нэмэх</button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
@@ -732,7 +732,7 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
           <button type="submit" class="btn btn-green btn-next">Дуусгах</button>

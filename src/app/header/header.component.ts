@@ -37,7 +37,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.currentState = 'main';
       }
     })
-
     //Whenever url changes, check it and change the headerState
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))

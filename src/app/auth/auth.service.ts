@@ -86,9 +86,9 @@ export class AuthService {
     refreshToken(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
             // Sign in the user again in firebase
+            this.firebase.auth().signInWithEmailAndPassword(this.currentUserEmail, this.currentUserPass);
             alert('signoff ' + this.currentUserEmail);
             alert('signoff ' + this.currentUserPass);
-            this.firebase.auth().signInWithEmailAndPassword(this.currentUserEmail, this.currentUserPass);
             this.firebase.auth().currentUser.getIdToken(true)
                 .then(function (idToken) {
                     console.log(idToken);
@@ -126,6 +126,7 @@ export class AuthService {
     }
     autoLogin() {
         const userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData);
         if (!userData) {
             return;
         }
