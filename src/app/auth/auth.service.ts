@@ -89,6 +89,7 @@ export class AuthService {
             this.firebase.auth().signInWithEmailAndPassword(this.currentUserEmail, this.currentUserPass);
             alert('signoff ' + this.currentUserEmail);
             alert('signoff ' + this.currentUserPass);
+            console.log(this.firebase.auth().currentUser);
             this.firebase.auth().currentUser.getIdToken(true)
                 .then(function (idToken) {
                     console.log(idToken);

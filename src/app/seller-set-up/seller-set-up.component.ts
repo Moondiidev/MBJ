@@ -308,17 +308,17 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   initializeMiniForms() {
     this.checkedProfessions = [];
 
-    this.showSkillsForm();
+    this.showMiniForm(0);
     this.skills = {
       data: [],
       sorter: []
     }
-    this.showEducationsForm();
+    this.showMiniForm(1);
     this.educations = {
       data: [],
       sorter: []
     }
-    this.showCertificationsForm();
+    this.showMiniForm(2);
     this.certifications = {
       data: [],
       sorter: []
@@ -362,9 +362,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   // ************************************ PROFESSIONAL FORM *********************************** //
   // ****************************************************************************************** //
   professionalForm: FormGroup;
-  skillsForm: FormGroup;
-  educationsForm: FormGroup;
-  certificationsForm: FormGroup;
+  professionalData: ProfessionalModel;
+  professionalDataSub = new Subscription();
   closeDropdown = false;
   professions = ['График Дизайн', 'Онлайн Mаркетинг', 'Дуу & Ая', 'Бичиг & Орчуулагa', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
   fromYears = [];
@@ -413,19 +412,25 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   educationsTableHtml: ElementRef;
   certificationsTableHtml: ElementRef;
 
+  // *********************************************** //
+  // **************** MINIFORMS DATA *************** //
+  // *********************************************** //
 
-  // **************** MINIFORMS *************** //
-  educationsEmpty: boolean = true;
-  skillsEmpty: boolean = true;
-  certificationsEmpty: boolean = true;
+  skillsForm: FormGroup;
+  educationsForm: FormGroup;
+  certificationsForm: FormGroup;
+
+  miniFormsEmpty: Array<boolean> = [true, true, true];
+  miniFormsShow: Array<boolean> = [false, false, false];
+
 
   skills: skillsInterface;
-  //Stores added <tr> element references to later use them to remove correct child from DOM.
-  skillContent: Array<HTMLTableRowElement> = [];
   skillIndex: number = 0;
   skillTracker: number = 0;
   //Each added el will have unique increasing number whenever new el is added
   skillCounter: number = 0;
+  //Stores added <tr> element references to later use them to remove correct child from DOM.
+  skillContent = [];
   skillEditing = false;
 
 
@@ -445,134 +450,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   certificationContent = [];
   certificationEditing = false;
 
-  showSkills: boolean = false;
-  showEducations: boolean = false;
-  showCertifications: boolean = false;
+  // *********************************************** //
+  // *********************************************** //
+  // *********************************************** //
 
-  // ***************************************************************************** //
-  // ****************************** MINIFORMS ************************************ //
-  // ***************************************************************************** //
-
-  professionalData: ProfessionalModel;
-  professionalDataSub = new Subscription();
-
-  saveProfessionalData() {
-    this.sellerService.saveProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
-  }
-  useProfessionalData() {
-    if (this.professionalData.profession !== undefined) {
-      this.selectedProfession = this.professionalData.profession;
-      this.professionText = this.professionalData.profession;
-    }
-    if (this.professionalData.professionSkills !== undefined) {
-      this.checkedProfessions = this.professionalData.professionSkills;
-      this.checkCheckBoxes();
-    }
-    if (this.professionalData.fromYear !== undefined) {
-      this.selectedFromYear = this.professionalData.fromYear;
-      this.fromYearText = this.professionalData.fromYear.toString();
-    }
-    if (this.professionalData.toYear !== undefined) {
-      this.selectedToYear = this.professionalData.toYear;
-      this.toYearText = this.professionalData.toYear.toString();
-    }
-    if (this.professionalData.skills !== undefined) {
-      if (this.professionalData.skills.data !== undefined && this.professionalData.skills.sorter !== undefined) {
-        this.skills = {
-          data: this.professionalData.skills.data,
-          sorter: this.professionalData.skills.sorter
-        }
-        if (this.skillsEmpty) {
-          this.showSkills = false;
-          this.skillsEmpty = false;
-        }
-        this.populateSkillsTable();
-      }
-    }
-    if (this.professionalData.educations !== undefined) {
-      if (this.professionalData.educations.data !== undefined && this.professionalData.educations.sorter !== undefined) {
-        this.educations = {
-          data: this.professionalData.educations.data,
-          sorter: this.professionalData.educations.sorter
-        }
-        if (this.educationsEmpty) {
-          this.showEducations = false;
-          this.educationsEmpty = false;
-        }
-        this.populateEducationsTable();
-      }
-
-    }
-    if (this.professionalData.certifications !== undefined) {
-      if (this.professionalData.certifications.data !== undefined && this.professionalData.certifications.sorter !== undefined) {
-        this.certifications = {
-          data: this.professionalData.certifications.data,
-          sorter: this.professionalData.certifications.sorter
-        }
-        if (this.certificationsEmpty) {
-          this.showCertifications = false;
-          this.certificationsEmpty = false;
-        }
-        this.populateCertificationsTable();
-      }
-    }
-  }
-  checkCheckBoxes() {
-    for (let i = 0; i < this.checkedProfessions.length; i++) {
-      const tempEl = document.getElementById(this.checkedProfessions[i].id);
-      if (tempEl !== null) {
-        tempEl.classList.add('isChecked');
-      }
-    }
-    this.counter = this.checkedProfessions.length;
-  }
-  populateSkillsTable() {
-    for (let i = 0; i < this.skills.data.length; i++) {
-      this.skillContent.push(document.createElement('tr'));
-      this.updateSkillDOM(this.skillCounter);
-      this.skillContent[this.skillCounter].setAttribute("data-elCounter", this.skills.sorter[i].toString());
-
-      this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
-      this.skills.sorter.sort();
-      this.addSkillEditListener(this.skillCounter);
-      //Starting from the second el, user will have option to delete (cuz first one is required)
-      if (this.skillContent.length > 1) {
-        this.addSkillDeleteListener(this.skillCounter);
-      }
-      this.skillCounter++;
-    }
-  }
-  populateEducationsTable() {
-    for (let i = 0; i < this.educations.data.length; i++) {
-      this.educationContent.push(document.createElement('tr'));
-      this.updateEducationDOM(this.educationCounter);
-      this.educationContent[this.educationCounter].setAttribute("data-elCounter", this.educations.sorter[i].toString());
-
-      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
-
-      this.educations.sorter.sort();
-
-      this.addEducationEditListener(this.educationCounter);
-      this.addEducationDeleteListener(this.educationCounter);
-      this.educationCounter++;
-    }
-  }
-  populateCertificationsTable() {
-    for (let i = 0; i < this.certifications.data.length; i++) {
-      this.certificationContent.push(document.createElement('tr'));
-      this.updateCertificationDOM(this.certificationCounter);
-      this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", this.certifications.sorter[i].toString());
-
-      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
-
-      this.certifications.sorter.sort();
-
-      this.addCertificationEditListener(this.certificationCounter);
-      this.addCertificationDeleteListener(this.certificationCounter);
-
-      this.certificationCounter++;
-    }
-  }
   onSelectProfession(profession: string) {
     this.professionText = profession;
     this.selectedProfession = profession;
@@ -627,17 +508,104 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       }
     }
   }
-  onProfessionalFormSubmit() {
-    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length < 1) {
-      window.scrollTo(0, 0);
-    } else if (this.skillsEmpty) {
-      this.scrollEl.nativeElement.scrollIntoView(true);
-    } else {
-      this.saveProfessionalData();
+  checkCheckBoxes() {
+    for (let i = 0; i < this.checkedProfessions.length; i++) {
+      const tempEl = document.getElementById(this.checkedProfessions[i].id);
+      if (tempEl !== null) {
+        tempEl.classList.add('isChecked');
+      }
+    }
+    this.counter = this.checkedProfessions.length;
+  }
+  // ***************************************************************************** //
+  // ****************************** MINIFORMS ************************************ //
+  // ***************************************************************************** //
+
+  populateSkillsTable() {
+    for (let i = 0; i < this.skills.data.length; i++) {
+      this.skillContent.push(document.createElement('tr'));
+      this.updateSkillDOM(this.skillCounter);
+      this.skillContent[this.skillCounter].setAttribute("data-elCounter", this.skills.sorter[i].toString());
+
+      this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
+      this.skills.sorter.sort();
+      this.addSkillEditListener(this.skillCounter);
+      //Starting from the second el, user will have option to delete (cuz first one is required)
+      if (this.skillContent.length > 1) {
+        this.addSkillDeleteListener(this.skillCounter);
+      }
+      this.skillCounter++;
     }
   }
+  populateEducationsTable() {
+    for (let i = 0; i < this.educations.data.length; i++) {
+      this.educationContent.push(document.createElement('tr'));
+      this.updateEducationDOM(this.educationCounter);
+      this.educationContent[this.educationCounter].setAttribute("data-elCounter", this.educations.sorter[i].toString());
 
-  // ************************ SKILL MINIFORM *************************
+      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
+
+      this.educations.sorter.sort();
+
+      this.addEducationEditListener(this.educationCounter);
+      this.addEducationDeleteListener(this.educationCounter);
+      this.educationCounter++;
+    }
+  }
+  populateCertificationsTable() {
+    for (let i = 0; i < this.certifications.data.length; i++) {
+      this.certificationContent.push(document.createElement('tr'));
+      this.updateCertificationDOM(this.certificationCounter);
+      this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", this.certifications.sorter[i].toString());
+
+      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
+
+      this.certifications.sorter.sort();
+
+      this.addCertificationEditListener(this.certificationCounter);
+      this.addCertificationDeleteListener(this.certificationCounter);
+
+      this.certificationCounter++;
+    }
+  }
+  showMiniForm(i: number) {
+    this.miniFormsShow[i] = true;
+  }
+  resetMiniForm(i: number) {
+    switch (i) {
+      case 0:
+        this.skillsForm.get('skillName').setValue(null);
+        this.skillsForm.get('skillLevel').setValue(0);
+        break;
+      case 1:
+        this.educationsForm.get('universityName').setValue(null);
+        this.educationsForm.get('major').setValue(null);
+        this.educationsForm.get('country').setValue(0);
+        this.educationsForm.get('title').setValue(0);
+        this.educationsForm.get('graduationYear').setValue(0);
+        break;
+      case 2:
+        this.certificationsForm.get('certificateName').setValue(null);
+        this.certificationsForm.get('certificateGiver').setValue(null);
+        this.certificationsForm.get('certificateYear').setValue(0);
+        break;
+      default:
+        return;
+    }
+  }
+  removeMiniForm(i: number) {
+    if (this.certificationEditing) {
+      this.certificationEditing = false;
+    }
+    if (!this.miniFormsEmpty[i]) {
+      this.miniFormsShow[i] = false;
+      this.resetMiniForm(i);
+    }
+  }
+  // **********************************************************************//
+  // *************************** SKILL MINIFORM ***************************//
+  // **********************************************************************//
+
   addSkill() {
     this.skills.data.push({ name: this.skillsForm.get('skillName').value, experienceLevel: this.skillsForm.get('skillLevel').value });
 
@@ -660,12 +628,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.addSkillDeleteListener(this.skillCounter);
     }
 
-    if (this.skillsEmpty) {
-      this.skillsEmpty = false;
+    if (this.miniFormsEmpty[0]) {
+      this.miniFormsEmpty[0] = false;
     }
     this.saveProfessionalData();
     this.skillCounter++;
-    this.removeSkillsForm();
+    this.removeMiniForm(0);
   }
   updateSkillDOM(i: number) {
     //The first skill el doesnt have option to remove cuz skills input is required.
@@ -706,7 +674,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.addSkillDeleteListener(id);
     }
     this.saveProfessionalData();
-    this.removeSkillsForm();
+    this.removeMiniForm(0);
   }
   addSkillEditListener(i: number) {
     document.getElementById(`editSkill${i}`).addEventListener("click", (event) => {
@@ -726,7 +694,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.skillsForm.get('skillName').setValue(this.skills.data[id].name);
     this.skillsForm.get('skillLevel').setValue(this.skills.data[id].experienceLevel);
     this.skillEditing = true;
-    this.showSkillsForm();
+    this.showMiniForm(0);
   }
 
   removeSkillRow(id: number) {
@@ -741,48 +709,34 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.skills.data.splice(id, 1);
     this.skillContent.splice(id, 1);
     if (this.skills.data.length <= 0) {
-      this.skillsEmpty = true;
-      this.showSkillsForm();
+      this.miniFormsEmpty[0] = true;
+      this.showMiniForm(0);
     }
     this.saveProfessionalData();
   }
 
-  showSkillsForm() {
-    this.showSkills = true;
-  }
-  removeSkillsForm() {
-    if (this.skillEditing) {
-      this.skillEditing = false;
-    }
-    if (!this.skillsEmpty) {
-      this.showSkills = false;
-      this.resetSkillsForm();
-    }
-  }
-  resetSkillsForm() {
-    this.skillsForm.get('skillName').setValue(null);
-    this.skillsForm.get('skillLevel').setValue(0);
-  }
+  // *********************************************************************//
+  // ************************ EDUCATION MINIFORM *************************//
+  // *********************************************************************//
 
-  // ************************ EDUCATION MINIFORM *************************
   addEducation() {
-      this.educations.data.push({ universityName: this.educationsForm.get('universityName').value, major: this.educationsForm.get('major').value, country: this.educationsForm.get('country').value, title: this.educationsForm.get('title').value, graduationYear: this.educationsForm.get('graduationYear').value });
-      this.educationContent.push(document.createElement('tr'));
-      this.updateEducationDOM(this.educationCounter);
-      let educationId = this.educationCounter + this.educationTracker;
-      this.educations.sorter.push(educationId);
-      this.educationContent[this.educationCounter].setAttribute("data-elCounter", educationId);
-      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
+    this.educations.data.push({ universityName: this.educationsForm.get('universityName').value, major: this.educationsForm.get('major').value, country: this.educationsForm.get('country').value, title: this.educationsForm.get('title').value, graduationYear: this.educationsForm.get('graduationYear').value });
+    this.educationContent.push(document.createElement('tr'));
+    this.updateEducationDOM(this.educationCounter);
+    let educationId = this.educationCounter + this.educationTracker;
+    this.educations.sorter.push(educationId);
+    this.educationContent[this.educationCounter].setAttribute("data-elCounter", educationId);
+    this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
 
-      this.educations.sorter.sort();
-      this.addEducationEditListener(this.educationCounter);
-      this.addEducationDeleteListener(this.educationCounter);
-      if (this.educationsEmpty) {
-        this.educationsEmpty = false;
-      }
-      this.saveProfessionalData();
-      this.educationCounter++;
-      this.removeEducationsForm();
+    this.educations.sorter.sort();
+    this.addEducationEditListener(this.educationCounter);
+    this.addEducationDeleteListener(this.educationCounter);
+    if (this.miniFormsEmpty[1]) {
+      this.miniFormsEmpty[1] = false;
+    }
+    this.saveProfessionalData();
+    this.educationCounter++;
+    this.removeMiniForm(1);
   }
   updateEducationDOM(i: number) {
     this.educationContent[i].innerHTML =
@@ -815,7 +769,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.addEducationEditListener(id);
     this.addEducationDeleteListener(id);
     this.saveProfessionalData();
-    this.removeEducationsForm();
+    this.removeMiniForm(1);
   }
   addEducationEditListener(i: number) {
     document.getElementById(`editEducation${i}`).addEventListener("click", (event) => {
@@ -839,7 +793,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.educationsForm.get('title').setValue(this.educations.data[id].title);
     this.educationsForm.get('graduationYear').setValue(this.educations.data[id].graduationYear);
     this.educationEditing = true;
-    this.showEducationsForm();
+    this.showMiniForm(1);
   }
   removeEducationRow(id: number) {
     this.educationCounter--;
@@ -853,54 +807,38 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.educations.data.splice(id, 1);
     this.educationContent.splice(id, 1);
     if (this.educationContent.length <= 0) {
-      this.educationsEmpty = true;
-      this.showEducationsForm();
+      this.miniFormsEmpty[1] = true;
+      this.showMiniForm(1);
     }
     this.saveProfessionalData();
   }
-  showEducationsForm() {
-    this.showEducations = true;
-  }
-  removeEducationsForm() {
-    if (this.educationEditing) {
-      this.educationEditing = false;
-    }
-    if (!this.educationsEmpty) {
-      this.showEducations = false;
-      this.resetEducationsForm();
-    }
-  }
-  resetEducationsForm() {
-    this.educationsForm.get('universityName').setValue(null);
-    this.educationsForm.get('major').setValue(null);
-    this.educationsForm.get('country').setValue(0);
-    this.educationsForm.get('title').setValue(0);
-    this.educationsForm.get('graduationYear').setValue(0);
-  }
+ 
+  // *************************************************************************//
+  // ************************ CERTIFICATION MINIFORM *************************//
+  // *************************************************************************//
 
-  // ************************ CERTIFICATION MINIFORM *************************
   addCertification() {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
-      this.certifications.data.push({ name: this.certificationsForm.get('certificateName').value, giver: this.certificationsForm.get('certificateGiver').value, year: this.certificationsForm.get('certificateYear').value });
-      this.certificationContent.push(document.createElement('tr'));
-      this.updateCertificationDOM(this.certificationCounter);
+    this.certifications.data.push({ name: this.certificationsForm.get('certificateName').value, giver: this.certificationsForm.get('certificateGiver').value, year: this.certificationsForm.get('certificateYear').value });
+    this.certificationContent.push(document.createElement('tr'));
+    this.updateCertificationDOM(this.certificationCounter);
 
-      let certificationId = this.certificationCounter + this.certificationTracker;
-      this.certifications.sorter.push(certificationId);
-      this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
-      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
+    let certificationId = this.certificationCounter + this.certificationTracker;
+    this.certifications.sorter.push(certificationId);
+    this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
+    this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
 
-      this.certifications.sorter.sort();
+    this.certifications.sorter.sort();
 
-      this.addCertificationEditListener(this.certificationCounter)
-      this.addCertificationDeleteListener(this.certificationCounter);
+    this.addCertificationEditListener(this.certificationCounter)
+    this.addCertificationDeleteListener(this.certificationCounter);
 
-      if (this.certificationsEmpty) {
-        this.certificationsEmpty = false;
-      }
-      this.saveProfessionalData();
-      this.certificationCounter++;
-      this.removeCertificationsForm();
+    if (this.miniFormsEmpty[2]) {
+      this.miniFormsEmpty[2] = false;
+    }
+    this.saveProfessionalData();
+    this.certificationCounter++;
+    this.removeMiniForm(2);
   }
   updateCertificationDOM(i: number) {
     this.certificationContent[i].innerHTML = `                 
@@ -928,7 +866,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
     this.addCertificationEditListener(id)
     this.addCertificationDeleteListener(id);
-    this.removeCertificationsForm();
+    this.removeMiniForm(2);
     this.saveProfessionalData();
   }
   addCertificationEditListener(i: number) {
@@ -950,7 +888,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.certificationsForm.get('certificateGiver').setValue(this.certifications.data[id].giver);
     this.certificationsForm.get('certificateYear').setValue(this.certifications.data[id].year);
     this.certificationEditing = true;
-    this.showCertificationsForm();
+    this.showMiniForm(2);
   }
   removeCertificationRow(id: number) {
     this.certificationCounter--;
@@ -964,27 +902,75 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.certifications.data.splice(id, 1);
     this.certificationContent.splice(id, 1);
     if (this.certificationContent.length <= 0) {
-      this.certificationsEmpty = true;
-      this.showCertificationsForm();
+      this.miniFormsEmpty[2] = true;
+      this.showMiniForm(2);
     }
     this.saveProfessionalData();
   }
-  showCertificationsForm() {
-    this.showCertifications = true;
+  // ***************************************************************************** //
+  // ***************************************************************************** //
+  // ***************************************************************************** //
+
+  saveProfessionalData() {
+    this.sellerService.saveProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
   }
-  removeCertificationsForm() {
-    if (this.certificationEditing) {
-      this.certificationEditing = false;
+  useProfessionalData() {
+    if (this.professionalData.profession !== undefined) {
+      this.selectedProfession = this.professionalData.profession;
+      this.professionText = this.professionalData.profession;
     }
-    if (!this.certificationsEmpty) {
-      this.showCertifications = false;
-      this.resetCertificationsForm();
+    if (this.professionalData.professionSkills !== undefined) {
+      this.checkedProfessions = this.professionalData.professionSkills;
+      this.checkCheckBoxes();
     }
-  }
-  resetCertificationsForm() {
-    this.certificationsForm.get('certificateName').setValue(null);
-    this.certificationsForm.get('certificateGiver').setValue(null);
-    this.certificationsForm.get('certificateYear').setValue(0);
+    if (this.professionalData.fromYear !== undefined) {
+      this.selectedFromYear = this.professionalData.fromYear;
+      this.fromYearText = this.professionalData.fromYear.toString();
+    }
+    if (this.professionalData.toYear !== undefined) {
+      this.selectedToYear = this.professionalData.toYear;
+      this.toYearText = this.professionalData.toYear.toString();
+    }
+    if (this.professionalData.skills !== undefined) {
+      if (this.professionalData.skills.data !== undefined && this.professionalData.skills.sorter !== undefined) {
+        this.skills = {
+          data: this.professionalData.skills.data,
+          sorter: this.professionalData.skills.sorter
+        }
+        if (this.miniFormsEmpty[0]) {
+          this.miniFormsShow[0] = false;
+          this.miniFormsEmpty[0] = false;
+        }
+        this.populateSkillsTable();
+      }
+    }
+    if (this.professionalData.educations !== undefined) {
+      if (this.professionalData.educations.data !== undefined && this.professionalData.educations.sorter !== undefined) {
+        this.educations = {
+          data: this.professionalData.educations.data,
+          sorter: this.professionalData.educations.sorter
+        }
+        if (this.miniFormsEmpty[1]) {
+          this.miniFormsShow[1] = false;
+          this.miniFormsEmpty[1] = false;
+        }
+        this.populateEducationsTable();
+      }
+
+    }
+    if (this.professionalData.certifications !== undefined) {
+      if (this.professionalData.certifications.data !== undefined && this.professionalData.certifications.sorter !== undefined) {
+        this.certifications = {
+          data: this.professionalData.certifications.data,
+          sorter: this.professionalData.certifications.sorter
+        }
+        if (this.miniFormsEmpty[2]) {
+          this.miniFormsShow[2] = false;
+          this.miniFormsEmpty[2] = false;
+        }
+        this.populateCertificationsTable();
+      }
+    }
   }
   ngOnDestroy() {
     if (this.navNum === 0) {
@@ -1005,6 +991,16 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   professionalFormOnDestroy() {
     this.professionalDataSub.unsubscribe();
+  }
+
+  onProfessionalFormSubmit() {
+    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length < 1) {
+      window.scrollTo(0, 0);
+    } else if (this.miniFormsEmpty[0]) {
+      this.scrollEl.nativeElement.scrollIntoView(true);
+    } else {
+      this.saveProfessionalData();
+    }
   }
 }
 

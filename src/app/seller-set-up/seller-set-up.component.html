@@ -222,7 +222,7 @@
             <div class="inputs__right">
               <form [formGroup]="skillsForm" class="form-ashen">
                 <div class="skills">
-                  <div class="form-ashen-wrapper" *ngIf="showSkills">
+                  <div class="form-ashen-wrapper" *ngIf="miniFormsShow[0]">
                     <div class="form-ashen-row">
                       <div class="professionalTextInput-wrapper">
                         <input type="text" formControlName="skillName" class="professionalTextInput"
@@ -237,18 +237,18 @@
                     </div>
                     <div class="form-ashen-row form-ashen-row--center">
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                        (click)="removeSkillsForm()">Болих</button>
+                        (click)="removeMiniForm(0)">Болих</button>
                       <button type="button" *ngIf="!skillEditing; else skillEditingHTML"
                         class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()" [disabled] = "!this.skillsForm.valid">Нэмэх</button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
-                    <thead class="form-ashen__table__head" *ngIf="!skillsEmpty">
+                    <thead class="form-ashen__table__head" *ngIf="!miniFormsEmpty[0]">
                       <tr>
                         <th class="form-ashen__table__mdRow">Чадвар</th>
                         <th class="form-ashen__table__mdRow">Зэрэглэл</th>
                         <th class="form-ashen__table__smRow">
-                          <button type="button" class="form-ashen__table__btn" (click)="showSkillsForm()">Шинэ</button>
+                          <button type="button" class="form-ashen__table__btn" (click)="showMiniForm(0)">Шинэ</button>
                         </th>
                       </tr>
                     </thead>
@@ -266,7 +266,7 @@
             <div class="inputs__right">
               <form [formGroup]="educationsForm" class="form-ashen">
                 <div class="educations">
-                  <div class="form-ashen-wrapper" *ngIf="showEducations">
+                  <div class="form-ashen-wrapper" *ngIf="miniFormsShow[1]">
                     <div class="form-ashen-row">
                       <select class="form-ashen__select" formControlName="country">
                         <option value="0" disabled selected hidden>Орших Улс</option>
@@ -617,19 +617,19 @@
                     </div>
                     <div class="form-ashen-row form-ashen-row--center">
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                        (click)="removeEducationsForm()">Болих</button>
+                        (click)="removeMiniForm(1)">Болих</button>
                       <button *ngIf="!educationEditing; else educationEditingHTML" type="button"
                         class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()" [disabled] = "!this.educationsForm.valid">Нэмэх</button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
-                    <thead class="form-ashen__table__head" *ngIf="!educationsEmpty">
+                    <thead class="form-ashen__table__head" *ngIf="!miniFormsEmpty[1]">
                       <tr>
                         <th class="form-ashen__table__mdRow">Сурсан Мэргэжил</th>
                         <th class="form-ashen__table__mdRow">Төгссөн Жил</th>
                         <th class="form-ashen__table__smRow">
                           <button type="button" class="form-ashen__table__btn"
-                            (click)="showEducationsForm()">Шинэ</button> </th>
+                            (click)="showMiniForm(1)">Шинэ</button> </th>
                       </tr>
                     </thead>
                     <tbody #educationsTable>
@@ -646,7 +646,7 @@
             <div class="inputs__right">
               <form [formGroup]="certificationsForm" class="form-ashen">
                 <div class="certifications">
-                  <div class="form-ashen-wrapper" *ngIf="showCertifications">
+                  <div class="form-ashen-wrapper" *ngIf="miniFormsShow[2]">
                     <div class="form-ashen-row">
                       <div class="professionalTextInput-wrapper">
                         <input type="text" formControlName="certificateName" class="professionalTextInput"
@@ -713,19 +713,19 @@
                     </div>
                     <div class="form-ashen-row form-ashen-row--center">
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                        (click)="removeCertificationsForm()">Болих</button>
+                        (click)="removeMiniForm(2)">Болих</button>
                       <button *ngIf="!certificationEditing; else certificationEditingHTML" type="button"
                         class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()" [disabled] = "!this.certificationsForm.valid">Нэмэх</button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
-                    <thead class="form-ashen__table__head" *ngIf="!certificationsEmpty">
+                    <thead class="form-ashen__table__head" *ngIf="!miniFormsEmpty[2]">
                       <tr>
                         <th class="form-ashen__table__mdRow">Сертификат</th>
                         <th class="form-ashen__table__mdRow">Жил</th>
                         <th class="form-ashen__table__smRow">
                           <button type="button" class="form-ashen__table__btn"
-                            (click)="showCertificationsForm()">Шинэ</button> </th>
+                            (click)="showMiniForm(2)">Шинэ</button> </th>
                       </tr>
                     </thead>
                     <tbody #certificationsTable>
