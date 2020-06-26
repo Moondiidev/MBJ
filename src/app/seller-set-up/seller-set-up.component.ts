@@ -422,6 +422,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   miniFormsEmpty: Array<boolean> = [true, true, true];
   miniFormsShow: Array<boolean> = [false, false, false];
+  miniFormEditing: Array<boolean> = [false, false, false];
 
 
   skills: skillsInterface;
@@ -431,7 +432,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   skillCounter: number = 0;
   //Stores added <tr> element references to later use them to remove correct child from DOM.
   skillContent = [];
-  skillEditing = false;
 
 
   educations: educationsInterface;
@@ -439,7 +439,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   educationTracker: number = 0;
   educationCounter: number = 0;
   educationContent = [];
-  educationEditing = false;
 
 
   certifications: certificationsInterface;
@@ -447,7 +446,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   certificationTracker: number = 0;
   certificationCounter: number = 0;
   certificationContent = [];
-  certificationEditing = false;
 
   // *********************************************** //
   // *********************************************** //
@@ -593,8 +591,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   removeMiniForm(i: number) {
-    if (this.certificationEditing) {
-      this.certificationEditing = false;
+    if (this.miniFormEditing[i]) {
+      this.miniFormEditing[i] = false;
     }
     if (!this.miniFormsEmpty[i]) {
       this.miniFormsShow[i] = false;
@@ -690,7 +688,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   showSkillEditorForm(id: number) {
     this.skillsForm.get('skillName').setValue(this.skills.data[id].name);
     this.skillsForm.get('skillLevel').setValue(this.skills.data[id].experienceLevel);
-    this.skillEditing = true;
+    this.miniFormEditing[0] = true;
     this.showMiniForm(0);
   }
 
@@ -788,7 +786,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.educationsForm.get('country').setValue(this.educations.data[id].country);
     this.educationsForm.get('title').setValue(this.educations.data[id].title);
     this.educationsForm.get('graduationYear').setValue(this.educations.data[id].graduationYear);
-    this.educationEditing = true;
+    this.miniFormEditing[1] = true;
     this.showMiniForm(1);
   }
   removeEducationRow(id: number) {
@@ -883,7 +881,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.certificationsForm.get('certificateName').setValue(this.certifications.data[id].name);
     this.certificationsForm.get('certificateGiver').setValue(this.certifications.data[id].giver);
     this.certificationsForm.get('certificateYear').setValue(this.certifications.data[id].year);
-    this.certificationEditing = true;
+    this.miniFormEditing[2] = true;
     this.showMiniForm(2);
   }
   removeCertificationRow(id: number) {

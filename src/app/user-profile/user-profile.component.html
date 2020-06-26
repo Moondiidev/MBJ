@@ -85,7 +85,7 @@
           </div>
 
           <div class="professionalSkills">
-            <div class="profileInfo_detail" *ngIf="!miniFormsShow[0]">
+            <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large">Чадварууд</p>
                 <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
@@ -98,35 +98,36 @@
                   <!-- if no certification, this will be shown -->
                   <p class="paragraph-lg" *ngIf='!skills'>Чадвараа нэм нүү<p>
 
-                  <!-- This must be left visible at start because code is using its reference.
+                      <!-- This must be left visible at start because code is using its reference.
                      If no skills, no data will be displayed and form will not be shown anyway so leaving 
                      it like this is fine -->
 
-                  <div class="skills__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[0]" #skillsDataDisplayer>
+                      <div class="skills__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[0]"
+                        #skillsDataDisplayer>
 
-                  </div>
-
-                  <div class="form-ashen-wrapper" *ngIf="miniFormsShow[0]">
-                    <div class="form-ashen-row">
-                      <div class="professionalTextInput-wrapper">
-                        <input type="text" formControlName="skillName" class="professionalTextInput"
-                          placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
                       </div>
-                      <select class="form-ashen__select" formControlName="skillLevel">
-                        <option value="0" disabled selected hidden>Мэдлэгийн Шат</option>
-                        <option value="Анхан">Анхан</option>
-                        <option value="Дунд">Дунд</option>
-                        <option value="Гүнзгий">Гүнзгий</option>
-                      </select>
-                    </div>
-                    <div class="form-ashen-row form-ashen-row--center">
-                      <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                        (click)="removeMiniForm(0)">Болих</button>
-                      <button type="button" *ngIf="!skillEditing; else skillEditingHTML"
-                        class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()"
-                        [disabled]="!this.skillsForm.valid">Нэмэх</button>
-                    </div>
-                  </div>
+
+                      <div class="form-ashen-wrapper" *ngIf="miniFormsShow[0]">
+                        <div class="form-ashen-row">
+                          <div class="professionalTextInput-wrapper">
+                            <input type="text" formControlName="skillName" class="professionalTextInput"
+                              placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
+                          </div>
+                          <select class="form-ashen__select" formControlName="skillLevel">
+                            <option value="0" disabled selected hidden>Мэдлэгийн Шат</option>
+                            <option value="Анхан">Анхан</option>
+                            <option value="Дунд">Дунд</option>
+                            <option value="Гүнзгий">Гүнзгий</option>
+                          </select>
+                        </div>
+                        <div class="form-ashen-row form-ashen-row--center">
+                          <button type="button" class="form-ashen__btn form-ashen__removeBtn"
+                            (click)="removeMiniForm(0)">Болих</button>
+                          <button type="button" *ngIf="!miniFormEditing[0]; else skillEditingHTML"
+                            class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()"
+                            [disabled]="!this.skillsForm.valid">Нэмэх</button>
+                        </div>
+                      </div>
 
                 </div>
               </form>
@@ -148,7 +149,8 @@
 
                 <p class="paragraph-lg" *ngIf='!educations'> Боловсролоо нэм нүү <p>
 
-                    <div class="educations__dataDisplay form-ashen__contentHolder"*ngIf="!miniFormsShow[1]" #educationsDataDisplayer>
+                    <div class="educations__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[1]"
+                      #educationsDataDisplayer>
 
                     </div>
 
@@ -505,7 +507,7 @@
                       <div class="form-ashen-row form-ashen-row--center">
                         <button type="button" class="form-ashen__btn form-ashen__removeBtn"
                           (click)="removeMiniForm(1)">Болих</button>
-                        <button *ngIf="!educationEditing; else educationEditingHTML" type="button"
+                        <button *ngIf="!miniFormEditing[1]; else educationEditingHTML" type="button"
                           class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()"
                           [disabled]="!this.educationsForm.valid">Нэмэх</button>
                       </div>
@@ -525,7 +527,8 @@
                 <div class="certifications">
                   <p class="paragraph-lg" *ngIf='!certifications'>Сертификатаа нэм нүү</p>
 
-                  <div class="certifications__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[2]" #certificationsDataDisplayer>
+                  <div class="certifications__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[2]"
+                    #certificationsDataDisplayer>
 
                   </div>
 
@@ -592,6 +595,13 @@
                       <option value="1971">1971</option>
                       <option value="1970">1970</option>
                     </select>
+                    <div class="form-ashen-row form-ashen-row--center">
+                      <button type="button" class="form-ashen__btn form-ashen__removeBtn"
+                        (click)="removeMiniForm(2)">Болих</button>
+                      <button *ngIf="!miniFormEditing[2]; else certificationEditingHTML" type="button"
+                        class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()"
+                        [disabled]="!this.certificationsForm.valid">Нэмэх</button>
+                    </div>
                   </div>
 
                 </div>

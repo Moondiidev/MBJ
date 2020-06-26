@@ -238,7 +238,7 @@
                     <div class="form-ashen-row form-ashen-row--center">
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
                         (click)="removeMiniForm(0)">Болих</button>
-                      <button type="button" *ngIf="!skillEditing; else skillEditingHTML"
+                      <button type="button" *ngIf="!miniFormEditing[0]; else skillEditingHTML"
                         class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()" [disabled] = "!this.skillsForm.valid">Нэмэх</button>
                     </div>
                   </div>
@@ -618,7 +618,7 @@
                     <div class="form-ashen-row form-ashen-row--center">
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
                         (click)="removeMiniForm(1)">Болих</button>
-                      <button *ngIf="!educationEditing; else educationEditingHTML" type="button"
+                      <button *ngIf="!miniFormEditing[1]; else educationEditingHTML" type="button"
                         class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()" [disabled] = "!this.educationsForm.valid">Нэмэх</button>
                     </div>
                   </div>
@@ -714,7 +714,7 @@
                     <div class="form-ashen-row form-ashen-row--center">
                       <button type="button" class="form-ashen__btn form-ashen__removeBtn"
                         (click)="removeMiniForm(2)">Болих</button>
-                      <button *ngIf="!certificationEditing; else certificationEditingHTML" type="button"
+                      <button *ngIf="!miniFormEditing[2]; else certificationEditingHTML" type="button"
                         class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()" [disabled] = "!this.certificationsForm.valid">Нэмэх</button>
                     </div>
                   </div>
