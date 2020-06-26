@@ -435,7 +435,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
 
   educations: educationsInterface;
-
   educationIndex: number = 0;
   educationTracker: number = 0;
   educationCounter: number = 0;

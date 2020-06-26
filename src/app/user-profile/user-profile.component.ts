@@ -1,3 +1,4 @@
+import { ElementRef, ViewChild } from '@angular/core';
 import { SellerSetUpService } from './../seller-set-up/seller-set-up.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AppManagerService } from './../shared/app-manager.service';
@@ -6,7 +7,7 @@ import { signupData } from './../auth/signupData.interface';
 import { Subscription } from 'rxjs';
 import { ProfessionalModel } from 'src/app/shared/professional.model';
 import { PersonalModel } from 'src/app/shared/personal.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { UserReviewModel } from './userReview.model';
 import { educationsInterface } from '../seller-set-up/educations.interface';
 import { certificationsInterface } from '../seller-set-up/certifications.interface';
@@ -44,32 +45,33 @@ export class UserProfileComponent implements OnInit {
   editableInputValue: Array<string> = ["Би бол МБЖ-ийн гишүүн", ""];
   editableInputForm: Array<FormGroup> = [];
   editingInput: Array<boolean> = [false, false];
-  skillsForm: FormGroup;
-  editingSkills: boolean;
-  educationsForm: FormGroup;
-  editingEducations: boolean;
-  certificationsForm: FormGroup;
-  editingCertifications: boolean;
 
   reviews: Array<UserReviewModel> = [{ name: 'allah ala tunji', rating: 2, review: 'It was great experience. Great communication. Thank you :)', date: '9 sariin omno' }];
   professionalData: ProfessionalModel;
-  // **************** MINIFORMS *************** //
-  educationsEmpty: boolean = true;
-  skillsEmpty: boolean = true;
-  certificationsEmpty: boolean = true;
+
+  // *********************************************** //
+  // **************** MINIFORMS DATA *************** //
+  // *********************************************** //
+
+  skillsForm: FormGroup;
+  educationsForm: FormGroup;
+  certificationsForm: FormGroup;
+
+  miniFormsEmpty: Array<boolean> = [true, true, true];
+  miniFormsShow: Array<boolean> = [false, false, false];
+
 
   skills: skillsInterface;
-  //Stores added <tr> element references to later use them to remove correct child from DOM.
-  skillContent: Array<HTMLTableRowElement> = [];
   skillIndex: number = 0;
   skillTracker: number = 0;
   //Each added el will have unique increasing number whenever new el is added
   skillCounter: number = 0;
+  //Stores added <tr> element references to later use them to remove correct child from DOM.
+  skillContent = [];
   skillEditing = false;
 
 
   educations: educationsInterface;
-
   educationIndex: number = 0;
   educationTracker: number = 0;
   educationCounter: number = 0;
@@ -84,11 +86,11 @@ export class UserProfileComponent implements OnInit {
   certificationContent = [];
   certificationEditing = false;
 
-  showSkills: boolean = false;
-  showEducations: boolean = false;
-  showCertifications: boolean = false;
+  // *********************************************** //
+  // *********************************************** //
+  // *********************************************** //
 
-  constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService) { }
+  constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.userNameSub = this.appManagerService.userName.subscribe(name => {
@@ -132,7 +134,7 @@ export class UserProfileComponent implements OnInit {
       if (data != null || data != undefined) {
         this.professionalData = data;
         this.useProfessionalData();
-      } 
+      }
     })
 
     //Get signupData from firebase database
@@ -173,11 +175,14 @@ export class UserProfileComponent implements OnInit {
   selectedFromYear;
   selectedToYear;
 
+  @ViewChild('skillsDataDisplayer') skillsDataDisplayerHTML: ElementRef;
+  @ViewChild('educationsDataDisplayer') educationsDataDisplayerHTML: ElementRef;
+  @ViewChild('certificationsDataDisplayer') certificationsDataDisplayerHTML: ElementRef;
+
   saveProfessionalData() {
     this.sellerService.saveProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
   }
   useProfessionalData() {
-    // Useless Data
     if (this.professionalData.profession !== undefined) {
       this.selectedProfession = this.professionalData.profession;
     }
@@ -190,26 +195,15 @@ export class UserProfileComponent implements OnInit {
     if (this.professionalData.toYear !== undefined) {
       this.selectedToYear = this.professionalData.toYear;
     }
-    //Useful Data
-    if (this.professionalData.professionSkills != null) {
-      this.professionalSkills = this.professionalData.professionSkills;
-    }
-    if (this.professionalData.certifications != null) {
-      this.professionalCertifications.data = this.professionalData.certifications.data;
-    }
-    if (this.professionalData.educations != null) {
-      this.professionalEducations.data = this.professionalData.educations.data;
-    }
-
     if (this.professionalData.skills !== undefined) {
       if (this.professionalData.skills.data !== undefined && this.professionalData.skills.sorter !== undefined) {
         this.skills = {
           data: this.professionalData.skills.data,
           sorter: this.professionalData.skills.sorter
         }
-        if (this.skillsEmpty) {
-          this.showSkills = false;
-          this.skillsEmpty = false;
+        if (this.miniFormsEmpty[0]) {
+          this.miniFormsShow[0] = false;
+          this.miniFormsEmpty[0] = false;
         }
         this.populateSkillsTable();
       }
@@ -220,9 +214,9 @@ export class UserProfileComponent implements OnInit {
           data: this.professionalData.educations.data,
           sorter: this.professionalData.educations.sorter
         }
-        if (this.educationsEmpty) {
-          this.showEducations = false;
-          this.educationsEmpty = false;
+        if (this.miniFormsEmpty[1]) {
+          this.miniFormsShow[1] = false;
+          this.miniFormsEmpty[1] = false;
         }
         this.populateEducationsTable();
       }
@@ -234,9 +228,9 @@ export class UserProfileComponent implements OnInit {
           data: this.professionalData.certifications.data,
           sorter: this.professionalData.certifications.sorter
         }
-        if (this.certificationsEmpty) {
-          this.showCertifications = false;
-          this.certificationsEmpty = false;
+        if (this.miniFormsEmpty[2]) {
+          this.miniFormsShow[2] = false;
+          this.miniFormsEmpty[2] = false;
         }
         this.populateCertificationsTable();
       }
@@ -249,7 +243,7 @@ export class UserProfileComponent implements OnInit {
       this.updateSkillDOM(this.skillCounter);
       this.skillContent[this.skillCounter].setAttribute("data-elCounter", this.skills.sorter[i].toString());
 
-      this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
+      this.renderer.appendChild(this.skillsDataDisplayerHTML.nativeElement, this.skillContent[this.skillCounter]);
       this.skills.sorter.sort();
       this.addSkillEditListener(this.skillCounter);
       //Starting from the second el, user will have option to delete (cuz first one is required)
@@ -265,7 +259,7 @@ export class UserProfileComponent implements OnInit {
       this.updateEducationDOM(this.educationCounter);
       this.educationContent[this.educationCounter].setAttribute("data-elCounter", this.educations.sorter[i].toString());
 
-      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
+      this.renderer.appendChild(this.educationsDataDisplayerHTML.nativeElement, this.educationContent[this.educationCounter]);
 
       this.educations.sorter.sort();
 
@@ -280,7 +274,7 @@ export class UserProfileComponent implements OnInit {
       this.updateCertificationDOM(this.certificationCounter);
       this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", this.certifications.sorter[i].toString());
 
-      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
+      this.renderer.appendChild(this.certificationsDataDisplayerHTML.nativeElement, this.certificationContent[this.certificationCounter]);
 
       this.certifications.sorter.sort();
 
@@ -290,10 +284,46 @@ export class UserProfileComponent implements OnInit {
       this.certificationCounter++;
     }
   }
+  showMiniForm(i: number) {
+    this.miniFormsShow[i] = true;
+  }
+  resetMiniForm(i: number) {
+    switch (i) {
+      case 0:
+        this.skillsForm.get('skillName').setValue(null);
+        this.skillsForm.get('skillLevel').setValue(0);
+        break;
+      case 1:
+        this.educationsForm.get('universityName').setValue(null);
+        this.educationsForm.get('major').setValue(null);
+        this.educationsForm.get('country').setValue(0);
+        this.educationsForm.get('title').setValue(0);
+        this.educationsForm.get('graduationYear').setValue(0);
+        break;
+      case 2:
+        this.certificationsForm.get('certificateName').setValue(null);
+        this.certificationsForm.get('certificateGiver').setValue(null);
+        this.certificationsForm.get('certificateYear').setValue(0);
+        break;
+      default:
+        return;
+    }
+  }
+  removeMiniForm(i: number) {
+    if (this.certificationEditing) {
+      this.certificationEditing = false;
+    }
+    if (!this.miniFormsEmpty[i]) {
+      this.miniFormsShow[i] = false;
+      this.resetMiniForm(i);
+    }
+  }
+  // **********************************************************************//
+  // *************************** SKILL MINIFORM ***************************//
+  // **********************************************************************//
 
-  // ************************ SKILL MINIFORM *************************
   addSkill() {
-    this.skills.data.push({ name: this.professionalForm.get('skills.skillName').value, experienceLevel: this.professionalForm.get('skills.skillLevel').value });
+    this.skills.data.push({ name: this.skillsForm.get('skillName').value, experienceLevel: this.skillsForm.get('skillLevel').value });
 
     this.skillContent.push(document.createElement('tr'));
     this.updateSkillDOM(this.skillCounter);
@@ -304,7 +334,7 @@ export class UserProfileComponent implements OnInit {
     this.skills.sorter.push(skillId);
     //Added html element needs to be stored in order to allow deletion
     this.skillContent[this.skillCounter].setAttribute("data-elCounter", skillId.toString());
-    this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
+    this.renderer.appendChild(this.skillsDataDisplayerHTML.nativeElement, this.skillContent[this.skillCounter]);
 
     this.skills.sorter.sort();
 
@@ -314,12 +344,12 @@ export class UserProfileComponent implements OnInit {
       this.addSkillDeleteListener(this.skillCounter);
     }
 
-    if (this.skillsEmpty) {
-      this.skillsEmpty = false;
+    if (this.miniFormsEmpty[0]) {
+      this.miniFormsEmpty[0] = false;
     }
     this.saveProfessionalData();
     this.skillCounter++;
-    this.removeSkillsForm();
+    this.removeMiniForm(0);
   }
   updateSkillDOM(i: number) {
     //The first skill el doesnt have option to remove cuz skills input is required.
@@ -331,22 +361,21 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.skillContent[i].innerHTML =
-      `                 
-    <tr>
-      <td>${this.skills.data[i].name}</td>
-      <td>${this.skills.data[i].experienceLevel}</td>
-      <td>
-        <div class="editBtns">
-          <button type="button" class="edit" id="editSkill${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-          ${trashCanHTML}
-        </div>
-      </td>
-    </tr>
+    ` 
+    <div class="margin-bot-sm" >
+      <div class="profileInfo_detail__skill">
+        <p class="paragraph-lg">${this.skills.data[i].name}</p>
+      </div>
+      <div class="editBtns">
+        <button type="button" class="edit" id="editSkill${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+        ${trashCanHTML}
+      </div>
+    </div>
     `
   }
   editSkill(id: number) {
-    this.skills.data[id].name = this.professionalForm.get('skills.skillName').value;
-    this.skills.data[id].experienceLevel = this.professionalForm.get('skills.skillLevel').value;
+    this.skills.data[id].name = this.skillsForm.get('skillName').value;
+    this.skills.data[id].experienceLevel = this.skillsForm.get('skillLevel').value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
     this.skillCounter--
@@ -360,7 +389,7 @@ export class UserProfileComponent implements OnInit {
       this.addSkillDeleteListener(id);
     }
     this.saveProfessionalData();
-    this.removeSkillsForm();
+    this.removeMiniForm(0);
   }
   addSkillEditListener(i: number) {
     document.getElementById(`editSkill${i}`).addEventListener("click", (event) => {
@@ -377,10 +406,10 @@ export class UserProfileComponent implements OnInit {
     });
   }
   showSkillEditorForm(id: number) {
-    this.professionalForm.get('skills.skillName').setValue(this.skills.data[id].name);
-    this.professionalForm.get('skills.skillLevel').setValue(this.skills.data[id].experienceLevel);
+    this.skillsForm.get('skillName').setValue(this.skills.data[id].name);
+    this.skillsForm.get('skillLevel').setValue(this.skills.data[id].experienceLevel);
     this.skillEditing = true;
-    this.showSkillsForm();
+    this.showMiniForm(0);
   }
 
   removeSkillRow(id: number) {
@@ -390,76 +419,62 @@ export class UserProfileComponent implements OnInit {
     if (id < temp) {
       this.skillTracker++;
     }
-    this.renderer.removeChild(this.skillsTableHtml.nativeElement, this.skillContent[id]);
+    this.renderer.removeChild(this.skillsDataDisplayerHTML.nativeElement, this.skillContent[id]);
     this.skills.sorter.splice(id, 1);
     this.skills.data.splice(id, 1);
     this.skillContent.splice(id, 1);
     if (this.skills.data.length <= 0) {
-      this.skillsEmpty = true;
-      this.showSkillsForm();
+      this.miniFormsEmpty[0] = true;
+      this.showMiniForm(0);
     }
     this.saveProfessionalData();
   }
 
-  showSkillsForm() {
-    this.showSkills = true;
-  }
-  removeSkillsForm() {
-    if (this.skillEditing) {
-      this.skillEditing = false;
-    }
-    if (!this.skillsEmpty) {
-      this.showSkills = false;
-      this.resetSkillsForm();
-    }
-  }
-  resetSkillsForm() {
-    this.professionalForm.get('skills.skillName').setValue(null);
-    this.professionalForm.get('skills.skillLevel').setValue(0);
-  }
+  // *********************************************************************//
+  // ************************ EDUCATION MINIFORM *************************//
+  // *********************************************************************//
 
-  // ************************ EDUCATION MINIFORM *************************
   addEducation() {
-    if (this.validateEducation()) {
-      this.educations.data.push({ universityName: this.professionalForm.get('educations.universityName').value, major: this.professionalForm.get('educations.major').value, country: this.professionalForm.get('educations.country').value, title: this.professionalForm.get('educations.title').value, graduationYear: this.professionalForm.get('educations.graduationYear').value });
-      this.educationContent.push(document.createElement('tr'));
-      this.updateEducationDOM(this.educationCounter);
-      let educationId = this.educationCounter + this.educationTracker;
-      this.educations.sorter.push(educationId);
-      this.educationContent[this.educationCounter].setAttribute("data-elCounter", educationId);
-      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
+    this.educations.data.push({ universityName: this.educationsForm.get('universityName').value, major: this.educationsForm.get('major').value, country: this.educationsForm.get('country').value, title: this.educationsForm.get('title').value, graduationYear: this.educationsForm.get('graduationYear').value });
+    this.educationContent.push(document.createElement('tr'));
+    this.updateEducationDOM(this.educationCounter);
+    let educationId = this.educationCounter + this.educationTracker;
+    this.educations.sorter.push(educationId);
+    this.educationContent[this.educationCounter].setAttribute("data-elCounter", educationId);
+    this.renderer.appendChild(this.educationsDataDisplayerHTML.nativeElement, this.educationContent[this.educationCounter]);
 
-      this.educations.sorter.sort();
-      this.addEducationEditListener(this.educationCounter);
-      this.addEducationDeleteListener(this.educationCounter);
-      if (this.educationsEmpty) {
-        this.educationsEmpty = false;
-      }
-      this.saveProfessionalData();
-      this.educationCounter++;
-      this.removeEducationsForm();
+    this.educations.sorter.sort();
+    this.addEducationEditListener(this.educationCounter);
+    this.addEducationDeleteListener(this.educationCounter);
+    if (this.miniFormsEmpty[1]) {
+      this.miniFormsEmpty[1] = false;
     }
+    this.saveProfessionalData();
+    this.educationCounter++;
+    this.removeMiniForm(1);
   }
   updateEducationDOM(i: number) {
     this.educationContent[i].innerHTML =
-      `                 
-  <tr>
-    <td>${this.educations.data[i].major}</td>
-    <td>${this.educations.data[i].graduationYear}</td>
-    <td>
+    `            
+    <div class="margin-bot-sm">
+      <div class="profileInfo_detail__education">
+        <p class="paragraph-lg">${this.educations.data[i].title} - ${this.educations.data[i].major}</p>
+        <p class="paragraph-lg greyText margin-top-xxs">${this.educations.data[i].universityName}, ${this.educations.data[i].country},
+        ${this.educations.data[i].graduationYear}</p>
+      </div>
       <div class="editBtns">
         <button type="button" class="edit" id="editEducation${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
         <button type="button" class="edit" id="deleteEducation${i}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
       </div>
-    </td>
-  `;
+    </div>
+    `;
   }
   editEducation(id: number) {
-    this.educations.data[id].universityName = this.professionalForm.get('educations.universityName').value;
-    this.educations.data[id].major = this.professionalForm.get('educations.major').value;
-    this.educations.data[id].country = this.professionalForm.get('educations.country').value;
-    this.educations.data[id].title = this.professionalForm.get('educations.title').value;
-    this.educations.data[id].graduationYear = this.professionalForm.get('educations.graduationYear').value;
+    this.educations.data[id].universityName = this.educationsForm.get('universityName').value;
+    this.educations.data[id].major = this.educationsForm.get('major').value;
+    this.educations.data[id].country = this.educationsForm.get('country').value;
+    this.educations.data[id].title = this.educationsForm.get('title').value;
+    this.educations.data[id].graduationYear = this.educationsForm.get('graduationYear').value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
     this.educationCounter--
@@ -471,7 +486,7 @@ export class UserProfileComponent implements OnInit {
     this.addEducationEditListener(id);
     this.addEducationDeleteListener(id);
     this.saveProfessionalData();
-    this.removeEducationsForm();
+    this.removeMiniForm(1);
   }
   addEducationEditListener(i: number) {
     document.getElementById(`editEducation${i}`).addEventListener("click", (event) => {
@@ -489,13 +504,13 @@ export class UserProfileComponent implements OnInit {
   }
 
   showEducationEditorForm(id: number) {
-    this.professionalForm.get('educations.universityName').setValue(this.educations.data[id].universityName);
-    this.professionalForm.get('educations.major').setValue(this.educations.data[id].major);
-    this.professionalForm.get('educations.country').setValue(this.educations.data[id].country);
-    this.professionalForm.get('educations.title').setValue(this.educations.data[id].title);
-    this.professionalForm.get('educations.graduationYear').setValue(this.educations.data[id].graduationYear);
+    this.educationsForm.get('universityName').setValue(this.educations.data[id].universityName);
+    this.educationsForm.get('major').setValue(this.educations.data[id].major);
+    this.educationsForm.get('country').setValue(this.educations.data[id].country);
+    this.educationsForm.get('title').setValue(this.educations.data[id].title);
+    this.educationsForm.get('graduationYear').setValue(this.educations.data[id].graduationYear);
     this.educationEditing = true;
-    this.showEducationsForm();
+    this.showMiniForm(1);
   }
   removeEducationRow(id: number) {
     this.educationCounter--;
@@ -504,76 +519,52 @@ export class UserProfileComponent implements OnInit {
     if (id < temp) {
       this.educationTracker++;
     }
-    this.renderer.removeChild(this.educationsTableHtml.nativeElement, this.educationContent[id]);
+    this.renderer.removeChild(this.educationsDataDisplayerHTML.nativeElement, this.educationContent[id]);
     this.educations.sorter.splice(id, 1);
     this.educations.data.splice(id, 1);
     this.educationContent.splice(id, 1);
     if (this.educationContent.length <= 0) {
-      this.educationsEmpty = true;
-      this.showEducationsForm();
+      this.miniFormsEmpty[1] = true;
+      this.showMiniForm(1);
     }
     this.saveProfessionalData();
   }
-  showEducationsForm() {
-    this.showEducations = true;
-  }
-  removeEducationsForm() {
-    if (this.educationEditing) {
-      this.educationEditing = false;
-    }
-    if (!this.educationsEmpty) {
-      this.showEducations = false;
-      this.resetEducationsForm();
-    }
-  }
-  resetEducationsForm() {
-    this.professionalForm.get('educations.universityName').setValue(null);
-    this.professionalForm.get('educations.major').setValue(null);
-    this.professionalForm.get('educations.country').setValue(0);
-    this.professionalForm.get('educations.title').setValue(0);
-    this.professionalForm.get('educations.graduationYear').setValue(0);
-  }
-  validateEducation() {
-    const valid = this.professionalForm.get('educations.universityName').value != null && this.professionalForm.get('educations.major').value != null && this.professionalForm.get('educations.country').value != 0 && this.professionalForm.get('educations.title').value != 0 && this.professionalForm.get('educations.graduationYear').value != 0;
-    return valid;
-  }
 
-  // ************************ CERTIFICATION MINIFORM *************************
+  // *************************************************************************//
+  // ************************ CERTIFICATION MINIFORM *************************//
+  // *************************************************************************//
+
   addCertification() {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
-    if (this.validateCertification()) {
-      this.certifications.data.push({ name: this.professionalForm.get('certifications.certificateName').value, giver: this.professionalForm.get('certifications.certificateGiver').value, year: this.professionalForm.get('certifications.certificateYear').value });
-      this.certificationContent.push(document.createElement('tr'));
-      this.updateCertificationDOM(this.certificationCounter);
+    this.certifications.data.push({ name: this.certificationsForm.get('certificateName').value, giver: this.certificationsForm.get('certificateGiver').value, year: this.certificationsForm.get('certificateYear').value });
+    this.certificationContent.push(document.createElement('tr'));
+    this.updateCertificationDOM(this.certificationCounter);
 
-      let certificationId = this.certificationCounter + this.certificationTracker;
-      this.certifications.sorter.push(certificationId);
-      this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
-      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
+    let certificationId = this.certificationCounter + this.certificationTracker;
+    this.certifications.sorter.push(certificationId);
+    this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
+    this.renderer.appendChild(this.certificationsDataDisplayerHTML.nativeElement, this.certificationContent[this.certificationCounter]);
 
-      this.certifications.sorter.sort();
+    this.certifications.sorter.sort();
 
-      this.addCertificationEditListener(this.certificationCounter)
-      this.addCertificationDeleteListener(this.certificationCounter);
+    this.addCertificationEditListener(this.certificationCounter)
+    this.addCertificationDeleteListener(this.certificationCounter);
 
-      if (this.certificationsEmpty) {
-        this.certificationsEmpty = false;
-      }
-      this.saveProfessionalData();
-      this.certificationCounter++;
-      this.removeCertificationsForm();
+    if (this.miniFormsEmpty[2]) {
+      this.miniFormsEmpty[2] = false;
     }
+    this.saveProfessionalData();
+    this.certificationCounter++;
+    this.removeMiniForm(2);
   }
   updateCertificationDOM(i: number) {
-    this.certificationContent[i].innerHTML = `                 
-    <td>${this.certifications.data[i].name}</td>
-    <td>${this.certifications.data[i].year}</td>
-    <td>
-      <div class="editBtns">
-        <button type="button" class="edit" id="editCertification${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-        <button type="button" class="edit" id="deleteCertification${i}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
+    this.certificationContent[i].innerHTML = `   
+    <div class="margin-bot-sm">
+      <div class="profileInfo_detail__certification">
+        <p class="paragraph-lg">${this.certifications.data[i].name}</p>
+        <p class="paragraph-lg greyText margin-top-xxs">${this.certifications.data[i].giver} ${this.certifications.data[i].year}</p>
       </div>
-    </td>
+    </div>
   `;
   }
   editCertification(id: number) {
@@ -590,7 +581,7 @@ export class UserProfileComponent implements OnInit {
     //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
     this.addCertificationEditListener(id)
     this.addCertificationDeleteListener(id);
-    this.removeCertificationsForm();
+    this.removeMiniForm(2);
     this.saveProfessionalData();
   }
   addCertificationEditListener(i: number) {
@@ -608,11 +599,11 @@ export class UserProfileComponent implements OnInit {
     });
   }
   showCertificationEditorForm(id: number) {
-    this.professionalForm.get('certifications.certificateName').setValue(this.certifications.data[id].name);
-    this.professionalForm.get('certifications.certificateGiver').setValue(this.certifications.data[id].giver);
-    this.professionalForm.get('certifications.certificateYear').setValue(this.certifications.data[id].year);
+    this.certificationsForm.get('certificateName').setValue(this.certifications.data[id].name);
+    this.certificationsForm.get('certificateGiver').setValue(this.certifications.data[id].giver);
+    this.certificationsForm.get('certificateYear').setValue(this.certifications.data[id].year);
     this.certificationEditing = true;
-    this.showCertificationsForm();
+    this.showMiniForm(2);
   }
   removeCertificationRow(id: number) {
     this.certificationCounter--;
@@ -621,31 +612,17 @@ export class UserProfileComponent implements OnInit {
     if (id < temp) {
       this.certificationTracker++;
     }
-    this.renderer.removeChild(this.certificationsTableHtml.nativeElement, this.certificationContent[id]);
+    this.renderer.removeChild(this.certificationsDataDisplayerHTML.nativeElement, this.certificationContent[id]);
     this.certifications.sorter.splice(id, 1);
     this.certifications.data.splice(id, 1);
     this.certificationContent.splice(id, 1);
     if (this.certificationContent.length <= 0) {
-      this.certificationsEmpty = true;
-      this.showCertificationsForm();
+      this.miniFormsEmpty[2] = true;
+      this.showMiniForm(2);
     }
     this.saveProfessionalData();
   }
-  showCertificationsForm() {
-    this.showCertifications = true;
-  }
-  removeCertificationsForm() {
-    if (this.certificationEditing) {
-      this.certificationEditing = false;
-    }
-    if (!this.certificationsEmpty) {
-      this.showCertifications = false;
-      this.resetCertificationsForm();
-    }
-  }
-  resetCertificationsForm() {
-    this.certificationsForm.get('certificateName').setValue(null);
-    this.certificationsForm.get('certificateGiver').setValue(null);
-    this.certificationsForm.get('certificateYear').setValue(0);
-  }
 }
+  // ***************************************************************************** //
+  // ***************************************************************************** //
+  // ***************************************************************************** //
