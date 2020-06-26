@@ -63,7 +63,7 @@
           <div class="personalDescription margin-bot-md">
             <div class="profileInfo_detail" *ngIf="!editingInput[1]">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large margin-bot-sm">Хувийн Тайлбар</p>
+                <p class="boldText-large">Хувийн Тайлбар</p>
                 <a class="emphasis-link--2 paragraph-xl" (click)="onEditInput(1)">Өөрчлөх</a>
               </div>
               <p class="paragraph-lg">{{this.editableInputValue[1]}}</p>
@@ -87,7 +87,7 @@
           <div class="professionalSkills margin-bot-md">
             <div class="profileInfo_detail" *ngIf="!miniFormsShow[0]">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large margin-bot-sm">Чадварууд</p>
+                <p class="boldText-large">Чадварууд</p>
                 <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
               </div>
 
@@ -96,7 +96,7 @@
                 <div class="skills">
 
                   <!-- if no certification, this will be shown -->
-                  <p class="paragraph-lg" *ngIf='!professionalSkills'>Чадвараа нэм нүү<p>
+                  <p class="paragraph-lg" *ngIf='!skills'>Чадвараа нэм нүү<p>
 
                   <!-- This must be left visible at start because code is using its reference.
                      If no skills, no data will be displayed and form will not be shown anyway so leaving 
@@ -138,7 +138,7 @@
 
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large margin-bot-sm">Боловсрол</p>
+                <p class="boldText-large">Боловсрол</p>
                 <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
               </div>
             </div>
@@ -146,7 +146,7 @@
             <form [formGroup]="educationsForm" class="form-ashen">
               <div class="educations">
 
-                <p class="paragraph-lg" *ngIf='!professionalEducations'> Боловсролоо нэм нүү <p>
+                <p class="paragraph-lg" *ngIf='!educations'> Боловсролоо нэм нүү <p>
 
                     <div class="educations__dataDisplay" *ngIf="!miniFormsShow[1]" #educationsDataDisplayer>
 
@@ -517,13 +517,13 @@
           <div class="professionalCertifications margin-bot-md">
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large margin-bot-sm">Сертификатнууд</p>
+                <p class="boldText-large">Сертификатнууд</p>
                 <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
               </div>
 
               <form [formGroup]="certificationsForm">
                 <div class="certifications">
-                  <p class="paragraph-lg" *ngIf='!professionalCertifications'>Сертификатаа нэм нүү</p>
+                  <p class="paragraph-lg" *ngIf='!certifications'>Сертификатаа нэм нүү</p>
 
                   <div class="certifications__dataDisplay" *ngIf="!miniFormsShow[2]" #certificationsDataDisplayer>
 
