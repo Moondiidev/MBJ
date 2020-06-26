@@ -229,7 +229,7 @@ export class UserProfileComponent implements OnInit {
 
   populateSkillsTable() {
     for (let i = 0; i < this.skills.data.length; i++) {
-      this.skillContent.push(document.createElement('div'));
+      this.skillContent.push(document.createElement('tr'));
       this.updateSkillDOM(this.skillCounter);
       this.skillContent[this.skillCounter].setAttribute("data-elCounter", this.skills.sorter[i].toString());
 
@@ -245,7 +245,7 @@ export class UserProfileComponent implements OnInit {
   }
   populateEducationsTable() {
     for (let i = 0; i < this.educations.data.length; i++) {
-      this.educationContent.push(document.createElement('div'));
+      this.educationContent.push(document.createElement('tr'));
       this.updateEducationDOM(this.educationCounter);
       this.educationContent[this.educationCounter].setAttribute("data-elCounter", this.educations.sorter[i].toString());
 
@@ -260,7 +260,7 @@ export class UserProfileComponent implements OnInit {
   }
   populateCertificationsTable() {
     for (let i = 0; i < this.certifications.data.length; i++) {
-      this.certificationContent.push(document.createElement('div'));
+      this.certificationContent.push(document.createElement('tr'));
       this.updateCertificationDOM(this.certificationCounter);
       this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", this.certifications.sorter[i].toString());
 
@@ -352,7 +352,7 @@ export class UserProfileComponent implements OnInit {
 
     this.skillContent[i].innerHTML =
     ` 
-    <div class="margin-bot-sm flex-spaceBetween" >
+    <div class="padding-bot-sm flex-spaceBetween" >
       <div class="profileInfo_detail__skill">
         <p class="paragraph-lg">${this.skills.data[i].name}</p>
       </div>
@@ -446,7 +446,7 @@ export class UserProfileComponent implements OnInit {
   updateEducationDOM(i: number) {
     this.educationContent[i].innerHTML =
     `            
-    <div class="margin-bot-sm flex-spaceBetween ">
+    <div class="padding-bot-sm flex-spaceBetween ">
       <div class="profileInfo_detail__education">
         <p class="paragraph-lg">${this.educations.data[i].title} - ${this.educations.data[i].major}</p>
         <p class="paragraph-lg greyText margin-top-xxs">${this.educations.data[i].universityName}, ${this.educations.data[i].country},
@@ -549,7 +549,7 @@ export class UserProfileComponent implements OnInit {
   }
   updateCertificationDOM(i: number) {
     this.certificationContent[i].innerHTML = `   
-    <div class="margin-bot-sm flex-spaceBetween ">
+    <div class="padding-bot-sm flex-spaceBetween ">
       <div class="profileInfo_detail__certification">
         <p class="paragraph-lg">${this.certifications.data[i].name}</p>
         <p class="paragraph-lg greyText margin-top-xxs">${this.certifications.data[i].giver} ${this.certifications.data[i].year}</p>

@@ -84,7 +84,7 @@
             </form>
           </div>
 
-          <div class="professionalSkills margin-bot-md">
+          <div class="professionalSkills">
             <div class="profileInfo_detail" *ngIf="!miniFormsShow[0]">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large">Чадварууд</p>
@@ -102,7 +102,7 @@
                      If no skills, no data will be displayed and form will not be shown anyway so leaving 
                      it like this is fine -->
 
-                  <div class="skills__dataDisplay" *ngIf="!miniFormsShow[0]" #skillsDataDisplayer>
+                  <div class="skills__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[0]" #skillsDataDisplayer>
 
                   </div>
 
@@ -148,7 +148,7 @@
 
                 <p class="paragraph-lg" *ngIf='!educations'> Боловсролоо нэм нүү <p>
 
-                    <div class="educations__dataDisplay" *ngIf="!miniFormsShow[1]" #educationsDataDisplayer>
+                    <div class="educations__dataDisplay form-ashen__contentHolder"*ngIf="!miniFormsShow[1]" #educationsDataDisplayer>
 
                     </div>
 
@@ -525,7 +525,7 @@
                 <div class="certifications">
                   <p class="paragraph-lg" *ngIf='!certifications'>Сертификатаа нэм нүү</p>
 
-                  <div class="certifications__dataDisplay" *ngIf="!miniFormsShow[2]" #certificationsDataDisplayer>
+                  <div class="certifications__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[2]" #certificationsDataDisplayer>
 
                   </div>
 

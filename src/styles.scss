@@ -77,9 +77,10 @@ textarea {
 //Dynamically added elements need their style set globally.
 
 //Form table
-.form-ashen__table {
+.form-ashen__contentHolder {
   tr {
-    &:hover td .editBtns {
+    display: block;
+    &:hover .editBtns {
       opacity: 1;
       transform: translateX(0);
     }

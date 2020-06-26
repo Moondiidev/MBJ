@@ -645,7 +645,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
     this.skillContent[i].innerHTML =
       `                 
-    <tr>
       <td>${this.skills.data[i].name}</td>
       <td>${this.skills.data[i].experienceLevel}</td>
       <td>
@@ -654,7 +653,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           ${trashCanHTML}
         </div>
       </td>
-    </tr>
     `
   }
   editSkill(id: number) {
@@ -740,7 +738,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   updateEducationDOM(i: number) {
     this.educationContent[i].innerHTML =
       `                 
-  <tr>
     <td>${this.educations.data[i].major}</td>
     <td>${this.educations.data[i].graduationYear}</td>
     <td>

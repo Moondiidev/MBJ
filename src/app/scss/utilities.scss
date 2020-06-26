@@ -26,6 +26,7 @@
 .margin-top-xxs {
   margin-top: 5px;
 }
+
 .margin-top-xs {
   margin-top: 1rem;
 }
@@ -42,6 +43,10 @@
 .margin-left-xs {
   margin-left: 1rem;
 }
+
+.padding-bot-sm {
+  padding-bottom: 2rem;
+} 
 
 .block {
   display: block;
@@ -69,6 +74,7 @@
   display: flex;
   align-items: center;
 }
+
 .flex-spaceBetween {
   display: flex;
   justify-content: space-between;
