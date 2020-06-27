@@ -193,7 +193,7 @@ export class UserProfileComponent implements OnInit {
           this.miniFormsShow[0] = false;
           this.miniFormsEmpty[0] = false;
         }
-        this.populateSkillsTable();
+        this.populateSkillsContent();
       }
     }
     if (this.professionalData.educations !== undefined) {
@@ -225,7 +225,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  populateSkillsTable() {
+  populateSkillsContent() {
     for (let i = 0; i < this.skills.data.length; i++) {
       this.skillContent.push(document.createElement('tr'));
       this.updateSkillDOM(this.skillCounter);

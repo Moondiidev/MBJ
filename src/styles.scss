@@ -76,15 +76,19 @@ textarea {
 
 //Dynamically added elements need their style set globally.
 
-//Form table
 .form-ashen__contentHolder {
   tr {
-    display: block;
     &:hover .editBtns {
       opacity: 1;
       transform: translateX(0);
     }
   }
+}
+//Specific style for user-profile
+.profileInfo_detail__dataDisplayer{
+    tr{
+        display: block;
+    }
 }
 
 .editBtns {

@@ -101,12 +101,6 @@
                       <!-- This must be left visible at start because code is using its reference.
                      If no skills, no data will be displayed and form will not be shown anyway so leaving 
                      it like this is fine -->
-
-                      <div class="skills__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[0]"
-                        #skillsDataDisplayer>
-
-                      </div>
-
                       <div class="form-ashen-wrapper" *ngIf="miniFormsShow[0]">
                         <div class="form-ashen-row">
                           <div class="professionalTextInput-wrapper">
@@ -129,6 +123,10 @@
                         </div>
                       </div>
 
+                      <!-- Skills content is shown here -->
+                      <div class="skills__dataDisplay profileInfo_detail__dataDisplayer form-ashen__contentHolder"
+                        #skillsDataDisplayer>
+                      </div>
                 </div>
               </form>
 
@@ -148,11 +146,6 @@
               <div class="educations">
 
                 <p class="paragraph-lg" *ngIf='!educations'> Боловсролоо нэм нүү <p>
-
-                    <div class="educations__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[1]"
-                      #educationsDataDisplayer>
-
-                    </div>
 
                     <div class="form-ashen-wrapper" *ngIf="miniFormsShow[1]">
                       <div class="form-ashen-row">
@@ -512,6 +505,11 @@
                           [disabled]="!this.educationsForm.valid">Нэмэх</button>
                       </div>
                     </div>
+
+                    <div class="educations__dataDisplay profileInfo_detail__dataDisplayer form-ashen__contentHolder"
+                      #educationsDataDisplayer>
+
+                    </div>
               </div>
             </form>
           </div>
@@ -526,11 +524,6 @@
               <form [formGroup]="certificationsForm">
                 <div class="certifications">
                   <p class="paragraph-lg" *ngIf='!certifications'>Сертификатаа нэм нүү</p>
-
-                  <div class="certifications__dataDisplay form-ashen__contentHolder" *ngIf="!miniFormsShow[2]"
-                    #certificationsDataDisplayer>
-
-                  </div>
 
                   <div class="form-ashen-row" *ngIf="miniFormsShow[2]">
                     <div class="professionalTextInput-wrapper">
@@ -602,6 +595,11 @@
                         class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()"
                         [disabled]="!this.certificationsForm.valid">Нэмэх</button>
                     </div>
+                  </div>
+
+                  <div class="certifications__dataDisplay profileInfo_detail__dataDisplayer form-ashen__contentHolder"
+                    #certificationsDataDisplayer>
+
                   </div>
 
                 </div>
