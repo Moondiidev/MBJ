@@ -104,6 +104,9 @@
     justify-content: space-between;
     margin-bottom: 2rem;
   }
+  &__dataDisplayer{
+    margin-bottom: 2rem;
+  }
 }
 
 
@@ -196,6 +199,7 @@
 
 .dataChangerForm{
   background-color: rgb(235, 235, 235);
+  margin-bottom: 2rem;
   &__textarea{
     width: 100%;
     height: 20rem;
@@ -203,7 +207,10 @@
   &__wrapper{
     padding: 2rem;
   }
-}
-.professionalSkills{
-  margin-bottom: 4rem;
+  &__input{
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
 }

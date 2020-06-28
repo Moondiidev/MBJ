@@ -88,43 +88,45 @@
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large">Чадварууд</p>
-                <a class="emphasis-link--2 paragraph-xl">Нэмэх</a>
+                <a class="emphasis-link--2 paragraph-xl" (click)="showMiniForm(0)">Нэмэх</a>
               </div>
 
 
-              <form [formGroup]="skillsForm" class="form-ashen">
+              <form [formGroup]="skillsForm" class="">
                 <div class="skills">
 
                   <!-- if no certification, this will be shown -->
-                  <p class="paragraph-lg" *ngIf='!skills'>Чадвараа нэм нүү<p>
+                  <p class="paragraph-lg margin-bot-md" *ngIf='!skills'>Чадвараа нэм нүү<p>
 
                       <!-- This must be left visible at start because code is using its reference.
                      If no skills, no data will be displayed and form will not be shown anyway so leaving 
                      it like this is fine -->
-                      <div class="form-ashen-wrapper" *ngIf="miniFormsShow[0]">
-                        <div class="form-ashen-row">
-                          <div class="professionalTextInput-wrapper">
-                            <input type="text" formControlName="skillName" class="professionalTextInput"
-                              placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
+                      <div class="dataChangerForm" *ngIf="miniFormsShow[0]">
+                        <div class="dataChangerForm__wrapper">
+                          <div class="dataChangerForm__inputs">
+                            <div>
+                              <input type="text" formControlName="skillName" class="dataChangerForm__input"
+                                placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
+                            </div>
+                            <select class="dataChangerForm__input" formControlName="skillLevel">
+                              <option value="0" disabled selected hidden>Мэдлэгийн Шат</option>
+                              <option value="Анхан">Анхан</option>
+                              <option value="Дунд">Дунд</option>
+                              <option value="Гүнзгий">Гүнзгий</option>
+                            </select>
                           </div>
-                          <select class="form-ashen__select" formControlName="skillLevel">
-                            <option value="0" disabled selected hidden>Мэдлэгийн Шат</option>
-                            <option value="Анхан">Анхан</option>
-                            <option value="Дунд">Дунд</option>
-                            <option value="Гүнзгий">Гүнзгий</option>
-                          </select>
-                        </div>
-                        <div class="form-ashen-row form-ashen-row--center">
-                          <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                            (click)="removeMiniForm(0)">Болих</button>
-                          <button type="button" *ngIf="!miniFormEditing[0]; else skillEditingHTML"
-                            class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()"
-                            [disabled]="!this.skillsForm.valid">Нэмэх</button>
+                          <div class="profileInfo__editBtns">
+                            <button type="button" class="profileInfo__editBtns__cancel btn"
+                              (click)="removeMiniForm(0)">Болих</button>
+                            <button type="button" *ngIf="!miniFormEditing[0]; else skillEditingHTML"
+                              class="profileInfo__editBtns__update btn btn-green" (click)="addSkill()"
+                              [disabled]="!this.skillsForm.valid">Нэмэх</button>
+                          </div>
                         </div>
                       </div>
 
                       <!-- Skills content is shown here -->
-                      <div class="skills__dataDisplay profileInfo_detail__dataDisplayer form-ashen__contentHolder"
+                      <div class="skills__dataDisplay profileInfo_detail__dataDisplayer form-ashen__showBtns"
                         #skillsDataDisplayer>
                       </div>
                 </div>
@@ -133,7 +135,7 @@
             </div>
           </div>
           <!-- show educations only if education exists because it was a optional input in seller set up component -->
-          <div class="professionalEducations margin-bot-md">
+          <div class="professionalEducations">
 
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
@@ -145,7 +147,7 @@
             <form [formGroup]="educationsForm" class="form-ashen">
               <div class="educations">
 
-                <p class="paragraph-lg" *ngIf='!educations'> Боловсролоо нэм нүү <p>
+                <p class="paragraph-lg margin-bot-md" *ngIf='!educations'> Боловсролоо нэм нүү <p>
 
                     <div class="form-ashen-wrapper" *ngIf="miniFormsShow[1]">
                       <div class="form-ashen-row">
@@ -506,7 +508,7 @@
                       </div>
                     </div>
 
-                    <div class="educations__dataDisplay profileInfo_detail__dataDisplayer form-ashen__contentHolder"
+                    <div class="educations__dataDisplay profileInfo_detail__dataDisplayer form-ashen__showBtns"
                       #educationsDataDisplayer>
 
                     </div>
@@ -514,7 +516,7 @@
             </form>
           </div>
           <!-- show certifications only if education exists because it was a optional input in seller set up component -->
-          <div class="professionalCertifications margin-bot-md">
+          <div class="professionalCertifications">
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
                 <p class="boldText-large">Сертификатнууд</p>
@@ -523,7 +525,7 @@
 
               <form [formGroup]="certificationsForm">
                 <div class="certifications">
-                  <p class="paragraph-lg" *ngIf='!certifications'>Сертификатаа нэм нүү</p>
+                  <p class="paragraph-lg margin-bot-md" *ngIf='!certifications'>Сертификатаа нэм нүү</p>
 
                   <div class="form-ashen-row" *ngIf="miniFormsShow[2]">
                     <div class="professionalTextInput-wrapper">
@@ -597,7 +599,7 @@
                     </div>
                   </div>
 
-                  <div class="certifications__dataDisplay profileInfo_detail__dataDisplayer form-ashen__contentHolder"
+                  <div class="certifications__dataDisplay profileInfo_detail__dataDisplayer form-ashen__showBtns"
                     #certificationsDataDisplayer>
 
                   </div>
@@ -663,13 +665,13 @@
 </div>
 
 <ng-template #skillEditingHTML>
-  <button type="button" class="form-ashen__btn form-ashen__addBtn" (click)="editSkill(skillIndex)">Шинэчлэх</button>
+  <button type="button" class="btn btn-green" (click)="editSkill(skillIndex)">Шинэчлэх</button>
 </ng-template>
 <ng-template #educationEditingHTML>
-  <button type="button" class="form-ashen__btn form-ashen__addBtn"
+  <button type="button" class="btn btn-green"
     (click)="editEducation(educationIndex)">Шинэчлэх</button>
 </ng-template>
 <ng-template #certificationEditingHTML>
-  <button type="button" class="form-ashen__btn form-ashen__addBtn"
+  <button type="button" class="btn btn-green"
     (click)="editCertification(certificationIndex)">Шинэчлэх</button>
 </ng-template>
