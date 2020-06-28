@@ -1,6 +1,6 @@
 import { ElementRef, ViewChild } from '@angular/core';
 import { SellerSetUpService } from './../seller-set-up/seller-set-up.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppManagerService } from './../shared/app-manager.service';
 import { AuthService } from './../auth/auth.service';
 import { signupData } from './../auth/signupData.interface';
@@ -74,6 +74,9 @@ export class UserProfileComponent implements OnInit {
   certificationCounter: number = 0;
   certificationContent = [];
 
+  //This is used to make required validation work on select input
+  selectInputValues: Array<number> = [null,null,null,null,null];
+
   // *********************************************** //
   // *********************************************** //
   // *********************************************** //
@@ -92,20 +95,20 @@ export class UserProfileComponent implements OnInit {
       'inputValue': new FormControl(null)
     })
     this.skillsForm = new FormGroup({
-      'skillName': new FormControl(null),
-      'skillLevel': new FormControl(0)
-    });
+      'skillName': new FormControl(null, Validators.required),
+      'skillLevel': new FormControl(0, Validators.required)
+    })
     this.educationsForm = new FormGroup({
-      'universityName': new FormControl(null),
-      'major': new FormControl(null),
-      'country': new FormControl(0),
-      'title': new FormControl(0),
-      'graduationYear': new FormControl(0)
-    });
+      'universityName': new FormControl(null, Validators.required),
+      'major': new FormControl(null, Validators.required),
+      'country': new FormControl(0, Validators.required),
+      'title': new FormControl(0, Validators.required),
+      'graduationYear': new FormControl(0, Validators.required)
+    })
     this.certificationsForm = new FormGroup({
-      'certificateName': new FormControl(null),
-      'certificateGiver': new FormControl(null),
-      'certificateYear': new FormControl(0)
+      'certificateName': new FormControl(null, Validators.required),
+      'certificateGiver': new FormControl(null, Validators.required),
+      'certificateYear': new FormControl(0, Validators.required)
     })
   }
   getUserData() {
@@ -301,10 +304,8 @@ export class UserProfileComponent implements OnInit {
     if (this.miniFormEditing[i]) {
       this.miniFormEditing[i] = false;
     }
-    if (!this.miniFormsEmpty[i]) {
-      this.miniFormsShow[i] = false;
-      this.resetMiniForm(i);
-    }
+    this.miniFormsShow[i] = false;
+    this.resetMiniForm(i);
   }
   // **********************************************************************//
   // *************************** SKILL MINIFORM ***************************//
@@ -349,7 +350,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.skillContent[i].innerHTML =
-    ` 
+      ` 
     <div class="padding-bot-sm flex-spaceBetween" >
       <div class="profileInfo_detail__skill">
         <p class="paragraph-lg">${this.skills.data[i].name}</p>
@@ -443,7 +444,7 @@ export class UserProfileComponent implements OnInit {
   }
   updateEducationDOM(i: number) {
     this.educationContent[i].innerHTML =
-    `            
+      `            
     <div class="padding-bot-sm flex-spaceBetween ">
       <div class="profileInfo_detail__education">
         <p class="paragraph-lg">${this.educations.data[i].title} - ${this.educations.data[i].major}</p>

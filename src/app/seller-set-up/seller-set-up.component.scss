@@ -2,6 +2,7 @@
 @import '../scss/mixins.scss';
 @import '../scss/checkboxClassWorker.scss';
 @import '../scss/animations.scss';
+@import '../scss//buttons.scss';
 
 $active-color : #1fab89;
 $tick-color : #d7fbe8;
@@ -303,6 +304,7 @@ $border-color: #8a8a8aa6;
     border-radius: 2px;
     cursor: pointer;
 
+  
     &::after {
       content: "";
       position: absolute;
@@ -422,37 +424,6 @@ select {
     padding: 0.5rem 1rem;
   }
 
-  &__btn {
-    font-weight: 500;
-    display: inline-block;
-    padding: 0.7rem 1rem;
-    width: 8rem;
-    border: 1px solid $border-color;
-    border-radius: 2px;
-    cursor: pointer;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);
-    transition: 0.2s;
-  }
-
-  &__addBtn {
-    margin-left: 2rem;
-    background-color: #3ba549;
-    color: white;
-
-    &:hover {
-      background-color: #2cb14d;
-    }
-  }
-
-  &__removeBtn {
-    background-color: #a5423b;
-    color: white;
-
-    &:hover {
-      background-color: #c03530;
-    }
-  }
-
   &__select {
     display: inline-block;
     width: 40%;
@@ -477,7 +448,7 @@ select {
       width: 20%;
     }
 
-    &--certificate {
+    &--degreeType {
       width: 30%;
     }
 
