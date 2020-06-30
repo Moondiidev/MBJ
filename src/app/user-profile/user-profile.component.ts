@@ -52,7 +52,10 @@ export class UserProfileComponent implements OnInit {
   miniFormEditing: Array<boolean> = [false, false, false];
 
 
-  skills: skillsInterface;
+  skills: skillsInterface = {
+    data: [],
+    sorter: []
+  };;
   skillIndex: number = 0;
   skillTracker: number = 0;
   //Each added el will have unique increasing number whenever new el is added
@@ -61,21 +64,27 @@ export class UserProfileComponent implements OnInit {
   skillContent = [];
 
 
-  educations: educationsInterface;
+  educations: educationsInterface = {
+    data: [],
+    sorter: []
+  };;
   educationIndex: number = 0;
   educationTracker: number = 0;
   educationCounter: number = 0;
   educationContent = [];
 
 
-  certifications: certificationsInterface;
+  certifications: certificationsInterface = {
+    data: [],
+    sorter: []
+  };
   certificationIndex: number = 0;
   certificationTracker: number = 0;
   certificationCounter: number = 0;
   certificationContent = [];
 
   //This is used to make required validation work on select input
-  selectInputValues: Array<number> = [null, null, null, null, null];
+  selectInputValues: Array<number> = [null, null, null, null, null, null];
 
   // *********************************************** //
   // *********************************************** //
@@ -196,7 +205,7 @@ export class UserProfileComponent implements OnInit {
           this.miniFormsShow[0] = false;
           this.miniFormsEmpty[0] = false;
         }
-        this.populateSkillsContent();
+        this.populateSkillsDOM();
       }
     }
     if (this.professionalData.educations !== undefined) {
@@ -209,7 +218,7 @@ export class UserProfileComponent implements OnInit {
           this.miniFormsShow[1] = false;
           this.miniFormsEmpty[1] = false;
         }
-        this.populateEducationsTable();
+        this.populateEducationsDOM();
       }
 
     }
@@ -223,12 +232,12 @@ export class UserProfileComponent implements OnInit {
           this.miniFormsShow[2] = false;
           this.miniFormsEmpty[2] = false;
         }
-        this.populateCertificationsTable();
+        this.populateCertificationsDOM();
       }
     }
   }
 
-  populateSkillsContent() {
+  populateSkillsDOM() {
     for (let i = 0; i < this.skills.data.length; i++) {
       this.skillContent.push(document.createElement('tr'));
       this.updateSkillDOM(this.skillCounter);
@@ -244,7 +253,7 @@ export class UserProfileComponent implements OnInit {
       this.skillCounter++;
     }
   }
-  populateEducationsTable() {
+  populateEducationsDOM() {
     for (let i = 0; i < this.educations.data.length; i++) {
       this.educationContent.push(document.createElement('tr'));
       this.updateEducationDOM(this.educationCounter);
@@ -259,7 +268,7 @@ export class UserProfileComponent implements OnInit {
       this.educationCounter++;
     }
   }
-  populateCertificationsTable() {
+  populateCertificationsDOM() {
     for (let i = 0; i < this.certifications.data.length; i++) {
       this.certificationContent.push(document.createElement('tr'));
       this.updateCertificationDOM(this.certificationCounter);
