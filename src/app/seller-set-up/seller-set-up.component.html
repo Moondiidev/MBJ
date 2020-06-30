@@ -230,7 +230,7 @@
                         <input type="text" formControlName="skillName" class="professionalTextInput"
                           placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
                       </div>
-                      <select [(ngModel)]="selectInputValues[0]" class="form-ashen__select"
+                      <select [(ngModel)]="skillLevelSelectInput" class="form-ashen__select"
                         formControlName="skillLevel">
                         <option value="null" disabled selected hidden>Мэдлэгийн Шат</option>
                         <option value="Анхан">Анхан</option>
@@ -272,7 +272,7 @@
                 <div class="educations">
                   <div class="form-ashen-wrapper" *ngIf="miniFormsShow[1]">
                     <div class="form-ashen-row">
-                      <select [(ngModel)]="selectInputValues[1]" class="form-ashen__select" formControlName="country">
+                      <select [(ngModel)]="countrySelectInput" class="form-ashen__select" formControlName="country">
                         <option value="null" disabled selected hidden>Орших Улс</option>
                         <option value="af">Afghanistan</option>
                         <option value="ax">Åland Islands</option>
@@ -540,7 +540,7 @@
                       </div>
                     </div>
                     <div class="form-ashen-row">
-                      <select [(ngModel)]="selectInputValues[2]"
+                      <select [(ngModel)]="titleSelectInput"
                         class="form-ashen__select form-ashen__select--degreeType" formControlName="title">
                         <option value="null" disabled selected hidden>Цол</option>
                         <option value="associate">Associate</option>
@@ -565,7 +565,7 @@
                         <input type="text" formControlName="major" class="professionalTextInput"
                           placeholder="Үндсэн Мэргэжил">
                       </div>
-                      <select [(ngModel)]="selectInputValues[3]" class="form-ashen__select form-ashen__select--gradYear"
+                      <select [(ngModel)]="graduationYearSelectInput" class="form-ashen__select form-ashen__select--gradYear"
                         formControlName="graduationYear">
                         <option value="null" disabled selected hidden>Төгссөн Жил</option>
                         <option value="2020">2020</option>
@@ -663,7 +663,7 @@
                         <input type="text" formControlName="certificateGiver"
                           class="professionalTextInput certification__giver" placeholder="Баталгаажуулсан Газар">
                       </div>
-                      <select [(ngModel)]="selectInputValues[4]" class="form-ashen__select form-ashen__select--year"
+                      <select [(ngModel)]="certificateYearSelectInput" class="form-ashen__select form-ashen__select--year"
                         formControlName="certificateYear">
                         <option value="null" disabled selected hidden>Жил</option>
                         <option value="2020">2020</option>

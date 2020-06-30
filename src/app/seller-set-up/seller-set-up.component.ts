@@ -447,9 +447,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   certificationCounter: number = 0;
   certificationContent = [];
 
-  //This is used to make required validation work on select input
-  selectInputValues: Array<number> = [null, null, null, null, null];
-
+  //These used to make select inputs dynamic
+  skillLevelSelectInput = null;
+  countrySelectInput = null;
+  titleSelectInput = null;
+  graduationYearSelectInput = null;
+  certificateYearSelectInput = null;
 
   // *********************************************** //
   // *********************************************** //
@@ -601,9 +604,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.miniFormsShow[i] = false;
     this.resetMiniForm(i);
     //select input are reset to get back their placeholders
-    this.selectInputValues.forEach((el,i) => {
-      this.selectInputValues[i] = null;
-    })
+    this.resetSelectInputs();
+  }
+  resetSelectInputs(){
+    this.skillLevelSelectInput = null;
+    this.countrySelectInput = null;
+    this.titleSelectInput = null;
+    this.graduationYearSelectInput = null;
+    this.certificateYearSelectInput = null;
   }
   // **********************************************************************//
   // *************************** SKILL MINIFORM ***************************//
@@ -693,7 +701,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   showSkillEditorForm(id: number) {
     this.skillsForm.get('skillName').setValue(this.skills.data[id].name);
-    this.skillsForm.get('skillLevel').setValue(this.skills.data[id].experienceLevel);
+    this.skillLevelSelectInput = this.skills.data[id].experienceLevel;
     this.miniFormEditing[0] = true;
     this.showMiniForm(0);
   }
@@ -789,9 +797,9 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   showEducationEditorForm(id: number) {
     this.educationsForm.get('universityName').setValue(this.educations.data[id].universityName);
     this.educationsForm.get('major').setValue(this.educations.data[id].major);
-    this.educationsForm.get('country').setValue(this.educations.data[id].country);
-    this.educationsForm.get('title').setValue(this.educations.data[id].title);
-    this.educationsForm.get('graduationYear').setValue(this.educations.data[id].graduationYear);
+    this.countrySelectInput = this.educations.data[id].country;
+    this.titleSelectInput = this.educations.data[id].title;
+    this.graduationYearSelectInput = this.educations.data[id].graduationYear;
     this.miniFormEditing[1] = true;
     this.showMiniForm(1);
   }
@@ -886,7 +894,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   showCertificationEditorForm(id: number) {
     this.certificationsForm.get('certificateName').setValue(this.certifications.data[id].name);
     this.certificationsForm.get('certificateGiver').setValue(this.certifications.data[id].giver);
-    this.certificationsForm.get('certificateYear').setValue(this.certifications.data[id].year);
+    this.certificateYearSelectInput = this.certifications.data[id].year;
     this.miniFormEditing[2] = true;
     this.showMiniForm(2);
   }
