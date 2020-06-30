@@ -317,7 +317,7 @@ export class UserProfileComponent implements OnInit {
     this.resetMiniForm(i);
 
     //select input are reset to get back their placeholders
-    this.selectInputValues.forEach((el,i) => {
+    this.selectInputValues.forEach((el, i) => {
       this.selectInputValues[i] = null;
     })
   }
@@ -566,6 +566,10 @@ export class UserProfileComponent implements OnInit {
       <div class="profileInfo_detail__certification">
         <p class="paragraph-lg">${this.certifications.data[i].name}</p>
         <p class="paragraph-lg greyText margin-top-xxs">${this.certifications.data[i].giver} ${this.certifications.data[i].year}</p>
+      </div>
+      <div class="editBtns">
+        <button type="button" class="edit" id="editCertification${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="deleteCertification${i}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
       </div>
     </div>
   `;
