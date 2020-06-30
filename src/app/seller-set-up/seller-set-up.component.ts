@@ -448,7 +448,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   certificationContent = [];
 
   //This is used to make required validation work on select input
-  selectInputValues: Array<number> = [null,null,null,null,null];
+  selectInputValues: Array<number> = [null, null, null, null, null];
 
 
   // *********************************************** //
@@ -598,10 +598,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     if (this.miniFormEditing[i]) {
       this.miniFormEditing[i] = false;
     }
-      this.miniFormsShow[i] = false;
-      this.resetMiniForm(i);
-      //select input are reset to get back their placeholders
-      this.selectInputValues = [null,null,null,null];
+    this.miniFormsShow[i] = false;
+    this.resetMiniForm(i);
+    //select input are reset to get back their placeholders
+    this.selectInputValues.forEach((el,i) => {
+      this.selectInputValues[i] = null;
+    })
   }
   // **********************************************************************//
   // *************************** SKILL MINIFORM ***************************//
@@ -810,7 +812,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
     this.saveProfessionalData();
   }
- 
+
   // *************************************************************************//
   // ************************ CERTIFICATION MINIFORM *************************//
   // *************************************************************************//

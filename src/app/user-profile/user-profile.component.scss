@@ -86,6 +86,7 @@
   &__details {
     margin-top: 2rem;
   }
+
   &__editBtns {
     margin-top: 1rem;
     display: flex;
@@ -104,7 +105,8 @@
     justify-content: space-between;
     margin-bottom: 2rem;
   }
-  &__dataDisplayer{
+
+  &__dataDisplayer {
     margin-bottom: 2rem;
   }
 }
@@ -197,20 +199,38 @@
   font-size: 1.3rem;
 }
 
-.dataChangerForm{
+.dataChangerForm {
   background-color: rgb(235, 235, 235);
   margin-bottom: 2rem;
-  &__textarea{
+
+  &__textarea {
     width: 100%;
     height: 20rem;
   }
-  &__wrapper{
+
+  &__wrapper {
     padding: 2rem;
   }
-  &__input{
-    width: 100%;
+
+  &__input {
     padding: 1rem;
     font-size: 1.4rem;
+  }
+
+  &__oneInput,
+  &__twoInputs {
+    width: 100%;
     margin-bottom: 1rem;
+  }
+
+  &__twoInputs {
+    display: flex;
+
+    &__input {
+      &__large {
+        width: 100%;
+        margin-left: 1rem;
+      }
+    }
   }
 }

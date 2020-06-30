@@ -75,7 +75,7 @@ export class UserProfileComponent implements OnInit {
   certificationContent = [];
 
   //This is used to make required validation work on select input
-  selectInputValues: Array<number> = [null,null,null,null,null];
+  selectInputValues: Array<number> = [null, null, null, null, null];
 
   // *********************************************** //
   // *********************************************** //
@@ -306,6 +306,11 @@ export class UserProfileComponent implements OnInit {
     }
     this.miniFormsShow[i] = false;
     this.resetMiniForm(i);
+
+    //select input are reset to get back their placeholders
+    this.selectInputValues.forEach((el,i) => {
+      this.selectInputValues[i] = null;
+    })
   }
   // **********************************************************************//
   // *************************** SKILL MINIFORM ***************************//

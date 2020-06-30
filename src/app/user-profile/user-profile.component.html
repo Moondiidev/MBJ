@@ -104,11 +104,10 @@
                       <div class="dataChangerForm" *ngIf="miniFormsShow[0]">
                         <div class="dataChangerForm__wrapper">
                           <div class="dataChangerForm__inputs">
-                            <div>
-                              <input type="text" formControlName="skillName" class="dataChangerForm__input"
-                                placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
-                            </div>
-                            <select [(ngModel)]="selectInputValues[0]" class="dataChangerForm__input" formControlName="skillLevel">
+                            <input type="text" formControlName="skillName" class="dataChangerForm__oneInput dataChangerForm__input"
+                              placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
+                            <select [(ngModel)]="selectInputValues[0]" class="dataChangerForm__oneInput dataChangerForm__input"
+                              formControlName="skillLevel">
                               <option value="null" disabled selected hidden>Мэдлэгийн Шат</option>
                               <option value="Анхан">Анхан</option>
                               <option value="Дунд">Дунд</option>
@@ -152,7 +151,8 @@
                     <div class="dataChangerForm" *ngIf="miniFormsShow[1]">
                       <div class="dataChangerForm__wrapper">
                         <div class="dataChangerForm__inputs">
-                          <select [(ngModel)]="selectInputValues[1]" class="dataChangerForm__input" formControlName="country">
+                          <select [(ngModel)]="selectInputValues[1]" class="dataChangerForm__oneInput dataChangerForm__input"
+                            formControlName="country">
                             <option value="null" disabled selected hidden>Орших Улс</option>
                             <option value="af">Afghanistan</option>
                             <option value="ax">Åland Islands</option>
@@ -414,10 +414,11 @@
                             <option value="zm">Zambia</option>
                             <option value="zw">Zimbabwe</option>
                           </select>
-                          <input type="text" formControlName="universityName" class="dataChangerForm__input"
+                          <input type="text" formControlName="universityName" class="dataChangerForm__oneInput dataChangerForm__input"
                             placeholder="Их Сургуулийн Нэр">
                           <div class="dataChangerForm__twoInputs">
-                            <select [(ngModel)]="selectInputValues[2]" formControlName="title" class="dataChangerForm__twoInputs__input">
+                            <select [(ngModel)]="selectInputValues[2]" formControlName="title"
+                              class="dataChangerForm__twoInputs__input dataChangerForm__input dataChangerForm__twoInputs__input__small">
                               <option value="null" disabled selected hidden>Цол</option>
                               <option value="associate">Associate</option>
                               <option value="ba">B.A.</option>
@@ -438,9 +439,10 @@
                               <option value="other">Other</option>
                             </select>
                             <input type="text" formControlName="major" placeholder="Үндсэн Мэргэжил"
-                              class="dataChangerForm__twoInputs__input">
+                              class="dataChangerForm__twoInputs__input dataChangerForm__input dataChangerForm__twoInputs__input__large">
                           </div>
-                          <select [(ngModel)]="selectInputValues[3]" class="dataChangerForm__input" formControlName="graduationYear">
+                          <select [(ngModel)]="selectInputValues[3]" class="dataChangerForm__oneInput dataChangerForm__input"
+                            formControlName="graduationYear">
                             <option value="null" disabled selected hidden>Төгссөн Жил</option>
                             <option value="2020">2020</option>
                             <option value="2019">2019</option>
@@ -662,11 +664,14 @@
 </div>
 
 <ng-template #skillEditingHTML>
-  <button type="button" class="btn btn-green" (click)="editSkill(skillIndex)" [disabled]="!this.skillsForm.valid">Шинэчлэх</button>
+  <button type="button" class="btn btn-green" (click)="editSkill(skillIndex)"
+    [disabled]="!this.skillsForm.valid">Шинэчлэх</button>
 </ng-template>
 <ng-template #educationEditingHTML>
-  <button type="button" class="btn btn-green" (click)="editEducation(educationIndex)" [disabled]="!this.educationsForm.valid">Шинэчлэх</button>
+  <button type="button" class="btn btn-green" (click)="editEducation(educationIndex)"
+    [disabled]="!this.educationsForm.valid">Шинэчлэх</button>
 </ng-template>
 <ng-template #certificationEditingHTML>
-  <button type="button" class="btn btn-green" (click)="editCertification(certificationIndex)" [disabled]="!this.certificationsForm.valid">Шинэчлэх</button>
+  <button type="button" class="btn btn-green" (click)="editCertification(certificationIndex)"
+    [disabled]="!this.certificationsForm.valid">Шинэчлэх</button>
 </ng-template>
