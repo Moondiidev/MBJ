@@ -107,7 +107,7 @@
                             <input type="text" formControlName="skillName"
                               class="dataChangerForm__oneInput dataChangerForm__input"
                               placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
-                            <select [(ngModel)]="selectInputValues[0]"
+                            <select [(ngModel)]="skillLevelSelectInput"
                               class="dataChangerForm__oneInput dataChangerForm__input" formControlName="skillLevel">
                               <option value="null" disabled selected hidden>Мэдлэгийн Шат</option>
                               <option value="Анхан">Анхан</option>
@@ -152,7 +152,7 @@
                     <div class="dataChangerForm" *ngIf="miniFormsShow[1]">
                       <div class="dataChangerForm__wrapper">
                         <div class="dataChangerForm__inputs">
-                          <select [(ngModel)]="selectInputValues[1]"
+                          <select [(ngModel)]="countrySelectInput"
                             class="dataChangerForm__oneInput dataChangerForm__input" formControlName="country">
                             <option value="null" disabled selected hidden>Орших Улс</option>
                             <option value="af">Afghanistan</option>
@@ -418,7 +418,7 @@
                           <input type="text" formControlName="universityName"
                             class="dataChangerForm__oneInput dataChangerForm__input" placeholder="Их Сургуулийн Нэр">
                           <div class="dataChangerForm__twoInputs">
-                            <select [(ngModel)]="selectInputValues[2]" formControlName="title"
+                            <select [(ngModel)]="titleSelectInput" formControlName="title"
                               class="dataChangerForm__twoInputs__input dataChangerForm__input dataChangerForm__twoInputs__input__small">
                               <option value="null" disabled selected hidden>Цол</option>
                               <option value="associate">Associate</option>
@@ -442,7 +442,7 @@
                             <input type="text" formControlName="major" placeholder="Үндсэн Мэргэжил"
                               class="dataChangerForm__twoInputs__input dataChangerForm__input dataChangerForm__twoInputs__input__large">
                           </div>
-                          <select [(ngModel)]="selectInputValues[3]"
+                          <select [(ngModel)]="graduationYearSelectInput"
                             class="dataChangerForm__oneInput dataChangerForm__input" formControlName="graduationYear">
                             <option value="null" disabled selected hidden>Төгссөн Жил</option>
                             <option value="2020">2020</option>
@@ -534,7 +534,7 @@
                           class="dataChangerForm__oneInput dataChangerForm__input" placeholder="Сертификатны Нэр">
                         <input type="text" formControlName="certificateGiver"
                           class="dataChangerForm__oneInput dataChangerForm__input" placeholder="Баталгаажуулсан Газар">
-                        <select [(ngModel)]="selectInputValues[4]" class="dataChangerForm__oneInput dataChangerForm__input"
+                        <select [(ngModel)]="certificateYearSelectInput" class="dataChangerForm__oneInput dataChangerForm__input"
                           formControlName="certificateYear">
                           <option value="null" disabled selected hidden>Жил</option>
                           <option value="2020">2020</option>
