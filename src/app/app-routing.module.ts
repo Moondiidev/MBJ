@@ -7,7 +7,8 @@ const appRoutes: Routes = [
   {path: 'main', loadChildren: () => import('./main/main.module').then(m => m.MainModule)},
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
   {path: 'seller-set-up', loadChildren: () => import('./seller-set-up/seller-set-up.module').then(m => m.SellerModule)},
-  {path: 'user-profile', loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule)}
+  {path: 'user-profile', loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule)},
+  {path: 'gig-creation', loadChildren: () => import('./gig-creation/gig-creation.module').then(m => m.GigCreationModule)}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes,{preloadingStrategy: PreloadAllModules})],

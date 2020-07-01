@@ -11,10 +11,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from "angularfire2/storage";
 import { AngularFireAuthModule } from "angularfire2/auth";
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     AngularFireModule.initializeApp({
