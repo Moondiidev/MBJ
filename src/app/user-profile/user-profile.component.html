@@ -534,8 +534,8 @@
                           class="dataChangerForm__oneInput dataChangerForm__input" placeholder="Сертификатны Нэр">
                         <input type="text" formControlName="certificateGiver"
                           class="dataChangerForm__oneInput dataChangerForm__input" placeholder="Баталгаажуулсан Газар">
-                        <select [(ngModel)]="certificateYearSelectInput" class="dataChangerForm__oneInput dataChangerForm__input"
-                          formControlName="certificateYear">
+                        <select [(ngModel)]="certificateYearSelectInput"
+                          class="dataChangerForm__oneInput dataChangerForm__input" formControlName="certificateYear">
                           <option value="null" disabled selected hidden>Жил</option>
                           <option value="2020">2020</option>
                           <option value="2019">2019</option>
@@ -590,7 +590,8 @@
                           <option value="1970">1970</option>
                         </select>
                         <div class="profileInfo__editBtns">
-                          <button type="button" class="btn profileInfo__editBtns__cancel" (click)="removeMiniForm(2)">Болих</button>
+                          <button type="button" class="btn profileInfo__editBtns__cancel"
+                            (click)="removeMiniForm(2)">Болих</button>
                           <button *ngIf="!miniFormEditing[2]; else certificationEditingHTML" type="button"
                             class="btn btn-green profileInfo__editBtns__update" (click)="addCertification()"
                             [disabled]="!this.certificationsForm.valid">Нэмэх</button>
@@ -619,7 +620,7 @@
       <div class="profileWork__info profileWrapper">
         <h2 class="heading-tertiary">Худалдаалж буй Гигүүд</h2>
         <div class="profileWork__closed">
-          <h2 class="profileWork__closed__text" >Харуулах гиг байхгүй байна</h2>
+          <h2 class="profileWork__closed__text">Харуулах гиг байхгүй байна</h2>
           <div class="profileWork__closed__img"></div>
         </div>
         <button type="button" class="profileWork__createGig btn btn-green btn--largeText">Гиг Зохиох</button>
@@ -676,3 +677,5 @@
   <button type="button" class="btn btn-green" (click)="editCertification(certificationIndex)"
     [disabled]="!this.certificationsForm.valid">Шинэчлэх</button>
 </ng-template>
+
+<app-footer></app-footer>
