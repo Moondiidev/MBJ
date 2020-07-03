@@ -42,6 +42,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         let url = this.router.url;
+        this.profileImgSub = this.sellerService.getProfileImg().subscribe(url => {
+          if (url != null || url != undefined) {
+            this.profileImgUrl = url;
+          }
+        })
         if (this.isAuthenticated) {
           if (url === '/main') {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.authenticated);
@@ -50,11 +55,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
         } else if (this.isSellerMode) {
           if (url === '/main') {
-            this.profileImgSub = this.sellerService.getProfileImg().subscribe(url => {
-              if (url != null || url != undefined) {
-                this.profileImgUrl = url;
-              }
-            })
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.sellerMain);
           }
         } else {

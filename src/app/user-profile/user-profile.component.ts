@@ -12,6 +12,8 @@ import { UserReviewModel } from './userReview.model';
 import { educationsInterface } from '../seller-set-up/educations.interface';
 import { certificationsInterface } from '../seller-set-up/certifications.interface';
 import { skillsInterface } from '../seller-set-up/skills.interface';
+import { AngularFireStorage } from 'angularfire2/storage';
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -37,6 +39,7 @@ export class UserProfileComponent implements OnInit {
   editingInput: Array<boolean> = [false, false];
 
   reviews: Array<UserReviewModel> = [{ name: 'allah ala tunji', rating: 2, review: 'It was great experience. Great communication. Thank you :)', date: '9 sariin omno' }];
+  personalData: PersonalModel;
   professionalData: ProfessionalModel;
 
   // *********************************************** //
@@ -95,7 +98,15 @@ export class UserProfileComponent implements OnInit {
   // *********************************************** //
   // *********************************************** //
 
-  constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService, private renderer: Renderer2) { }
+  selectedImage = null;
+  profileImgUrl = null;
+  ref;
+  task;
+  uploadProgress;
+  progressValue: number;
+  hideProgress: boolean = true;
+
+  constructor(private sellerService: SellerSetUpService, private authService: AuthService, private appManagerService: AppManagerService, private renderer: Renderer2, private afStorage: AngularFireStorage) { }
 
   ngOnInit(): void {
     this.userNameSub = this.appManagerService.userName.subscribe(name => {
@@ -129,7 +140,8 @@ export class UserProfileComponent implements OnInit {
     this.personalDataSub = this.sellerService.fetchPersonalInfo().subscribe((data: PersonalModel) => {
       console.log(data);
       if (data != null) {
-        this.editableInputValue[1] = data.personalDescription;
+        this.personalData = data;
+        this.editableInputValue[1] = this.personalData.personalDescription;
       }
     })
     //Get professional data from firebase database
@@ -168,6 +180,35 @@ export class UserProfileComponent implements OnInit {
   onUpdateInput(i: number) {
     this.editingInput[i] = false;
     this.editableInputValue[i] = this.editableInputForm[i].get('inputValue').value;
+    this.savePersonalData();
+  }
+
+  onFileSelected(event) {
+    this.selectedImage = event.target.files[0];
+    //Call these only when new file is selected and not when user cancels file upload.
+    if (this.selectedImage !== undefined) {
+      //Show progress bar
+      this.hideProgress = false;
+
+      //FIREBASE UPLOAD
+      this.ref = this.afStorage.ref(`${this.sellerService.folderName}/${this.appManagerService.userName.value}`);
+      this.task = this.ref.put(this.selectedImage);
+      this.uploadProgress = this.task.percentageChanges();
+      this.uploadProgress.subscribe(progress => {
+        this.progressValue = progress;
+        if (this.progressValue === 100) {
+          //Hide progress
+          this.hideProgress = true;
+          //CHANGE PROFILE IMAGE PREVIEW
+          const reader = new FileReader();
+          reader.readAsDataURL(this.selectedImage);
+          reader.onload = (event => {
+            this.profileImgUrl = event.target.result;
+            this.saveProfessionalData();
+          })
+        }
+      })
+    }
   }
 
   // ***************************************************************************** //
@@ -186,6 +227,9 @@ export class UserProfileComponent implements OnInit {
 
   saveProfessionalData() {
     this.sellerService.saveProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
+  }
+  savePersonalData() {
+    this.sellerService.savePersonalInfo(this.personalData.firstname, this.personalData.lastname, this.editableInputValue[1]);
   }
   useProfessionalData() {
     if (this.professionalData.profession !== undefined) {

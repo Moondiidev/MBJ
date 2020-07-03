@@ -3,7 +3,15 @@
     <div class="profileInfo profileWrapper">
       <div class="profileInfo__overview">
         <div class="profileInfo__overview__preview">
-          <img src="../../assets/img/Gigs/P-01.jpg" alt="" class="profileInfo__overview__profileImage">
+          <div class="imgDropbox">
+            <img *ngIf="profileImgUrl !== null; else imagePlaceholder" [src]="profileImgUrl" alt="" class="profileInfo__overview__profileImage imgDropbox__img ">
+            <div class="imgDropbox__dropbox" (click)="dropbox.click();">
+              <input #dropbox accept="image/x-png,image/jpeg,image/jpg" type="file"
+                class="imgDropbox__dropbox__input" (change)="onFileSelected($event)">
+            </div>
+            <progress [ngStyle]="{'display': hideProgress ? 'none' : 'block'}" class="imgDropbox__progress"
+              max="100" [value]="(uploadProgress | async)"></progress>
+          </div>
           <div class="profileInfo__overview__preview__parts">
             <p class="boldText-xl">{{userSignupData.userName}}</p>
             <div class="flex-verticalCentered">
@@ -676,6 +684,11 @@
 <ng-template #certificationEditingHTML>
   <button type="button" class="btn btn-green" (click)="editCertification(certificationIndex)"
     [disabled]="!this.certificationsForm.valid">Шинэчлэх</button>
+</ng-template>
+<ng-template #imagePlaceholder>
+  <div class="imgDropbox__placeholder">
+    <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+  </div>
 </ng-template>
 
 <app-footer></app-footer>

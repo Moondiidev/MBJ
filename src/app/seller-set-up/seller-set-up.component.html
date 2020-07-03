@@ -39,7 +39,7 @@
             </div>
             <div class="inputs__right">
               <div class="imgDropbox">
-                <img *ngIf="url !== null; else imagePlaceholder" [src]="url" alt="" class="imgDropbox__img">
+                <img *ngIf="profileImgUrl !== null; else imagePlaceholder" [src]="profileImgUrl" alt="" class="imgDropbox__img">
                 <div class="imgDropbox__dropbox" (click)="dropbox.click();">
                   <input #dropbox accept="image/x-png,image/jpeg,image/jpg" type="file"
                     class="imgDropbox__dropbox__input" (change)="onFileSelected($event)">

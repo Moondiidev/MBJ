@@ -120,7 +120,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         }))
         .subscribe(([imgURL, data]: [string, PersonalModel]) => {
           //Get profile img
-          this.url = imgURL;
+          this.profileImgUrl = imgURL;
           //Get form data
           console.log(data);
           if (data != null || data != undefined) {
@@ -155,7 +155,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   checkFirstFormValidation() {
     // Seller-set-up header navigation only allows navigation when form is valid
-    if (this.personalForm.status === "VALID" && this.url !== null) {
+    if (this.personalForm.status === "VALID" && this.profileImgUrl !== null) {
       this.sellerService.personalFormValid.next(true);
     } else {
       this.sellerService.personalFormValid.next(false);
@@ -177,13 +177,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   // ************************************ PERSONAL FORM *********************************** //
   // ****************************************************************************************** //
   selectedImage = null;
-  url = null;
-  personalForm: FormGroup;
+  profileImgUrl = null;
   ref;
   task;
   uploadProgress;
   progressValue: number;
   hideProgress: boolean = true;
+  personalForm: FormGroup;
   personalData: PersonalModel;
   personalDataSub: Subscription;
   personalNavOnce: boolean = true;
@@ -349,7 +349,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           const reader = new FileReader();
           reader.readAsDataURL(this.selectedImage);
           reader.onload = (event => {
-            this.url = event.target.result;
+            this.profileImgUrl = event.target.result;
             //Changing profile img is also considered as changing form so validity is checked
             this.checkFirstFormValidation();
             this.savePersonalData();
