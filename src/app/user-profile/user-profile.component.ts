@@ -31,6 +31,7 @@ export class UserProfileComponent implements OnInit {
   userLastDeliveryTime: string = '';
   userResponseTime: string = '';
   personalDataSub: Subscription;
+  personalProfileImgDataSub: Subscription;
   professionalDataSub: Subscription;
   userNameSub: Subscription;
   privateMode: boolean = true;
@@ -144,6 +145,7 @@ export class UserProfileComponent implements OnInit {
         this.editableInputValue[1] = this.personalData.personalDescription;
       }
     })
+    this.getProfileImage();
     //Get professional data from firebase database
     this.professionalDataSub = this.sellerService.fetchProfessionalInfo().subscribe((data: ProfessionalModel) => {
       console.log(data);
@@ -160,8 +162,16 @@ export class UserProfileComponent implements OnInit {
     })
 
   }
+  getProfileImage() {
+    this.personalProfileImgDataSub = this.sellerService.getProfileImg().subscribe(imgUrl=>{
+      this.profileImgUrl = imgUrl;
+    })    
+  }
   ngOnDestroy(): void {
     this.userNameSub.unsubscribe();
+    this.personalProfileImgDataSub.unsubscribe();
+    this.personalDataSub.unsubscribe();
+    this.professionalDataSub.unsubscribe();
   }
 
   //ngClass uses currentChoice var to decide which el should have active class added. 
