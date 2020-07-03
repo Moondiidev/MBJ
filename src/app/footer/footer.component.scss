@@ -4,11 +4,9 @@ $font-footerColorPrimary: #eeeeee;
 $font-footerColorSecondary: #778DA9;
 
 .footer-container {
-  padding-top: 32px;
+  background-color: rgb(32, 35, 43);
 }
-.footer-wrapper{
-    background-color: rgb(32, 35, 43);
-}
+
 .footer {
   display: flex;
   width: 100%;

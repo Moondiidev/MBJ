@@ -219,6 +219,7 @@ input.ng-valid+.search-button {
 }
 
 .ddOpen {
+  z-index: 10000;
   opacity: 1;
   transform: scale(1);
 }
