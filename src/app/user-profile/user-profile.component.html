@@ -3,8 +3,8 @@
     <div class="profileInfo profileWrapper">
       <div class="profileInfo__overview">
         <div class="profileInfo__overview__preview">
-          <div class="imgDropbox">
-            <img *ngIf="profileImgUrl !== null; else imagePlaceholder" [src]="profileImgUrl" alt="" class="profileInfo__overview__profileImage imgDropbox__img ">
+          <div class="imgDropbox imgDropbox--sm margin-right-sm">
+            <img *ngIf="profileImgUrl !== null; else imagePlaceholder" [src]="profileImgUrl" alt="" class="imgDropbox__img">
             <div class="imgDropbox__dropbox" (click)="dropbox.click();">
               <input #dropbox accept="image/x-png,image/jpeg,image/jpg" type="file"
                 class="imgDropbox__dropbox__input" (change)="onFileSelected($event)">

@@ -1,45 +1,53 @@
 .imgDropbox {
-    position: relative;
-  
-    &__img,
-    &__placeholder {
-      margin: 0 auto;
-      display: block;
-      height: 15rem;
-      width: 15rem;
-      border-radius: 50%;
-      border: 2px solid rgba(102, 102, 102, 0.4);
-      background-color: rgb(238, 238, 238);
+  position: relative;
+
+  &__img,
+  &__placeholder {
+    margin: 0 auto;
+    display: block;
+    height: 15rem;
+    width: 15rem;
+    border-radius: 50%;
+    border: 2px solid rgba(102, 102, 102, 0.4);
+    background-color: rgb(238, 238, 238);
+  }
+
+  &__imgPlaceholder {
+    width: 50%;
+    height: 50%;
+    @include absCenter;
+  }
+
+  &__dropbox {
+    @include absCenter;
+    height: 15rem;
+    width: 15rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &__input {
+      display: none;
+      visibility: hidden;
     }
-  
-    &__imgPlaceholder {
-      width: 50%;
-      height: 50%;
-      @include absCenter;
-    }
-  
-    &__dropbox {
-      @include absCenter;
-      height: 15rem;
-      width: 15rem;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: 0.2s;
-  
-      &__input {
-        display: none;
-        visibility: hidden;
-      }
-  
-      &:hover {
-        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.5);
-      }
-    }
-  
-    &__progress {
-      @include absCenter;
-      width: 10rem;
-      background-color: green($color: #000000);
-      z-index: 1000;
+
+    &:hover {
+      box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.5);
     }
   }
+
+  &__progress {
+    @include absCenter;
+    width: 10rem;
+    background-color: green($color: #000000);
+    z-index: 1000;
+  }
+}
+.imgDropbox--sm{
+    .imgDropbox__img,
+    .imgDropbox__placeholder,
+    .imgDropbox__dropbox {
+        height: 13rem !important;
+        width: 13rem !important;  
+    }
+}

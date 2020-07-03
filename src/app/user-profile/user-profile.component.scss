@@ -43,14 +43,6 @@
         justify-content: space-between;
       }
     }
-
-    &__profileImage {
-      width: 13rem;
-      height: 13rem;
-      border-radius: 50%;
-      margin-right: 2rem;
-    }
-
     &__preview {
       display: flex;
       justify-content: flex-start;
@@ -163,6 +155,8 @@
       margin: 2rem 0;
 
       &__profileImg {
+        width: 3rem;
+        height: 3rem;
         margin-right: 2rem;
       }
 
