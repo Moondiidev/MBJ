@@ -12,10 +12,10 @@
         </form>
       </div>
       <div class="header header__right">
-        <a class="nav-text" routerLink='/seller-set-up/personal'>Худалдагч Болох</a>
         <a class="nav-text">Мессеж</a>
         <a class="nav-text">Хадгалсан Гиг-үүд</a>
         <a class="nav-text">Захиалгууд</a>
+        <a class="nav-text" (click)="switchLogInMode()">{{logInModeName}}</a>
         <div>
           <button type ="button" class="profileBtn" (click) = "profileDropdown.click()">
             <img [src]="profileImgUrl" alt="" class="profileBtn__img">
