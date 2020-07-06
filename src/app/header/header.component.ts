@@ -83,7 +83,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   logout() {
     this.authService.logout();
-    this.appManagerService.switchToVisitorMode();
   }
   switchLogInMode() {
     if (!this.hasSellerAccount) {

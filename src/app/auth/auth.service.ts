@@ -52,6 +52,7 @@ export class AuthService {
         return throwError(errorMessage);
     }
     private handleAuthentication(email: string, token: string, userId: string, expiresIn: number) {
+        this.appManagerService.switchToBuyerMode();
         const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
         const user = new User(email, userId, token, expirationDate);
         this.user.next(user);
@@ -74,6 +75,7 @@ export class AuthService {
                 }));
     }
     logout() {
+        this.appManagerService.switchToVisitorMode();
         this.user.next(null);
         this.router.navigate(['']);
         localStorage.removeItem('userData');
