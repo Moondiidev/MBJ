@@ -17,17 +17,20 @@ export class AppComponent implements OnInit {
     this.savedUserName = localStorage.getItem('userName');
     this.appManagerService.userName.next(this.savedUserName);
     console.log(this.appManagerService.userName);
+
+    //Gets email and password of the user
+    this.emailAndPasswordSub = this.authService.getEmailAndPass(this.savedUserName).subscribe(data => {
+      console.log(data);
+      this.authService.currentUserEmail = data.email;
+      this.authService.currentUserPass = data.password;
+    })
+
     //This component loads first so do auto login here
     this.authService.rememberer();
     if (this.authService.rememberUser) {
       this.authService.autoLogin();
     }
 
-    this.emailAndPasswordSub = this.authService.getEmailAndPass(this.savedUserName).subscribe(data => {
-      console.log(data);
-      this.authService.currentUserEmail = data.email;
-      this.authService.currentUserPass = data.password;
-    })
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

@@ -34,15 +34,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe(user => {
       this.isBuyerMode = !!user;
       if (this.isBuyerMode) {
-        this.currentState = this.appManagerService.headerStates.buyerMain;
+        this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.buyerMain);
         this.userNameSub = this.appManagerService.userName.subscribe(name => {
           this.userName = name;
         });
       } else {
-        this.currentState = this.appManagerService.headerStates.main;
+        this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.main);
       }
     })
     this.logInStateSub = this.appManagerService.logInStateSub.subscribe(state => {
+      alert(state);
       this.logInMode = state;
     })
     //Whenever url changes, check it and change the headerState
@@ -55,13 +56,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.profileImgUrl = url;
           }
         })
-        if (this.logInMode === 'buyerMode') {
+        if (this.logInMode === this.appManagerService.logInStates.buyerMode) {
           if (url === '/main') {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.buyerMain);
           } else if (url.includes('/seller-set-up')) {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.onlyLogo);
           }
-        } else if (this.logInMode === 'sellerMode') {
+        } else if (this.logInMode === this.appManagerService.logInStates.sellerMode) {
           if (url === '/main') {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.sellerMain);
           }
