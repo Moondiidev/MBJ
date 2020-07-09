@@ -13,7 +13,7 @@ import { filter } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   currentState: string = "main";
-  isBuyerMode: boolean = false;
+  isAuthenticated: boolean = false;
   isSellerMode: boolean = false;
   profileImgUrl: string = "../../assets/img/profilePlaceholder.svg";
   userName: string;
@@ -32,8 +32,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //If user exists, authenticated
     //I listened to only changes below so, current state needs to be set initially like this
     this.userSub = this.authService.user.subscribe(user => {
-      this.isBuyerMode = !!user;
-      if (this.isBuyerMode) {
+      this.isAuthenticated = !!user;
+      if (this.isAuthenticated) {
         this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.buyerMain);
         this.userNameSub = this.appManagerService.userName.subscribe(name => {
           this.userName = name;
@@ -41,10 +41,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       } else {
         this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.main);
       }
-    })
-    this.logInStateSub = this.appManagerService.logInStateSub.subscribe(state => {
-      alert(state);
-      this.logInMode = state;
     })
     //Whenever url changes, check it and change the headerState
     this.router.events
@@ -56,20 +52,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.profileImgUrl = url;
           }
         })
-        if (this.logInMode === this.appManagerService.logInStates.buyerMode) {
-          if (url === '/main') {
+        if (url === '/main') {
+          if (this.isAuthenticated) {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.buyerMain);
-          } else if (url.includes('/seller-set-up')) {
-            this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.onlyLogo);
-          }
-        } else if (this.logInMode === this.appManagerService.logInStates.sellerMode) {
-          if (url === '/main') {
-            this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.sellerMain);
-          }
-        } else {
-          if (url === '/main') {
+          } else {
             this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.main);
           }
+        }
+        else if (url.includes('/seller-set-up')) {
+          this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.onlyLogo);
         }
       }
       )

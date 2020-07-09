@@ -1010,6 +1010,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.saveProfessionalData();
     }
   }
+
+  finishSetUp(){
+    this.appManagerService.saveHasSellerAccount(true);
+  }
 }
 
 

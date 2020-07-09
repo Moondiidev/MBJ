@@ -10,7 +10,6 @@ export class AppManagerService {
   constructor(private http: HttpClient) { }
 
   headerStateSub = new BehaviorSubject<string>(null);
-  logInStateSub = new BehaviorSubject<string>(null);
   userName = new BehaviorSubject<string>(null);
 
   headerStates = {
@@ -19,16 +18,12 @@ export class AppManagerService {
     sellerMain: 'sellerMain',
     onlyLogo: 'onlyLogo',
   }
-  logInStates = {
-    visitorMode: 'visitorMode',
-    buyerMode: 'buyerMode',
-    sellerMode: 'sellerMode'
+  
+  saveHasSellerAccount(hasSellerAccount: boolean) {
+    const temp = [hasSellerAccount];
+    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/hasSellerAccount.json`, temp).subscribe(res => { console.log(res); });
   }
-  saveAccount() {
-    const temp = [this.logInStateSub.value];
-    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/logInState.json`, temp).subscribe(res => { console.log(res); });
-  }
-  fetchLogInState() {
-    return this.http.get(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/logInState.json`);
+  fetchHasSellerAccount() {
+    return this.http.get(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/hasSellerAccount.json`);
   }
 }
