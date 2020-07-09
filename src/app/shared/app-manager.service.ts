@@ -19,9 +19,9 @@ export class AppManagerService {
     onlyLogo: 'onlyLogo',
   }
   
-  saveHasSellerAccount(hasSellerAccount: boolean) {
-    const temp = [hasSellerAccount];
-    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/hasSellerAccount.json`, temp).subscribe(res => { console.log(res); });
+  saveHasSellerAccount(createdOrNot: boolean) {
+    const temp = {hasSellerAccount: createdOrNot};
+    this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}`, temp).subscribe(res => { console.log(res); });
   }
   fetchHasSellerAccount() {
     return this.http.get(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/hasSellerAccount.json`);
