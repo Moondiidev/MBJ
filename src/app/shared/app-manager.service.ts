@@ -24,6 +24,6 @@ export class AppManagerService {
     this.http.put(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/hasSellerAccount.json`, temp).subscribe(res => { console.log(res); });
   }
   fetchHasSellerAccount() {
-    return this.http.get(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/hasSellerAccount.json`);
+    return this.http.get<Array<boolean>>(`${environment.cors}${environment.databaseURL}sellerAccounts/${this.userName.value}/hasSellerAccount.json`);
   }
 }

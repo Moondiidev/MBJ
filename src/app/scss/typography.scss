@@ -22,6 +22,7 @@
     cursor: pointer;
     color: rgb(18, 103, 129);
     transition: 0.2s;
+
     &:hover {
       color: rgb(18, 151, 192);
 
@@ -32,9 +33,11 @@
 .whiteText {
   color: white !important;
 }
-.greyText{
+
+.greyText {
   color: #8F999A !important;
 }
+
 .paragraph {
   font-size: 1.1rem;
   color: #62646a;
@@ -47,18 +50,75 @@
 .paragraph-lg {
   font-size: 1.3rem;
 }
+
 .paragraph-xl {
   font-size: 1.4rem;
 }
+
 .labelText {
   font-size: 1.2rem;
   color: rgb(150, 150, 150);
-  &--2{
+
+  &--2 {
     font-size: 1.3rem;
     color: rgb(131, 131, 131);
   }
 }
 
+.nav-text,
+.nav-specialText {
+  cursor: pointer;
+  margin: 0 2rem;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+
+.nav-text {
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(0, 0, 0, 0);
+  color: black;
+
+  &:hover {
+    border-bottom: 2px solid black;
+  }
+}
+
+.nav-specialText{
+  border-right: 2px solid #1AAB8A;
+  border-left: 2px solid #1AAB8A;
+  color: black;
+  border-radius: 2px;
+  position:relative;
+  margin-bottom: 1rem;
+  padding: 1rem 2rem;
+  transition:0.8s ease all;
+  outline:none;
+}
+.nav-specialText:hover{
+  background:#fff;
+  color:#169174;
+}
+.nav-specialText:before,.nav-specialText:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #1AAB8A;
+  transition: 0.4s ease all;
+}
+.nav-specialText:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.nav-specialText:hover:before,.nav-specialText:hover:after{
+  width:100%;
+  transition: 0.8s ease all;
+}
 
 .boldText {
   font-size: 1.3rem;
@@ -70,6 +130,7 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
 .boldText-xl {
   font-size: 1.8rem;
   font-weight: bold;

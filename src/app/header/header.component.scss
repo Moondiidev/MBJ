@@ -33,21 +33,6 @@
   margin-bottom: 6px;
 }
 
-.nav-text {
-  cursor: pointer;
-  margin: 0 2rem;
-  font-size: 1.4rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(0, 0, 0, 0);
-  transition: 0.2s;
-  white-space: nowrap;
-  color: black;
-
-  &:hover {
-    border-bottom: 2px solid black;
-  }
-}
-
 .activeNav {
   border-bottom: 2px solid rgb(28, 158, 209);
 }

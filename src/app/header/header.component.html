@@ -15,7 +15,7 @@
         <a class="nav-text">Мессеж</a>
         <a class="nav-text">Хадгалсан Гиг-үүд</a>
         <a class="nav-text">Захиалгууд</a>
-        <a class="nav-text" (click)="switchLogInMode()">{{logInModeName}}</a>
+        <a class="nav-specialText" (click)="switchLogInMode()">{{logInModeName}}д Шилжих</a>
         <div>
           <button type ="button" class="profileBtn" (click) = "profileDropdown.click()">
             <img [src]="profileImgUrl" alt="" class="profileBtn__img">
@@ -38,14 +38,8 @@
       </div>
     </nav>
   </div>
-  <div *ngSwitchCase="'onlyLogo'">
-    <nav class="header-container">
-      <div class="header header__left">
-        <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
-      </div>
-    </nav>
-  </div>
-  <div *ngSwitchCase="'sellerAuthenticated'">
+
+  <div *ngSwitchCase="'sellerMain'">
     <nav class="header-container">
       <div class="header header__left">
         <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
@@ -55,6 +49,15 @@
       </div>
     </nav>
   </div>
+
+  <div *ngSwitchCase="'onlyLogo'">
+    <nav class="header-container">
+      <div class="header header__left">
+        <a routerLink=''><img src="../../assets/img/MBJ.svg" class="header__logo"></a>
+      </div>
+    </nav>
+  </div>
+
   <div *ngSwitchDefault>
     <nav class="header-container">
       <div class="header header__left">
