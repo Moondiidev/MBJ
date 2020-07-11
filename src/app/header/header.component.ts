@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logInMode: string;
   logInModeName: string = "Худалдагчийн Горим";
   hasSellerAccount: boolean = false;
+  hasSellerAccountSub: Subscription;
   private userNameSub: Subscription;
   private userSub: Subscription;
   private headerStateSub: Subscription;
@@ -62,6 +63,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         else if (url.includes('/seller-set-up')) {
           this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.onlyLogo);
         }
+        else if (this.hasSellerAccount) {
+          if(url.includes(`/${this.appManagerService.userName}`))
+          this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.sellerMain);
+        }
       }
       )
 
@@ -72,6 +77,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         alert(this.currentState);
       }
     });
+
+    //See if user has created seller account
+    this.hasSellerAccountSub = this.appManagerService.fetchHasSellerAccount().subscribe(hasOrNot => {
+      alert(hasOrNot[0]);
+      this.hasSellerAccount = hasOrNot[0];
+    })
   }
   logout() {
     this.authService.logout();
@@ -89,11 +100,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   buyerModeActive() {
     this.isSellerMode = false;
+    this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.buyerMain);
     this.logInModeName = "Худалдан Авагчийн Горим";
+    this.router.navigate(['/']);
   }
   sellerModeActive() {
     this.isSellerMode = true;
+    this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.sellerMain);
     this.logInModeName = "Худалдагчийн Горим";
+    this.router.navigate([`/seller-board/${this.userName}`]);
+
   }
   onClick() {
     alert("bruh");
