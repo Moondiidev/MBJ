@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   profileImgUrl: string = "../../assets/img/profilePlaceholder.svg";
   userName: string;
   logInMode: string;
-  logInModeName: string = "Худалдагчийн Горим";
+  nextModeName: string = "Худалдагчийн Горим";
   hasSellerAccount: boolean = false;
   hasSellerAccountSub: Subscription;
   private userNameSub: Subscription;
@@ -101,13 +101,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   buyerModeActive() {
     this.isSellerMode = false;
     this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.buyerMain);
-    this.logInModeName = "Худалдан Авагчийн Горим";
+    this.nextModeName = "Худалдагчийн Горим";
     this.router.navigate(['/']);
   }
   sellerModeActive() {
     this.isSellerMode = true;
     this.appManagerService.headerStateSub.next(this.appManagerService.headerStates.sellerMain);
-    this.logInModeName = "Худалдагчийн Горим";
+    this.nextModeName = "Худалдан Авагчийн Горим";
     this.router.navigate([`/seller-board/${this.userName}`]);
 
   }
