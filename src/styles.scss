@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 // buttons.scss is using variables so, it needs to be imported beforehand
 @import "./app/scss/variables.scss";
 @import "./app/scss/typography.scss";
@@ -35,11 +35,10 @@ select {
 
 html {
   scroll-behavior: smooth;
-  color: #424242;
+  color: #0e0e10;
   font-family: 'Montserrat', sans-serif;
   background-color: white;
   font-size: 62.5%; // 16px default --> 10px = 1em//
-
   @include media(big-desktop) {
     font-size: 75%; // 12px
   }

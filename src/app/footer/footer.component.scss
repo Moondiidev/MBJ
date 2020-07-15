@@ -44,6 +44,9 @@ $font-footerColorSecondary: #778DA9;
 
   &__text {
     font-size: 1.4rem;
+    &--grey{
+      color: rgb(189, 189, 189) !important;
+    }
   }
 
   &__links {
@@ -84,10 +87,6 @@ $font-footerColorSecondary: #778DA9;
 
     &__address {
       margin: 1.5rem 0;
-    }
-
-    &__highlighted-text {
-      color: #778DA9;
     }
   }
 }
