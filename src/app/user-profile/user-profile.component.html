@@ -1,6 +1,6 @@
 <div class="backgroundColor">
-  <div class="profileContainer max-width-container">
-    <div class="profileInfo profileWrapper">
+  <div class="profileContainer flex-verticalStart max-width-container">
+    <div class="profileInfo oneByOneSplit__left boxWrapper">
       <div class="profileInfo__overview">
         <div class="profileInfo__overview__preview">
           <div class="imgDropbox imgDropbox--sm margin-right-sm">
@@ -621,11 +621,11 @@
       </div>
     </div>
 
-    <div class="profileWork">
+    <div class="profileWork oneByOneSplit__right">
       <!------------------------------------------------------------------------->
       <!--------------------------- SHOWCASE SECTION ---------------------------->
       <!------------------------------------------------------------------------->
-      <div class="profileWork__info profileWrapper">
+      <div class="profileWork__info boxWrapper">
         <h2 class="heading-tertiary">Худалдаалж буй Гигүүд</h2>
         <div class="profileWork__closed">
           <h2 class="profileWork__closed__text">Харуулах гиг байхгүй байна</h2>
@@ -636,7 +636,7 @@
       <!----------------------------------------------------------------------->
       <!--------------------------- REVIEW SECTION ---------------------------->
       <!----------------------------------------------------------------------->
-      <div class="profileWork__reviewContainer profileWrapper">
+      <div class="profileWork__reviewContainer boxWrapper">
         <h2 class="heading-tertiary">Үнэлгээнүүд</h2>
         <div class="profileWork__reviewContainer__chooseType">
           <button *ngFor="let choice of reviewChoices; let i = index"

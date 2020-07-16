@@ -7,17 +7,8 @@
   background-color: rgb(245, 245, 245);
 }
 
-.profileContainer {
-  display: flex;
-  align-items: flex-start;
-}
 
 .profileInfo {
-  width: 35%;
-  margin-right: 3%;
-  display: flex;
-  flex-direction: column;
-
   &__actions {
     margin-top: 1rem;
   }
@@ -107,7 +98,6 @@
 
 
 .profileWork {
-  width: 62%;
 
   &__info {
     display: flex;
@@ -175,13 +165,6 @@
     }
   }
 
-}
-
-.profileWrapper {
-  background-color: white;
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(0, 0, 0, 0.7);
-  padding: 2rem 4rem;
 }
 
 .subtle-input {
