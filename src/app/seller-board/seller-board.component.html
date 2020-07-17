@@ -1,20 +1,54 @@
 <div class="dashboard flex-verticalStart max-width-container">
-    <div class="oneByOneSplit__left">
-        <div class="dashboard__overview boxWrapper">
+  <div class="oneByOneSplit__left">
 
+    <div class="dashboard__overview boxWrapper">
+      <div class="flex-verticalCentered">
+        <div class="profileImg">
+          <img *ngIf="profileImgUrl !== null; else imagePlaceholder" [src]="profileImgUrl" alt=""
+            class="profileImg__img">
         </div>
-        <div class="dashboard__inbox boxWrapper">
-            
+        <div class="basicDetails">
+          <p class="basicDetails__name boldText-xxl">{{userName}}</p>
+          <div class="basicDetails__rating">
+            <img src="../../assets/img/rating-stars/star-solo.svg" alt="" class="basicDetails__rating__star">
+            <h4 class="heading-fourth">5 (1 review)</h4>
+          </div>
         </div>
-    </div>
-    <div class="oneByOneSplit__right">
-        <div class="dashboard__analytics">
-            <div class="dashboard__analytics__boxes">
-
+      </div>
+      <div class="serviceDetails">
+        <div class="serviceDetail">
+          <p class="paragraph-lg">Хариу Өгдөг Үзүүлэлт</p>
+          <div class="progress">
+            <div class="progressbar__background">
+                <span class="progressbar__fill" id="responseRateProgress"></span>
             </div>
-            <div class="dashboard__analytics__chart boxWrapper">
-
-            </div>
+            <p class="paragraph-lg progress__text">100%</p>
+          </div>
         </div>
+      </div>
+      <div class="otherDetails">
+
+      </div>
     </div>
+
+    <div class="dashboard__inbox boxWrapper">
+
+    </div>
+  </div>
+  <div class="oneByOneSplit__right">
+    <div class="dashboard__analytics">
+      <div class="dashboard__analytics__boxes">
+
+      </div>
+      <div class="dashboard__analytics__chart boxWrapper">
+
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #imagePlaceholder>
+  <div class="profileImgr">
+    <img src="../../../assets/img/photo2.svg" alt="" class="profileImg__img">
+  </div>
+</ng-template>
