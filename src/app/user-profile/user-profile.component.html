@@ -71,7 +71,7 @@
           <div class="personalDescription margin-bot-md">
             <div class="profileInfo_detail" *ngIf="!editingInput[1]">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large">Хувийн Тайлбар</p>
+                <p class="boldText-lg">Хувийн Тайлбар</p>
                 <a class="emphasis-link--2 paragraph-xl" (click)="onEditInput(1)">Өөрчлөх</a>
               </div>
               <p class="paragraph-lg">{{this.editableInputValue[1]}}</p>
@@ -95,7 +95,7 @@
           <div class="professionalSkills">
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large">Чадварууд</p>
+                <p class="boldText-lg">Чадварууд</p>
                 <a class="emphasis-link--2 paragraph-xl" (click)="showMiniForm(0)">Нэмэх</a>
               </div>
 
@@ -147,7 +147,7 @@
 
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large">Боловсрол</p>
+                <p class="boldText-lg">Боловсрол</p>
                 <a class="emphasis-link--2 paragraph-xl" (click)="showMiniForm(1)">Нэмэх</a>
               </div>
             </div>
@@ -527,7 +527,7 @@
           <div class="professionalCertifications">
             <div class="profileInfo_detail">
               <div class="profileInfo_detail__heading">
-                <p class="boldText-large">Сертификатнууд</p>
+                <p class="boldText-lg">Сертификатнууд</p>
                 <a class="emphasis-link--2 paragraph-xl" (click)="showMiniForm(2)">Нэмэх</a>
               </div>
 
@@ -645,13 +645,13 @@
         </div>
         <div>
           <hr>
-          <div class="margin-bot-md profileWork__reviewContainer__reviewWrapper" *ngFor="let review of reviews">
+          <div class="profileWork__reviewContainer__reviewWrapper" *ngFor="let review of reviews">
             <div class="profileWork__reviewContainer__review">
               <img src="../../assets/img/profilePlaceholder.svg" alt=""
                 class="profileWork__reviewContainer__review__profileImg">
               <div>
                 <div class="flex-verticalCentered">
-                  <p class="boldText-large">{{review.name}}</p>
+                  <p class="boldText-lg">{{review.name}}</p>
                   <img src="../../assets/img/rating-stars/star-solo.svg" alt=""
                     class="profileWork__reviewContainer__review__star">
                   <p class="profileWork__reviewContainer__review__starText">{{review.rating}}</p>
