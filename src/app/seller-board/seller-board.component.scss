@@ -76,11 +76,12 @@
       z-index: 1;
   }
 }
-.messages{
+.messagePreviews{
     height: 40rem;
     overflow-y: scroll;
 }
-.message{
+.messagePreview{
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;

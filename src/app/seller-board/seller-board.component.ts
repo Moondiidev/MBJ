@@ -14,6 +14,13 @@ export class SellerBoardComponent implements OnInit {
   userNameSub: Subscription;
   userName: string;
   responseRate: number = 40;
+  messagePreviews = [
+    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
+    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
+    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
+    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
+    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
+];
   constructor(private sellerService: SellerSetUpService, private appManagerService: AppManagerService) { }
 
   ngOnInit(): void {

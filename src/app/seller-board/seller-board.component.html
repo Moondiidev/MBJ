@@ -68,54 +68,14 @@
            <button type="button" class="text-btn text-btn--large text-btn--green">Бүгдийн Үзэх</button> 
         </div>
         <hr class="horizontalLine--xl">
-        <ul class="messages">
-            <li class="message">
-                <img src="../../assets/img/photo.svg" alt="" class="message__profile">
-                <div class="message__text">
-                    <p class="boldText-lg message__text__name margin-bot-xs">boboman</p>
-                    <p class="paragraph-lg message__text__preview">Yu bn haraal idsen ass...</p>
+        <ul class="messagePreviews">
+            <li class="messagePreview" *ngFor="let messagePreview of messagePreviews">
+                <img src={{messagePreview.profileImg}} alt="" class="messagePreview__profile">
+                <div class="messagePreview__text">
+                    <p class="boldText-lg messagePreview__name margin-bot-xs">{{messagePreview.name}}</p>
+                    <p class="paragraph-lg messagePreview__preview">{{messagePreview.message}}</p>
                 </div>
-                <p class="labelText--2">7 cap</p>
-            </li>
-            <li class="message">
-                <img src="../../assets/img/photo.svg" alt="" class="message__profile">
-                <div class="message__text">
-                    <p class="boldText-lg message__text__name margin-bot-xs">boboman</p>
-                    <p class="paragraph-lg message__text__preview">Yu bn haraal idsen ass...</p>
-                </div>
-                <p class="labelText--2">7 cap</p>
-            </li>
-            <li class="message">
-                <img src="../../assets/img/photo.svg" alt="" class="message__profile">
-                <div class="message__text">
-                    <p class="boldText-lg message__text__name margin-bot-xs">boboman</p>
-                    <p class="paragraph-lg message__text__preview">Yu bn haraal idsen ass...</p>
-                </div>
-                <p class="labelText--2">7 cap</p>
-            </li>
-            <li class="message">
-                <img src="../../assets/img/photo.svg" alt="" class="message__profile">
-                <div class="message__text">
-                    <p class="boldText-lg message__text__name margin-bot-xs">boboman</p>
-                    <p class="paragraph-lg message__text__preview">Yu bn haraal idsen ass...</p>
-                </div>
-                <p class="labelText--2">7 cap</p>
-            </li>
-            <li class="message">
-                <img src="../../assets/img/photo.svg" alt="" class="message__profile">
-                <div class="message__text">
-                    <p class="boldText-lg message__text__name margin-bot-xs">boboman</p>
-                    <p class="paragraph-lg message__text__preview">Yu bn haraal idsen ass...</p>
-                </div>
-                <p class="labelText--2">7 cap</p>
-            </li>
-            <li class="message">
-                <img src="../../assets/img/photo.svg" alt="" class="message__profile">
-                <div class="message__text">
-                    <p class="boldText-lg message__text__name margin-bot-xs">boboman</p>
-                    <p class="paragraph-lg message__text__preview">Yu bn haraal idsen ass...</p>
-                </div>
-                <p class="labelText--2">7 cap</p>
+                <p class="labelText--2">{{messagePreview.date}}</p>
             </li>
         </ul>
     </div>
