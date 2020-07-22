@@ -2,6 +2,33 @@
 @import '../scss/typography.scss';
 @import '../scss/buttons.scss';
 
+.dashboard {
+  &__analytics {
+    &__boxes {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__box {
+      padding: 5rem;
+      text-align: center;
+      width: 32%;
+      &--1 {
+        background-color: rgb(13, 48, 100);
+      }
+
+      &--2 {
+        background-color: rgb(100, 13, 96);
+      }
+
+      &--3 {
+        background-color: rgb(100, 87, 13);
+      }
+    }
+  }
+}
+
+
 .profileImg {
   display: block;
   height: 8rem;
@@ -30,13 +57,6 @@
   }
 }
 
-.dashBoard {
-  &__overView {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .flexSpacedRow {
   width: 100%;
   display: flex;
@@ -55,41 +75,47 @@
 }
 
 .progressbar {
-    &__background,
-    &__fill{
-        border-radius: 999px;
-    }
+
+  &__background,
+  &__fill {
+    border-radius: 999px;
+  }
+
   &__background {
-      margin-right: 1.5rem;
-      position: relative;
-      background-color: #f0f0f0;
-      width: 8rem;
-      height: 1rem;
+    margin-right: 1.5rem;
+    position: relative;
+    background-color: #f0f0f0;
+    width: 8rem;
+    height: 1rem;
   }
-  &__fill{
-      position: absolute;
-      left: 0;
-      top: 0;
-      background-color: #1bb86e;
-      height: 100%;
-      width: 50%;
-      z-index: 1;
+
+  &__fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #1bb86e;
+    height: 100%;
+    width: 50%;
+    z-index: 1;
   }
 }
-.messagePreviews{
-    height: 40rem;
-    overflow-y: scroll;
+
+.messagePreviews {
+  height: 40rem;
+  overflow-y: scroll;
 }
-.messagePreview{
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #e4e5e7;
-    padding: 1.5rem;
-    &__profile{
-        border-radius: 50%;
-        width: 6rem;
-        height: 6rem;
-    }
+
+.messagePreview {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e4e5e7;
+  padding: 1.5rem;
+
+  &__profile {
+    border-radius: 50%;
+    width: 6rem;
+    height: 6rem;
+  }
 }

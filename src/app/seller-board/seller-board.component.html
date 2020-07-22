@@ -63,29 +63,40 @@
     </div>
 
     <div class="dashboard__inbox boxWrapper margin-top-md">
-        <div class="flex-spaceBetween">
-            <p class="paragraph-xl">Шуудан</p>
-           <button type="button" class="text-btn text-btn--large text-btn--green">Бүгдийн Үзэх</button> 
-        </div>
-        <hr class="horizontalLine--xl">
-        <ul class="messagePreviews">
-            <li class="messagePreview" *ngFor="let messagePreview of messagePreviews">
-                <img src={{messagePreview.profileImg}} alt="" class="messagePreview__profile">
-                <div class="messagePreview__text">
-                    <p class="boldText-lg messagePreview__name margin-bot-xs">{{messagePreview.name}}</p>
-                    <p class="paragraph-lg messagePreview__preview">{{messagePreview.message}}</p>
-                </div>
-                <p class="labelText--2">{{messagePreview.date}}</p>
-            </li>
-        </ul>
+      <div class="flex-spaceBetween">
+        <p class="paragraph-xl">Шуудан</p>
+        <button type="button" class="text-btn text-btn--large text-btn--green">Бүгдийн Үзэх</button>
+      </div>
+      <hr class="horizontalLine--xl">
+      <ul class="messagePreviews">
+        <li class="messagePreview" *ngFor="let messagePreview of messagePreviews">
+          <img src={{messagePreview.profileImg}} alt="" class="messagePreview__profile">
+          <div class="messagePreview__text">
+            <p class="boldText-lg messagePreview__name margin-bot-xs">{{messagePreview.name}}</p>
+            <p class="paragraph-lg messagePreview__preview">{{messagePreview.message}}</p>
+          </div>
+          <p class="labelText--2">{{messagePreview.date}}</p>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="oneByOneSplit--smLeft__right">
     <div class="dashboard__analytics">
       <div class="dashboard__analytics__boxes">
-
+        <div class="dashboard__analytics__box dashboard__analytics__box--1">
+            <h1 class="heading-primary whiteText">8000</h1>
+            <p class="paragraph-xl whiteText noWrapText">Нийт Дуусгасан Захиалаг</p>
+          </div>
+        <div class="dashboard__analytics__box dashboard__analytics__box--2">
+          <h1 class="heading-primary whiteText">₮100000000</h1>
+          <p class="paragraph-xl whiteText noWrapText">Нийт Орлого</p>
+        </div>
+        <div class="dashboard__analytics__box dashboard__analytics__box--3">
+          <h1 class="heading-primary whiteText">₮4000000</h1>
+          <p class="paragraph-xl whiteText noWrapText">Дундаж Борлуулалтын Үнэ</p>
+        </div>
       </div>
-      <div class="dashboard__analytics__chart boxWrapper">
+      <div class="dashboard__analytics__chart boxWrapper margin-top-md">
 
       </div>
     </div>

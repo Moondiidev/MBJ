@@ -30,6 +30,7 @@
   }
 }
 
+// ********* COLORED TEXT **********
 .whiteText {
   color: white !important;
 }
@@ -38,6 +39,10 @@
   color: #8F999A !important;
 }
 
+// **************************************
+
+
+// *********** PARAGRAPH *************
 .paragraph {
   font-size: 1.1rem;
   color: #62646a;
@@ -55,6 +60,11 @@
   font-size: 1.4rem;
 }
 
+// **************************************
+
+.noWrapText{
+  white-space: nowrap;;
+}
 .labelText {
   font-size: 1.2rem;
   color: rgb(150, 150, 150);
@@ -85,39 +95,45 @@
   }
 }
 
-.nav-specialText{
+.nav-specialText {
   border-right: 2px solid #1AAB8A;
   border-left: 2px solid #1AAB8A;
   color: black;
   border-radius: 2px;
-  position:relative;
+  position: relative;
   margin-bottom: 1rem;
   padding: 1rem 2rem;
-  transition:0.8s ease all;
-  outline:none;
+  transition: 0.8s ease all;
+  outline: none;
 }
-.nav-specialText:hover{
-  background:#fff;
-  color:#169174;
+
+.nav-specialText:hover {
+  background: #fff;
+  color: #169174;
 }
-.nav-specialText:before,.nav-specialText:after{
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
+
+.nav-specialText:before,
+.nav-specialText:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
   background: #1AAB8A;
   transition: 0.4s ease all;
 }
-.nav-specialText:after{
-  right:inherit;
-  top:inherit;
-  left:0;
-  bottom:0;
+
+.nav-specialText:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
 }
-.nav-specialText:hover:before,.nav-specialText:hover:after{
-  width:100%;
+
+.nav-specialText:hover:before,
+.nav-specialText:hover:after {
+  width: 100%;
   transition: 0.8s ease all;
 }
 
@@ -136,6 +152,7 @@
   font-size: 1.8rem;
   font-weight: bold;
 }
+
 .boldText-xxl {
   font-size: 2.2rem;
   font-weight: bold;
