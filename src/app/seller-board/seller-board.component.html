@@ -97,7 +97,9 @@
         </div>
       </div>
       <div class="dashboard__analytics__chart boxWrapper margin-top-md">
-
+        <canvas id="analyticsChart" width="100%" height="100%" baseChart [datasets]="lineChartData"
+          [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+          [chartType]="lineChartType" [plugins]="lineChartPlugins"></canvas>
       </div>
     </div>
   </div>

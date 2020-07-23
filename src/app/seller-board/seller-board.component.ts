@@ -2,6 +2,8 @@ import { AppManagerService } from './../shared/app-manager.service';
 import { SellerSetUpService } from './../seller-set-up/seller-set-up.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ChartDataSets } from 'chart.js';
+import { Label, Color } from 'ng2-charts';
 
 @Component({
   selector: 'app-seller-board',
@@ -15,25 +17,45 @@ export class SellerBoardComponent implements OnInit {
   userName: string;
   responseRate: number = 40;
   messagePreviews = [
-    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
-    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
-    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
-    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
-    {profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap'},
-];
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
+  ];
   constructor(private sellerService: SellerSetUpService, private appManagerService: AppManagerService) { }
+
+  lineChartData: ChartDataSets[] = [
+    { data: [85, 72, 78, 75, 77, 75], label: 'Crude oil prices' },
+  ];
+
+  lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June'];
+
+  lineChartOptions = {
+    responsive: true,
+  };
+
+  lineChartColors: Color[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,255,0,0.28)',
+    },
+  ];
+
+  lineChartLegend = true;
+  lineChartPlugins = [];
+  lineChartType = 'line';
 
   ngOnInit(): void {
     this.getProfileImage();
     this.getUserName();
-    
   }
   getProfileImage() {
-    this.personalProfileImgDataSub = this.sellerService.getProfileImg().subscribe(imgUrl=>{
+    this.personalProfileImgDataSub = this.sellerService.getProfileImg().subscribe(imgUrl => {
       this.profileImgUrl = imgUrl;
-    })    
+    })
   }
-  getUserName(){
+  getUserName() {
     this.userNameSub = this.appManagerService.userName.subscribe(name => {
       this.userName = name;
     });
