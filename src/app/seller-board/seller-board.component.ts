@@ -86,12 +86,9 @@ export class SellerBoardComponent implements OnInit {
     let neededDaysInNeighbourMonth: number = 0;
     let daysInSecondNeighbourMonth: number = 0;
     let neededDaysInSecondNeighbourMonth: number = 0;
-    console.log(todayDayNumber);
-    console.log(daysInThisMonth);
     thisMonthLeftOver = daysInThisMonth - todayDayNumber;
-    console.log(thisMonthLeftOver);
 
-    // 
+    // See if you need another month space or not and find the center of needed 30 days to insert those months.
     if (todayDayNumber < daysInThisMonth / 2) {
       daysInNeighbourMonth = this.daysInMonth(this.today.getMonth() - 1);
       usableLabelDays = thisMonthLeftOver + daysInNeighbourMonth;
