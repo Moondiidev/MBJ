@@ -16,6 +16,9 @@ export class SellerBoardComponent implements OnInit {
   userNameSub: Subscription;
   userName: string;
   responseRate: number = 40;
+  today = new Date();
+  months: Array<string> = ['Нэгдүгээр Сар', 'Хоёрдугаар Сар', 'Гуравдугаар Сар', 'Дөрөвдүгээр Сар', 'Тавдугаар Сар', 'Зургадугаар Сар', 'Долдугаар Сар', 'Наймдугаар Сар', 'Есдүгээр Сар', 'Аравдугаар Сар', 'Араваннэгдүгээр Сар', 'Араванхоёрдугаар Сар'];
+  monthIndex: number = this.today.getMonth();
   messagePreviews = [
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
@@ -25,30 +28,107 @@ export class SellerBoardComponent implements OnInit {
   ];
   constructor(private sellerService: SellerSetUpService, private appManagerService: AppManagerService) { }
 
-  lineChartData: ChartDataSets[] = [
-    { data: [85, 72, 78, 75, 77, 75], label: 'Crude oil prices' },
+  barChartData: ChartDataSets[] = [
+    { data: [20590, 100300, 100232, 100232, 100232], label: 'Орлого ₮-өөр' },
+    { data: [12590, 12300], label: 'Цуцлагдсан ₮-өөр' },
   ];
 
-  lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June'];
+  barChartLabels: Label[] = [];
 
-  lineChartOptions = {
+  barChartOptions = {
     responsive: true,
+    scales: {
+      xAxes: [{
+        stacked: true,
+        gridLines: {
+          display: false,
+        }
+      }],
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero: true,
+        },
+        type: 'linear',
+      }]
+    },
   };
 
-  lineChartColors: Color[] = [
+  barChartColors: Color[] = [
     {
       borderColor: 'black',
       backgroundColor: 'rgba(255,255,0,0.28)',
     },
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(122,122,0,1)',
+    }
   ];
 
-  lineChartLegend = true;
-  lineChartPlugins = [];
-  lineChartType = 'line';
+  barChartLegend = true;
+  barChartPlugins = [];
+  barChartType = 'bar';
 
+  determineLabelIndex() {
+    // Need 30 days and have respective month in the middle of days that are being used as a label. 
+    const todayDayNumber = this.today.getDate();
+    const daysInThisMonth = this.daysInMonth(this.today.getMonth());
+    let thisMonthLeftOver: number = 0;
+    /*  
+    There can only be 3 month label insert indexes. Worst case scenario is when it is 
+    Jan 30 which has 31 days (1 remaining day) and next is Feb which has 28 days.
+    This adds up to usable 29 days which is less than 30 so, March comes to save the day. 
+    So, our graph ends up using Jan, Feb and March.
+    */
+    let monthLabelIndexes: Array<number> = [];
+    let usableLabelDays: number = 0;
+    let daysInNeighbourMonth: number = 0;
+    let neededDaysInNeighbourMonth: number = 0;
+    let daysInSecondNeighbourMonth: number = 0;
+    let neededDaysInSecondNeighbourMonth: number = 0;
+    console.log(todayDayNumber);
+    console.log(daysInThisMonth);
+    thisMonthLeftOver = daysInThisMonth - todayDayNumber;
+    console.log(thisMonthLeftOver);
+
+    // 
+    if (todayDayNumber < daysInThisMonth / 2) {
+      daysInNeighbourMonth = this.daysInMonth(this.today.getMonth() - 1);
+      usableLabelDays = thisMonthLeftOver + daysInNeighbourMonth;
+
+      if (usableLabelDays <= 30) {
+        daysInSecondNeighbourMonth = this.today.getMonth() - 2;
+      }
+    } else {
+      daysInNeighbourMonth = this.daysInMonth(this.today.getMonth() + 1);
+      usableLabelDays = thisMonthLeftOver + daysInNeighbourMonth;
+
+      if (usableLabelDays <= 30) {
+        daysInSecondNeighbourMonth = this.today.getMonth() + 2;
+        neededDaysInSecondNeighbourMonth = daysInSecondNeighbourMonth - thisMonthLeftOver - daysInNeighbourMonth;
+      } else {
+        neededDaysInNeighbourMonth = daysInNeighbourMonth - thisMonthLeftOver;
+      }
+    }
+    monthLabelIndexes.push(Math.floor(thisMonthLeftOver / 2));
+
+    // push only if they are able to be inserted
+    if (neededDaysInNeighbourMonth !== 0) {
+      monthLabelIndexes.push(Math.floor(neededDaysInNeighbourMonth / 2));
+    }
+    if (neededDaysInSecondNeighbourMonth !== 0) {
+      monthLabelIndexes.push(Math.floor(neededDaysInSecondNeighbourMonth / 2));
+    }
+    console.log(monthLabelIndexes);
+    return monthLabelIndexes;
+  }
+  daysInMonth(month) {
+    return new Date(this.today.getFullYear(), month, 0).getDate();
+  }
   ngOnInit(): void {
     this.getProfileImage();
     this.getUserName();
+    this.determineLabelIndex();
   }
   getProfileImage() {
     this.personalProfileImgDataSub = this.sellerService.getProfileImg().subscribe(imgUrl => {
