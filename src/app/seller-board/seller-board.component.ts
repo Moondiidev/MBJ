@@ -54,6 +54,21 @@ export class SellerBoardComponent implements OnInit {
         type: 'linear',
       }]
     },
+    tooltips: {
+      callbacks: {
+        afterLabel: function (tooltipItem, data) {
+          console.log(tooltipItem);
+          console.log(data);
+          return '(' + 'aa' + '%)';
+        }
+      },
+      backgroundColor: '#FFF',
+      titleFontSize: 16,
+      titleFontColor: '#0066ff',
+      bodyFontColor: '#000',
+      bodyFontSize: 14,
+      displayColors: false
+    }
   };
 
   barChartColors: Color[] = [
@@ -80,10 +95,10 @@ export class SellerBoardComponent implements OnInit {
       //Label month name in between empty labels
       this.chartLabels.push(this.months[labelMonth[i]]);
       // -1 to compensate the month label name. Without it, there will be 32 divisions instead of 30
-      this.labelEmptySpace(index-1);
+      this.labelEmptySpace(index - 1);
     });
   }
-  labelEmptySpace(index){
+  labelEmptySpace(index) {
     for (let i = 0; i < index; i++) {
       this.chartLabels.push('');
     }
@@ -91,7 +106,8 @@ export class SellerBoardComponent implements OnInit {
   getNeighbourMonths() {
     // Need 30 days and have respective month in the middle of days that are being used as a label. 
     const todayDayNumber = this.today.getDate();
-    const daysInThisMonth = this.daysInMonth(this.today.getMonth());
+    const thisMonthInNum = this.today.getMonth() + 1;
+    const daysInThisMonth = this.daysInMonth(thisMonthInNum);
     let thisMonthLeftOver: number = 0;
     /*  
     There can only be 3 month label insert indexes. Worst case scenario is when it is 
