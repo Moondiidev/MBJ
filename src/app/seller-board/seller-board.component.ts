@@ -18,9 +18,10 @@ export class SellerBoardComponent implements OnInit {
   responseRate: number = 40;
   today = new Date();
   months: Array<string> = ['Нэгдүгээр Сар', 'Хоёрдугаар Сар', 'Гуравдугаар Сар', 'Дөрөвдүгээр Сар', 'Тавдугаар Сар', 'Зургадугаар Сар', 'Долдугаар Сар', 'Наймдугаар Сар', 'Есдүгээр Сар', 'Аравдугаар Сар', 'Араваннэгдүгээр Сар', 'Араванхоёрдугаар Сар'];
-  monthIndex: number = this.today.getMonth();
+  thisMonthIndex: number = this.today.getMonth();
   monthLabelIndexes: Array<number> = [];
   chartLabels = [];
+  tooltipsLabel: Array<string> = [];
   messagePreviews = [
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
@@ -31,8 +32,8 @@ export class SellerBoardComponent implements OnInit {
   constructor(private sellerService: SellerSetUpService, private appManagerService: AppManagerService) { }
 
   barChartData: ChartDataSets[] = [
-    { data: [20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442], label: 'Орлого ₮-өөр' },
-    { data: [12590, 12300], label: 'Цуцлагдсан ₮-өөр' },
+    { data: [20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442], label: 'Орлого' },
+    { data: [12590, 12300], label: 'Цуцлагдсан' },
   ];
 
   barChartLabels: Label[] = this.chartLabels;
@@ -56,17 +57,20 @@ export class SellerBoardComponent implements OnInit {
     },
     tooltips: {
       callbacks: {
+        title: function () { },
+        label: function (tooltipItem, data) {
+          return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.yLabel + ' ₮';
+        },
         afterLabel: function (tooltipItem, data) {
           console.log(tooltipItem);
           console.log(data);
-          return '(' + 'aa' + '%)';
-        }
+          return this.tooltipsLabel[tooltipItem.index];
+        }.bind(this)
       },
-      backgroundColor: '#FFF',
-      titleFontSize: 16,
-      titleFontColor: '#0066ff',
-      bodyFontColor: '#000',
+      backgroundColor: '#264653',
+      bodyFontColor: '#eaeaea',
       bodyFontSize: 14,
+      bodySpacing: 6,
       displayColors: false
     }
   };
@@ -74,11 +78,11 @@ export class SellerBoardComponent implements OnInit {
   barChartColors: Color[] = [
     {
       borderColor: 'black',
-      backgroundColor: 'rgba(255,255,0,0.28)',
+      backgroundColor: '#2a9d8f',
     },
     {
       borderColor: 'black',
-      backgroundColor: 'rgba(122,122,0,1)',
+      backgroundColor: '#edf6f9',
     }
   ];
 
@@ -88,21 +92,52 @@ export class SellerBoardComponent implements OnInit {
 
   addMonthLabels() {
     //Combine current month with neighbour months and then sort them 
-    let labelMonth: Array<number> = [this.monthIndex, ...this.getNeighbourMonths()];
-    labelMonth.sort();
+    let orderedMonthArr: Array<number> = [this.thisMonthIndex, ...this.getNeighbourMonths()];
+    orderedMonthArr.sort();
+    this.addDateToChartHover(orderedMonthArr);
+    console.log(this.tooltipsLabel);
     this.monthLabelIndexes.forEach((index, i) => {
       this.labelEmptySpace(index);
       //Label month name in between empty labels
-      this.chartLabels.push(this.months[labelMonth[i]]);
+      this.chartLabels.push(this.months[orderedMonthArr[i]]);
       // -1 to compensate the month label name. Without it, there will be 32 divisions instead of 30
       this.labelEmptySpace(index - 1);
     });
   }
+  addDateToChartHover(orderedMonthArr: Array<number>) {
+    this.tooltipsLabel = [];
+    let keeper = 0;
+    const requiredDays = 30;
+    orderedMonthArr.forEach((month, thisMonthIndex) => {
+      //only in the first month, calculate how many days you need starting from today
+      if (thisMonthIndex === 0) {
+        let leftOverDays = this.daysInMonth(month) - this.today.getDate();
+        let i = 0;
+        while (i <= leftOverDays) {
+          let dayToAdd = this.today.getDate() + i;
+          this.tooltipsLabel.push(`${this.months[month]}ын ${dayToAdd}-н`);
+          i++;
+          keeper++;
+        }
+      }
+      // For the latter months, just add dates from 1 to the end of the month until requiredDays are satisfied.
+      else {
+        let j = 1;
+        while (j < this.daysInMonth(month) && keeper < requiredDays) {
+          this.tooltipsLabel.push(`${this.months[month]}ын ${j}-н`);
+          j++;
+          keeper++;
+        }
+      }
+    })
+  }
+
   labelEmptySpace(index) {
     for (let i = 0; i < index; i++) {
       this.chartLabels.push('');
     }
   }
+
   getNeighbourMonths() {
     // Need 30 days and have respective month in the middle of days that are being used as a label. 
     const todayDayNumber = this.today.getDate();
@@ -120,9 +155,8 @@ export class SellerBoardComponent implements OnInit {
     let daysInNeighbourMonths: Array<number> = [];
     let neededDaysInNeighbourMonths: Array<number> = [];
     thisMonthLeftOver = daysInThisMonth - todayDayNumber;
-
     // See if you need another month space or not and find the center of needed 30 days to insert those months.
-    if (todayDayNumber < daysInThisMonth / 2) {
+    if (todayDayNumber > daysInThisMonth / 2) {
       neighbourMonths[0] = this.today.getMonth() - 1;
       daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
       usableLabelDays = thisMonthLeftOver + daysInNeighbourMonths[0];
@@ -130,6 +164,9 @@ export class SellerBoardComponent implements OnInit {
       if (usableLabelDays <= 30) {
         neighbourMonths[1] = this.today.getMonth() - 2;
         daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
+        neededDaysInNeighbourMonths[1] = daysInNeighbourMonths[1] - thisMonthLeftOver - daysInNeighbourMonths[0];
+      } else {
+        neededDaysInNeighbourMonths[0] = daysInNeighbourMonths[0] - thisMonthLeftOver;
       }
     } else {
       neighbourMonths[0] = this.today.getMonth() + 1;
@@ -139,9 +176,6 @@ export class SellerBoardComponent implements OnInit {
       if (usableLabelDays <= 30) {
         neighbourMonths[1] = this.today.getMonth() + 2;
         daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
-        neededDaysInNeighbourMonths[1] = daysInNeighbourMonths[1] - thisMonthLeftOver - daysInNeighbourMonths[0];
-      } else {
-        neededDaysInNeighbourMonths[0] = daysInNeighbourMonths[0] - thisMonthLeftOver;
       }
     }
     //Determine Label Index
@@ -159,7 +193,8 @@ export class SellerBoardComponent implements OnInit {
     return neighbourMonths;
   }
   daysInMonth(month) {
-    return new Date(this.today.getFullYear(), month, 0).getDate();
+    //Takes month starting from 0 --> 0 = January
+    return new Date(this.today.getFullYear(), month + 1, 0).getDate();
   }
   ngOnInit(): void {
     this.getProfileImage();
