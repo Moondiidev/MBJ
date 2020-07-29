@@ -20,10 +20,11 @@ export class SellerBoardComponent implements OnInit {
   months: Array<string> = ['Нэгдүгээр Сар', 'Хоёрдугаар Сар', 'Гуравдугаар Сар', 'Дөрөвдүгээр Сар', 'Тавдугаар Сар', 'Зургадугаар Сар', 'Долдугаар Сар', 'Наймдугаар Сар', 'Есдүгээр Сар', 'Аравдугаар Сар', 'Араваннэгдүгээр Сар', 'Араванхоёрдугаар Сар'];
   thisMonthIndex: number = this.today.getMonth();
   monthLabelIndexes: Array<number> = [];
-  chartLabels = [];
+  chartLabels: Label[] = [];
   tooltipsLabel: Array<string> = [];
-  totalRevenue = 300;
-  totalCancelation = 40;
+  totalRevenue: number = 300;
+  totalCancelation: number = 40;
+  chartDisplayRange: number = 30;
   messagePreviews = [
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
@@ -60,8 +61,7 @@ export class SellerBoardComponent implements OnInit {
     legend: {
       display: true,
       labels: {
-        padding: 25,
-        generateLabels: 'fucku '
+        padding: 25
       }
     },
     tooltips: {
@@ -120,7 +120,6 @@ export class SellerBoardComponent implements OnInit {
   addDateToChartHover(orderedMonthArr: Array<number>) {
     this.tooltipsLabel = [];
     let keeper = 0;
-    const requiredDays = 30;
     orderedMonthArr.forEach((month, thisMonthIndex) => {
       //only in the first month, calculate how many days you need starting from today
       if (thisMonthIndex === 0) {
@@ -136,7 +135,7 @@ export class SellerBoardComponent implements OnInit {
       // For the latter months, just add dates from 1 to the end of the month until requiredDays are satisfied.
       else {
         let j = 1;
-        while (j < this.daysInMonth(month) && keeper < requiredDays) {
+        while (j < this.daysInMonth(month) && keeper < this.chartDisplayRange) {
           this.tooltipsLabel.push(`${this.months[month]}ын ${j}-н`);
           j++;
           keeper++;
@@ -174,7 +173,7 @@ export class SellerBoardComponent implements OnInit {
       daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
       usableLabelDays = thisMonthLeftOver + daysInNeighbourMonths[0];
 
-      if (usableLabelDays <= 30) {
+      if (usableLabelDays <= this.chartDisplayRange) {
         neighbourMonths[1] = this.today.getMonth() - 2;
         daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
         neededDaysInNeighbourMonths[1] = daysInNeighbourMonths[1] - thisMonthLeftOver - daysInNeighbourMonths[0];
@@ -186,7 +185,7 @@ export class SellerBoardComponent implements OnInit {
       daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
       usableLabelDays = thisMonthLeftOver + daysInNeighbourMonths[0];
 
-      if (usableLabelDays <= 30) {
+      if (usableLabelDays <= this.chartDisplayRange) {
         neighbourMonths[1] = this.today.getMonth() + 2;
         daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
       }
