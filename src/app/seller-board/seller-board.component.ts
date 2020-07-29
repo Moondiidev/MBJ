@@ -22,6 +22,8 @@ export class SellerBoardComponent implements OnInit {
   monthLabelIndexes: Array<number> = [];
   chartLabels = [];
   tooltipsLabel: Array<string> = [];
+  totalRevenue = 300;
+  totalCancelation = 40;
   messagePreviews = [
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
@@ -55,22 +57,33 @@ export class SellerBoardComponent implements OnInit {
         type: 'linear',
       }]
     },
+    legend: {
+      display: true,
+      labels: {
+        padding: 25,
+        generateLabels: 'fucku '
+      }
+    },
     tooltips: {
       callbacks: {
-        title: function () { },
         label: function (tooltipItem, data) {
-          return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.yLabel + ' ₮';
-        },
-        afterLabel: function (tooltipItem, data) {
-          console.log(tooltipItem);
-          console.log(data);
           return this.tooltipsLabel[tooltipItem.index];
-        }.bind(this)
+        }.bind(this),
+        title: function (tooltipItems, data) {
+          return data.datasets[tooltipItems[0].datasetIndex].label + ': ' + tooltipItems[0].yLabel + ' ₮';
+        }
       },
+      titleFontSize: 14,
+      titleAlign: 'center',
+      titleMarginBottom: 4,
+      titleFontColor: '#eaeaea',
       backgroundColor: '#264653',
-      bodyFontColor: '#eaeaea',
+      bodyFontColor: '#aaa',
       bodyFontSize: 14,
+      bodyAlign: 'center',
       bodySpacing: 6,
+      xPadding: 10,
+      yPadding: 10,
       displayColors: false
     }
   };
