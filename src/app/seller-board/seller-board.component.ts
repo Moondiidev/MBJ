@@ -106,14 +106,17 @@ export class SellerBoardComponent implements OnInit {
   addMonthLabels() {
     //Combine current month with neighbour months and then sort them 
     let orderedMonthArr: Array<number> = [this.thisMonthIndex, ...this.getNeighbourMonths()];
+    console.log(orderedMonthArr);
+
     orderedMonthArr.sort();
     this.addDateToChartHover(orderedMonthArr);
     console.log(this.tooltipsLabel);
     this.monthLabelIndexes.forEach((index, i) => {
+      alert(index);
       this.labelEmptySpace(index);
       //Label month name in between empty labels
       this.chartLabels.push(this.months[orderedMonthArr[i]]);
-      // -1 to compensate the month label name. Without it, there will be 32 divisions instead of 30
+      // -1 compensates with the month label which is inserted between the empty (day) labels.
       this.labelEmptySpace(index - 1);
     });
   }
@@ -123,13 +126,27 @@ export class SellerBoardComponent implements OnInit {
     orderedMonthArr.forEach((month, thisMonthIndex) => {
       //only in the first month, calculate how many days you need starting from today
       if (thisMonthIndex === 0) {
-        let leftOverDays = this.daysInMonth(month) - this.today.getDate();
-        let i = 0;
-        while (i <= leftOverDays) {
-          let dayToAdd = this.today.getDate() + i;
-          this.tooltipsLabel.push(`${this.months[month]}ын ${dayToAdd}-н`);
-          i++;
-          keeper++;
+        let availableDaysInThisMonth = this.calcAvailableDaysThisMonth();
+
+        if (availableDaysInThisMonth < this.chartDisplayRange) {
+          let i = 0;
+          while (i <= availableDaysInThisMonth) {
+            let dayToAdd = this.today.getDate() + i;
+            this.tooltipsLabel.push(`${this.months[month]}ын ${dayToAdd}-н`);
+            i++;
+            keeper++;
+          }
+        }
+        // If availableDaysInThisMonth is larger than the required amount, add dates until the required dates are satisfied. 
+        
+         else {
+          let i = 1;
+          while (i <= this.chartDisplayRange) {
+            let dayToAdd = i;
+            this.tooltipsLabel.push(`${this.months[month]}ын ${dayToAdd}-н`);
+            i++;
+            keeper++;
+          }
         }
       }
       // For the latter months, just add dates from 1 to the end of the month until requiredDays are satisfied.
@@ -153,9 +170,7 @@ export class SellerBoardComponent implements OnInit {
   getNeighbourMonths() {
     // Need 30 days and have respective month in the middle of days that are being used as a label. 
     const todayDayNumber = this.today.getDate();
-    const thisMonthInNum = this.today.getMonth() + 1;
-    const daysInThisMonth = this.daysInMonth(thisMonthInNum);
-    let thisMonthLeftOver: number = 0;
+    const daysInThisMonth = this.daysInMonth(this.today.getMonth());
     /*  
     There can only be 3 month label insert indexes. Worst case scenario is when it is 
     Jan 30 which has 31 days (1 remaining day) and next is Feb which has 28 days.
@@ -166,37 +181,47 @@ export class SellerBoardComponent implements OnInit {
     let neighbourMonths = [];
     let daysInNeighbourMonths: Array<number> = [];
     let neededDaysInNeighbourMonths: Array<number> = [];
-    thisMonthLeftOver = daysInThisMonth - todayDayNumber;
-    // See if you need another month space or not and find the center of needed 30 days to insert those months.
-    if (todayDayNumber > daysInThisMonth / 2) {
-      neighbourMonths[0] = this.today.getMonth() - 1;
-      daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
-      usableLabelDays = thisMonthLeftOver + daysInNeighbourMonths[0];
+    let availableDaysInThisMonth: number = this.calcAvailableDaysThisMonth();
 
-      if (usableLabelDays <= this.chartDisplayRange) {
-        neighbourMonths[1] = this.today.getMonth() - 2;
-        daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
-        neededDaysInNeighbourMonths[1] = daysInNeighbourMonths[1] - thisMonthLeftOver - daysInNeighbourMonths[0];
+    /* See if you need another month space or not and find the center of needed 30 days to insert those months 
+    as well as calculating how many days are needed from each month.
+    */
+    if (availableDaysInThisMonth < 30) {
+
+      if (todayDayNumber > daysInThisMonth / 2) {
+        neighbourMonths[0] = this.today.getMonth() - 1;
+        daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
+        usableLabelDays = availableDaysInThisMonth + daysInNeighbourMonths[0];
+
+        if (usableLabelDays <= this.chartDisplayRange) {
+          neighbourMonths[1] = this.today.getMonth() - 2;
+          daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
+          neededDaysInNeighbourMonths[1] = daysInNeighbourMonths[1] - availableDaysInThisMonth - daysInNeighbourMonths[0];
+        } else {
+          neededDaysInNeighbourMonths[0] = daysInNeighbourMonths[0] - availableDaysInThisMonth;
+        }
       } else {
-        neededDaysInNeighbourMonths[0] = daysInNeighbourMonths[0] - thisMonthLeftOver;
-      }
-    } else {
-      neighbourMonths[0] = this.today.getMonth() + 1;
-      daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
-      usableLabelDays = thisMonthLeftOver + daysInNeighbourMonths[0];
+        neighbourMonths[0] = this.today.getMonth() + 1;
+        daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
+        usableLabelDays = availableDaysInThisMonth + daysInNeighbourMonths[0];
 
-      if (usableLabelDays <= this.chartDisplayRange) {
-        neighbourMonths[1] = this.today.getMonth() + 2;
-        daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
+        if (usableLabelDays <= this.chartDisplayRange) {
+          neighbourMonths[1] = this.today.getMonth() + 2;
+          daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
+        }
       }
     }
+
     //Determine Label Index
-    this.monthLabelIndexes[0] = (Math.floor(thisMonthLeftOver / 2));
+    //Needed new already floored variable to test the statement because of the +1 added to the monthleftover var
+    if (availableDaysInThisMonth > 0 && availableDaysInThisMonth != undefined) {
+      this.monthLabelIndexes[0] = (Math.floor(availableDaysInThisMonth / 2));
+    }
     // push only if they are able to be inserted
-    if (neededDaysInNeighbourMonths[0] != 0 && neededDaysInNeighbourMonths[0] != undefined) {
+    if (neededDaysInNeighbourMonths[0] > 0 && neededDaysInNeighbourMonths[0] != undefined) {
       this.monthLabelIndexes[1] = (Math.floor(neededDaysInNeighbourMonths[0] / 2));
     }
-    if (neededDaysInNeighbourMonths[1] != 0 && neededDaysInNeighbourMonths[1] != undefined) {
+    if (neededDaysInNeighbourMonths[1] > 0 && neededDaysInNeighbourMonths[1] != undefined) {
       this.monthLabelIndexes[2] = (Math.floor(neededDaysInNeighbourMonths[1] / 2));
     }
 
@@ -204,6 +229,19 @@ export class SellerBoardComponent implements OnInit {
     console.log(neighbourMonths);
     return neighbourMonths;
   }
+
+  calcAvailableDaysThisMonth() {
+    let thisMonthLeftOver: number = 0;
+    let availableDaysInThisMonth: number = 0;
+    const todayDayNumber = this.today.getDate();
+    const daysInThisMonth = this.daysInMonth(this.today.getMonth());
+    /* See how many days are left in this month and if it is 0, that means it is the last day so, availableDaysInThisMonth
+should be equal to the days in this month. Else, avaialabledays are whatever this month's left over is. */
+    thisMonthLeftOver = daysInThisMonth - todayDayNumber;
+    thisMonthLeftOver <= 0 ? availableDaysInThisMonth = daysInThisMonth : availableDaysInThisMonth = thisMonthLeftOver;
+    return availableDaysInThisMonth;
+  }
+
   daysInMonth(month) {
     //Takes month starting from 0 --> 0 = January
     return new Date(this.today.getFullYear(), month + 1, 0).getDate();
