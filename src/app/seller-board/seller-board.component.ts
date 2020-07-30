@@ -112,7 +112,6 @@ export class SellerBoardComponent implements OnInit {
     this.addDateToChartHover(orderedMonthArr);
     console.log(this.tooltipsLabel);
     this.monthLabelIndexes.forEach((index, i) => {
-      alert(index);
       this.labelEmptySpace(index);
       //Label month name in between empty labels
       this.chartLabels.push(this.months[orderedMonthArr[i]]);
