@@ -138,7 +138,7 @@ export class SellerBoardComponent implements OnInit {
           }
         }
         // If availableDaysInThisMonth is larger than the required amount, add dates until the required dates are satisfied. 
-        
+
          else {
           let i = 1;
           while (i <= this.chartDisplayRange) {
@@ -186,7 +186,7 @@ export class SellerBoardComponent implements OnInit {
     /* See if you need another month space or not and find the center of needed 30 days to insert those months 
     as well as calculating how many days are needed from each month.
     */
-    if (availableDaysInThisMonth < 30) {
+    if (availableDaysInThisMonth < this.chartDisplayRange) {
 
       if (todayDayNumber > daysInThisMonth / 2) {
         neighbourMonths[0] = this.today.getMonth() - 1;
