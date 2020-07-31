@@ -138,7 +138,7 @@ export class SellerBoardComponent implements OnInit {
         }
         // If availableDaysInThisMonth is larger than the required amount, add dates until the required dates are satisfied. 
 
-         else {
+        else {
           let i = 1;
           while (i <= this.chartDisplayRange) {
             let dayToAdd = i;
@@ -167,62 +167,36 @@ export class SellerBoardComponent implements OnInit {
   }
 
   getNeighbourMonths() {
-    // Need 30 days and have respective month in the middle of days that are being used as a label. 
-    const todayDayNumber = this.today.getDate();
-    const daysInThisMonth = this.daysInMonth(this.today.getMonth());
-    /*  
-    There can only be 3 month label insert indexes. Worst case scenario is when it is 
-    Jan 30 which has 31 days (1 remaining day) and next is Feb which has 28 days.
-    This adds up to usable 29 days which is less than 30 so, March comes to save the day. 
-    So, our graph ends up using Jan, Feb and March.
-    */
-    let usableLabelDays: number = 0;
+
+    // Need as many days as chartDisplayRange and have respective month in the middle of days that are being used as a label. 
+
+    // Initially usableLabelDays is the available days in this month
+    let availableDaysInThisMonth: number = this.calcAvailableDaysThisMonth();
+    let usableLabelDays: number = availableDaysInThisMonth;
     let neighbourMonths = [];
     let daysInNeighbourMonths: Array<number> = [];
-    let neededDaysInNeighbourMonths: Array<number> = [];
-    let availableDaysInThisMonth: number = this.calcAvailableDaysThisMonth();
+    // First index of this array will always be this month and others will be neighbour months
+    let neededDaysInEveryMonth: Array<number> = [this.calcAvailableDaysThisMonth()];
 
     /* See if you need another month space or not and find the center of needed 30 days to insert those months 
     as well as calculating how many days are needed from each month.
     */
     if (availableDaysInThisMonth < this.chartDisplayRange) {
-
-      if (todayDayNumber > daysInThisMonth / 2) {
-        neighbourMonths[0] = this.today.getMonth() - 1;
-        daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
-        usableLabelDays = availableDaysInThisMonth + daysInNeighbourMonths[0];
-
-        if (usableLabelDays <= this.chartDisplayRange) {
-          neighbourMonths[1] = this.today.getMonth() - 2;
-          daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
-          neededDaysInNeighbourMonths[1] = daysInNeighbourMonths[1] - availableDaysInThisMonth - daysInNeighbourMonths[0];
-        } else {
-          neededDaysInNeighbourMonths[0] = daysInNeighbourMonths[0] - availableDaysInThisMonth;
-        }
-      } else {
-        neighbourMonths[0] = this.today.getMonth() + 1;
-        daysInNeighbourMonths[0] = this.daysInMonth(neighbourMonths[0]);
-        usableLabelDays = availableDaysInThisMonth + daysInNeighbourMonths[0];
-
-        if (usableLabelDays <= this.chartDisplayRange) {
-          neighbourMonths[1] = this.today.getMonth() + 2;
-          daysInNeighbourMonths[1] = this.daysInMonth(neighbourMonths[1]);
-        }
+      let i = 0;
+      while (usableLabelDays < this.chartDisplayRange) {
+        // Go back to prev month and see if days in that month plus this month's available days satisfy the chartDisplayRange. Keep moving down months until chartDisplayRange is satisfied.
+        neighbourMonths[i] = this.today.getMonth() - (i + 1);
+        daysInNeighbourMonths[i] = this.daysInMonth(neighbourMonths[i]);
+        usableLabelDays += daysInNeighbourMonths[i];
+        neededDaysInEveryMonth[i + 1] = daysInNeighbourMonths[i] - usableLabelDays;
       }
     }
-
-    //Determine Label Index
-    //Needed new already floored variable to test the statement because of the +1 added to the monthleftover var
-    if (availableDaysInThisMonth > 0 && availableDaysInThisMonth != undefined) {
-      this.monthLabelIndexes[0] = (Math.floor(availableDaysInThisMonth / 2));
-    }
-    // push only if they are able to be inserted
-    if (neededDaysInNeighbourMonths[0] > 0 && neededDaysInNeighbourMonths[0] != undefined) {
-      this.monthLabelIndexes[1] = (Math.floor(neededDaysInNeighbourMonths[0] / 2));
-    }
-    if (neededDaysInNeighbourMonths[1] > 0 && neededDaysInNeighbourMonths[1] != undefined) {
-      this.monthLabelIndexes[2] = (Math.floor(neededDaysInNeighbourMonths[1] / 2));
-    }
+    neededDaysInEveryMonth.forEach((month, i) => {
+      //Determine Label Index of each month and push only if they are able to be inserted
+      if (neededDaysInEveryMonth[i] > 0 && neededDaysInEveryMonth[i] != undefined) {
+        this.monthLabelIndexes[i] = (Math.floor(neededDaysInEveryMonth[i] / 2));
+      }
+    })
 
     console.log(this.monthLabelIndexes);
     console.log(neighbourMonths);
