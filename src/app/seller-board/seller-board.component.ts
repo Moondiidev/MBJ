@@ -25,7 +25,8 @@ export class SellerBoardComponent implements OnInit {
   tooltipsLabel: Array<string> = [];
   totalRevenue: number = 300;
   totalCancelation: number = 40;
-  chartDisplayRange: number = 30;
+  chartDisplayRanges: Array<number> = [7, 14, 30];
+  currentChartDisplayRange: number = 30;
   messagePreviews = [
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
@@ -124,12 +125,11 @@ export class SellerBoardComponent implements OnInit {
       this.chartLabels.push(this.months[orderedMonthArr[i]]);
       this.labelEmptySpace(index);
     });
-    /* Inserting month label exactly in the middle is impossible as both the chartLabels's size and chartDisplayRange
-    changes. So, to make sure their size matches (to display all data properly), I add or remove empty day from last day.
+    /* Inserting month label exactly in the middle is impossible as both the chartLabels's size and currentChartDisplayRange changes. So, to make sure their size matches (to display all data properly), I add or remove empty day from last day.
     */
-    if (this.chartLabels.length < this.chartDisplayRange) {
+    if (this.chartLabels.length < this.currentChartDisplayRange) {
       let a = 0;
-      while (this.chartLabels.length < this.chartDisplayRange) {
+      while (this.chartLabels.length < this.currentChartDisplayRange) {
         //each time this gets called, empty day label can either be added to right or left of the first element to balance things out.
         if (a % 2 === 0) {
           this.chartLabels.splice(this.monthLabelIndexes[0] - 1, 0, '');
@@ -138,9 +138,9 @@ export class SellerBoardComponent implements OnInit {
         }
         a++;
       }
-    } else if (this.chartLabels.length > this.chartDisplayRange) {
+    } else if (this.chartLabels.length > this.currentChartDisplayRange) {
       let a = 0;
-      while (this.chartLabels.length > this.chartDisplayRange) {
+      while (this.chartLabels.length > this.currentChartDisplayRange) {
         //each time this gets called, empty day label can either be deleted from the right or left of the first element to balance things out.
         if (a % 2 === 0) {
           this.chartLabels.splice(this.monthLabelIndexes[0] - 1, 1);
@@ -160,7 +160,7 @@ export class SellerBoardComponent implements OnInit {
 
   getPreviousMonths() {
 
-    // Need as many days as chartDisplayRange and have respective month in the middle of days that are being used as a label. 
+    // Need as many days as currentChartDisplayRange and have respective month in the middle of days that are being used as a label. 
 
     // Initially usableLabelDays is the available days in this month
     let usableLabelDays: number = 0;
@@ -173,13 +173,13 @@ export class SellerBoardComponent implements OnInit {
     /* See if you need another month space or not and find the center of needed 30 days to insert those months 
     as well as calculating how many days are needed from each month.
     */
-    if (this.availableDaysInThisMonth < this.chartDisplayRange) {
+    if (this.availableDaysInThisMonth < this.currentChartDisplayRange) {
       let i = 0;
-      while (usableLabelDays < this.chartDisplayRange) {
-        // Go back to prev month and see if days in that month plus this month's available days satisfy the chartDisplayRange. Keep moving down months until chartDisplayRange is satisfied.
+      while (usableLabelDays < this.currentChartDisplayRange) {
+        // Go back to prev month and see if days in that month plus this month's available days satisfy the currentChartDisplayRange. Keep moving down months until currentChartDisplayRange is satisfied.
         previousMonths[i] = this.today.getMonth() - (i + 1);
         daysInPreviousMonths[i] = this.daysInMonth(previousMonths[i]);
-        neededDays = this.chartDisplayRange - usableLabelDays;
+        neededDays = this.currentChartDisplayRange - usableLabelDays;
         if (neededDays < daysInPreviousMonths[i]) {
           neededDaysInEveryMonth[i] = neededDays;
         } else {
@@ -241,6 +241,9 @@ export class SellerBoardComponent implements OnInit {
     this.userNameSub = this.appManagerService.userName.subscribe(name => {
       this.userName = name;
     });
+  }
+  onSelectChartDisplayRange(range : number){
+    this.currentChartDisplayRange = range;
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

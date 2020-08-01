@@ -240,83 +240,9 @@ $border-color: #8a8a8aa6;
   align-items: center;
 }
 
-.dropdown {
-  font-size: 1.2rem;
-  position: relative;
-  flex: 1 0 0;
-  max-width: 120px;
-  z-index: 10;
-
-  &--lg {
-    max-width: 220px;
-  }
-
-  &__btn {
-    font-size: 1.4rem;
-    font-weight: 500;
-    text-align: left;
-    padding: 1.2rem;
-    border: 1px solid $border-color;
-    border-radius: 2px;
-    cursor: pointer;
-
-  
-    &::after {
-      content: "";
-      position: absolute;
-      right: 2rem;
-      top: 45%;
-      border: solid #444444;
-      border-width: 0 2px 2px 0;
-      display: inline-block;
-      padding: 3px;
-      transition: 0.1s;
-      transform: rotate(45deg);
-    }
-
-  }
-
-  &__options {
-    padding: 1rem 0;
-    overflow-y: auto;
-    margin-top: 1rem;
-    background-color: white;
-    text-align: left;
-    border: 1px solid $border-color;
-    display: none;
-    position: absolute;
-    width: 100%;
-    transform-origin: top;
-    height: 20rem;
-
-    &__el {
-      padding: 1rem 0;
-      padding-left: 3rem;
-      transition: 0.2s;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #30e3ca;
-      }
-    }
-  }
-}
-
 select {
   font-size: 1.4rem;
   font-weight: lighter;
-}
-
-.ddOpen {
-  >.dropdown__options {
-    display: block;
-  }
-
-  >.dropdown__btn {
-    &::after {
-      transform: rotate(135deg) scaleX(-1);
-    }
-  }
 }
 
 .skill-checkboxes {
@@ -452,3 +378,4 @@ select {
   padding: 0.4rem 1rem;
   
 }
+

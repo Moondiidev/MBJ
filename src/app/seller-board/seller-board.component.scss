@@ -13,8 +13,9 @@
       padding: 5rem;
       text-align: center;
       width: 32%;
+
       &--1 {
-        background-color:#dfb754;
+        background-color: #dfb754;
       }
 
       &--2 {
@@ -24,6 +25,10 @@
       &--3 {
         background-color: #e49555;
       }
+    }
+
+    &__chart {
+      position: relative;
     }
   }
 }
@@ -117,5 +122,29 @@
     border-radius: 50%;
     width: 6rem;
     height: 6rem;
+  }
+}
+
+
+.dropdown {
+  cursor: pointer;
+  position: absolute;
+  right: 50px;
+  top: 45px;
+  max-width: 16rem;
+  &__btn {
+    padding: 6px 1.2rem;
+    padding-right: 4rem;
+    font-size: 1.2rem;
+    &::after {
+      top: 32%;
+    }
+  }
+
+  &__options {
+    height: auto;
+    &__el {
+      padding-left: 1rem;
+    }
   }
 }
