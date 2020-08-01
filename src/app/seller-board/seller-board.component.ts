@@ -2,8 +2,8 @@ import { AppManagerService } from './../shared/app-manager.service';
 import { SellerSetUpService } from './../seller-set-up/seller-set-up.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ChartDataSets } from 'chart.js';
-import { Label, Color } from 'ng2-charts';
+import { Label } from 'ng2-charts';
+import * as Chart from 'chart.js';
 
 @Component({
   selector: 'app-seller-board',
@@ -16,6 +16,9 @@ export class SellerBoardComponent implements OnInit {
   userNameSub: Subscription;
   userName: string;
   responseRate: number = 40;
+
+  // ****************** CHART DATA ********************** //
+  analyticsChart: Chart;
   today = new Date();
   months: Array<string> = ['Нэгдүгээр Сар', 'Хоёрдугаар Сар', 'Гуравдугаар Сар', 'Дөрөвдүгээр Сар', 'Тавдугаар Сар', 'Зургадугаар Сар', 'Долдугаар Сар', 'Наймдугаар Сар', 'Есдүгээр Сар', 'Аравдугаар Сар', 'Араваннэгдүгээр Сар', 'Араванхоёрдугаар Сар'];
   thisMonthIndex: number = this.today.getMonth();
@@ -27,6 +30,8 @@ export class SellerBoardComponent implements OnInit {
   totalCancelation: number = 40;
   chartDisplayRanges: Array<number> = [7, 14, 30];
   currentChartDisplayRange: number = 30;
+  // *************************************************** //
+
   messagePreviews = [
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
     { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
@@ -36,76 +41,98 @@ export class SellerBoardComponent implements OnInit {
   ];
   constructor(private sellerService: SellerSetUpService, private appManagerService: AppManagerService) { }
 
-  barChartData: ChartDataSets[] = [
-    { data: [20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442], label: 'Орлого' },
-    { data: [12590, 12300], label: 'Цуцлагдсан' },
-  ];
-
-  barChartLabels: Label[] = this.chartLabels;
-
-  barChartOptions = {
-    responsive: true,
-    scales: {
-      xAxes: [{
-        stacked: true,
-        gridLines: {
-          display: false,
-        }
-      }],
-      yAxes: [{
-        stacked: true,
-        ticks: {
-          beginAtZero: true,
+  ngOnInit(): void {
+    this.analyticsChart = new Chart('analyticsChart', {
+      type: 'bar',
+      data: {
+        labels: this.chartLabels,
+        datasets: [
+          {
+            label: 'Орлого',
+            data: [20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442],
+            borderColor: 'black',
+            backgroundColor: '#2a9d8f',
+          },
+          {
+            label: 'Цуцлагдсан',
+            data: [12590, 12300],
+            borderColor: 'black',
+            backgroundColor: '#edf6f9',
+          }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          xAxes: [{
+            stacked: true,
+            gridLines: {
+              display: false,
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              beginAtZero: true,
+            },
+            type: 'linear',
+          }]
         },
-        type: 'linear',
-      }]
-    },
-    legend: {
-      display: true,
-      labels: {
-        padding: 25
-      }
-    },
-    tooltips: {
-      callbacks: {
-        label: function (tooltipItem, data) {
-          return this.tooltipsLabel[tooltipItem.index];
-        }.bind(this),
-        title: function (tooltipItems, data) {
-          return data.datasets[tooltipItems[0].datasetIndex].label + ': ' + tooltipItems[0].yLabel + ' ₮';
+        legend: {
+          display: true,
+          labels: {
+            padding: 25
+          }
+        },
+        tooltips: {
+          callbacks: {
+            label: function (tooltipItem, data) {
+              return this.tooltipsLabel[tooltipItem.index];
+            }.bind(this),
+            title: function (tooltipItems, data) {
+              return data.datasets[tooltipItems[0].datasetIndex].label + ': ' + tooltipItems[0].yLabel + ' ₮';
+            }
+          },
+          titleFontSize: 14,
+          titleAlign: 'center',
+          titleMarginBottom: 4,
+          titleFontColor: '#eaeaea',
+          backgroundColor: '#264653',
+          bodyFontColor: '#aaa',
+          bodyFontSize: 14,
+          bodyAlign: 'center',
+          bodySpacing: 6,
+          xPadding: 10,
+          yPadding: 10,
+          displayColors: false
         }
       },
-      titleFontSize: 14,
-      titleAlign: 'center',
-      titleMarginBottom: 4,
-      titleFontColor: '#eaeaea',
-      backgroundColor: '#264653',
-      bodyFontColor: '#aaa',
-      bodyFontSize: 14,
-      bodyAlign: 'center',
-      bodySpacing: 6,
-      xPadding: 10,
-      yPadding: 10,
-      displayColors: false
-    }
-  };
+    })
 
-  barChartColors: Color[] = [
-    {
-      borderColor: 'black',
-      backgroundColor: '#2a9d8f',
-    },
-    {
-      borderColor: 'black',
-      backgroundColor: '#edf6f9',
-    }
-  ];
+    this.getProfileImage();
+    this.getUserName();
+    this.updateTheChart();
+  }
 
-  barChartLegend = true;
-  barChartPlugins = [];
-  barChartType = 'bar';
-
-  addMonthLabels() {
+  onSelectChartDisplayRange(range: number) {
+    // Set new range
+    this.currentChartDisplayRange = range;
+    // Update the chart
+    this.resetChartVariables();
+    this.populateChart();
+    // This extra step is needed in order to dynamically change chart labels. It doesn't automatically change.
+    this.analyticsChart.config.data.labels = this.chartLabels;
+    this.analyticsChart.update();
+  }
+  resetChartVariables() {
+    this.tooltipsLabel = [];
+    this.monthLabelIndexes = [];
+    this.chartLabels = [];
+  }
+  updateTheChart() {
+    this.populateChart();
+    this.analyticsChart.update();
+  }
+  populateChart() {
     /* If this month has more than 1 available days, combine current month with previous months and then sort them.
     Else, use previous months only
     */
@@ -152,6 +179,7 @@ export class SellerBoardComponent implements OnInit {
     }
     console.log(this.chartLabels);
   }
+
   labelEmptySpace(index) {
     for (let i = 0; i < index; i++) {
       this.chartLabels.push('');
@@ -227,11 +255,7 @@ export class SellerBoardComponent implements OnInit {
     //Takes month starting from 0 --> 0 = January
     return new Date(this.today.getFullYear(), month + 1, 0).getDate();
   }
-  ngOnInit(): void {
-    this.getProfileImage();
-    this.getUserName();
-    this.addMonthLabels();
-  }
+
   getProfileImage() {
     this.personalProfileImgDataSub = this.sellerService.getProfileImg().subscribe(imgUrl => {
       this.profileImgUrl = imgUrl;
@@ -242,9 +266,7 @@ export class SellerBoardComponent implements OnInit {
       this.userName = name;
     });
   }
-  onSelectChartDisplayRange(range : number){
-    this.currentChartDisplayRange = range;
-  }
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
