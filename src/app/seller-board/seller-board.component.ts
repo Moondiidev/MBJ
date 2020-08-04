@@ -33,11 +33,11 @@ export class SellerBoardComponent implements OnInit {
   // *************************************************** //
 
   messagePreviews = [
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Yu bn haraal idsen ass...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
+    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
   ];
   constructor(private sellerService: SellerSetUpService, private appManagerService: AppManagerService) { }
 
