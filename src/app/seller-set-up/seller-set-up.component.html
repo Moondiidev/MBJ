@@ -32,7 +32,7 @@
           <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
             мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
         </div>
-        <form class="setUpForm" [formGroup]="personalForm" (ngSubmit)="onPersonalFormSubmit()">
+        <form class="setUpForm" [formGroup]="personalForm" (ngSubmit)="onPersonalFormSubmit()" spellcheck="false">
           <div class="inputs">
             <div class="inputs__left">
               <h2 class="setUpText setUpText--required">Профиль зураг</h2>
@@ -112,7 +112,7 @@
             худалдан авагч нарт танилцуулна уу.</p>
         </div>
         <div #scrollEl></div>
-        <form class="setUpForm" [formGroup]="professionalForm" (ngSubmit)="onProfessionalFormSubmit()">
+        <form class="setUpForm" [formGroup]="professionalForm" (ngSubmit)="onProfessionalFormSubmit()" spellcheck="false">
           <div class="inputs">
             <div class="inputs__left">
               <label class="setUpText setUpText--required" for="profession">Таны Мэргэжил</label>
@@ -222,7 +222,7 @@
               <label class="setUpText setUpText--required">Чадварууд</label>
             </div>
             <div class="inputs__right">
-              <form [formGroup]="skillsForm" class="form-ashen">
+              <form [formGroup]="skillsForm" class="form-ashen" spellcheck="false">
                 <div class="skills">
                   <div class="form-ashen-wrapper" *ngIf="miniFormsShow[0]">
                     <div class="form-ashen-row">
@@ -268,7 +268,7 @@
               <label class="setUpText">Боловсрол</label>
             </div>
             <div class="inputs__right">
-              <form [formGroup]="educationsForm" class="form-ashen">
+              <form [formGroup]="educationsForm" class="form-ashen" spellcheck="false">
                 <div class="educations">
                   <div class="form-ashen-wrapper" *ngIf="miniFormsShow[1]">
                     <div class="form-ashen-row">
@@ -651,7 +651,7 @@
               <label class="setUpText">Сертификатнууд</label>
             </div>
             <div class="inputs__right">
-              <form [formGroup]="certificationsForm" class="form-ashen">
+              <form [formGroup]="certificationsForm" class="form-ashen" spellcheck="false">
                 <div class="certifications">
                   <div class="form-ashen-wrapper" *ngIf="miniFormsShow[2]">
                     <div class="form-ashen-row">

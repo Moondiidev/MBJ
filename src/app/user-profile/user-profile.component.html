@@ -23,7 +23,7 @@
               <img src="../../assets/img/draw.svg" class="profileInfo__overview__preview__parts__editIcon"
                 (click)="onEditInput(0)" alt="">
             </div>
-            <form [formGroup]="editableInputForm[0]">
+            <form [formGroup]="editableInputForm[0]" spellcheck="false">
               <input type="text" class="subtle-input" *ngIf="editingInput[0]" maxlength="63"
                 formControlName="inputValue">
             </form>
@@ -77,7 +77,7 @@
               <p class="paragraph-lg">{{this.editableInputValue[1]}}</p>
             </div>
 
-            <form [formGroup]="editableInputForm[1]">
+            <form [formGroup]="editableInputForm[1]" spellcheck="false">
               <div *ngIf="editingInput[1]" class="dataChangerForm">
                 <div class="dataChangerForm__wrapper">
                   <textarea class="dataChangerForm__textarea" formControlName="inputValue"></textarea>
@@ -100,7 +100,7 @@
               </div>
 
 
-              <form [formGroup]="skillsForm">
+              <form [formGroup]="skillsForm" spellcheck="false">
                 <div class="skills">
 
                   <!-- if no certification, this will be shown -->
@@ -152,7 +152,7 @@
               </div>
             </div>
 
-            <form [formGroup]="educationsForm">
+            <form [formGroup]="educationsForm" spellcheck="false">
               <div class="educations">
 
                 <p class="paragraph-lg margin-bot-md" *ngIf='educations.data.length == 0'> Боловсролоо нэм нүү <p>
@@ -531,7 +531,7 @@
                 <a class="emphasis-link--2 paragraph-xl" (click)="showMiniForm(2)">Нэмэх</a>
               </div>
 
-              <form [formGroup]="certificationsForm">
+              <form [formGroup]="certificationsForm" spellcheck="false">
                 <div class="certifications">
                   <p class="paragraph-lg margin-bot-md" *ngIf='certifications.data.length == 0'>Сертификатаа нэм нүү</p>
 

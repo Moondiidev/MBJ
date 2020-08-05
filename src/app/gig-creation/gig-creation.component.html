@@ -1,12 +1,15 @@
 <div class="gigCreation max-width-container">
-  <form [formGroup]="gigForm">
+  <form [formGroup]="gigForm" spellcheck="false">
     <div class="form-input-group">
       <label for="title">Гиг-ийн Гарчиг</label>
-      <textarea formControlName="title" name="title" id="title" cols="30" rows="10" maxlength="100" minlength="5"
-        placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу." #gigTitle></textarea>
-      <span class="paragraph noOfChar">{{gigTitle.value.length}} / 100</span>
-      <span *ngIf="!gigForm.get('title').valid && gigForm.get('title').touched"
-        class="error-text text-left">Хамгийн багадаа 5 үсэг бичнэ үү.</span>
+      <div class="form-input">
+        <span class="title-starter">Би</span>
+        <textarea class="title-textarea" formControlName="title" name="title" id="title" cols="30" rows="10"
+          maxlength="100" minlength="5" #gigTitle></textarea>
+        <span class="paragraph noOfChar">{{gigTitle.value.length}} / 100</span>
+        <span *ngIf="!gigForm.get('title').valid && gigForm.get('title').touched" class="error-text text-left">Хамгийн
+          багадаа 5 үсэг бичнэ үү.</span>
+      </div>
     </div>
 
   </form>
