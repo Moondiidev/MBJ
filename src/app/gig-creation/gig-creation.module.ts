@@ -1,6 +1,6 @@
 import { GigCreationComponent } from './gig-creation.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
     ],
     imports: [
         CommonModule,
-        FormsModule,
+        ReactiveFormsModule,
         RouterModule.forChild([
             { path: '', component: GigCreationComponent }
         ])

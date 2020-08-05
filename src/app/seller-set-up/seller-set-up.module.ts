@@ -1,6 +1,6 @@
 import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { SellerSetUpComponent } from './seller-set-up.component';
 import { AuthGuard } from '../auth/auth.guard';
@@ -10,7 +10,6 @@ import { AuthGuard } from '../auth/auth.guard';
         SellerSetUpComponent
     ],
     imports: [
-        FormsModule,
         ReactiveFormsModule,
         SharedModule,
         RouterModule.forChild([

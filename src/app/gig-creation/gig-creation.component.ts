@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-gig-creation',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GigCreationComponent implements OnInit {
 
+  gigForm;
   constructor() { }
 
   ngOnInit(): void {
+    this.gigForm = new FormGroup({
+      'title': new FormControl(null, Validators.required),
+    })
   }
-
 }
