@@ -129,7 +129,7 @@ $blue-color-light: #96f1fd;
 
 .form-ashen {
   &__btn {
-    font-weight: 500;
+    font-weight: 600;
     display: inline-block;
     padding: 0.7rem 1rem;
     width: 8rem;
@@ -142,7 +142,7 @@ $blue-color-light: #96f1fd;
 
   &__addBtn {
     margin-left: 2rem;
-    background-color: #3ba549;
+    background-color: #2ab6a8;
     color: white;
 
     &:disabled {
@@ -150,16 +150,19 @@ $blue-color-light: #96f1fd;
     }
 
     &:hover {
-      background-color: #2cb14d;
+      background-color: #2ec4b6;
+    }
+    &--lg{
+      width: 10rem;
     }
   }
 
   &__removeBtn {
-    background-color: #a5423b;
+    background-color: #d81b31;
     color: white;
 
     &:hover {
-      background-color: #c03530;
+      background-color: #e71d36;
     }
   }
 }
