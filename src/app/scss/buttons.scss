@@ -133,36 +133,35 @@ $blue-color-light: #96f1fd;
     display: inline-block;
     padding: 0.7rem 1rem;
     width: 8rem;
-    border: 1px solid $border-color;
     border-radius: 2px;
     cursor: pointer;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.15);
     transition: 0.2s;
+    color: white;
   }
 
   &__addBtn {
     margin-left: 2rem;
-    background-color: #2ab6a8;
-    color: white;
+    background-color: #79ac87;
 
     &:disabled {
       background-color: $disabled-color !important;
     }
 
     &:hover {
-      background-color: #2ec4b6;
+      background-color: #85b992;
     }
-    &--lg{
+
+    &--lg {
       width: 10rem;
     }
   }
 
   &__removeBtn {
-    background-color: #d81b31;
-    color: white;
+    background-color:#d66e6e;
 
     &:hover {
-      background-color: #e71d36;
+      background-color: #e67878;
     }
   }
 }
