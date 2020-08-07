@@ -108,10 +108,10 @@
 .messagePreviews {
   height: 40rem;
   overflow-y: scroll;
+  cursor: pointer;
 }
 
 .messagePreview {
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
