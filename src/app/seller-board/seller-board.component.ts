@@ -27,6 +27,7 @@ export class SellerBoardComponent implements OnInit {
   availableDaysInThisMonth: number = this.today.getDate() - 1;
 
   monthLabelIndexes: Array<number> = [];
+  previousMonths = [];
   chartLabels: Label[] = [];
   tooltipsLabel: Array<string> = [];
   totalRevenue: number = 300;
@@ -128,22 +129,23 @@ export class SellerBoardComponent implements OnInit {
     this.tooltipsLabel = [];
     this.monthLabelIndexes = [];
     this.chartLabels = [];
+    this.previousMonths = [];
   }
   updateTheChart() {
     this.populateChart();
     this.analyticsChart.update();
   }
   populateChart() {
-    /* If this month has more than 1 available days, combine current month with previous months and then sort them.
+    /* If this month has more than 1 available days, combine current month with previous months.
     Else, use previous months only
     */
     let orderedMonthArr: Array<number> = [];
+    this.calculateNeededDays();
     if (this.todayDate > 1) {
-      orderedMonthArr = [this.thisMonthIndex, ...this.getPreviousMonths()];
+      orderedMonthArr = [...this.previousMonths, this.thisMonthIndex];
     } else {
-      orderedMonthArr = [...this.getPreviousMonths()];
+      orderedMonthArr = this.previousMonths;
     }
-    orderedMonthArr.sort();
     console.log(orderedMonthArr);
 
     console.log(this.tooltipsLabel);
@@ -187,13 +189,12 @@ export class SellerBoardComponent implements OnInit {
     }
   }
 
-  getPreviousMonths() {
+  calculateNeededDays() {
 
     // Need as many days as currentChartDisplayRange and have respective month in the middle of days that are being used as a label. 
 
     // Initially usableLabelDays is the available days in this month
     let usableLabelDays: number = this.availableDaysInThisMonth;
-    let previousMonths = [];
     let daysInPreviousMonths: Array<number> = [];
     // First index of this array will always be this month and others will be neighbour months
     let neededDaysInEveryMonth: Array<number> = [this.availableDaysInThisMonth];
@@ -212,12 +213,13 @@ export class SellerBoardComponent implements OnInit {
     /* See if you need another month space or not and find the center of needed 30 days to insert those months 
     as well as calculating how many days are needed from each month.
     */
+
     if (this.availableDaysInThisMonth < this.currentChartDisplayRange) {
       let i = 0;
       while (usableLabelDays < this.currentChartDisplayRange) {
         // Go back to prev month and see if days in that month plus this month's available days satisfy the currentChartDisplayRange. Keep moving down months until currentChartDisplayRange is satisfied.
-        previousMonths[i] = this.today.getMonth() - (i + 1);
-        daysInPreviousMonths[i] = this.daysInMonth(previousMonths[i]);
+        this.previousMonths[i] = this.today.getMonth() - (i + 1);
+        daysInPreviousMonths[i] = this.daysInMonth(this.previousMonths[i]);
         neededDays = this.currentChartDisplayRange - usableLabelDays;
         if (neededDays < daysInPreviousMonths[i]) {
           neededDaysInEveryMonth[i + 1] = neededDays;
@@ -226,11 +228,11 @@ export class SellerBoardComponent implements OnInit {
         }
 
         // Push all needed days from previous months starting at the last day
-        let j = this.daysInMonth(previousMonths[i]);
+        let j = this.daysInMonth(this.previousMonths[i]);
         let k = neededDaysInEveryMonth[i + 1];
         console.log(neededDaysInEveryMonth);
         while (0 < k) {
-          this.tooltipsLabel.push(`${this.months[previousMonths[i]]}ын ${j}-н`);
+          this.tooltipsLabel.push(`${this.months[this.previousMonths[i]]}ын ${j}-н`);
           k--;
           j--;
         }
@@ -241,27 +243,27 @@ export class SellerBoardComponent implements OnInit {
       }
     }
 
-    // Determining where each month label should be placed.
-    neededDaysInEveryMonth.forEach((month, i) => {
-      //Determine Label Index of each month and push only if they are able to be inserted
-      if (neededDaysInEveryMonth[i] > 0 && neededDaysInEveryMonth[i] != undefined) {
-        this.monthLabelIndexes.push((Math.floor(neededDaysInEveryMonth[i] / 2)));
-      }
-    })
-
+    this.findLabelIndexes(neededDaysInEveryMonth);
     /* Days are inserted from this month's latest day to last needed smallest day of previous months 
     (e.g. 8.1,7.31,...,7.2) but labeling happens in order from array index 0 to last. 
     So, arrays are reversed in order to be labeled in order properly.
     */
 
     this.tooltipsLabel.reverse();
-    this.monthLabelIndexes.reverse();
 
-    console.log(this.monthLabelIndexes);
-    console.log(previousMonths);
-    return previousMonths;
+    console.log(this.previousMonths);
   }
+  findLabelIndexes(Arr: Array<number>) {
+    // Determining where each month label should be placed.
+    Arr.forEach((month, i) => {
+      //Determine Label Index of each month and push only if they are able to be inserted
+      if (Arr[i] > 0 && Arr[i] != undefined) {
+        this.monthLabelIndexes.push((Math.floor(Arr[i] / 2)));
+      }
+    })
+    console.log(this.monthLabelIndexes);
 
+  }
   daysInMonth(month) {
     //Takes month starting from 0 --> 0 = January
     return new Date(this.today.getFullYear(), month + 1, 0).getDate();
