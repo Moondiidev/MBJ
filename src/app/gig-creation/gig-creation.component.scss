@@ -1,18 +1,46 @@
-.form-input {
+.form-input-group {
+  display: flex;
+  padding-bottom: 2rem;
+}
+
+.form-input-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-right: 4rem;
+}
+
+.form-input-body {
   position: relative;
+}
+
+.form-input-footer {
+  margin-top: 1rem;
+}
+
+.noOfChar {
+  display: inline-block;
+  width: 100%;
+  text-align: right;
 }
 
 .title {
   &-starter {
     position: absolute;
-    top: 10px;
+    top: 15px;
     left: 10px;
     z-index: 2;
     color: gray;
   }
 
   &-starter,
-  &-textArea {
-      font-size: 1.6rem;
+  &-textarea {
+    font-size: 3rem;
+    font-weight: 500;
+
+  }
+
+  &-textarea {
+    text-indent: 50px;
+    padding: 14px 12px;
   }
 }
