@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, Quer
 import { SellerSetUpService } from './seller-set-up.service';
 import { Subscription, throwError, forkJoin } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { PersonalModel } from 'src/app/shared/personal.model';
@@ -28,7 +28,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   mainUrlName: string = 'seller-set-up/';
   firstNavUrlName: string = 'personal';
   secondNavUrlName: string = 'professional';
-  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
+  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private router: Router, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
 
   ngOnInit(): void {
     this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
@@ -1013,6 +1013,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   finishSetUp(){
     this.appManagerService.saveHasSellerAccount(true);
+    this.router.navigate([`/seller-board/${this.appManagerService.userName}`]);
+    
   }
 }
 
