@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment.prod';
 import { AppManagerService } from './../shared/app-manager.service';
 import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { SellerSetUpService } from './seller-set-up.service';
@@ -12,6 +13,7 @@ import { Location } from '@angular/common';
 import { skillsInterface } from './skills.interface';
 import { educationsInterface } from './educations.interface';
 import { certificationsInterface } from './certifications.interface';
+
 @Component({
   selector: 'app-seller-set-up',
   templateUrl: './seller-set-up.component.html',
@@ -369,13 +371,13 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   fromYears = [];
   toYears = [];
 
-  graphicDesignNames: Array<string> = ['Хүүхэлдэйн Кино & Комик Сэтгүүл', '3Д Модель Дүр & Бүдээгтхүүн Дизайн', 'Вэб Дизайн', 'Урилга & Бизнес Карт', 'Тоглоом Дизайн', 'Хүрээлэн Буй Орчин', 'Зар Суртчилгаа', 'Photoshop Эвлүүлэг', 'Лого Дизайн', 'Ном & Цомог Хавтас', 'Инфограпик', 'Архитектур', 'Бусад'];
-  marketingNames: Array<string> = ['Эмэйл Маркетинг', 'Вэб Сайт Хөдөлгөөн Ихэсгэх', 'Инфлүнсэр Маркетинг', 'Видео Маркетинг', 'SEO', 'Сошиал Мэдиа Маркетинг', 'Бусад'];
-  soundNames: Array<string> = ['Хөгжим Найруулагч & Зохиолч', 'SFX', 'Дуу Оруулаг', 'Дуучин', 'Бусад'];
-  writingNames: Array<string> = ['Сэтгүүл & Блог', 'Хяналтын Уншилт & Засах', 'Гадааг Хэл Орчуулагa', 'Хууль Бичвэр', 'Техникийн Бичвэр', 'Бүтээгдэхүүн Тайлбар', 'Уран Бичвэр', 'Товч Намтар (CV)', 'Бусад'];
-  videoNames: Array<string> = ['Киноны Трейлер', 'Видео Тоглоомны Трейлер', 'Видео Эвлүүлэг', 'Богино Хэмжээний Зар Сурталчилгаа', '3Д Хүүхэлдэйн Кино', 'VFX', '2Д Хүүхэлдэйн Кино', 'Бусад'];
-  programmingNames: Array<string> = ['Вэб Сайт Програмчлал', 'Хөөрөлдөгч Бот', 'Видео Тоглоом Хөгжүүлэх', 'Гар Утасны АПП Програмчлал', 'WordPress', 'Мэдээлэл Судлал & Тайлан', 'Цахим Аюулгуй Байдал', 'Бусад'];
-  otherNames: Array<string> = ['Дасгал & Хоол Тэжээл Зөвлөгөө', 'Санхүүгийн Зөвлөгөө', 'Сэтгэл Зүйн Эмчилгээ', 'Бусад'];
+  graphicDesignNames: Array<string> = environment.jobCategories.graphicDesignNames;
+  marketingNames: Array<string> = environment.jobCategories.marketingNames;
+  soundNames: Array<string> = environment.jobCategories.soundNames;
+  writingNames: Array<string> = environment.jobCategories.writingNames;
+  videoNames: Array<string> = environment.jobCategories.videoNames;
+  programmingNames: Array<string> = environment.jobCategories.programmingNames;
+  otherNames: Array<string> = environment.jobCategories.otherNames;
 
   scrollSub: Subscription;
   skillsTableSub: Subscription;
@@ -606,7 +608,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     //select input are reset to get back their placeholders
     this.resetSelectInputs();
   }
-  resetSelectInputs(){
+  resetSelectInputs() {
     this.skillLevelSelectInput = null;
     this.countrySelectInput = null;
     this.titleSelectInput = null;
@@ -1011,10 +1013,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
 
-  finishSetUp(){
+  finishSetUp() {
     this.appManagerService.saveHasSellerAccount(true);
     this.router.navigate([`/seller-board/${this.appManagerService.userName}`]);
-    
+
   }
 }
 

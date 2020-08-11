@@ -6,13 +6,30 @@
 
       <div class="form-input-body">
         <span class="title-starter">Би</span>
-        <textarea class="title-textarea" formControlName="title" name="title" id="title" cols="40" rows="3"
-          maxlength="80" minlength="15" #gigTitle></textarea>
+        <textarea class="title-textarea" formControlName="title" name="title" id="title" cols="30" rows="3"
+          maxlength="60" minlength="15" #gigTitle></textarea>
         <div class="form-input-footer">
           <span *ngIf="!gigForm.get('title').valid && gigForm.get('title').touched" class="error-text text-left">Хамгийн
             багадаа 15 үсэг бичнэ үү.</span>
-          <span class="paragraph noOfChar">{{gigTitle.value.length}} / 80</span>
+          <span class="paragraph noOfChar">{{gigTitle.value.length}} / 60</span>
         </div>
+      </div>
+    </div>
+    <div class="form-input-group">
+
+      <label class="form-input-label" for="title">Ангилал</label>
+
+      <div class="form-input-body">
+        <button type="button" class="dropdown" appDropDown>
+          <div class="dropdown__btn"> categories
+          </div>
+          <ul class="dropdown__options animated zoomIn evenFaster">
+            <li class="dropdown__options__el" *ngFor="let category of categories; let i = index"
+              (click)="onSelectCategory(i)">
+              category
+            </li>
+          </ul>
+        </button>
       </div>
     </div>
 
