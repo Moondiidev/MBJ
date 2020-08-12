@@ -10,7 +10,7 @@ import { environment } from './../../environments/environment.prod';
 export class GigCreationComponent implements OnInit {
 
   gigForm: FormGroup;
-
+  professions = environment.professions;
   graphicDesignNames: Array<string> = environment.jobCategories.graphicDesignNames;
   marketingNames: Array<string> = environment.jobCategories.marketingNames;
   soundNames: Array<string> = environment.jobCategories.soundNames;
@@ -18,7 +18,15 @@ export class GigCreationComponent implements OnInit {
   videoNames: Array<string> = environment.jobCategories.videoNames;
   programmingNames: Array<string> = environment.jobCategories.programmingNames;
   otherNames: Array<string> = environment.jobCategories.otherNames;
-  categories = ['GraphicDesign', 'Marketing', 'Sound', 'Writing', 'Video', 'Programming', 'Other'];
+  categories = {
+    [this.professions.graphicDesignNames]: this.graphicDesignNames,
+    [this.professions.marketingNames]: this.marketingNames,
+    [this.professions.soundNames]: this.soundNames,
+    [this.professions.writingNames]: this.writingNames,
+    [this.professions.videoNames]: this.videoNames,
+    [this.professions.programmingNames]: this.programmingNames,
+    [this.professions.otherNames]: this.otherNames
+  };
 
   constructor() { }
 
@@ -27,7 +35,7 @@ export class GigCreationComponent implements OnInit {
       'title': new FormControl(null, Validators.required),
     })
   }
-  onSelectCategory(){
+  onSelectCategory(index: number) {
 
   }
 }

@@ -9,4 +9,14 @@ export const environment = {
     programmingNames: ['Вэб Сайт Програмчлал', 'Хөөрөлдөгч Бот', 'Видео Тоглоом Хөгжүүлэх', 'Гар Утасны АПП Програмчлал', 'WordPress', 'Мэдээлэл Судлал & Тайлан', 'Цахим Аюулгуй Байдал', 'Бусад'],
     otherNames: ['Дасгал & Хоол Тэжээл Зөвлөгөө', 'Санхүүгийн Зөвлөгөө', 'Сэтгэл Зүйн Эмчилгээ', 'Бусад']
   },
+  professions: {
+    graphicDesignNames: 'График Дизайн',
+    marketingNames: 'Онлайн Mаркетинг',
+    soundNames: 'Дуу & Ая',
+    writingNames: 'Бичиг & Орчуулагa',
+    videoNames: 'Видео & Аниматион',
+    programmingNames: 'Программ & Технологи',
+    otherNames: 'Бусад'
+  },
+
 };
