@@ -21,12 +21,12 @@
 
       <div class="form-input-body">
         <button type="button" class="dropdown" appDropDown>
-          <div class="dropdown__btn"> categories
+          <div class="dropdown__btn"> {{categories[0]}}
           </div>
           <ul class="dropdown__options animated zoomIn evenFaster">
             <li class="dropdown__options__el" *ngFor="let category of categories; let i = index"
               (click)="onSelectCategory(i)">
-              category
+              {{category}}
             </li>
           </ul>
         </button>

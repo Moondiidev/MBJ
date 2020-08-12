@@ -18,7 +18,7 @@ export class GigCreationComponent implements OnInit {
   videoNames: Array<string> = environment.jobCategories.videoNames;
   programmingNames: Array<string> = environment.jobCategories.programmingNames;
   otherNames: Array<string> = environment.jobCategories.otherNames;
-  categories = [this.graphicDesignNames, this.marketingNames, this.soundNames, this.writingNames, this.videoNames, this.programmingNames, this.otherNames];
+  categories = ['GraphicDesign', 'Marketing', 'Sound', 'Writing', 'Video', 'Programming', 'Other'];
 
   constructor() { }
 
@@ -28,6 +28,6 @@ export class GigCreationComponent implements OnInit {
     })
   }
   onSelectCategory(){
-    
+
   }
 }
