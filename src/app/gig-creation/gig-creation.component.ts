@@ -27,7 +27,9 @@ export class GigCreationComponent implements OnInit {
     [this.professions.programmingNames]: this.programmingNames,
     [this.professions.otherNames]: this.otherNames
   };
-
+  chosenCategory = this.writingNames;
+  chosenCategoryName = this.professions.writingNames;
+  chosenSubCategory = this.chosenCategory[0];
   constructor() { }
 
   ngOnInit(): void {
@@ -35,7 +37,12 @@ export class GigCreationComponent implements OnInit {
       'title': new FormControl(null, Validators.required),
     })
   }
-  onSelectCategory(index: number) {
-
+  onSelectCategory(chosenCategoryKey, chosenCategoryValue) {
+    this.chosenCategoryName = chosenCategoryKey;
+    this.chosenCategory = chosenCategoryValue;
+    this.chosenSubCategory = this.chosenCategory[0];
+  }
+  onSelectSubCategory(chosenSubCategoryValue) {
+    this.chosenSubCategory = chosenSubCategoryValue;
   }
 }

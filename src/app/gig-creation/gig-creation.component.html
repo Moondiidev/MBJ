@@ -1,5 +1,5 @@
 <div class="gigCreation max-width-container">
-  <form [formGroup]="gigForm" spellcheck="false">
+  <form [formGroup]="gigForm" class="gigForm" spellcheck="false">
     <div class="form-input-group">
 
       <label class="form-input-label" for="title">Гиг-ийн Гарчиг</label>
@@ -19,14 +19,24 @@
 
       <label class="form-input-label" for="title">Ангилал</label>
 
-      <div class="form-input-body">
+      <div class="form-input-body flex-spaceBetween ">
         <button type="button" class="dropdown" appDropDown>
-          <div class="dropdown__btn"> {{professions.writingNames}}
+          <div class="dropdown__btn"> {{chosenCategoryName}}
           </div>
           <ul class="dropdown__options animated zoomIn evenFaster">
             <li class="dropdown__options__el" *ngFor="let category of categories | keyvalue"
-              (click)="onSelectCategory(category.value)">
+              (click)="onSelectCategory(category.key, category.value)">
               {{category.key}}
+            </li>
+          </ul>
+        </button>
+        <button type="button" class="dropdown" appDropDown>
+          <div class="dropdown__btn"> {{chosenSubCategory}}
+          </div>
+          <ul class="dropdown__options animated zoomIn evenFaster">
+            <li class="dropdown__options__el" *ngFor="let subCategory of chosenCategory | keyvalue"
+              (click)="onSelectSubCategory(subCategory.value)">
+              {{subCategory.value}}
             </li>
           </ul>
         </button>
