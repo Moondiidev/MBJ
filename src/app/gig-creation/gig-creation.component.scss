@@ -20,13 +20,9 @@
 }
 
 .form-input-footer {
+  display: flex;
+  justify-content: space-between;
   margin-top: 1rem;
-}
-
-.noOfChar {
-  display: inline-block;
-  width: 100%;
-  text-align: right;
 }
 
 .title {

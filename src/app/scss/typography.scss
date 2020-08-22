@@ -161,6 +161,9 @@
 .error-text {
   color: red;
   font-size: 1.2rem;
+  &__sm{
+    font-size: 1.1rem;
+  }
 }
 
 .text-center {

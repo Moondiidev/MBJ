@@ -35,6 +35,7 @@ export class GigCreationComponent implements OnInit {
   ngOnInit(): void {
     this.gigForm = new FormGroup({
       'title': new FormControl(null, Validators.required),
+      'searchTags': new FormControl(null, Validators.required),
     })
   }
   onSelectCategory(chosenCategoryKey, chosenCategoryValue) {

@@ -9,9 +9,13 @@
         <textarea class="title-textarea" formControlName="title" name="title" id="title" cols="30" rows="3"
           maxlength="60" minlength="15" #gigTitle></textarea>
         <div class="form-input-footer">
-          <span *ngIf="!gigForm.get('title').valid && gigForm.get('title').touched" class="error-text text-left">Хамгийн
-            багадаа 15 үсэг бичнэ үү.</span>
-          <span class="paragraph noOfChar">{{gigTitle.value.length}} / 60</span>
+          <div class="form-input-footer__left">
+            <span *ngIf="!gigForm.get('title').valid && gigForm.get('title').touched" class="error-text error-text__sm">Хамгийн
+              багадаа 15 үсэг бичнэ үү.</span>
+          </div>
+          <div class="form-input-footer__right">
+            <span class="paragraph">{{gigTitle.value.length}} / 60</span>
+          </div>
         </div>
       </div>
     </div>
@@ -48,9 +52,23 @@
       <label class="form-input-label" for="title">Хайлтын Шошго</label>
 
       <div class="form-input-body">
-        <input type="text" class="form-input-fullText">
+        <input formControlName="searchTags" type="text" class="form-input-fullText">
+        <div class="form-input-footer">
+          <div class="form-input-footer__left">
+            <span *ngIf="!gigForm.get('searchTags').valid && gigForm.get('searchTags').touched"
+              class="error-text error-text__sm">Хамгийн
+              багадаа 1 шошго нэм нүү.</span>
+          </div>
+          <div class="form-input-footer__right">
+            <span class="paragraph form-input-footer__right"> Зөвхөн үсэг, тоо ашиглан xамгийн ихдээ 5н ширхэг
+              шошго нэм нүү.
+            </span>
+          </div>
+        </div>
       </div>
+
     </div>
+
   </form>
 </div>
 <app-footer></app-footer>
