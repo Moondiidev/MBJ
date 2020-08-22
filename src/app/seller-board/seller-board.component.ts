@@ -200,21 +200,21 @@ export class SellerBoardComponent implements OnInit {
     let neededDaysInEveryMonth: Array<number> = [this.availableDaysInThisMonth];
     let neededDays: number = 0;
 
-    // Push all usable days from this month starting from yesterday
-    let j = this.availableDaysInThisMonth;
-    let k = neededDaysInEveryMonth[0];
-    console.log(neededDaysInEveryMonth);
-    while (0 < k) {
-      this.tooltipsLabel.push(`${this.months[this.thisMonthIndex]}ын ${j}-н`);
-      k--;
-      j--;
-    }
-
-    /* See if you need another month space or not and find the center of needed 30 days to insert those months 
-    as well as calculating how many days are needed from each month.
-    */
-
     if (this.availableDaysInThisMonth < this.currentChartDisplayRange) {
+      // Push all usable days from this month starting from yesterday
+      let j = this.availableDaysInThisMonth;
+      let k = neededDaysInEveryMonth[0];
+      console.log(neededDaysInEveryMonth);
+      while (0 < k) {
+        this.tooltipsLabel.push(`${this.months[this.thisMonthIndex]}ын ${j}-н`);
+        k--;
+        j--;
+      }
+
+      /* See if you need another month space or not and find the center of needed 30 days to insert those months 
+      as well as calculating how many days are needed from each month.
+      */
+
       let i = 0;
       while (usableLabelDays < this.currentChartDisplayRange) {
         // Go back to prev month and see if days in that month plus this month's available days satisfy the currentChartDisplayRange. Keep moving down months until currentChartDisplayRange is satisfied.
@@ -240,6 +240,12 @@ export class SellerBoardComponent implements OnInit {
         // Update the usable days var
         usableLabelDays += daysInPreviousMonths[i];
         i++;
+      }
+    }else{
+      let k = this.currentChartDisplayRange;
+      while (0 < k) {
+        this.tooltipsLabel.push(`${this.months[this.thisMonthIndex]}ын ${k}-н`);
+        k--;
       }
     }
 
