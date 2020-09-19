@@ -293,6 +293,8 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       })
     } else {
       //NgIf messes with the form parts so I need to check checkboxes, repopulate tables and reset some variables whenever ngIf becomes true for professionalNav
+      //checkCheckBoxes function already has timeout method.
+      this.checkCheckBoxes();
       setTimeout(() => {
         this.skillCounter = 0;
         this.skillContent = [];
@@ -300,7 +302,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
         this.educationContent = [];
         this.certificationCounter = 0;
         this.certificationContent = [];
-        this.checkCheckBoxes();
         this.populateSkillsTable();
         this.populateEducationsTable();
         this.populateCertificationsTable();
@@ -515,13 +516,15 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     }
   }
   checkCheckBoxes() {
-    for (let i = 0; i < this.checkedProfessions.length; i++) {
-      const tempEl = document.getElementById(this.checkedProfessions[i].id);
-      if (tempEl !== null) {
-        tempEl.classList.add('isChecked');
+    setTimeout(()=>{
+      for (let i = 0; i < this.checkedProfessions.length; i++) {
+        const tempEl = document.getElementById(this.checkedProfessions[i].id);
+        if (tempEl !== null) {
+          tempEl.classList.add('isChecked');
+        }
       }
-    }
-    this.counter = this.checkedProfessions.length;
+      this.counter = this.checkedProfessions.length;
+    },100);
   }
   // ***************************************************************************** //
   // ****************************** MINIFORMS ************************************ //
