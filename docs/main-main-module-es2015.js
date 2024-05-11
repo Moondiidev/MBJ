@@ -998,7 +998,7 @@
               slidesToShow: 5,
               slidesToScroll: 5,
               nextArrow:
-                "<img src='assets/img/left.svg' class='slider-btn slider-btn--right next-slide'>",
+                "<img src='/assets/img/left.svg' class='slider-btn slider-btn--right next-slide'>",
               prevArrow:
                 "<img src='assets/img/left.svg' class='slider-btn slider-btn--left prev-slide'>",
               infinite: true,
