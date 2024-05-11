@@ -4,7 +4,8 @@ $font-color-primary: #f7f7f7;
 .hero-container {
   // To compensate for the header
   height: 55rem;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../../assets/img/background.jpg) no-repeat center;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(assets/img/background.jpg) no-repeat center;
   background-size: cover;
   margin-bottom: 12rem;
 }
@@ -114,7 +115,7 @@ $font-color-primary: #f7f7f7;
   font-weight: 400;
 }
 
-input.ng-valid+.search-button {
+input.ng-valid + .search-button {
   background-color: #00adb5;
   &:hover {
     background-color: #07bfc9;
@@ -151,4 +152,3 @@ input.ng-valid+.search-button {
     margin-bottom: 2rem;
   }
 }
-

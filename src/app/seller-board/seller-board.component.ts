@@ -1,14 +1,14 @@
-import { AppManagerService } from './../shared/app-manager.service';
-import { SellerSetUpService } from './../seller-set-up/seller-set-up.service';
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Label } from 'ng2-charts';
-import * as Chart from 'chart.js';
+import { AppManagerService } from "./../shared/app-manager.service";
+import { SellerSetUpService } from "./../seller-set-up/seller-set-up.service";
+import { Component, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Label } from "ng2-charts";
+import * as Chart from "chart.js";
 
 @Component({
-  selector: 'app-seller-board',
-  templateUrl: './seller-board.component.html',
-  styleUrls: ['./seller-board.component.scss']
+  selector: "app-seller-board",
+  templateUrl: "./seller-board.component.html",
+  styleUrls: ["./seller-board.component.scss"],
 })
 export class SellerBoardComponent implements OnInit {
   profileImgUrl: string = null;
@@ -20,7 +20,20 @@ export class SellerBoardComponent implements OnInit {
   // ****************** CHART DATA ********************** //
   analyticsChart: Chart;
   today = new Date();
-  months: Array<string> = ['Нэгдүгээр Сар', 'Хоёрдугаар Сар', 'Гуравдугаар Сар', 'Дөрөвдүгээр Сар', 'Тавдугаар Сар', 'Зургадугаар Сар', 'Долдугаар Сар', 'Наймдугаар Сар', 'Есдүгээр Сар', 'Аравдугаар Сар', 'Араваннэгдүгээр Сар', 'Араванхоёрдугаар Сар'];
+  months: Array<string> = [
+    "Нэгдүгээр Сар",
+    "Хоёрдугаар Сар",
+    "Гуравдугаар Сар",
+    "Дөрөвдүгээр Сар",
+    "Тавдугаар Сар",
+    "Зургадугаар Сар",
+    "Долдугаар Сар",
+    "Наймдугаар Сар",
+    "Есдүгээр Сар",
+    "Аравдугаар Сар",
+    "Араваннэгдүгээр Сар",
+    "Араванхоёрдугаар Сар",
+  ];
   thisMonthIndex: number = this.today.getMonth();
   todayDate: number = this.today.getDate();
   // excluding today
@@ -37,53 +50,95 @@ export class SellerBoardComponent implements OnInit {
   // *************************************************** //
 
   messagePreviews = [
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
-    { profileImg: '../../assets/img/photo.svg', name: 'allaab', message: 'Hi hi oh hi hi hi...', date: '7 cap' },
+    {
+      profileImg: "assets/img/photo.svg",
+      name: "allaab",
+      message: "Hi hi oh hi hi hi...",
+      date: "7 cap",
+    },
+    {
+      profileImg: "assets/img/photo.svg",
+      name: "allaab",
+      message: "Hi hi oh hi hi hi...",
+      date: "7 cap",
+    },
+    {
+      profileImg: "assets/img/photo.svg",
+      name: "allaab",
+      message: "Hi hi oh hi hi hi...",
+      date: "7 cap",
+    },
+    {
+      profileImg: "assets/img/photo.svg",
+      name: "allaab",
+      message: "Hi hi oh hi hi hi...",
+      date: "7 cap",
+    },
+    {
+      profileImg: "assets/img/photo.svg",
+      name: "allaab",
+      message: "Hi hi oh hi hi hi...",
+      date: "7 cap",
+    },
   ];
-  constructor(private sellerService: SellerSetUpService, private appManagerService: AppManagerService) { }
+  constructor(
+    private sellerService: SellerSetUpService,
+    private appManagerService: AppManagerService
+  ) {}
 
   ngOnInit(): void {
-    this.analyticsChart = new Chart('analyticsChart', {
-      type: 'bar',
+    this.analyticsChart = new Chart("analyticsChart", {
+      type: "bar",
       data: {
         labels: this.chartLabels,
         datasets: [
           {
-            label: 'Орлого',
-            data: [20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232, 100442],
-            backgroundColor: '#2a9d8f',
+            label: "Орлого",
+            data: [
+              20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232,
+              100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590,
+              100300, 100232, 100232, 100232, 20590, 100300, 100232, 100232,
+              100232, 20590, 100300, 100232, 100232, 100442, 20590, 100300,
+              100232, 100232, 100232, 20590, 100300, 100232, 100232, 100232,
+              20590, 100300, 100232, 100232, 100232, 20590, 100300, 100232,
+              100232, 100232, 20590, 100300, 100232, 100232, 100232, 20590,
+              100300, 100232, 100232, 100442,
+            ],
+            backgroundColor: "#2a9d8f",
           },
           {
-            label: 'Цуцлагдсан',
+            label: "Цуцлагдсан",
             data: [12590, 12300],
-            backgroundColor: '#edf6f9',
-          }]
+            backgroundColor: "#edf6f9",
+          },
+        ],
       },
       options: {
         responsive: true,
         scales: {
-          xAxes: [{
-            stacked: true,
-            gridLines: {
-              display: false,
-            }
-          }],
-          yAxes: [{
-            stacked: true,
-            ticks: {
-              beginAtZero: true,
+          xAxes: [
+            {
+              stacked: true,
+              gridLines: {
+                display: false,
+              },
             },
-            type: 'linear',
-          }]
+          ],
+          yAxes: [
+            {
+              stacked: true,
+              ticks: {
+                beginAtZero: true,
+              },
+              type: "linear",
+            },
+          ],
         },
         legend: {
           display: true,
           labels: {
-            padding: 25
-          }
+            padding: 25,
+          },
         },
         tooltips: {
           callbacks: {
@@ -91,24 +146,29 @@ export class SellerBoardComponent implements OnInit {
               return this.tooltipsLabel[tooltipItem.index];
             }.bind(this),
             title: function (tooltipItems, data) {
-              return data.datasets[tooltipItems[0].datasetIndex].label + ': ' + tooltipItems[0].yLabel + ' ₮';
-            }
+              return (
+                data.datasets[tooltipItems[0].datasetIndex].label +
+                ": " +
+                tooltipItems[0].yLabel +
+                " ₮"
+              );
+            },
           },
           titleFontSize: 14,
-          titleAlign: 'center',
+          titleAlign: "center",
           titleMarginBottom: 4,
-          titleFontColor: '#eaeaea',
-          backgroundColor: '#264653',
-          bodyFontColor: '#aaa',
+          titleFontColor: "#eaeaea",
+          backgroundColor: "#264653",
+          bodyFontColor: "#aaa",
           bodyFontSize: 14,
-          bodyAlign: 'center',
+          bodyAlign: "center",
           bodySpacing: 6,
           xPadding: 10,
           yPadding: 10,
-          displayColors: false
-        }
+          displayColors: false,
+        },
       },
-    })
+    });
 
     this.getProfileImage();
     this.getUserName();
@@ -157,15 +217,15 @@ export class SellerBoardComponent implements OnInit {
       this.labelEmptySpace(index);
     });
     /* Inserting month label exactly in the middle is impossible as both the chartLabels's size and currentChartDisplayRange changes. So, to make sure their size matches (to display all data properly), I add or remove empty day from last day.
-    */
+     */
     if (this.chartLabels.length < this.currentChartDisplayRange) {
       let a = 0;
       while (this.chartLabels.length < this.currentChartDisplayRange) {
         //each time this gets called, empty day label can either be added to right or left of the first element to balance things out.
         if (a % 2 === 0) {
-          this.chartLabels.splice(this.monthLabelIndexes[0] - 1, 0, '');
+          this.chartLabels.splice(this.monthLabelIndexes[0] - 1, 0, "");
         } else {
-          this.chartLabels.splice(this.monthLabelIndexes[0] + 1, 0, '');
+          this.chartLabels.splice(this.monthLabelIndexes[0] + 1, 0, "");
         }
         a++;
       }
@@ -186,13 +246,12 @@ export class SellerBoardComponent implements OnInit {
 
   labelEmptySpace(index) {
     for (let i = 0; i < index; i++) {
-      this.chartLabels.push('');
+      this.chartLabels.push("");
     }
   }
 
   calculateNeededDays() {
-
-    // Need as many days as currentChartDisplayRange and have respective month in the middle of days that are being used as a label. 
+    // Need as many days as currentChartDisplayRange and have respective month in the middle of days that are being used as a label.
 
     // Initially usableLabelDays is the available days in this month
     let usableLabelDays: number = this.availableDaysInThisMonth;
@@ -203,9 +262,9 @@ export class SellerBoardComponent implements OnInit {
 
     // Determine how many days are needed this month
     if (this.availableDaysInThisMonth < this.currentChartDisplayRange) {
-      neededDaysInEveryMonth[0] = (this.availableDaysInThisMonth);
+      neededDaysInEveryMonth[0] = this.availableDaysInThisMonth;
     } else {
-      neededDaysInEveryMonth[0] = (this.currentChartDisplayRange);
+      neededDaysInEveryMonth[0] = this.currentChartDisplayRange;
     }
     // Push all usable days from this month starting from yesterday
     let j = this.availableDaysInThisMonth;
@@ -238,7 +297,9 @@ export class SellerBoardComponent implements OnInit {
         let k = neededDaysInEveryMonth[i + 1];
         console.log(neededDaysInEveryMonth);
         while (0 < k) {
-          this.tooltipsLabel.push(`${this.months[this.previousMonths[i]]}ын ${j}-н`);
+          this.tooltipsLabel.push(
+            `${this.months[this.previousMonths[i]]}ын ${j}-н`
+          );
           k--;
           j--;
         }
@@ -264,11 +325,10 @@ export class SellerBoardComponent implements OnInit {
     Arr.forEach((month, i) => {
       //Determine Label Index of each month and push only if they are able to be inserted
       if (Arr[i] > 0 && Arr[i] != undefined) {
-        this.monthLabelIndexes.push((Math.floor(Arr[i] / 2)));
+        this.monthLabelIndexes.push(Math.floor(Arr[i] / 2));
       }
-    })
+    });
     console.log(this.monthLabelIndexes);
-
   }
   daysInMonth(month) {
     //Takes month starting from 0 --> 0 = January
@@ -276,12 +336,14 @@ export class SellerBoardComponent implements OnInit {
   }
 
   getProfileImage() {
-    this.personalProfileImgDataSub = this.sellerService.getProfileImg().subscribe(imgUrl => {
-      this.profileImgUrl = imgUrl;
-    })
+    this.personalProfileImgDataSub = this.sellerService
+      .getProfileImg()
+      .subscribe((imgUrl) => {
+        this.profileImgUrl = imgUrl;
+      });
   }
   getUserName() {
-    this.userNameSub = this.appManagerService.userName.subscribe(name => {
+    this.userNameSub = this.appManagerService.userName.subscribe((name) => {
       this.userName = name;
     });
   }

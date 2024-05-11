@@ -1,14 +1,30 @@
-
 <section class="hero-container">
   <div class="hero">
     <div class="hero__img"></div>
     <div class="hero__content">
-      <h1 class="hero__title">Бизнэсдээ таарсан хамгийн шилдэг <br> чөлөөт ажиллагсадыг эндээс ол</h1>
+      <h1 class="hero__title">
+        Бизнэсдээ таарсан хамгийн шилдэг <br />
+        чөлөөт ажиллагсадыг эндээс ол
+      </h1>
       <form action="" class="search" #f="ngForm" spellcheck="false">
         <div class="searchBar">
-          <img src="../../assets/img/loupe.svg" alt="" class="searchIcon">
-          <input type="text" class="search-input" ngModel name="searchQuery" #search="ngModel" required>
-          <button type="button" class="search-button" (click)="onClick()" [disabled]="!f.valid">Хайх</button>
+          <img src="assets/img/loupe.svg" alt="" class="searchIcon" />
+          <input
+            type="text"
+            class="search-input"
+            ngModel
+            name="searchQuery"
+            #search="ngModel"
+            required
+          />
+          <button
+            type="button"
+            class="search-button"
+            (click)="onClick()"
+            [disabled]="!f.valid"
+          >
+            Хайх
+          </button>
         </div>
       </form>
       <div class="hero__popular">
@@ -21,42 +37,88 @@
     </div>
   </div>
   <div class="companies">
-    <img src="../../assets/img/company-logos/apu.png" alt="" class="companies__companyLogo">
-    <img src="../../assets/img/company-logos/unitel.png" alt="" class="companies__companyLogo">
-    <img src="../../assets/img/company-logos/mobicom.png" alt="" class="companies__companyLogo">
-    <img src="../../assets/img/company-logos/oyu-tolgoi.png" alt="" class="companies__companyLogo">
-    <img src="../../assets/img/company-logos/MCS.png" alt="" class="companies__companyLogo">
+    <img
+      src="assets/img/company-logos/apu.png"
+      alt=""
+      class="companies__companyLogo"
+    />
+    <img
+      src="assets/img/company-logos/unitel.png"
+      alt=""
+      class="companies__companyLogo"
+    />
+    <img
+      src="assets/img/company-logos/mobicom.png"
+      alt=""
+      class="companies__companyLogo"
+    />
+    <img
+      src="assets/img/company-logos/oyu-tolgoi.png"
+      alt=""
+      class="companies__companyLogo"
+    />
+    <img
+      src="assets/img/company-logos/MCS.png"
+      alt=""
+      class="companies__companyLogo"
+    />
   </div>
 </section>
 
 <section class="max-width-container">
-  <h2 class="heading-secondary text-center margin-bot-lg"> Алдартай Мэргэжлийн Үйлчилгээнүүд </h2>
+  <h2 class="heading-secondary text-center margin-bot-lg">
+    Алдартай Мэргэжлийн Үйлчилгээнүүд
+  </h2>
 
-  <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
-    <div ngxSlickItem *ngFor="let popularCard of slides" class="card" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('+ popularCard.background + ')'}">
+  <ngx-slick-carousel
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig"
+  >
+    <div
+      ngxSlickItem
+      *ngFor="let popularCard of slides"
+      class="card"
+      [ngStyle]="{
+        'background-image':
+          'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(' +
+          popularCard.background +
+          ')'
+      }"
+    >
       <div class="card__content">
-        <p class="card__description">{{popularCard.description}}</p>
-        <p class="card__title">{{popularCard.title}}</p>
+        <p class="card__description">{{ popularCard.description }}</p>
+        <p class="card__title">{{ popularCard.title }}</p>
       </div>
     </div>
   </ngx-slick-carousel>
-
 </section>
 
 <section class="selfPromo max-width-container">
-  <h2 class="heading-secondary text-center margin-bot-lg">Ажилаа бүтээмээр байн уу?</h2>
+  <h2 class="heading-secondary text-center margin-bot-lg">
+    Ажилаа бүтээмээр байн уу?
+  </h2>
   <div class="selfPromo__features">
     <div class="selfPromo__feature">
-      <img src="../../assets/img/clock.svg" class="selfPromo__img" alt="">
-      <h4 class="heading-fourth">Асуух асуулт байна гэж үү? Бидэнтэй ямарч цагт холбогдож бодит хүмүүсээс шуурхай тусламж авнуу.</h4>
+      <img src="assets/img/clock.svg" class="selfPromo__img" alt="" />
+      <h4 class="heading-fourth">
+        Асуух асуулт байна гэж үү? Бидэнтэй ямарч цагт холбогдож бодит хүмүүсээс
+        шуурхай тусламж авнуу.
+      </h4>
     </div>
     <div class="selfPromo__feature">
-      <img src="../../assets/img/authentication.svg" class="selfPromo__img" alt="">
-      <h4 class="heading-fourth">Чөлөөт ажиллагсадад төлбөр зөвхөн өөрийг чинь авсан үйлчилгээндээ сэтгэл хангалуун гэсэн үед л олгогддог.</h4>
+      <img src="assets/img/authentication.svg" class="selfPromo__img" alt="" />
+      <h4 class="heading-fourth">
+        Чөлөөт ажиллагсадад төлбөр зөвхөн өөрийг чинь авсан үйлчилгээндээ сэтгэл
+        хангалуун гэсэн үед л олгогддог.
+      </h4>
     </div>
     <div class="selfPromo__feature">
-      <img src="../../assets/img/pay.svg" class="selfPromo__img" alt="">
-      <h4 class="heading-fourth">Хэр их мөнгө төлөхөө урдчилан мэд. Цагийн цалин гэж байхгуй, ганц удаа төлж сонгосон үйлчилгээгээ хүрт.</h4>
+      <img src="assets/img/pay.svg" class="selfPromo__img" alt="" />
+      <h4 class="heading-fourth">
+        Хэр их мөнгө төлөхөө урдчилан мэд. Цагийн цалин гэж байхгуй, ганц удаа
+        төлж сонгосон үйлчилгээгээ хүрт.
+      </h4>
     </div>
   </div>
 </section>

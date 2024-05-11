@@ -6,96 +6,203 @@
   <div class="setUpHeader">
     <nav class="setUpHeader__nav">
       <button (click)="personalNav()" class="step">
-        <div class="step__order" [ngClass]="{step__order__backgroundActive : 0 <= navNum}">
-          <div *ngIf="0 < navNum; else order1" class='step__order__previous'></div>
+        <div
+          class="step__order"
+          [ngClass]="{ step__order__backgroundActive: 0 <= navNum }"
+        >
+          <div
+            *ngIf="0 < navNum; else order1"
+            class="step__order__previous"
+          ></div>
         </div>
-        <p class="step__navText" [ngClass]="{step__order__textActive : 0 <= navNum}">Хувийн мэдээлэл</p>
-        <img src="../../assets/img/nextArrow.svg" alt="" class="step__arrow">
+        <p
+          class="step__navText"
+          [ngClass]="{ step__order__textActive: 0 <= navNum }"
+        >
+          Хувийн мэдээлэл
+        </p>
+        <img src="assets/img/nextArrow.svg" alt="" class="step__arrow" />
       </button>
-      <button [disabled]="!personalFormValid || !notLoading" (click)="professionalNav()" class="step">
-        <div class="step__order" [ngClass]="{step__order__backgroundActive : 1 <= navNum}">
-          <div *ngIf="1 < navNum; else order2" class='step__order__previous'></div>
+      <button
+        [disabled]="!personalFormValid || !notLoading"
+        (click)="professionalNav()"
+        class="step"
+      >
+        <div
+          class="step__order"
+          [ngClass]="{ step__order__backgroundActive: 1 <= navNum }"
+        >
+          <div
+            *ngIf="1 < navNum; else order2"
+            class="step__order__previous"
+          ></div>
         </div>
-        <p class="step__navText" [ngClass]="{step__order__textActive : 1 <= navNum}">Мэргэжлийн мэдээлэл</p>
+        <p
+          class="step__navText"
+          [ngClass]="{ step__order__textActive: 1 <= navNum }"
+        >
+          Мэргэжлийн мэдээлэл
+        </p>
       </button>
     </nav>
     <p class="paragraph setUpContainer__notice">* Шаардлагатай хүснэгтүүд</p>
-    <hr class="horizontalLine--sm">
+    <hr class="horizontalLine--sm" />
   </div>
 
-  <div *ngIf='notLoading; else formLoader'>
+  <div *ngIf="notLoading; else formLoader">
     <div class="childContainer" [ngSwitch]="navNum">
       <!-- ************************** PERSONAL FORM ***************************************-->
       <div *ngSwitchCase="0">
         <div class="setUp-heading">
-          <h1 class="heading-primary"> Хувийн мэдээлэл </h1>
-          <p class="setUp-text">Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах үүднээс, эдгээр
-            мэдээллүүд олон нийтийн профиль дээр чинь тавигдах болно.</p>
+          <h1 class="heading-primary">Хувийн мэдээлэл</h1>
+          <p class="setUp-text">
+            Өөрийгөө танилцуулна уу. Худалдагч нарт өөрийг тань илүү таниулах
+            үүднээс, эдгээр мэдээллүүд олон нийтийн профиль дээр чинь тавигдах
+            болно.
+          </p>
         </div>
-        <form class="setUpForm" [formGroup]="personalForm" (ngSubmit)="onPersonalFormSubmit()" spellcheck="false">
+        <form
+          class="setUpForm"
+          [formGroup]="personalForm"
+          (ngSubmit)="onPersonalFormSubmit()"
+          spellcheck="false"
+        >
           <div class="inputs">
             <div class="inputs__left">
               <h2 class="setUpText setUpText--required">Профиль зураг</h2>
             </div>
             <div class="inputs__right">
               <div class="imgDropbox">
-                <img *ngIf="profileImgUrl !== null; else imagePlaceholder" [src]="profileImgUrl" alt="" class="imgDropbox__img">
-                <div class="imgDropbox__dropbox" (click)="dropbox.click();">
-                  <input #dropbox accept="image/x-png,image/jpeg,image/jpg" type="file"
-                    class="imgDropbox__dropbox__input" (change)="onFileSelected($event)">
+                <img
+                  *ngIf="profileImgUrl !== null; else imagePlaceholder"
+                  [src]="profileImgUrl"
+                  alt=""
+                  class="imgDropbox__img"
+                />
+                <div class="imgDropbox__dropbox" (click)="dropbox.click()">
+                  <input
+                    #dropbox
+                    accept="image/x-png,image/jpeg,image/jpg"
+                    type="file"
+                    class="imgDropbox__dropbox__input"
+                    (change)="onFileSelected($event)"
+                  />
                 </div>
-                <progress [ngStyle]="{'display': hideProgress ? 'none' : 'block'}" class="imgDropbox__progress"
-                  max="100" [value]="(uploadProgress | async)"></progress>
+                <progress
+                  [ngStyle]="{ display: hideProgress ? 'none' : 'block' }"
+                  class="imgDropbox__progress"
+                  max="100"
+                  [value]="uploadProgress | async"
+                ></progress>
               </div>
             </div>
           </div>
           <div class="inputs">
             <div class="inputs__left">
-              <label class="setUpText setUpText--required" for="fullName">Бүтэн нэр</label>
+              <label class="setUpText setUpText--required" for="fullName"
+                >Бүтэн нэр</label
+              >
               <span class="paragraph margin-left-xs">Нууцлагдмал</span>
             </div>
             <div formGroupName="name" class="inputs__right">
-              <input formControlName="firstName" type="text" name="fullName" class="personalTextInput"
-                placeholder="Өөрийн нэр" (input)="onPersonalChange()">
-              <input formControlName="lastName" type="text" name="fullName" class="personalTextInput"
-                placeholder="Эцгийн нэр" (input)="onPersonalChange()">
+              <input
+                formControlName="firstName"
+                type="text"
+                name="fullName"
+                class="personalTextInput"
+                placeholder="Өөрийн нэр"
+                (input)="onPersonalChange()"
+              />
+              <input
+                formControlName="lastName"
+                type="text"
+                name="fullName"
+                class="personalTextInput"
+                placeholder="Эцгийн нэр"
+                (input)="onPersonalChange()"
+              />
               <span
-                *ngIf="!personalForm.get('name').valid && personalForm.get('name.firstName').touched && personalForm.get('name.lastName').touched"
-                class="error-text margin-top-xs block">Бүтэн нэрээ оруулна уу.</span>
+                *ngIf="
+                  !personalForm.get('name').valid &&
+                  personalForm.get('name.firstName').touched &&
+                  personalForm.get('name.lastName').touched
+                "
+                class="error-text margin-top-xs block"
+                >Бүтэн нэрээ оруулна уу.</span
+              >
             </div>
           </div>
           <div class="inputs">
             <div class="inputs__left">
-              <label class="setUpText setUpText--required" for="description">Хувийн тайлбар</label>
+              <label class="setUpText setUpText--required" for="description"
+                >Хувийн тайлбар</label
+              >
             </div>
             <div class="inputs__right">
-              <textarea formControlName="description" ng-trim="false" name="description" class="textboxInput"
-                minlength="100" maxlength="600" (input)="onPersonalChange()"
+              <textarea
+                formControlName="description"
+                ng-trim="false"
+                name="description"
+                class="textboxInput"
+                minlength="100"
+                maxlength="600"
+                (input)="onPersonalChange()"
                 placeholder="Ажлын туршлага, хийсэн төсөл болон чадварынхаа тухай хуваалц нуу."
-                #personalDescription></textarea>
-              <span class="paragraph noOfChar">{{personalDescription.value.length}} / 600</span>
-              <span *ngIf="!personalForm.get('description').valid && personalForm.get('description').touched"
-                class="error-text text-left">Хамгийн багадаа 100 үсэг бичнэ үү.</span>
+                #personalDescription
+              ></textarea>
+              <span class="paragraph noOfChar"
+                >{{ personalDescription.value.length }} / 600</span
+              >
+              <span
+                *ngIf="
+                  !personalForm.get('description').valid &&
+                  personalForm.get('description').touched
+                "
+                class="error-text text-left"
+                >Хамгийн багадаа 100 үсэг бичнэ үү.</span
+              >
             </div>
           </div>
           <div class="setUpForm__personalBtns">
             <div class="setUpForm__personalBtns__save">
-              <button [disabled]='!personalChangesOccured' type="button" class="btn btn-orange"
-                (click)="savePersonalData(true)">Хадгалах</button>
-              <div *ngIf="showSavedPersonalAnim"
-                class="animated savedFadeUpAnim setUpForm__personalBtns__savedNotification">
-                <img src='../../assets/img/saved.svg' class="setUpForm__personalBtns__savedNotification__icon">
-                <span class="setUpForm__personalBtns__savedNotification__text">Хадгаллаа</span>
+              <button
+                [disabled]="!personalChangesOccured"
+                type="button"
+                class="btn btn-orange"
+                (click)="savePersonalData(true)"
+              >
+                Хадгалах
+              </button>
+              <div
+                *ngIf="showSavedPersonalAnim"
+                class="animated savedFadeUpAnim setUpForm__personalBtns__savedNotification"
+              >
+                <img
+                  src="assets/img/saved.svg"
+                  class="setUpForm__personalBtns__savedNotification__icon"
+                />
+                <span class="setUpForm__personalBtns__savedNotification__text"
+                  >Хадгаллаа</span
+                >
               </div>
             </div>
-            <button type="submit" class="btn btn-green btn-next"
-              [disabled]="!this.personalFormValid">Үргэлжлүүлэх</button>
+            <button
+              type="submit"
+              class="btn btn-green btn-next"
+              [disabled]="!this.personalFormValid"
+            >
+              Үргэлжлүүлэх
+            </button>
           </div>
         </form>
       </div>
       <ng-template #imagePlaceholder>
         <div class="imgDropbox__placeholder">
-          <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+          <img
+            src="../assets/img/photo.svg"
+            alt=""
+            class="imgDropbox__imgPlaceholder"
+          />
         </div>
       </ng-template>
 
@@ -107,111 +214,218 @@
       <!-- ************************** PROFESSIONAL FORM ***************************************-->
       <div *ngSwitchCase="1">
         <div class="setUp-heading">
-          <h1 class="heading-primary"> Мэргэжлийн мэдээлэл </h1>
-          <p class="setUp-text">Энэ хэсэгт та өөрийн мэргэжил болоод мэдлэг боловсрол, чадварынхаа тухай ирээдүйн
-            худалдан авагч нарт танилцуулна уу.</p>
+          <h1 class="heading-primary">Мэргэжлийн мэдээлэл</h1>
+          <p class="setUp-text">
+            Энэ хэсэгт та өөрийн мэргэжил болоод мэдлэг боловсрол, чадварынхаа
+            тухай ирээдүйн худалдан авагч нарт танилцуулна уу.
+          </p>
         </div>
         <div #scrollEl></div>
-        <form class="setUpForm" [formGroup]="professionalForm" (ngSubmit)="onProfessionalFormSubmit()" spellcheck="false">
+        <form
+          class="setUpForm"
+          [formGroup]="professionalForm"
+          (ngSubmit)="onProfessionalFormSubmit()"
+          spellcheck="false"
+        >
           <div class="inputs">
             <div class="inputs__left">
-              <label class="setUpText setUpText--required" for="profession">Таны Мэргэжил</label>
+              <label class="setUpText setUpText--required" for="profession"
+                >Таны Мэргэжил</label
+              >
             </div>
             <div class="inputs__right">
               <div class="input-lane">
                 <button type="button" class="dropdown dropdown--lg" appDropDown>
-                  <div class="dropdown__btn">{{professionText}}</div>
+                  <div class="dropdown__btn">{{ professionText }}</div>
                   <ul class="dropdown__options animated zoomIn evenFaster">
-                    <li class="dropdown__options__el" *ngFor="let profession of professions"
-                      (click)="onSelectProfession(profession)">{{profession}}</li>
+                    <li
+                      class="dropdown__options__el"
+                      *ngFor="let profession of professions"
+                      (click)="onSelectProfession(profession)"
+                    >
+                      {{ profession }}
+                    </li>
                   </ul>
                 </button>
                 <button type="button" class="dropdown" appDropDown>
-                  <div class="dropdown__btn">{{fromYearText}}</div>
+                  <div class="dropdown__btn">{{ fromYearText }}</div>
                   <ul class="dropdown__options animated zoomIn evenFaster">
-                    <li class="dropdown__options__el" *ngFor="let fromYear of fromYears; let i = index "
-                      (click)="onSelectFromYear(fromYear, i)">{{fromYear}}</li>
+                    <li
+                      class="dropdown__options__el"
+                      *ngFor="let fromYear of fromYears; let i = index"
+                      (click)="onSelectFromYear(fromYear, i)"
+                    >
+                      {{ fromYear }}
+                    </li>
                   </ul>
                 </button>
                 <label class="labelText">Оноос</label>
                 <button type="button" class="dropdown" appDropDown>
-                  <div class="dropdown__btn">{{toYearText}}</div>
+                  <div class="dropdown__btn">{{ toYearText }}</div>
                   <ul class="dropdown__options animated zoomIn evenFaster">
-                    <li class="dropdown__options__el" *ngFor="let toYear of toYears" (click)="onSelectToYear(toYear)">
-                      {{toYear}}</li>
+                    <li
+                      class="dropdown__options__el"
+                      *ngFor="let toYear of toYears"
+                      (click)="onSelectToYear(toYear)"
+                    >
+                      {{ toYear }}
+                    </li>
                   </ul>
                 </button>
                 <label class="labelText">Он</label>
               </div>
-              <p class="boldText margin-top-md">Хамгийн сайн 1-ээс 5 хүртэлх {{selectedProfession}} чадвараа сонгоно уу.
+              <p class="boldText margin-top-md">
+                Хамгийн сайн 1-ээс 5 хүртэлх {{ selectedProfession }} чадвараа
+                сонгоно уу.
               </p>
               <div [ngSwitch]="selectedProfession">
                 <div class="skill-checkboxes" *ngSwitchCase="'График Дизайн'">
-                  <label *ngFor="let unused of graphicDesignNames; let i = index"
-                    class="checkbox-container checkbox-container__left checkbox-container__green">
-                    <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i"
-                      class="checkbox" [value]='graphicDesignNames[i]'>
+                  <label
+                    *ngFor="let unused of graphicDesignNames; let i = index"
+                    class="checkbox-container checkbox-container__left checkbox-container__green"
+                  >
+                    <input
+                      type="checkBox"
+                      (change)="checkedState($event)"
+                      [id]="selectedProfession + i"
+                      class="checkbox"
+                      [value]="graphicDesignNames[i]"
+                    />
                     <span class="checkmark"></span>
-                    <span class="skill-checkboxes__label">{{graphicDesignNames[i]}}</span>
+                    <span class="skill-checkboxes__label">{{
+                      graphicDesignNames[i]
+                    }}</span>
                   </label>
                 </div>
-                <div class="skill-checkboxes" *ngSwitchCase="'Онлайн Mаркетинг'">
-                  <label *ngFor="let unused of marketingNames; let i = index"
-                    class="checkbox-container checkbox-container__left checkbox-container__green">
-                    <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i"
-                      class="checkbox" class="checkbox" [value]='marketingNames[i]'>
+                <div
+                  class="skill-checkboxes"
+                  *ngSwitchCase="'Онлайн Mаркетинг'"
+                >
+                  <label
+                    *ngFor="let unused of marketingNames; let i = index"
+                    class="checkbox-container checkbox-container__left checkbox-container__green"
+                  >
+                    <input
+                      type="checkBox"
+                      (change)="checkedState($event)"
+                      [id]="selectedProfession + i"
+                      class="checkbox"
+                      class="checkbox"
+                      [value]="marketingNames[i]"
+                    />
                     <span class="checkmark"></span>
-                    <span class="skill-checkboxes__label">{{marketingNames[i]}}</span>
+                    <span class="skill-checkboxes__label">{{
+                      marketingNames[i]
+                    }}</span>
                   </label>
                 </div>
 
                 <div class="skill-checkboxes" *ngSwitchCase="'Дуу & Ая'">
-                  <label *ngFor="let unused of soundNames; let i = index"
-                    class="checkbox-container checkbox-container__left checkbox-container__green">
-                    <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i"
-                      class="checkbox" [value]='soundNames[i]'>
+                  <label
+                    *ngFor="let unused of soundNames; let i = index"
+                    class="checkbox-container checkbox-container__left checkbox-container__green"
+                  >
+                    <input
+                      type="checkBox"
+                      (change)="checkedState($event)"
+                      [id]="selectedProfession + i"
+                      class="checkbox"
+                      [value]="soundNames[i]"
+                    />
                     <span class="checkmark"></span>
-                    <span class="skill-checkboxes__label">{{soundNames[i]}}</span>
+                    <span class="skill-checkboxes__label">{{
+                      soundNames[i]
+                    }}</span>
                   </label>
                 </div>
 
-                <div class="skill-checkboxes" *ngSwitchCase="'Бичиг & Орчуулагa'">
-                  <label *ngFor="let unused of writingNames; let i = index"
-                    class="checkbox-container checkbox-container__left checkbox-container__green">
-                    <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i"
-                      class="checkbox" [value]='writingNames[i]'>
+                <div
+                  class="skill-checkboxes"
+                  *ngSwitchCase="'Бичиг & Орчуулагa'"
+                >
+                  <label
+                    *ngFor="let unused of writingNames; let i = index"
+                    class="checkbox-container checkbox-container__left checkbox-container__green"
+                  >
+                    <input
+                      type="checkBox"
+                      (change)="checkedState($event)"
+                      [id]="selectedProfession + i"
+                      class="checkbox"
+                      [value]="writingNames[i]"
+                    />
                     <span class="checkmark"></span>
-                    <span class="skill-checkboxes__label">{{writingNames[i]}}</span>
+                    <span class="skill-checkboxes__label">{{
+                      writingNames[i]
+                    }}</span>
                   </label>
                 </div>
 
-                <div class="skill-checkboxes" *ngSwitchCase="'Видео & Аниматион'">
-                  <label *ngFor="let unused of videoNames; let i = index"
-                    class="checkbox-container checkbox-container__left checkbox-container__green">
-                    <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i"
-                      class="checkbox" [value]='videoNames[i]'>
+                <div
+                  class="skill-checkboxes"
+                  *ngSwitchCase="'Видео & Аниматион'"
+                >
+                  <label
+                    *ngFor="let unused of videoNames; let i = index"
+                    class="checkbox-container checkbox-container__left checkbox-container__green"
+                  >
+                    <input
+                      type="checkBox"
+                      (change)="checkedState($event)"
+                      [id]="selectedProfession + i"
+                      class="checkbox"
+                      [value]="videoNames[i]"
+                    />
                     <span class="checkmark"></span>
-                    <span class="skill-checkboxes__label">{{videoNames[i]}}</span>
+                    <span class="skill-checkboxes__label">{{
+                      videoNames[i]
+                    }}</span>
                   </label>
                 </div>
 
-                <div class="skill-checkboxes" *ngSwitchCase="'Программ & Технологи'">
-                  <label *ngFor="let unused of programmingNames; let programmingName of programmingNames; let i = index"
-                    class="checkbox-container checkbox-container__left checkbox-container__green">
-                    <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i"
-                      class="checkbox" [value]='programmingNames[i]'>
+                <div
+                  class="skill-checkboxes"
+                  *ngSwitchCase="'Программ & Технологи'"
+                >
+                  <label
+                    *ngFor="
+                      let unused of programmingNames;
+                      let programmingName;
+                      of: programmingNames;
+                      let i = index
+                    "
+                    class="checkbox-container checkbox-container__left checkbox-container__green"
+                  >
+                    <input
+                      type="checkBox"
+                      (change)="checkedState($event)"
+                      [id]="selectedProfession + i"
+                      class="checkbox"
+                      [value]="programmingNames[i]"
+                    />
                     <span class="checkmark"></span>
-                    <span class="skill-checkboxes__label">{{programmingNames[i]}}</span>
+                    <span class="skill-checkboxes__label">{{
+                      programmingNames[i]
+                    }}</span>
                   </label>
                 </div>
 
                 <div class="skill-checkboxes" *ngSwitchCase="'Бусад'">
-                  <label *ngFor="let unused of otherNames; let i = index"
-                    class="checkbox-container checkbox-container__left checkbox-container__green">
-                    <input type="checkBox" (change)="checkedState($event)" [id]="selectedProfession + i"
-                      class="checkbox" [value]='otherNames[i]'>
+                  <label
+                    *ngFor="let unused of otherNames; let i = index"
+                    class="checkbox-container checkbox-container__left checkbox-container__green"
+                  >
+                    <input
+                      type="checkBox"
+                      (change)="checkedState($event)"
+                      [id]="selectedProfession + i"
+                      class="checkbox"
+                      [value]="otherNames[i]"
+                    />
                     <span class="checkmark"></span>
-                    <span class="skill-checkboxes__label">{{otherNames[i]}}</span>
+                    <span class="skill-checkboxes__label">{{
+                      otherNames[i]
+                    }}</span>
                   </label>
                 </div>
               </div>
@@ -222,42 +436,74 @@
               <label class="setUpText setUpText--required">Чадварууд</label>
             </div>
             <div class="inputs__right">
-              <form [formGroup]="skillsForm" class="form-ashen" spellcheck="false">
+              <form
+                [formGroup]="skillsForm"
+                class="form-ashen"
+                spellcheck="false"
+              >
                 <div class="skills">
                   <div class="form-ashen-wrapper" *ngIf="miniFormsShow[0]">
                     <div class="form-ashen-row">
                       <div class="professionalTextInput-wrapper">
-                        <input type="text" formControlName="skillName" class="professionalTextInput"
-                          placeholder="Чадвар нэмнүү (жишээ: Photoshop)">
+                        <input
+                          type="text"
+                          formControlName="skillName"
+                          class="professionalTextInput"
+                          placeholder="Чадвар нэмнүү (жишээ: Photoshop)"
+                        />
                       </div>
-                      <select [(ngModel)]="skillLevelSelectInput" class="form-ashen__select"
-                        formControlName="skillLevel">
-                        <option value="null" disabled selected hidden>Мэдлэгийн Шат</option>
+                      <select
+                        [(ngModel)]="skillLevelSelectInput"
+                        class="form-ashen__select"
+                        formControlName="skillLevel"
+                      >
+                        <option value="null" disabled selected hidden>
+                          Мэдлэгийн Шат
+                        </option>
                         <option value="Анхан">Анхан</option>
                         <option value="Дунд">Дунд</option>
                         <option value="Гүнзгий">Гүнзгий</option>
                       </select>
                     </div>
                     <div class="form-ashen-row form-ashen-row--center">
-                      <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                        (click)="removeMiniForm(0)">Болих</button>
-                      <button type="button" *ngIf="!miniFormEditing[0]; else skillEditingHTML"
-                        class="form-ashen__btn form-ashen__addBtn" (click)="addSkill()"
-                        [disabled]="!this.skillsForm.valid">Нэмэх</button>
+                      <button
+                        type="button"
+                        class="form-ashen__btn form-ashen__removeBtn"
+                        (click)="removeMiniForm(0)"
+                      >
+                        Болих
+                      </button>
+                      <button
+                        type="button"
+                        *ngIf="!miniFormEditing[0]; else skillEditingHTML"
+                        class="form-ashen__btn form-ashen__addBtn"
+                        (click)="addSkill()"
+                        [disabled]="!this.skillsForm.valid"
+                      >
+                        Нэмэх
+                      </button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
-                    <thead class="form-ashen__table__head" *ngIf="!miniFormsEmpty[0]">
+                    <thead
+                      class="form-ashen__table__head"
+                      *ngIf="!miniFormsEmpty[0]"
+                    >
                       <tr>
                         <th class="form-ashen__table__mdRow">Чадвар</th>
                         <th class="form-ashen__table__mdRow">Зэрэглэл</th>
                         <th class="form-ashen__table__smRow">
-                          <button type="button" class="form-ashen__table__btn" (click)="showMiniForm(0)">Шинэ</button>
+                          <button
+                            type="button"
+                            class="form-ashen__table__btn"
+                            (click)="showMiniForm(0)"
+                          >
+                            Шинэ
+                          </button>
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="form-ashen__showBtns" #skillsTable>
-                    </tbody>
+                    <tbody class="form-ashen__showBtns" #skillsTable></tbody>
                   </table>
                 </div>
               </form>
@@ -268,12 +514,22 @@
               <label class="setUpText">Боловсрол</label>
             </div>
             <div class="inputs__right">
-              <form [formGroup]="educationsForm" class="form-ashen" spellcheck="false">
+              <form
+                [formGroup]="educationsForm"
+                class="form-ashen"
+                spellcheck="false"
+              >
                 <div class="educations">
                   <div class="form-ashen-wrapper" *ngIf="miniFormsShow[1]">
                     <div class="form-ashen-row">
-                      <select [(ngModel)]="countrySelectInput" class="form-ashen__select" formControlName="country">
-                        <option value="null" disabled selected hidden>Орших Улс</option>
+                      <select
+                        [(ngModel)]="countrySelectInput"
+                        class="form-ashen__select"
+                        formControlName="country"
+                      >
+                        <option value="null" disabled selected hidden>
+                          Орших Улс
+                        </option>
                         <option value="af">Afghanistan</option>
                         <option value="ax">Åland Islands</option>
                         <option value="al">Albania</option>
@@ -306,7 +562,9 @@
                         <option value="bw">Botswana</option>
                         <option value="bv">Bouvet Island</option>
                         <option value="br">Brazil</option>
-                        <option value="io">British Indian Ocean Territory</option>
+                        <option value="io">
+                          British Indian Ocean Territory
+                        </option>
                         <option value="vg">British Virgin Islands</option>
                         <option value="bn">Brunei</option>
                         <option value="bg">Bulgaria</option>
@@ -352,7 +610,9 @@
                         <option value="ee">Estonia</option>
                         <option value="et">Ethiopia</option>
                         <option value="eu">European Union</option>
-                        <option value="fk">Falkland Islands [Islas Malvinas]</option>
+                        <option value="fk">
+                          Falkland Islands [Islas Malvinas]
+                        </option>
                         <option value="fo">Faroe Islands</option>
                         <option value="fj">Fiji</option>
                         <option value="fi">Finland</option>
@@ -377,7 +637,9 @@
                         <option value="gw">Guinea-Bissau</option>
                         <option value="gy">Guyana</option>
                         <option value="ht">Haiti</option>
-                        <option value="hm">Heard Island and McDonald Islands</option>
+                        <option value="hm">
+                          Heard Island and McDonald Islands
+                        </option>
                         <option value="hn">Honduras</option>
                         <option value="hk">Hong Kong</option>
                         <option value="hu">Hungary</option>
@@ -473,7 +735,9 @@
                         <option value="lc">Saint Lucia</option>
                         <option value="mf">Saint Martin</option>
                         <option value="pm">Saint Pierre and Miquelon</option>
-                        <option value="vc">Saint Vincent and the Grenadines</option>
+                        <option value="vc">
+                          Saint Vincent and the Grenadines
+                        </option>
                         <option value="ws">Samoa</option>
                         <option value="sm">San Marino</option>
                         <option value="sa">Saudi Arabia</option>
@@ -488,7 +752,9 @@
                         <option value="sb">Solomon Islands</option>
                         <option value="so">Somalia</option>
                         <option value="za">South Africa</option>
-                        <option value="gs">South Georgia and the South Sandwich Islands</option>
+                        <option value="gs">
+                          South Georgia and the South Sandwich Islands
+                        </option>
                         <option value="kr">South Korea</option>
                         <option value="ss">South Sudan</option>
                         <option value="es">Spain</option>
@@ -535,14 +801,23 @@
                         <option value="zw">Zimbabwe</option>
                       </select>
                       <div class="professionalTextInput-wrapper">
-                        <input type="text" formControlName="universityName" class="professionalTextInput"
-                          placeholder="Их Сургуулийн Нэр">
+                        <input
+                          type="text"
+                          formControlName="universityName"
+                          class="professionalTextInput"
+                          placeholder="Их Сургуулийн Нэр"
+                        />
                       </div>
                     </div>
                     <div class="form-ashen-row">
-                      <select [(ngModel)]="titleSelectInput"
-                        class="form-ashen__select form-ashen__select--degreeType" formControlName="title">
-                        <option value="null" disabled selected hidden>Цол</option>
+                      <select
+                        [(ngModel)]="titleSelectInput"
+                        class="form-ashen__select form-ashen__select--degreeType"
+                        formControlName="title"
+                      >
+                        <option value="null" disabled selected hidden>
+                          Цол
+                        </option>
                         <option value="associate">Associate</option>
                         <option value="ba">B.A.</option>
                         <option value="bsc">B.Sc.</option>
@@ -562,12 +837,21 @@
                         <option value="other">Other</option>
                       </select>
                       <div class="professionalTextInput-wrapper">
-                        <input type="text" formControlName="major" class="professionalTextInput"
-                          placeholder="Үндсэн Мэргэжил">
+                        <input
+                          type="text"
+                          formControlName="major"
+                          class="professionalTextInput"
+                          placeholder="Үндсэн Мэргэжил"
+                        />
                       </div>
-                      <select [(ngModel)]="graduationYearSelectInput" class="form-ashen__select form-ashen__select--gradYear"
-                        formControlName="graduationYear">
-                        <option value="null" disabled selected hidden>Төгссөн Жил</option>
+                      <select
+                        [(ngModel)]="graduationYearSelectInput"
+                        class="form-ashen__select form-ashen__select--gradYear"
+                        formControlName="graduationYear"
+                      >
+                        <option value="null" disabled selected hidden>
+                          Төгссөн Жил
+                        </option>
                         <option value="2020">2020</option>
                         <option value="2019">2019</option>
                         <option value="2018">2018</option>
@@ -622,25 +906,49 @@
                       </select>
                     </div>
                     <div class="form-ashen-row form-ashen-row--center">
-                      <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                        (click)="removeMiniForm(1)">Болих</button>
-                      <button *ngIf="!miniFormEditing[1]; else educationEditingHTML" type="button"
-                        class="form-ashen__btn form-ashen__addBtn" (click)="addEducation()"
-                        [disabled]="!this.educationsForm.valid">Нэмэх</button>
+                      <button
+                        type="button"
+                        class="form-ashen__btn form-ashen__removeBtn"
+                        (click)="removeMiniForm(1)"
+                      >
+                        Болих
+                      </button>
+                      <button
+                        *ngIf="!miniFormEditing[1]; else educationEditingHTML"
+                        type="button"
+                        class="form-ashen__btn form-ashen__addBtn"
+                        (click)="addEducation()"
+                        [disabled]="!this.educationsForm.valid"
+                      >
+                        Нэмэх
+                      </button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
-                    <thead class="form-ashen__table__head" *ngIf="!miniFormsEmpty[1]">
+                    <thead
+                      class="form-ashen__table__head"
+                      *ngIf="!miniFormsEmpty[1]"
+                    >
                       <tr>
-                        <th class="form-ashen__table__mdRow">Сурсан Мэргэжил</th>
+                        <th class="form-ashen__table__mdRow">
+                          Сурсан Мэргэжил
+                        </th>
                         <th class="form-ashen__table__mdRow">Төгссөн Жил</th>
                         <th class="form-ashen__table__smRow">
-                          <button type="button" class="form-ashen__table__btn" (click)="showMiniForm(1)">Шинэ</button>
+                          <button
+                            type="button"
+                            class="form-ashen__table__btn"
+                            (click)="showMiniForm(1)"
+                          >
+                            Шинэ
+                          </button>
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="form-ashen__showBtns" #educationsTable>
-                    </tbody>
+                    <tbody
+                      class="form-ashen__showBtns"
+                      #educationsTable
+                    ></tbody>
                   </table>
                 </div>
               </form>
@@ -651,21 +959,38 @@
               <label class="setUpText">Сертификатнууд</label>
             </div>
             <div class="inputs__right">
-              <form [formGroup]="certificationsForm" class="form-ashen" spellcheck="false">
+              <form
+                [formGroup]="certificationsForm"
+                class="form-ashen"
+                spellcheck="false"
+              >
                 <div class="certifications">
                   <div class="form-ashen-wrapper" *ngIf="miniFormsShow[2]">
                     <div class="form-ashen-row">
                       <div class="professionalTextInput-wrapper">
-                        <input type="text" formControlName="certificateName" class="professionalTextInput"
-                          placeholder="Сертификатны Нэр">
+                        <input
+                          type="text"
+                          formControlName="certificateName"
+                          class="professionalTextInput"
+                          placeholder="Сертификатны Нэр"
+                        />
                       </div>
                       <div class="professionalTextInput-wrapper">
-                        <input type="text" formControlName="certificateGiver"
-                          class="professionalTextInput certification__giver" placeholder="Баталгаажуулсан Газар">
+                        <input
+                          type="text"
+                          formControlName="certificateGiver"
+                          class="professionalTextInput certification__giver"
+                          placeholder="Баталгаажуулсан Газар"
+                        />
                       </div>
-                      <select [(ngModel)]="certificateYearSelectInput" class="form-ashen__select form-ashen__select--year"
-                        formControlName="certificateYear">
-                        <option value="null" disabled selected hidden>Жил</option>
+                      <select
+                        [(ngModel)]="certificateYearSelectInput"
+                        class="form-ashen__select form-ashen__select--year"
+                        formControlName="certificateYear"
+                      >
+                        <option value="null" disabled selected hidden>
+                          Жил
+                        </option>
                         <option value="2020">2020</option>
                         <option value="2019">2019</option>
                         <option value="2018">2018</option>
@@ -720,31 +1045,62 @@
                       </select>
                     </div>
                     <div class="form-ashen-row form-ashen-row--center">
-                      <button type="button" class="form-ashen__btn form-ashen__removeBtn"
-                        (click)="removeMiniForm(2)">Болих</button>
-                      <button *ngIf="!miniFormEditing[2]; else certificationEditingHTML" type="button"
-                        class="form-ashen__btn form-ashen__addBtn" (click)="addCertification()"
-                        [disabled]="!this.certificationsForm.valid">Нэмэх</button>
+                      <button
+                        type="button"
+                        class="form-ashen__btn form-ashen__removeBtn"
+                        (click)="removeMiniForm(2)"
+                      >
+                        Болих
+                      </button>
+                      <button
+                        *ngIf="
+                          !miniFormEditing[2];
+                          else certificationEditingHTML
+                        "
+                        type="button"
+                        class="form-ashen__btn form-ashen__addBtn"
+                        (click)="addCertification()"
+                        [disabled]="!this.certificationsForm.valid"
+                      >
+                        Нэмэх
+                      </button>
                     </div>
                   </div>
                   <table class="form-ashen__table">
-                    <thead class="form-ashen__table__head" *ngIf="!miniFormsEmpty[2]">
+                    <thead
+                      class="form-ashen__table__head"
+                      *ngIf="!miniFormsEmpty[2]"
+                    >
                       <tr>
                         <th class="form-ashen__table__mdRow">Сертификат</th>
                         <th class="form-ashen__table__mdRow">Жил</th>
                         <th class="form-ashen__table__smRow">
-                          <button type="button" class="form-ashen__table__btn" (click)="showMiniForm(2)">Шинэ</button>
+                          <button
+                            type="button"
+                            class="form-ashen__table__btn"
+                            (click)="showMiniForm(2)"
+                          >
+                            Шинэ
+                          </button>
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="form-ashen__showBtns" #certificationsTable>
-                    </tbody>
+                    <tbody
+                      class="form-ashen__showBtns"
+                      #certificationsTable
+                    ></tbody>
                   </table>
                 </div>
               </form>
             </div>
           </div>
-          <button type="submit" class="btn btn-green btn-next" (click)="finishSetUp()">Дуусгах</button>
+          <button
+            type="submit"
+            class="btn btn-green btn-next"
+            (click)="finishSetUp()"
+          >
+            Дуусгах
+          </button>
         </form>
       </div>
     </div>
@@ -753,27 +1109,47 @@
 
 <ng-template #formLoader>
   <div class="spinner">
-    <img src="../../assets/img/spinner2.svg" alt="" class="spinner__icon">
+    <img src="assets/img/spinner2.svg" alt="" class="spinner__icon" />
   </div>
 </ng-template>
 <ng-template #imagePlaceholder>
   <div class="imgDropbox__placeholder">
-    <img src="../../../assets/img/photo.svg" alt="" class="imgDropbox__imgPlaceholder">
+    <img
+      src="../assets/img/photo.svg"
+      alt=""
+      class="imgDropbox__imgPlaceholder"
+    />
   </div>
 </ng-template>
 <ng-template #skillEditingHTML>
-  <button type="button" class="form-ashen__btn form-ashen__addBtn form-ashen__addBtn--lg" (click)="editSkill(skillIndex)" 
-  [disabled]="!this.skillsForm.valid">Шинэчлэх</button>
+  <button
+    type="button"
+    class="form-ashen__btn form-ashen__addBtn form-ashen__addBtn--lg"
+    (click)="editSkill(skillIndex)"
+    [disabled]="!this.skillsForm.valid"
+  >
+    Шинэчлэх
+  </button>
 </ng-template>
 <ng-template #educationEditingHTML>
-  <button type="button" class="form-ashen__btn form-ashen__addBtn form-ashen__addBtn--lg"
+  <button
+    type="button"
+    class="form-ashen__btn form-ashen__addBtn form-ashen__addBtn--lg"
     (click)="editEducation(educationIndex)"
-    [disabled]="!this.educationsForm.valid">Шинэчлэх</button>
+    [disabled]="!this.educationsForm.valid"
+  >
+    Шинэчлэх
+  </button>
 </ng-template>
 <ng-template #certificationEditingHTML>
-  <button type="button" class="form-ashen__btn form-ashen__addBtn form-ashen__addBtn--lg"
-  [disabled]="!this.certificationsForm.valid"
-    (click)="editCertification(certificationIndex)">Шинэчлэх</button>
+  <button
+    type="button"
+    class="form-ashen__btn form-ashen__addBtn form-ashen__addBtn--lg"
+    [disabled]="!this.certificationsForm.valid"
+    (click)="editCertification(certificationIndex)"
+  >
+    Шинэчлэх
+  </button>
 </ng-template>
 
 <!--         
@@ -782,8 +1158,8 @@
   -->
 
 <ng-template #order1>
-  <div class='step__order__number'>1</div>
+  <div class="step__order__number">1</div>
 </ng-template>
 <ng-template #order2>
-  <div class='step__order__number'>2</div>
+  <div class="step__order__number">2</div>
 </ng-template>

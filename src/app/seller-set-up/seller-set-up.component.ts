@@ -1,23 +1,31 @@
-import { environment } from './../../environments/environment.prod';
-import { AppManagerService } from './../shared/app-manager.service';
-import { Component, OnInit, OnDestroy, Renderer2, ElementRef, ViewChildren, QueryList } from '@angular/core';
-import { SellerSetUpService } from './seller-set-up.service';
-import { Subscription, throwError, forkJoin } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AngularFireStorage } from 'angularfire2/storage';
-import { PersonalModel } from 'src/app/shared/personal.model';
-import { ProfessionalModel } from '../shared/professional.model';
-import { Location } from '@angular/common';
-import { skillsInterface } from './skills.interface';
-import { educationsInterface } from './educations.interface';
-import { certificationsInterface } from './certifications.interface';
+import { environment } from "./../../environments/environment.prod";
+import { AppManagerService } from "./../shared/app-manager.service";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Renderer2,
+  ElementRef,
+  ViewChildren,
+  QueryList,
+} from "@angular/core";
+import { SellerSetUpService } from "./seller-set-up.service";
+import { Subscription, throwError, forkJoin } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { AngularFireStorage } from "angularfire2/storage";
+import { PersonalModel } from "src/app/shared/personal.model";
+import { ProfessionalModel } from "../shared/professional.model";
+import { Location } from "@angular/common";
+import { skillsInterface } from "./skills.interface";
+import { educationsInterface } from "./educations.interface";
+import { certificationsInterface } from "./certifications.interface";
 
 @Component({
-  selector: 'app-seller-set-up',
-  templateUrl: './seller-set-up.component.html',
-  styleUrls: ['./seller-set-up.component.scss']
+  selector: "app-seller-set-up",
+  templateUrl: "./seller-set-up.component.html",
+  styleUrls: ["./seller-set-up.component.scss"],
 })
 export class SellerSetUpComponent implements OnInit, OnDestroy {
   navNum: number = null;
@@ -27,38 +35,52 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   notLoading: boolean = false;
   personalChangesOccured: boolean = false;
   personalFormValidSub: Subscription;
-  mainUrlName: string = 'seller-set-up/';
-  firstNavUrlName: string = 'personal';
-  secondNavUrlName: string = 'professional';
-  constructor(private sellerService: SellerSetUpService, private route: ActivatedRoute, private router: Router, private appManagerService: AppManagerService, private afStorage: AngularFireStorage, private renderer: Renderer2, private location: Location) { }
+  mainUrlName: string = "seller-set-up/";
+  firstNavUrlName: string = "personal";
+  secondNavUrlName: string = "professional";
+  constructor(
+    private sellerService: SellerSetUpService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private appManagerService: AppManagerService,
+    private afStorage: AngularFireStorage,
+    private renderer: Renderer2,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(validity => {
-      this.personalFormValid = validity;
-    })
-
+    this.personalFormValidSub = this.sellerService.personalFormValid.subscribe(
+      (validity) => {
+        this.personalFormValid = validity;
+      }
+    );
   }
   ngAfterViewInit(): void {
-    this.sellerService.fetchValidityInfo().pipe(
-      catchError(() => {
-        alert('bru');
+    this.sellerService
+      .fetchValidityInfo()
+      .pipe(
+        catchError(() => {
+          alert("bru");
+          this.init();
+          return throwError(
+            "failed to get validity info from firebase database"
+          );
+        })
+      )
+      .subscribe((data) => {
+        console.log(data);
+        //Only after checking if forms are valid, decide which form to set up
+        if (data != null || data != undefined) {
+          const validityInfo = data;
+          this.personalFormValid = validityInfo.validity.personalFormValid;
+        }
         this.init();
-        return throwError('failed to get validity info from firebase database');
-      })
-    ).subscribe(data => {
-      console.log(data);
-      //Only after checking if forms are valid, decide which form to set up
-      if (data != null || data != undefined) {
-        const validityInfo = data;
-        this.personalFormValid = validityInfo.validity.personalFormValid;
-      }
-      this.init();
-    })
+      });
   }
   init() {
     //Depending on the url (which reflects the NAV name) that the user was last using, correct NAV is loaded and presented on webpage reload/load
     setTimeout(() => {
-      switch (this.route.snapshot.params['nav']) {
+      switch (this.route.snapshot.params["nav"]) {
         case this.firstNavUrlName:
           this.setUpPersonalForm();
           break;
@@ -73,7 +95,7 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           this.setUpPersonalForm();
           break;
       }
-    }, 0)
+    }, 0);
   }
   onNavigation() {
     //If navigate to another form while the current form is loading, stop the loading
@@ -93,33 +115,39 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.navNum = 0;
     this.onNavigation();
 
-    //Change url to personalInfo without causing anything. 
+    //Change url to personalInfo without causing anything.
     this.location.go(this.mainUrlName + this.firstNavUrlName);
 
     //Only need to run once like as if it was a seperate component with NgOnInit
     if (this.personalNavOnce) {
       //PERSONAL FORM
       this.startLoading();
-      this.savedPersonalSub = this.sellerService.savedPersonalInfo.subscribe(res => {
-        //Show saved pink animation after finished saving
-        this.showSavedPersonalAnim = res;
-      })
+      this.savedPersonalSub = this.sellerService.savedPersonalInfo.subscribe(
+        (res) => {
+          //Show saved pink animation after finished saving
+          this.showSavedPersonalAnim = res;
+        }
+      );
       //NgOnInit gets called only once. This variable is used to simulate that.
       this.personalNavOnce = false;
       //Create form
       this.personalForm = new FormGroup({
-        'name': new FormGroup({
-          'firstName': new FormControl(null, Validators.required),
-          'lastName': new FormControl(null, Validators.required)
+        name: new FormGroup({
+          firstName: new FormControl(null, Validators.required),
+          lastName: new FormControl(null, Validators.required),
         }),
-        'description': new FormControl(null, Validators.required)
+        description: new FormControl(null, Validators.required),
       });
       //Get data
-      this.personalDataSub = this.getAllPersonalData().pipe(
-        catchError(() => {
-          this.initializePersonalForm();
-          return throwError("Couldn't retrieve personal information from firebase");
-        }))
+      this.personalDataSub = this.getAllPersonalData()
+        .pipe(
+          catchError(() => {
+            this.initializePersonalForm();
+            return throwError(
+              "Couldn't retrieve personal information from firebase"
+            );
+          })
+        )
         .subscribe(([imgURL, data]: [string, PersonalModel]) => {
           //Get profile img
           this.profileImgUrl = imgURL;
@@ -151,9 +179,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     //Get data from firebase database
     return this.sellerService.fetchPersonalInfo().pipe(
       catchError(() => {
-        return throwError("Couldn't retrieve personal text data from firebase database");
+        return throwError(
+          "Couldn't retrieve personal text data from firebase database"
+        );
       })
-    )
+    );
   }
   checkFirstFormValidation() {
     // Seller-set-up header navigation only allows navigation when form is valid
@@ -191,7 +221,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   personalNavOnce: boolean = true;
 
   savePersonalData(btn?) {
-    this.sellerService.savePersonalInfo(this.personalForm.get('name.firstName').value, this.personalForm.get('name.lastName').value, this.personalForm.get('description').value, btn);
+    this.sellerService.savePersonalInfo(
+      this.personalForm.get("name.firstName").value,
+      this.personalForm.get("name.lastName").value,
+      this.personalForm.get("description").value,
+      btn
+    );
     this.sellerService.saveValidityInfo(this.personalFormValid);
     this.personalChangesOccured = false;
   }
@@ -202,22 +237,30 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   usePersonalData() {
     if (this.personalData !== null) {
       if (this.personalData.firstname !== undefined) {
-        this.personalForm.get('name.firstName').setValue(this.personalData.firstname);
+        this.personalForm
+          .get("name.firstName")
+          .setValue(this.personalData.firstname);
       }
       if (this.personalData.lastname !== undefined) {
-        this.personalForm.get('name.lastName').setValue(this.personalData.lastname);
+        this.personalForm
+          .get("name.lastName")
+          .setValue(this.personalData.lastname);
       }
       if (this.personalData.personalDescription !== undefined) {
-        this.personalForm.get('description').setValue(this.personalData.personalDescription);
+        this.personalForm
+          .get("description")
+          .setValue(this.personalData.personalDescription);
       }
     }
   }
   getProfileImage() {
     return this.sellerService.getProfileImg().pipe(
       catchError(() => {
-        return throwError('profile image was not retrieved from firebase storage');
+        return throwError(
+          "profile image was not retrieved from firebase storage"
+        );
       })
-    )
+    );
   }
   professionalNav() {
     this.savePersonalData();
@@ -235,62 +278,78 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.location.go(this.mainUrlName + this.secondNavUrlName);
     //Set up form
     if (this.professionalNavOnce) {
-
       this.startLoading();
       this.professionalNavOnce = false;
       this.skillsForm = new FormGroup({
-        'skillName': new FormControl(null, Validators.required),
-        'skillLevel': new FormControl(0, Validators.required)
-      })
+        skillName: new FormControl(null, Validators.required),
+        skillLevel: new FormControl(0, Validators.required),
+      });
       this.educationsForm = new FormGroup({
-        'universityName': new FormControl(null, Validators.required),
-        'major': new FormControl(null, Validators.required),
-        'country': new FormControl(0, Validators.required),
-        'title': new FormControl(0, Validators.required),
-        'graduationYear': new FormControl(0, Validators.required)
-      })
+        universityName: new FormControl(null, Validators.required),
+        major: new FormControl(null, Validators.required),
+        country: new FormControl(0, Validators.required),
+        title: new FormControl(0, Validators.required),
+        graduationYear: new FormControl(0, Validators.required),
+      });
       this.certificationsForm = new FormGroup({
-        'certificateName': new FormControl(null, Validators.required),
-        'certificateGiver': new FormControl(null, Validators.required),
-        'certificateYear': new FormControl(0, Validators.required)
-      })
+        certificateName: new FormControl(null, Validators.required),
+        certificateGiver: new FormControl(null, Validators.required),
+        certificateYear: new FormControl(0, Validators.required),
+      });
       this.professionalForm = new FormGroup({});
       this.fillFromYears();
       this.initializeMiniForms();
       //Get data
-      this.professionalDataSub = this.sellerService.fetchProfessionalInfo().pipe(
-        catchError(() => {
-          //Stop loading
+      this.professionalDataSub = this.sellerService
+        .fetchProfessionalInfo()
+        .pipe(
+          catchError(() => {
+            //Stop loading
+            this.finishLoading();
+            return throwError(
+              "Couldn't retrieve professional information from firebase database"
+            );
+          })
+        )
+        .subscribe((data: ProfessionalModel) => {
+          console.log(data);
+          //Check data
+          if (data != null || data != undefined) {
+            this.professionalData = data;
+          }
           this.finishLoading();
-          return throwError("Couldn't retrieve professional information from firebase database");
-        })
-      ).subscribe((data: ProfessionalModel) => {
-        console.log(data);
-        //Check data
-        if (data != null || data != undefined) {
-          this.professionalData = data;
-        }
-        this.finishLoading();
-        //Use data
-        if (this.professionalData != null || this.professionalData != undefined) {
-          //This small delay allows useProfessionalData func to access DOM elements after finishLoading
-          setTimeout(() => this.useProfessionalData(), 10);
-        }
-      });
+          //Use data
+          if (
+            this.professionalData != null ||
+            this.professionalData != undefined
+          ) {
+            //This small delay allows useProfessionalData func to access DOM elements after finishLoading
+            setTimeout(() => this.useProfessionalData(), 10);
+          }
+        });
       //These are used to get each separate table elements when user navigates and professional form comes
       //into existance
-      this.scrollSub = this.scrollEls.changes.subscribe((el: QueryList<ElementRef>) => {
-        this.scrollEl = el.first;
-      })
-      this.skillsTableSub = this.skillsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
-        this.skillsTableHtml = el.first;
-      })
-      this.educationsTableSub = this.educationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
-        this.educationsTableHtml = el.first;
-      })
-      this.certificationsTableSub = this.certificationsTableHtmls.changes.subscribe((el: QueryList<ElementRef>) => {
-        this.certificationsTableHtml = el.first;
-      })
+      this.scrollSub = this.scrollEls.changes.subscribe(
+        (el: QueryList<ElementRef>) => {
+          this.scrollEl = el.first;
+        }
+      );
+      this.skillsTableSub = this.skillsTableHtmls.changes.subscribe(
+        (el: QueryList<ElementRef>) => {
+          this.skillsTableHtml = el.first;
+        }
+      );
+      this.educationsTableSub = this.educationsTableHtmls.changes.subscribe(
+        (el: QueryList<ElementRef>) => {
+          this.educationsTableHtml = el.first;
+        }
+      );
+      this.certificationsTableSub =
+        this.certificationsTableHtmls.changes.subscribe(
+          (el: QueryList<ElementRef>) => {
+            this.certificationsTableHtml = el.first;
+          }
+        );
     } else {
       //NgIf messes with the form parts so I need to check checkboxes, repopulate tables and reset some variables whenever ngIf becomes true for professionalNav
       //checkCheckBoxes function already has timeout method.
@@ -314,18 +373,18 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.showMiniForm(0);
     this.skills = {
       data: [],
-      sorter: []
-    }
+      sorter: [],
+    };
     this.showMiniForm(1);
     this.educations = {
       data: [],
-      sorter: []
-    }
+      sorter: [],
+    };
     this.showMiniForm(2);
     this.certifications = {
       data: [],
-      sorter: []
-    }
+      sorter: [],
+    };
   }
   onPersonalFormSubmit() {
     if (this.personalForm.valid) {
@@ -340,10 +399,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.hideProgress = false;
 
       //FIREBASE UPLOAD
-      this.ref = this.afStorage.ref(`${this.sellerService.folderName}/${this.appManagerService.userName.value}`);
+      this.ref = this.afStorage.ref(
+        `${this.sellerService.folderName}/${this.appManagerService.userName.value}`
+      );
       this.task = this.ref.put(this.selectedImage);
       this.uploadProgress = this.task.percentageChanges();
-      this.uploadProgress.subscribe(progress => {
+      this.uploadProgress.subscribe((progress) => {
         this.progressValue = progress;
         if (this.progressValue === 100) {
           //Hide progress
@@ -351,14 +412,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
           //CHANGE PROFILE IMAGE PREVIEW
           const reader = new FileReader();
           reader.readAsDataURL(this.selectedImage);
-          reader.onload = (event => {
+          reader.onload = (event) => {
             this.profileImgUrl = event.target.result;
             //Changing profile img is also considered as changing form so validity is checked
             this.checkFirstFormValidation();
             this.savePersonalData();
-          })
+          };
         }
-      })
+      });
     }
   }
   // ****************************************************************************************** //
@@ -368,11 +429,20 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   professionalData: ProfessionalModel;
   professionalDataSub = new Subscription();
   closeDropdown = false;
-  professions = ['График Дизайн', 'Онлайн Mаркетинг', 'Дуу & Ая', 'Бичиг & Орчуулагa', 'Видео & Аниматион', 'Программ & Технологи', 'Бусад'];
+  professions = [
+    "График Дизайн",
+    "Онлайн Mаркетинг",
+    "Дуу & Ая",
+    "Бичиг & Орчуулагa",
+    "Видео & Аниматион",
+    "Программ & Технологи",
+    "Бусад",
+  ];
   fromYears = [];
   toYears = [];
 
-  graphicDesignNames: Array<string> = environment.jobCategories.graphicDesignNames;
+  graphicDesignNames: Array<string> =
+    environment.jobCategories.graphicDesignNames;
   marketingNames: Array<string> = environment.jobCategories.marketingNames;
   soundNames: Array<string> = environment.jobCategories.soundNames;
   writingNames: Array<string> = environment.jobCategories.writingNames;
@@ -385,13 +455,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   educationsTableSub: Subscription;
   certificationsTableSub: Subscription;
 
-
   //checkedProfessions is used to initiliaze checked elements with class is-checked in html
   checkedProfessions: {
-    id: string,
-    name: string
+    id: string;
+    name: string;
   }[];
-
 
   currentYear = new Date().getFullYear();
   howManyYears = 50;
@@ -405,10 +473,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   counter: number = 0;
   professionalNavOnce: boolean = true;
 
-  @ViewChildren('scrollEl') scrollEls: QueryList<ElementRef>;
-  @ViewChildren('skillsTable') skillsTableHtmls: QueryList<ElementRef>;
-  @ViewChildren('educationsTable') educationsTableHtmls: QueryList<ElementRef>;
-  @ViewChildren('certificationsTable') certificationsTableHtmls: QueryList<ElementRef>;
+  @ViewChildren("scrollEl") scrollEls: QueryList<ElementRef>;
+  @ViewChildren("skillsTable") skillsTableHtmls: QueryList<ElementRef>;
+  @ViewChildren("educationsTable") educationsTableHtmls: QueryList<ElementRef>;
+  @ViewChildren("certificationsTable")
+  certificationsTableHtmls: QueryList<ElementRef>;
 
   scrollEl: ElementRef;
   skillsTableHtml: ElementRef;
@@ -427,7 +496,6 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   miniFormsShow: Array<boolean> = [false, false, false];
   miniFormEditing: Array<boolean> = [false, false, false];
 
-
   skills: skillsInterface;
   skillIndex: number = 0;
   skillTracker: number = 0;
@@ -436,13 +504,11 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   //Stores added <tr> element references to later use them to remove correct child from DOM.
   skillContent = [];
 
-
   educations: educationsInterface;
   educationIndex: number = 0;
   educationTracker: number = 0;
   educationCounter: number = 0;
   educationContent = [];
-
 
   certifications: certificationsInterface;
   certificationIndex: number = 0;
@@ -491,40 +557,47 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   fillToYears(fromYear: number, index: number) {
     this.toYears = [];
-    // 2020 (index = 0) year to 2020 works. 
-    if (index === 0) { index = 1 };
+    // 2020 (index = 0) year to 2020 works.
+    if (index === 0) {
+      index = 1;
+    }
     const newYears = this.fromYears.slice(0, index);
     this.toYears.push(...newYears);
   }
   checkedState(event) {
     let chosenEl: HTMLInputElement = event.target;
-    if (chosenEl.className.includes('isChecked')) {
+    if (chosenEl.className.includes("isChecked")) {
       if (this.counter > 0) {
         this.counter--;
-        chosenEl.classList.remove('isChecked');
-        let a = this.checkedProfessions.findIndex(el => el.id === chosenEl.id);
+        chosenEl.classList.remove("isChecked");
+        let a = this.checkedProfessions.findIndex(
+          (el) => el.id === chosenEl.id
+        );
         this.checkedProfessions.splice(a, 1);
         this.saveProfessionalData();
       }
     } else {
       if (this.counter < 5) {
-        chosenEl.classList.add('isChecked');
-        this.checkedProfessions[this.counter] = { id: chosenEl.id, name: chosenEl.value };
+        chosenEl.classList.add("isChecked");
+        this.checkedProfessions[this.counter] = {
+          id: chosenEl.id,
+          name: chosenEl.value,
+        };
         this.counter++;
         this.saveProfessionalData();
       }
     }
   }
   checkCheckBoxes() {
-    setTimeout(()=>{
+    setTimeout(() => {
       for (let i = 0; i < this.checkedProfessions.length; i++) {
         const tempEl = document.getElementById(this.checkedProfessions[i].id);
         if (tempEl !== null) {
-          tempEl.classList.add('isChecked');
+          tempEl.classList.add("isChecked");
         }
       }
       this.counter = this.checkedProfessions.length;
-    },100);
+    }, 100);
   }
   // ***************************************************************************** //
   // ****************************** MINIFORMS ************************************ //
@@ -532,11 +605,17 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   populateSkillsTable() {
     for (let i = 0; i < this.skills.data.length; i++) {
-      this.skillContent.push(document.createElement('tr'));
+      this.skillContent.push(document.createElement("tr"));
       this.updateSkillDOM(this.skillCounter);
-      this.skillContent[this.skillCounter].setAttribute("data-elCounter", this.skills.sorter[i].toString());
+      this.skillContent[this.skillCounter].setAttribute(
+        "data-elCounter",
+        this.skills.sorter[i].toString()
+      );
 
-      this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
+      this.renderer.appendChild(
+        this.skillsTableHtml.nativeElement,
+        this.skillContent[this.skillCounter]
+      );
       this.skills.sorter.sort();
       this.addSkillEditListener(this.skillCounter);
       //Starting from the second el, user will have option to delete (cuz first one is required)
@@ -548,11 +627,17 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   populateEducationsTable() {
     for (let i = 0; i < this.educations.data.length; i++) {
-      this.educationContent.push(document.createElement('tr'));
+      this.educationContent.push(document.createElement("tr"));
       this.updateEducationDOM(this.educationCounter);
-      this.educationContent[this.educationCounter].setAttribute("data-elCounter", this.educations.sorter[i].toString());
+      this.educationContent[this.educationCounter].setAttribute(
+        "data-elCounter",
+        this.educations.sorter[i].toString()
+      );
 
-      this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
+      this.renderer.appendChild(
+        this.educationsTableHtml.nativeElement,
+        this.educationContent[this.educationCounter]
+      );
 
       this.educations.sorter.sort();
 
@@ -563,11 +648,17 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   populateCertificationsTable() {
     for (let i = 0; i < this.certifications.data.length; i++) {
-      this.certificationContent.push(document.createElement('tr'));
+      this.certificationContent.push(document.createElement("tr"));
       this.updateCertificationDOM(this.certificationCounter);
-      this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", this.certifications.sorter[i].toString());
+      this.certificationContent[this.certificationCounter].setAttribute(
+        "data-elCounter",
+        this.certifications.sorter[i].toString()
+      );
 
-      this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
+      this.renderer.appendChild(
+        this.certificationsTableHtml.nativeElement,
+        this.certificationContent[this.certificationCounter]
+      );
 
       this.certifications.sorter.sort();
 
@@ -583,20 +674,20 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   resetMiniForm(i: number) {
     switch (i) {
       case 0:
-        this.skillsForm.get('skillName').setValue(null);
-        this.skillsForm.get('skillLevel').setValue(0);
+        this.skillsForm.get("skillName").setValue(null);
+        this.skillsForm.get("skillLevel").setValue(0);
         break;
       case 1:
-        this.educationsForm.get('universityName').setValue(null);
-        this.educationsForm.get('major').setValue(null);
-        this.educationsForm.get('country').setValue(0);
-        this.educationsForm.get('title').setValue(0);
-        this.educationsForm.get('graduationYear').setValue(0);
+        this.educationsForm.get("universityName").setValue(null);
+        this.educationsForm.get("major").setValue(null);
+        this.educationsForm.get("country").setValue(0);
+        this.educationsForm.get("title").setValue(0);
+        this.educationsForm.get("graduationYear").setValue(0);
         break;
       case 2:
-        this.certificationsForm.get('certificateName').setValue(null);
-        this.certificationsForm.get('certificateGiver').setValue(null);
-        this.certificationsForm.get('certificateYear').setValue(0);
+        this.certificationsForm.get("certificateName").setValue(null);
+        this.certificationsForm.get("certificateGiver").setValue(null);
+        this.certificationsForm.get("certificateYear").setValue(0);
         break;
       default:
         return;
@@ -623,18 +714,27 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   // **********************************************************************//
 
   addSkill() {
-    this.skills.data.push({ name: this.skillsForm.get('skillName').value, experienceLevel: this.skillsForm.get('skillLevel').value });
+    this.skills.data.push({
+      name: this.skillsForm.get("skillName").value,
+      experienceLevel: this.skillsForm.get("skillLevel").value,
+    });
 
-    this.skillContent.push(document.createElement('tr'));
+    this.skillContent.push(document.createElement("tr"));
     this.updateSkillDOM(this.skillCounter);
 
-    //skillId will always increment on new skill addition and 
+    //skillId will always increment on new skill addition and
     //will fill skills.sorter with unique numbers which gets sorted allowing you to know the positions of each element
     let skillId = this.skillCounter + this.skillTracker;
     this.skills.sorter.push(skillId);
     //Added html element needs to be stored in order to allow deletion
-    this.skillContent[this.skillCounter].setAttribute("data-elCounter", skillId.toString());
-    this.renderer.appendChild(this.skillsTableHtml.nativeElement, this.skillContent[this.skillCounter]);
+    this.skillContent[this.skillCounter].setAttribute(
+      "data-elCounter",
+      skillId.toString()
+    );
+    this.renderer.appendChild(
+      this.skillsTableHtml.nativeElement,
+      this.skillContent[this.skillCounter]
+    );
 
     this.skills.sorter.sort();
 
@@ -653,31 +753,31 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
   updateSkillDOM(i: number) {
     //The first skill el doesnt have option to remove cuz skills input is required.
-    let trashCanHTML = '';
+    let trashCanHTML = "";
     if (this.skills.data.length === 1 || i === 0) {
       trashCanHTML = "";
     } else {
-      trashCanHTML = `<button type="button" class="edit" id = "deleteSkill${i}" > <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt = "" > </button>`;
+      trashCanHTML = `<button type="button" class="edit" id = "deleteSkill${i}" > <img src="../assets/img/rubbish-can.svg" class="editIcon" alt = "" > </button>`;
     }
 
-    this.skillContent[i].innerHTML =
-      `                 
+    this.skillContent[i].innerHTML = `                 
       <td>${this.skills.data[i].name}</td>
       <td>${this.skills.data[i].experienceLevel}</td>
       <td>
         <div class="editBtns">
-          <button type="button" class="edit" id="editSkill${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
+          <button type="button" class="edit" id="editSkill${i}"> <img src="../assets/img/draw.svg" class="editIcon" alt=""></button>
           ${trashCanHTML}
         </div>
       </td>
-    `
+    `;
   }
   editSkill(id: number) {
-    this.skills.data[id].name = this.skillsForm.get('skillName').value;
-    this.skills.data[id].experienceLevel = this.skillsForm.get('skillLevel').value;
+    this.skills.data[id].name = this.skillsForm.get("skillName").value;
+    this.skills.data[id].experienceLevel =
+      this.skillsForm.get("skillLevel").value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
-    this.skillCounter--
+    this.skillCounter--;
     this.updateSkillDOM(id);
     this.skillCounter++;
 
@@ -691,21 +791,35 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.removeMiniForm(0);
   }
   addSkillEditListener(i: number) {
-    document.getElementById(`editSkill${i}`).addEventListener("click", (event) => {
-      let elId: number = parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
-      this.skillIndex = this.skills.sorter.indexOf(elId);
-      this.showSkillEditorForm.call(this, this.skillIndex);
-    });
+    document
+      .getElementById(`editSkill${i}`)
+      .addEventListener("click", (event) => {
+        let elId: number = parseInt(
+          (<HTMLElement>(
+            (<HTMLElement>event.target).parentNode.parentNode.parentNode
+              .parentNode
+          )).getAttribute("data-elCounter")
+        );
+        this.skillIndex = this.skills.sorter.indexOf(elId);
+        this.showSkillEditorForm.call(this, this.skillIndex);
+      });
   }
   addSkillDeleteListener(i: number) {
-    document.getElementById(`deleteSkill${i}`).addEventListener("click", (event) => {
-      let elId: number = parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
-      this.skillIndex = this.skills.sorter.indexOf(elId);
-      this.removeSkillRow.call(this, this.skillIndex);
-    });
+    document
+      .getElementById(`deleteSkill${i}`)
+      .addEventListener("click", (event) => {
+        let elId: number = parseInt(
+          (<HTMLElement>(
+            (<HTMLElement>event.target).parentNode.parentNode.parentNode
+              .parentNode
+          )).getAttribute("data-elCounter")
+        );
+        this.skillIndex = this.skills.sorter.indexOf(elId);
+        this.removeSkillRow.call(this, this.skillIndex);
+      });
   }
   showSkillEditorForm(id: number) {
-    this.skillsForm.get('skillName').setValue(this.skills.data[id].name);
+    this.skillsForm.get("skillName").setValue(this.skills.data[id].name);
     this.skillLevelSelectInput = this.skills.data[id].experienceLevel;
     this.miniFormEditing[0] = true;
     this.showMiniForm(0);
@@ -718,7 +832,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     if (id < temp) {
       this.skillTracker++;
     }
-    this.renderer.removeChild(this.skillsTableHtml.nativeElement, this.skillContent[id]);
+    this.renderer.removeChild(
+      this.skillsTableHtml.nativeElement,
+      this.skillContent[id]
+    );
     this.skills.sorter.splice(id, 1);
     this.skills.data.splice(id, 1);
     this.skillContent.splice(id, 1);
@@ -734,13 +851,25 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   // *********************************************************************//
 
   addEducation() {
-    this.educations.data.push({ universityName: this.educationsForm.get('universityName').value, major: this.educationsForm.get('major').value, country: this.educationsForm.get('country').value, title: this.educationsForm.get('title').value, graduationYear: this.educationsForm.get('graduationYear').value });
-    this.educationContent.push(document.createElement('tr'));
+    this.educations.data.push({
+      universityName: this.educationsForm.get("universityName").value,
+      major: this.educationsForm.get("major").value,
+      country: this.educationsForm.get("country").value,
+      title: this.educationsForm.get("title").value,
+      graduationYear: this.educationsForm.get("graduationYear").value,
+    });
+    this.educationContent.push(document.createElement("tr"));
     this.updateEducationDOM(this.educationCounter);
     let educationId = this.educationCounter + this.educationTracker;
     this.educations.sorter.push(educationId);
-    this.educationContent[this.educationCounter].setAttribute("data-elCounter", educationId);
-    this.renderer.appendChild(this.educationsTableHtml.nativeElement, this.educationContent[this.educationCounter]);
+    this.educationContent[this.educationCounter].setAttribute(
+      "data-elCounter",
+      educationId
+    );
+    this.renderer.appendChild(
+      this.educationsTableHtml.nativeElement,
+      this.educationContent[this.educationCounter]
+    );
 
     this.educations.sorter.sort();
     this.addEducationEditListener(this.educationCounter);
@@ -753,27 +882,28 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.removeMiniForm(1);
   }
   updateEducationDOM(i: number) {
-    this.educationContent[i].innerHTML =
-      `                 
+    this.educationContent[i].innerHTML = `                 
     <td>${this.educations.data[i].major}</td>
     <td>${this.educations.data[i].graduationYear}</td>
     <td>
       <div class="editBtns">
-        <button type="button" class="edit" id="editEducation${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-        <button type="button" class="edit" id="deleteEducation${i}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="editEducation${i}"> <img src="../assets/img/draw.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="deleteEducation${i}"> <img src="../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
       </div>
     </td>
   `;
   }
   editEducation(id: number) {
-    this.educations.data[id].universityName = this.educationsForm.get('universityName').value;
-    this.educations.data[id].major = this.educationsForm.get('major').value;
-    this.educations.data[id].country = this.educationsForm.get('country').value;
-    this.educations.data[id].title = this.educationsForm.get('title').value;
-    this.educations.data[id].graduationYear = this.educationsForm.get('graduationYear').value;
+    this.educations.data[id].universityName =
+      this.educationsForm.get("universityName").value;
+    this.educations.data[id].major = this.educationsForm.get("major").value;
+    this.educations.data[id].country = this.educationsForm.get("country").value;
+    this.educations.data[id].title = this.educationsForm.get("title").value;
+    this.educations.data[id].graduationYear =
+      this.educationsForm.get("graduationYear").value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
-    this.educationCounter--
+    this.educationCounter--;
     this.updateEducationDOM(id);
     this.educationCounter++;
 
@@ -785,23 +915,39 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     this.removeMiniForm(1);
   }
   addEducationEditListener(i: number) {
-    document.getElementById(`editEducation${i}`).addEventListener("click", (event) => {
-      let elId: number = parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
-      this.educationIndex = this.educations.sorter.indexOf(elId);
-      this.showEducationEditorForm.call(this, this.educationIndex);
-    });
+    document
+      .getElementById(`editEducation${i}`)
+      .addEventListener("click", (event) => {
+        let elId: number = parseInt(
+          (<HTMLElement>(
+            (<HTMLElement>event.target).parentNode.parentNode.parentNode
+              .parentNode
+          )).getAttribute("data-elCounter")
+        );
+        this.educationIndex = this.educations.sorter.indexOf(elId);
+        this.showEducationEditorForm.call(this, this.educationIndex);
+      });
   }
   addEducationDeleteListener(i: number) {
-    document.getElementById(`deleteEducation${i}`).addEventListener("click", (event) => {
-      let elId: number = parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
-      this.educationIndex = this.educations.sorter.indexOf(elId);
-      this.removeEducationRow.call(this, this.educationIndex);
-    });
+    document
+      .getElementById(`deleteEducation${i}`)
+      .addEventListener("click", (event) => {
+        let elId: number = parseInt(
+          (<HTMLElement>(
+            (<HTMLElement>event.target).parentNode.parentNode.parentNode
+              .parentNode
+          )).getAttribute("data-elCounter")
+        );
+        this.educationIndex = this.educations.sorter.indexOf(elId);
+        this.removeEducationRow.call(this, this.educationIndex);
+      });
   }
 
   showEducationEditorForm(id: number) {
-    this.educationsForm.get('universityName').setValue(this.educations.data[id].universityName);
-    this.educationsForm.get('major').setValue(this.educations.data[id].major);
+    this.educationsForm
+      .get("universityName")
+      .setValue(this.educations.data[id].universityName);
+    this.educationsForm.get("major").setValue(this.educations.data[id].major);
     this.countrySelectInput = this.educations.data[id].country;
     this.titleSelectInput = this.educations.data[id].title;
     this.graduationYearSelectInput = this.educations.data[id].graduationYear;
@@ -815,7 +961,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     if (id < temp) {
       this.educationTracker++;
     }
-    this.renderer.removeChild(this.educationsTableHtml.nativeElement, this.educationContent[id]);
+    this.renderer.removeChild(
+      this.educationsTableHtml.nativeElement,
+      this.educationContent[id]
+    );
     this.educations.sorter.splice(id, 1);
     this.educations.data.splice(id, 1);
     this.educationContent.splice(id, 1);
@@ -832,18 +981,28 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
 
   addCertification() {
     // Only push when everything is filled. (imitating required but not using it cuz it is not a required input field)
-    this.certifications.data.push({ name: this.certificationsForm.get('certificateName').value, giver: this.certificationsForm.get('certificateGiver').value, year: this.certificationsForm.get('certificateYear').value });
-    this.certificationContent.push(document.createElement('tr'));
+    this.certifications.data.push({
+      name: this.certificationsForm.get("certificateName").value,
+      giver: this.certificationsForm.get("certificateGiver").value,
+      year: this.certificationsForm.get("certificateYear").value,
+    });
+    this.certificationContent.push(document.createElement("tr"));
     this.updateCertificationDOM(this.certificationCounter);
 
     let certificationId = this.certificationCounter + this.certificationTracker;
     this.certifications.sorter.push(certificationId);
-    this.certificationContent[this.certificationCounter].setAttribute("data-elCounter", certificationId);
-    this.renderer.appendChild(this.certificationsTableHtml.nativeElement, this.certificationContent[this.certificationCounter]);
+    this.certificationContent[this.certificationCounter].setAttribute(
+      "data-elCounter",
+      certificationId
+    );
+    this.renderer.appendChild(
+      this.certificationsTableHtml.nativeElement,
+      this.certificationContent[this.certificationCounter]
+    );
 
     this.certifications.sorter.sort();
 
-    this.addCertificationEditListener(this.certificationCounter)
+    this.addCertificationEditListener(this.certificationCounter);
     this.addCertificationDeleteListener(this.certificationCounter);
 
     if (this.miniFormsEmpty[2]) {
@@ -859,46 +1018,67 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     <td>${this.certifications.data[i].year}</td>
     <td>
       <div class="editBtns">
-        <button type="button" class="edit" id="editCertification${i}"> <img src="../../../assets/img/draw.svg" class="editIcon" alt=""></button>
-        <button type="button" class="edit" id="deleteCertification${i}"> <img src="../../../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="editCertification${i}"> <img src="../assets/img/draw.svg" class="editIcon" alt=""></button>
+        <button type="button" class="edit" id="deleteCertification${i}"> <img src="../assets/img/rubbish-can.svg" class="editIcon" alt=""></button>
       </div>
     </td>
   `;
   }
   editCertification(id: number) {
-    this.certifications.data[id].name = this.certificationsForm.get('certificateName').value;
-    this.certifications.data[id].giver = this.certificationsForm.get('certificateGiver').value;
-    this.certifications.data[id].year = this.certificationsForm.get('certificateYear').value;
+    this.certifications.data[id].name =
+      this.certificationsForm.get("certificateName").value;
+    this.certifications.data[id].giver =
+      this.certificationsForm.get("certificateGiver").value;
+    this.certifications.data[id].year =
+      this.certificationsForm.get("certificateYear").value;
 
     //At the end of adding row, counter is incremented in order to move to the next row but since we are staying on the same el, we keep the counter to previous el.
-    this.certificationCounter--
+    this.certificationCounter--;
     this.updateCertificationDOM(id);
     this.certificationCounter++;
 
     //Adding Eventlitsteners
     //Since btns are being added dynamically, I needed to add listener like this instead of (click) which doesn't work.
-    this.addCertificationEditListener(id)
+    this.addCertificationEditListener(id);
     this.addCertificationDeleteListener(id);
     this.removeMiniForm(2);
     this.saveProfessionalData();
   }
   addCertificationEditListener(i: number) {
-    document.getElementById(`editCertification${i}`).addEventListener("click", (event) => {
-      let elId: number = parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
-      this.certificationIndex = this.certifications.sorter.indexOf(elId);
-      this.showCertificationEditorForm.call(this, this.certificationIndex);
-    });
+    document
+      .getElementById(`editCertification${i}`)
+      .addEventListener("click", (event) => {
+        let elId: number = parseInt(
+          (<HTMLElement>(
+            (<HTMLElement>event.target).parentNode.parentNode.parentNode
+              .parentNode
+          )).getAttribute("data-elCounter")
+        );
+        this.certificationIndex = this.certifications.sorter.indexOf(elId);
+        this.showCertificationEditorForm.call(this, this.certificationIndex);
+      });
   }
   addCertificationDeleteListener(i: number) {
-    document.getElementById(`deleteCertification${i}`).addEventListener("click", (event) => {
-      let elId: number = parseInt((<HTMLElement>(<HTMLElement>event.target).parentNode.parentNode.parentNode.parentNode).getAttribute('data-elCounter'));
-      this.certificationIndex = this.certifications.sorter.indexOf(elId);
-      this.removeCertificationRow.call(this, this.certificationIndex);
-    });
+    document
+      .getElementById(`deleteCertification${i}`)
+      .addEventListener("click", (event) => {
+        let elId: number = parseInt(
+          (<HTMLElement>(
+            (<HTMLElement>event.target).parentNode.parentNode.parentNode
+              .parentNode
+          )).getAttribute("data-elCounter")
+        );
+        this.certificationIndex = this.certifications.sorter.indexOf(elId);
+        this.removeCertificationRow.call(this, this.certificationIndex);
+      });
   }
   showCertificationEditorForm(id: number) {
-    this.certificationsForm.get('certificateName').setValue(this.certifications.data[id].name);
-    this.certificationsForm.get('certificateGiver').setValue(this.certifications.data[id].giver);
+    this.certificationsForm
+      .get("certificateName")
+      .setValue(this.certifications.data[id].name);
+    this.certificationsForm
+      .get("certificateGiver")
+      .setValue(this.certifications.data[id].giver);
     this.certificateYearSelectInput = this.certifications.data[id].year;
     this.miniFormEditing[2] = true;
     this.showMiniForm(2);
@@ -910,7 +1090,10 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
     if (id < temp) {
       this.certificationTracker++;
     }
-    this.renderer.removeChild(this.certificationsTableHtml.nativeElement, this.certificationContent[id]);
+    this.renderer.removeChild(
+      this.certificationsTableHtml.nativeElement,
+      this.certificationContent[id]
+    );
     this.certifications.sorter.splice(id, 1);
     this.certifications.data.splice(id, 1);
     this.certificationContent.splice(id, 1);
@@ -925,7 +1108,15 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   // ***************************************************************************** //
 
   saveProfessionalData() {
-    this.sellerService.saveProfessionalInfo(this.selectedProfession, this.checkedProfessions, this.selectedFromYear, this.selectedToYear, this.skills, this.educations, this.certifications);
+    this.sellerService.saveProfessionalInfo(
+      this.selectedProfession,
+      this.checkedProfessions,
+      this.selectedFromYear,
+      this.selectedToYear,
+      this.skills,
+      this.educations,
+      this.certifications
+    );
   }
   useProfessionalData() {
     if (this.professionalData.profession !== undefined) {
@@ -945,11 +1136,14 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       this.toYearText = this.professionalData.toYear.toString();
     }
     if (this.professionalData.skills !== undefined) {
-      if (this.professionalData.skills.data !== undefined && this.professionalData.skills.sorter !== undefined) {
+      if (
+        this.professionalData.skills.data !== undefined &&
+        this.professionalData.skills.sorter !== undefined
+      ) {
         this.skills = {
           data: this.professionalData.skills.data,
-          sorter: this.professionalData.skills.sorter
-        }
+          sorter: this.professionalData.skills.sorter,
+        };
         if (this.miniFormsEmpty[0]) {
           this.miniFormsShow[0] = false;
           this.miniFormsEmpty[0] = false;
@@ -958,25 +1152,30 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
       }
     }
     if (this.professionalData.educations !== undefined) {
-      if (this.professionalData.educations.data !== undefined && this.professionalData.educations.sorter !== undefined) {
+      if (
+        this.professionalData.educations.data !== undefined &&
+        this.professionalData.educations.sorter !== undefined
+      ) {
         this.educations = {
           data: this.professionalData.educations.data,
-          sorter: this.professionalData.educations.sorter
-        }
+          sorter: this.professionalData.educations.sorter,
+        };
         if (this.miniFormsEmpty[1]) {
           this.miniFormsShow[1] = false;
           this.miniFormsEmpty[1] = false;
         }
         this.populateEducationsTable();
       }
-
     }
     if (this.professionalData.certifications !== undefined) {
-      if (this.professionalData.certifications.data !== undefined && this.professionalData.certifications.sorter !== undefined) {
+      if (
+        this.professionalData.certifications.data !== undefined &&
+        this.professionalData.certifications.sorter !== undefined
+      ) {
         this.certifications = {
           data: this.professionalData.certifications.data,
-          sorter: this.professionalData.certifications.sorter
-        }
+          sorter: this.professionalData.certifications.sorter,
+        };
         if (this.miniFormsEmpty[2]) {
           this.miniFormsShow[2] = false;
           this.miniFormsEmpty[2] = false;
@@ -1007,7 +1206,12 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   }
 
   onProfessionalFormSubmit() {
-    if (this.selectedProfession == null || this.selectedFromYear == null || this.selectedToYear == null || this.checkedProfessions.length < 1) {
+    if (
+      this.selectedProfession == null ||
+      this.selectedFromYear == null ||
+      this.selectedToYear == null ||
+      this.checkedProfessions.length < 1
+    ) {
       window.scrollTo(0, 0);
     } else if (this.miniFormsEmpty[0]) {
       this.scrollEl.nativeElement.scrollIntoView(true);
@@ -1019,8 +1223,5 @@ export class SellerSetUpComponent implements OnInit, OnDestroy {
   finishSetUp() {
     this.appManagerService.saveHasSellerAccount(true);
     this.router.navigate([`/seller-board/${this.appManagerService.userName}`]);
-
   }
 }
-
-
