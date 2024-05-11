@@ -2,9 +2,9 @@
   "name": "mbj",
   "version": "0.0.0",
   "scripts": {
+    "build": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng build --output-path docs --base-href /MBJ/",
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
