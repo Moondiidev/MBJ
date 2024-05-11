@@ -2150,7 +2150,6 @@
               this.appManagerService.headerStateSub.subscribe((state) => {
                 if (state != null) {
                   this.currentState = state;
-                  alert(this.currentState);
                 }
               });
             //See if user has created seller account

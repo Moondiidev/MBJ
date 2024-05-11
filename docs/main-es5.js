@@ -2854,7 +2854,6 @@ function _classCallCheck(instance, Constructor) {
                   ) {
                     if (state != null) {
                       _this5.currentState = state;
-                      alert(_this5.currentState);
                     }
                   }); //See if user has created seller account
 
